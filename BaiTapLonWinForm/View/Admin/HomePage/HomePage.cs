@@ -166,6 +166,12 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             LoadUserControl(new SettingsControl());
         }
 
+        private void Attendance_Click(object sender, EventArgs e)
+        {
+            SetActiveMenuItem(pnAttendance);
+            LoadUserControl(new FaceAttendance(_serviceHub));
+        }
+
         private void Logout_Click(object sender, EventArgs e)
         {
             var result = MessageBox.Show(

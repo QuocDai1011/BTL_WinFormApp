@@ -17,226 +17,340 @@
 
         private void InitializeComponent()
         {
-            this.lblTitle = new System.Windows.Forms.Label();
-            this.panelTop = new System.Windows.Forms.Panel();
-            this.txtSearch = new System.Windows.Forms.TextBox();
-            this.lblSearch = new System.Windows.Forms.Label();
-            this.panelButtons = new System.Windows.Forms.Panel();
-            this.btnExport = new System.Windows.Forms.Button();
-            this.btnImport = new System.Windows.Forms.Button();
-            this.btnRefresh = new System.Windows.Forms.Button();
-            this.btnDelete = new System.Windows.Forms.Button();
-            this.btnEdit = new System.Windows.Forms.Button();
-            this.btnAdd = new System.Windows.Forms.Button();
-            this.dgvStudents = new System.Windows.Forms.DataGridView();
-            this.panelTop.SuspendLayout();
-            this.panelButtons.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvStudents)).BeginInit();
-            this.SuspendLayout();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            lblTitle = new Label();
+            dgvStudents = new DataGridView();
+            btnAdd = new Button();
+            btnEdit = new Button();
+            btnDelete = new Button();
+            btnRefresh = new Button();
+            panelTop = new Panel();
+            panelStats = new Panel();
+            lblTotalStudents = new Label();
+            lblStatsTitle = new Label();
+            panelSearch = new Panel();
+            btnSearch = new Button();
+            txtSearch = new TextBox();
+            lblSearch = new Label();
+            panelButtons = new Panel();
+            btnExport = new Button();
+            btnImport = new Button();
+            ((System.ComponentModel.ISupportInitialize)dgvStudents).BeginInit();
+            panelTop.SuspendLayout();
+            panelStats.SuspendLayout();
+            panelSearch.SuspendLayout();
+            panelButtons.SuspendLayout();
+            SuspendLayout();
             // 
             // lblTitle
             // 
-            this.lblTitle.AutoSize = true;
-            this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
-            this.lblTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(128)))), ((int)(((byte)(185)))));
-            this.lblTitle.Location = new System.Drawing.Point(20, 15);
-            this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(249, 30);
-            this.lblTitle.TabIndex = 0;
-            this.lblTitle.Text = "QUẢN LÝ SINH VIÊN";
-            // 
-            // panelTop
-            // 
-            this.panelTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(236)))), ((int)(((byte)(240)))), ((int)(((byte)(241)))));
-            this.panelTop.Controls.Add(this.txtSearch);
-            this.panelTop.Controls.Add(this.lblSearch);
-            this.panelTop.Location = new System.Drawing.Point(20, 60);
-            this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(960, 50);
-            this.panelTop.TabIndex = 1;
-            // 
-            // txtSearch
-            // 
-            this.txtSearch.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtSearch.Location = new System.Drawing.Point(85, 12);
-            this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(300, 25);
-            this.txtSearch.TabIndex = 1;
-            this.txtSearch.TextChanged += new System.EventHandler(this.TxtSearch_TextChanged);
-            // 
-            // lblSearch
-            // 
-            this.lblSearch.AutoSize = true;
-            this.lblSearch.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.lblSearch.Location = new System.Drawing.Point(10, 15);
-            this.lblSearch.Name = "lblSearch";
-            this.lblSearch.Size = new System.Drawing.Size(73, 19);
-            this.lblSearch.TabIndex = 0;
-            this.lblSearch.Text = "Tìm kiếm:";
-            // 
-            // panelButtons
-            // 
-            this.panelButtons.BackColor = System.Drawing.Color.White;
-            this.panelButtons.Controls.Add(this.btnExport);
-            this.panelButtons.Controls.Add(this.btnImport);
-            this.panelButtons.Controls.Add(this.btnRefresh);
-            this.panelButtons.Controls.Add(this.btnDelete);
-            this.panelButtons.Controls.Add(this.btnEdit);
-            this.panelButtons.Controls.Add(this.btnAdd);
-            this.panelButtons.Location = new System.Drawing.Point(20, 120);
-            this.panelButtons.Name = "panelButtons";
-            this.panelButtons.Size = new System.Drawing.Size(960, 50);
-            this.panelButtons.TabIndex = 2;
-            // 
-            // btnExport
-            // 
-            this.btnExport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(156)))), ((int)(((byte)(18)))));
-            this.btnExport.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnExport.FlatAppearance.BorderSize = 0;
-            this.btnExport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnExport.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.btnExport.ForeColor = System.Drawing.Color.White;
-            this.btnExport.Location = new System.Drawing.Point(810, 10);
-            this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(140, 35);
-            this.btnExport.TabIndex = 5;
-            this.btnExport.Text = "📄 Tải mẫu Excel";
-            this.btnExport.UseVisualStyleBackColor = false;
-            this.btnExport.Click += new System.EventHandler(this.BtnExport_Click);
-            // 
-            // btnImport
-            // 
-            this.btnImport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(155)))), ((int)(((byte)(89)))), ((int)(((byte)(182)))));
-            this.btnImport.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnImport.FlatAppearance.BorderSize = 0;
-            this.btnImport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnImport.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.btnImport.ForeColor = System.Drawing.Color.White;
-            this.btnImport.Location = new System.Drawing.Point(670, 10);
-            this.btnImport.Name = "btnImport";
-            this.btnImport.Size = new System.Drawing.Size(130, 35);
-            this.btnImport.TabIndex = 4;
-            this.btnImport.Text = "📥 Import Excel";
-            this.btnImport.UseVisualStyleBackColor = false;
-            this.btnImport.Click += new System.EventHandler(this.BtnImport_Click);
-            // 
-            // btnRefresh
-            // 
-            this.btnRefresh.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(149)))), ((int)(((byte)(165)))), ((int)(((byte)(166)))));
-            this.btnRefresh.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnRefresh.FlatAppearance.BorderSize = 0;
-            this.btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRefresh.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.btnRefresh.ForeColor = System.Drawing.Color.White;
-            this.btnRefresh.Location = new System.Drawing.Point(350, 10);
-            this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(110, 35);
-            this.btnRefresh.TabIndex = 3;
-            this.btnRefresh.Text = "🔄 Làm mới";
-            this.btnRefresh.UseVisualStyleBackColor = false;
-            this.btnRefresh.Click += new System.EventHandler(this.BtnRefresh_Click);
-            // 
-            // btnDelete
-            // 
-            this.btnDelete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(76)))), ((int)(((byte)(60)))));
-            this.btnDelete.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnDelete.FlatAppearance.BorderSize = 0;
-            this.btnDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDelete.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.btnDelete.ForeColor = System.Drawing.Color.White;
-            this.btnDelete.Location = new System.Drawing.Point(240, 10);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(100, 35);
-            this.btnDelete.TabIndex = 2;
-            this.btnDelete.Text = "🗑️ Xóa";
-            this.btnDelete.UseVisualStyleBackColor = false;
-            this.btnDelete.Click += new System.EventHandler(this.BtnDelete_Click);
-            // 
-            // btnEdit
-            // 
-            this.btnEdit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
-            this.btnEdit.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnEdit.FlatAppearance.BorderSize = 0;
-            this.btnEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEdit.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.btnEdit.ForeColor = System.Drawing.Color.White;
-            this.btnEdit.Location = new System.Drawing.Point(130, 10);
-            this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(100, 35);
-            this.btnEdit.TabIndex = 1;
-            this.btnEdit.Text = "✏️ Sửa";
-            this.btnEdit.UseVisualStyleBackColor = false;
-            this.btnEdit.Click += new System.EventHandler(this.BtnEdit_Click);
-            // 
-            // btnAdd
-            // 
-            this.btnAdd.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
-            this.btnAdd.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnAdd.FlatAppearance.BorderSize = 0;
-            this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAdd.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.btnAdd.ForeColor = System.Drawing.Color.White;
-            this.btnAdd.Location = new System.Drawing.Point(0, 10);
-            this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(120, 35);
-            this.btnAdd.TabIndex = 0;
-            this.btnAdd.Text = "➕ Thêm mới";
-            this.btnAdd.UseVisualStyleBackColor = false;
-            this.btnAdd.Click += new System.EventHandler(this.BtnAdd_Click);
+            lblTitle.AutoSize = true;
+            lblTitle.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            lblTitle.ForeColor = Color.FromArgb(44, 62, 80);
+            lblTitle.Location = new Point(25, 15);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(358, 41);
+            lblTitle.TabIndex = 0;
+            lblTitle.Text = "📚 QUẢN LÝ SINH VIÊN";
             // 
             // dgvStudents
             // 
-            this.dgvStudents.AllowUserToAddRows = false;
-            this.dgvStudents.AllowUserToDeleteRows = false;
-            this.dgvStudents.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvStudents.BackgroundColor = System.Drawing.Color.White;
-            this.dgvStudents.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.dgvStudents.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            this.dgvStudents.ColumnHeadersHeight = 40;
-            this.dgvStudents.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.dgvStudents.Location = new System.Drawing.Point(20, 180);
-            this.dgvStudents.MultiSelect = false;
-            this.dgvStudents.Name = "dgvStudents";
-            this.dgvStudents.ReadOnly = true;
-            this.dgvStudents.RowHeadersWidth = 51;
-            this.dgvStudents.RowTemplate.Height = 35;
-            this.dgvStudents.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvStudents.Size = new System.Drawing.Size(960, 400);
-            this.dgvStudents.TabIndex = 3;
+            dgvStudents.AllowUserToAddRows = false;
+            dgvStudents.AllowUserToDeleteRows = false;
+            dgvStudents.AllowUserToResizeRows = false;
+            dgvStudents.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvStudents.BackgroundColor = Color.White;
+            dgvStudents.BorderStyle = BorderStyle.None;
+            dgvStudents.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvStudents.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(52, 73, 94);
+            dataGridViewCellStyle1.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            dataGridViewCellStyle1.ForeColor = Color.White;
+            dataGridViewCellStyle1.SelectionBackColor = Color.FromArgb(52, 73, 94);
+            dataGridViewCellStyle1.SelectionForeColor = Color.White;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            dgvStudents.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dgvStudents.ColumnHeadersHeight = 45;
+            dgvStudents.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = Color.White;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9.5F);
+            dataGridViewCellStyle2.ForeColor = Color.FromArgb(52, 73, 94);
+            dataGridViewCellStyle2.SelectionBackColor = Color.FromArgb(189, 195, 199);
+            dataGridViewCellStyle2.SelectionForeColor = Color.FromArgb(44, 62, 80);
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dgvStudents.DefaultCellStyle = dataGridViewCellStyle2;
+            dgvStudents.EnableHeadersVisualStyles = false;
+            dgvStudents.GridColor = Color.FromArgb(236, 240, 241);
+            dgvStudents.Location = new Point(25, 165);
+            dgvStudents.MultiSelect = false;
+            dgvStudents.Name = "dgvStudents";
+            dgvStudents.ReadOnly = true;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle3.ForeColor = Color.FromArgb(52, 73, 94);
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(189, 195, 199);
+            dataGridViewCellStyle3.SelectionForeColor = Color.FromArgb(44, 62, 80);
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            dgvStudents.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dgvStudents.RowHeadersVisible = false;
+            dgvStudents.RowHeadersWidth = 51;
+            dgvStudents.RowTemplate.Height = 40;
+            dgvStudents.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvStudents.Size = new Size(1425, 570);
+            dgvStudents.TabIndex = 3;
+            dgvStudents.CellDoubleClick += DgvStudents_CellDoubleClick;
             // 
-            // StudentManagementControl
+            // btnAdd
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.dgvStudents);
-            this.Controls.Add(this.panelButtons);
-            this.Controls.Add(this.panelTop);
-            this.Controls.Add(this.lblTitle);
-            this.Name = "StudentManagementControl";
-            this.Size = new System.Drawing.Size(1000, 600);
-            this.panelTop.ResumeLayout(false);
-            this.panelTop.PerformLayout();
-            this.panelButtons.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvStudents)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            btnAdd.BackColor = Color.FromArgb(46, 204, 113);
+            btnAdd.Cursor = Cursors.Hand;
+            btnAdd.FlatAppearance.BorderSize = 0;
+            btnAdd.FlatStyle = FlatStyle.Flat;
+            btnAdd.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            btnAdd.ForeColor = Color.White;
+            btnAdd.ImageAlign = ContentAlignment.MiddleLeft;
+            btnAdd.Location = new Point(28, 11);
+            btnAdd.Name = "btnAdd";
+            btnAdd.Padding = new Padding(10, 0, 10, 0);
+            btnAdd.Size = new Size(201, 40);
+            btnAdd.TabIndex = 0;
+            btnAdd.Text = "➕ Thêm sinh viên";
+            btnAdd.UseVisualStyleBackColor = false;
+            btnAdd.Click += BtnAdd_Click;
+            // 
+            // btnEdit
+            // 
+            btnEdit.BackColor = Color.FromArgb(52, 152, 219);
+            btnEdit.Cursor = Cursors.Hand;
+            btnEdit.FlatAppearance.BorderSize = 0;
+            btnEdit.FlatStyle = FlatStyle.Flat;
+            btnEdit.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            btnEdit.ForeColor = Color.White;
+            btnEdit.Location = new Point(271, 11);
+            btnEdit.Name = "btnEdit";
+            btnEdit.Size = new Size(140, 40);
+            btnEdit.TabIndex = 1;
+            btnEdit.Text = "✏️ Chỉnh sửa";
+            btnEdit.UseVisualStyleBackColor = false;
+            btnEdit.Click += BtnEdit_Click;
+            // 
+            // btnDelete
+            // 
+            btnDelete.BackColor = Color.FromArgb(231, 76, 60);
+            btnDelete.Cursor = Cursors.Hand;
+            btnDelete.FlatAppearance.BorderSize = 0;
+            btnDelete.FlatStyle = FlatStyle.Flat;
+            btnDelete.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            btnDelete.ForeColor = Color.White;
+            btnDelete.Location = new Point(449, 10);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(120, 40);
+            btnDelete.TabIndex = 2;
+            btnDelete.Text = "🗑️ Xóa";
+            btnDelete.UseVisualStyleBackColor = false;
+            btnDelete.Click += BtnDelete_Click;
+            // 
+            // btnRefresh
+            // 
+            btnRefresh.BackColor = Color.FromArgb(149, 165, 166);
+            btnRefresh.Cursor = Cursors.Hand;
+            btnRefresh.FlatAppearance.BorderSize = 0;
+            btnRefresh.FlatStyle = FlatStyle.Flat;
+            btnRefresh.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            btnRefresh.ForeColor = Color.White;
+            btnRefresh.Location = new Point(610, 11);
+            btnRefresh.Name = "btnRefresh";
+            btnRefresh.Size = new Size(130, 40);
+            btnRefresh.TabIndex = 3;
+            btnRefresh.Text = "🔄 Làm mới";
+            btnRefresh.UseVisualStyleBackColor = false;
+            btnRefresh.Click += BtnRefresh_Click;
+            // 
+            // panelTop
+            // 
+            panelTop.BackColor = Color.White;
+            panelTop.Controls.Add(lblTitle);
+            panelTop.Controls.Add(panelStats);
+            panelTop.Dock = DockStyle.Top;
+            panelTop.Location = new Point(0, 0);
+            panelTop.Name = "panelTop";
+            panelTop.Size = new Size(1480, 70);
+            panelTop.TabIndex = 0;
+            // 
+            // panelStats
+            // 
+            panelStats.BackColor = Color.FromArgb(52, 152, 219);
+            panelStats.Controls.Add(lblTotalStudents);
+            panelStats.Controls.Add(lblStatsTitle);
+            panelStats.Location = new Point(1254, 10);
+            panelStats.Name = "panelStats";
+            panelStats.Size = new Size(196, 60);
+            panelStats.TabIndex = 1;
+            // 
+            // lblTotalStudents
+            // 
+            lblTotalStudents.AutoSize = true;
+            lblTotalStudents.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            lblTotalStudents.ForeColor = Color.White;
+            lblTotalStudents.Location = new Point(147, 14);
+            lblTotalStudents.Name = "lblTotalStudents";
+            lblTotalStudents.Size = new Size(28, 32);
+            lblTotalStudents.TabIndex = 1;
+            lblTotalStudents.Text = "0";
+            // 
+            // lblStatsTitle
+            // 
+            lblStatsTitle.AutoSize = true;
+            lblStatsTitle.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            lblStatsTitle.ForeColor = Color.White;
+            lblStatsTitle.Location = new Point(10, 20);
+            lblStatsTitle.Name = "lblStatsTitle";
+            lblStatsTitle.Size = new Size(131, 23);
+            lblStatsTitle.TabIndex = 0;
+            lblStatsTitle.Text = "Tổng sinh viên:";
+            // 
+            // panelSearch
+            // 
+            panelSearch.BackColor = Color.FromArgb(236, 240, 241);
+            panelSearch.Controls.Add(btnSearch);
+            panelSearch.Controls.Add(txtSearch);
+            panelSearch.Controls.Add(lblSearch);
+            panelSearch.Location = new Point(25, 85);
+            panelSearch.Name = "panelSearch";
+            panelSearch.Size = new Size(632, 60);
+            panelSearch.TabIndex = 1;
+            // 
+            // btnSearch
+            // 
+            btnSearch.BackColor = Color.FromArgb(52, 152, 219);
+            btnSearch.Cursor = Cursors.Hand;
+            btnSearch.FlatAppearance.BorderSize = 0;
+            btnSearch.FlatStyle = FlatStyle.Flat;
+            btnSearch.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnSearch.ForeColor = Color.White;
+            btnSearch.Location = new Point(506, 11);
+            btnSearch.Name = "btnSearch";
+            btnSearch.Size = new Size(100, 40);
+            btnSearch.TabIndex = 2;
+            btnSearch.Text = "Tìm";
+            btnSearch.UseVisualStyleBackColor = false;
+            btnSearch.Click += BtnSearch_Click;
+            // 
+            // txtSearch
+            // 
+            txtSearch.BorderStyle = BorderStyle.None;
+            txtSearch.Font = new Font("Segoe UI", 11F);
+            txtSearch.Location = new Point(141, 16);
+            txtSearch.Multiline = true;
+            txtSearch.Name = "txtSearch";
+            txtSearch.PlaceholderText = "Nhập tên sinh viên...";
+            txtSearch.Size = new Size(350, 27);
+            txtSearch.TabIndex = 1;
+            txtSearch.TextChanged += TxtSearch_TextChanged;
+            // 
+            // lblSearch
+            // 
+            lblSearch.AutoSize = true;
+            lblSearch.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblSearch.ForeColor = Color.FromArgb(52, 73, 94);
+            lblSearch.Location = new Point(15, 18);
+            lblSearch.Name = "lblSearch";
+            lblSearch.Size = new Size(120, 23);
+            lblSearch.TabIndex = 0;
+            lblSearch.Text = "🔍 Tìm kiếm:";
+            // 
+            // panelButtons
+            // 
+            panelButtons.BackColor = Color.FromArgb(236, 240, 241);
+            panelButtons.Controls.Add(btnRefresh);
+            panelButtons.Controls.Add(btnDelete);
+            panelButtons.Controls.Add(btnEdit);
+            panelButtons.Controls.Add(btnAdd);
+            panelButtons.Location = new Point(682, 85);
+            panelButtons.Name = "panelButtons";
+            panelButtons.Size = new Size(768, 60);
+            panelButtons.TabIndex = 2;
+            // 
+            // btnExport
+            // 
+            btnExport.BackColor = Color.FromArgb(243, 156, 18);
+            btnExport.Cursor = Cursors.Hand;
+            btnExport.FlatAppearance.BorderSize = 0;
+            btnExport.FlatStyle = FlatStyle.Flat;
+            btnExport.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            btnExport.ForeColor = Color.White;
+            btnExport.Location = new Point(1295, 755);
+            btnExport.Name = "btnExport";
+            btnExport.Size = new Size(155, 45);
+            btnExport.TabIndex = 5;
+            btnExport.Text = "📄 Tải mẫu Excel";
+            btnExport.UseVisualStyleBackColor = false;
+            btnExport.Click += BtnExport_Click;
+            // 
+            // btnImport
+            // 
+            btnImport.BackColor = Color.FromArgb(155, 89, 182);
+            btnImport.Cursor = Cursors.Hand;
+            btnImport.FlatAppearance.BorderSize = 0;
+            btnImport.FlatStyle = FlatStyle.Flat;
+            btnImport.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            btnImport.ForeColor = Color.White;
+            btnImport.Location = new Point(1130, 755);
+            btnImport.Name = "btnImport";
+            btnImport.Size = new Size(155, 45);
+            btnImport.TabIndex = 4;
+            btnImport.Text = "📥 Import Excel";
+            btnImport.UseVisualStyleBackColor = false;
+            btnImport.Click += BtnImport_Click;
+            // 
+            // StudentManagement
+            // 
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(250, 251, 252);
+            Controls.Add(btnExport);
+            Controls.Add(btnImport);
+            Controls.Add(dgvStudents);
+            Controls.Add(panelButtons);
+            Controls.Add(panelSearch);
+            Controls.Add(panelTop);
+            Name = "StudentManagement";
+            Size = new Size(1480, 850);
+            Load += StudentManagement_Load;
+            ((System.ComponentModel.ISupportInitialize)dgvStudents).EndInit();
+            panelTop.ResumeLayout(false);
+            panelTop.PerformLayout();
+            panelStats.ResumeLayout(false);
+            panelStats.PerformLayout();
+            panelSearch.ResumeLayout(false);
+            panelSearch.PerformLayout();
+            panelButtons.ResumeLayout(false);
+            ResumeLayout(false);
         }
 
         #endregion
 
-        private System.Windows.Forms.Label lblTitle;
-        private System.Windows.Forms.Panel panelTop;
-        private System.Windows.Forms.TextBox txtSearch;
-        private System.Windows.Forms.Label lblSearch;
-        private System.Windows.Forms.Panel panelButtons;
-        private System.Windows.Forms.Button btnExport;
-        private System.Windows.Forms.Button btnImport;
-        private System.Windows.Forms.Button btnRefresh;
-        private System.Windows.Forms.Button btnDelete;
-        private System.Windows.Forms.Button btnEdit;
-        private System.Windows.Forms.Button btnAdd;
-        private System.Windows.Forms.DataGridView dgvStudents;
+        private Label lblTitle;
+        private DataGridView dgvStudents;
+        private Button btnAdd;
+        private Button btnEdit;
+        private Button btnDelete;
+        private Button btnRefresh;
+        private Panel panelTop;
+        private Panel panelSearch;
+        private Panel panelButtons;
+        private TextBox txtSearch;
+        private Label lblSearch;
+        private Button btnSearch;
+        private Button btnExport;
+        private Button btnImport;
+        private Panel panelStats;
+        private Label lblTotalStudents;
+        private Label lblStatsTitle;
     }
 }

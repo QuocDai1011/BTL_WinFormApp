@@ -12,7 +12,9 @@ namespace BaiTapLonWinForm.Utils
         // 1. Validate số điện thoại Việt Nam (10 số, đầu 03/05/07/08/09)
         public static bool IsValidPhone(string phone)
         {
-            return Regex.IsMatch(phone, @"^(03|05|07|08|09)\d{8}$");
+
+            string pattern = @"^0(3|5|7|8|9)\d{8}$";
+            return System.Text.RegularExpressions.Regex.IsMatch(phone, pattern);
         }
 
         // 2. Validate CCCD (12 số)

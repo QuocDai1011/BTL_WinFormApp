@@ -47,6 +47,10 @@ namespace BaiTapLonWinForm
             services.AddScoped<ICourseRepository, CourseRepository>();
             services.AddScoped<ITeacherRepository, TeacherRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IClassSessionRepository, ClassSessionRepository>();
+            services.AddScoped<IAttendanceRepository, AttendanceRepository>();
+            services.AddScoped<IStudentFaceImageRepository, StudentFaceImageRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             ////Đăng ký các service cho Service ở đây
             services.AddScoped<IStudentService, StudentService>();
@@ -54,6 +58,10 @@ namespace BaiTapLonWinForm
             services.AddScoped<ICourseService, CourseService>();
             services.AddScoped<ITeacherService, TeacherService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IClassSessionService, ClassSessionService>();
+            services.AddScoped<IAttendanceService, AttendanceService>();
+            services.AddScoped<ICompreFaceApiService, CompreFaceApiService>();
+            services.AddScoped<IStudentFaceService, StudentFaceService>();
 
 
             //Dăng ký ServiceHub
@@ -63,7 +71,7 @@ namespace BaiTapLonWinForm
 
             services.AddTransient<HomePage>();
             services.AddTransient<StudentManagement>();
-            services.AddTransient<StudentFormDialog>();
+            services.AddTransient<AddStudentControl>();
             services.AddTransient<DashBoard>();
 
 

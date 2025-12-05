@@ -295,9 +295,5 @@ namespace BaiTapLonWinForm.Service.implements
                 return (false, $"Lỗi: {ex.Message}");
             }
         }
-
-
-
-
     }
 }

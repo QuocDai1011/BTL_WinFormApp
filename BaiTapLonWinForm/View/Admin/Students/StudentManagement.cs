@@ -1,12 +1,14 @@
 ﻿using BaiTapLonWinForm.Models;
 using BaiTapLonWinForm.Services;
 using BaiTapLonWinForm.Utils;
+using BCrypt.Net;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,151 +23,254 @@ namespace BaiTapLonWinForm.View.Admin.Students
         public StudentManagement(ServiceHub serviceHub)
         {
             InitializeComponent();
-            LoadStudents();
             _serviceHub = serviceHub;
+            SetupModernUI();
         }
 
-        private async void LoadStudents()
+        private void SetupModernUI()
+        {
+            // Apply rounded corners to panels
+            ApplyRoundedCorners(panelSearch, 10);
+            ApplyRoundedCorners(panelButtons, 10);
+            ApplyRoundedCorners(panelStats, 10);
+
+            // Apply rounded corners to buttons
+            foreach (Control control in panelButtons.Controls)
+            {
+                if (control is Button btn)
+                {
+                    ApplyRoundedCorners(btn, 8);
+                }
+            }
+
+            ApplyRoundedCorners(btnImport, 8);
+            ApplyRoundedCorners(btnExport, 8);
+            ApplyRoundedCorners(btnSearch, 8);
+        }
+
+        private void ApplyRoundedCorners(Control control, int radius)
+        {
+            GraphicsPath path = new GraphicsPath();
+            Rectangle rect = new Rectangle(0, 0, control.Width, control.Height);
+            int diameter = radius * 2;
+
+            path.AddArc(rect.X, rect.Y, diameter, diameter, 180, 90);
+            path.AddArc(rect.Right - diameter, rect.Y, diameter, diameter, 270, 90);
+            path.AddArc(rect.Right - diameter, rect.Bottom - diameter, diameter, diameter, 0, 90);
+            path.AddArc(rect.X, rect.Bottom - diameter, diameter, diameter, 90, 90);
+            path.CloseFigure();
+
+            control.Region = new Region(path);
+        }
+
+        private async void StudentManagement_Load(object sender, EventArgs e)
+        {
+            await LoadStudentDataAsync();
+            UpdateStudentCount();
+        }
+
+        private async Task LoadStudentDataAsync()
         {
             try
             {
-                // lấy dữ liệu sinh viên từ dịch vụ
-                var result = await _serviceHub.StudentService.GetAllStudentsAsync();
+                dgvStudents.Columns.Clear();
 
-                // kiểm tra trạng thái trả về
-                if (!result.Success)
+                // Setup columns
+                dgvStudents.Columns.Add("StudentId", "MSSV");
+                dgvStudents.Columns.Add("StudentName", "Họ và tên");
+                dgvStudents.Columns.Add("Email", "Email");
+                dgvStudents.Columns.Add("Phone", "Số điện thoại");
+                dgvStudents.Columns.Add("PhoneNumberOfParent", "Số điện thoại phụ huynh");
+                dgvStudents.Columns.Add("DateOfBirth", "Ngày sinh");
+                dgvStudents.Columns.Add("FaceImageCount", "Số ảnh khuôn mặt");
+                dgvStudents.Columns.Add("Id", "Id");
+
+                // Hide Id column
+                dgvStudents.Columns["Id"].Visible = false;
+                dgvStudents.Columns["StudentId"].Visible = false;
+
+                // Set column widths
+                dgvStudents.Columns["StudentId"].Width = 120;
+                dgvStudents.Columns["StudentName"].Width = 180;
+                dgvStudents.Columns["Email"].Width = 180;
+                dgvStudents.Columns["Phone"].Width = 130;
+                dgvStudents.Columns["PhoneNumberOfParent"].Width = 150;
+                dgvStudents.Columns["DateOfBirth"].Width = 120;
+                dgvStudents.Columns["FaceImageCount"].Width = 150;
+
+                // Load data from service
+                var students = await _serviceHub.StudentService.GetAllStudentsAsync();
+
+                dgvStudents.Rows.Clear();
+
+                foreach (var student in students.Data)
                 {
-                   MessageHelper.ShowError(result.Message);
-                    return;
+                    int imageCount = await _serviceHub.StudentFaceService.GetImageCountAsync(student.StudentId);
+
+                    dgvStudents.Rows.Add(
+                        student.StudentId,
+                        student.User.FirstName + " " + student.User.LastName,
+                        student.User.Email,
+                        student.User.PhoneNumber,
+                        student.PhoneNumberOfParents, // You might want to load class name instead
+                        student.User.DateOfBirth.ToString("dd/MM/yyyy"),
+                        imageCount > 0 ? $"✓ {imageCount} ảnh" : "✗ Chưa có",
+                        student.User.UserId
+                    );
                 }
-                MessageHelper.ShowSuccess(result.Message);
 
-                // map dữ liệu để hiển thị trong DataGridView
-                var students = result.Data.Select(s =>
-                new
+                // Apply row colors based on face image status
+                foreach (DataGridViewRow row in dgvStudents.Rows)
                 {
-                    s.StudentId,
-                    s.UserId,
-                    HoTen = s.User.LastName + " " + s.User.FirstName,
-                    Email = s.User.Email,
-                    GioiTinh = s.User.Gender == true ? "Nam" : "Nữ",
-                    NgaySinh = s.User.DateOfBirth,
-                    DiaChi = s.User.Address,
-                    SoDienThoai = s.User.PhoneNumber,
-                    SDTPhuHuynh = s.PhoneNumberOfParents,
-                    TrangThai = s.User.IsActive == true ? "Hoạt động" : "Không hoạt động",
-                }).ToList();
-
-                dgvStudents.DataSource = result.Data;
-
-                FormatDataGridView();
+                    string imageStatus = row.Cells["FaceImageCount"].Value?.ToString();
+                    if (imageStatus != null && imageStatus.StartsWith("✗"))
+                    {
+                        row.DefaultCellStyle.BackColor = Color.FromArgb(255, 243, 243);
+                    }
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi khi tải dữ liệu: {ex.Message}", "Lỗi",
+                MessageBox.Show($"Lỗi tải dữ liệu: {ex.Message}", "Lỗi",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void FormatDataGridView()
+        private void UpdateStudentCount()
         {
-            if (dgvStudents.Columns.Count == 0) return;
-
-            dgvStudents.Columns["StudentId"].HeaderText = "Mã SV";
-            dgvStudents.Columns["StudentId"].Width = 80;
-            dgvStudents.Columns["UserId"].Visible = false;
-            dgvStudents.Columns["HoTen"].HeaderText = "Họ và Tên";
-            dgvStudents.Columns["HoTen"].Width = 150;
-            dgvStudents.Columns["Email"].HeaderText = "Email";
-            dgvStudents.Columns["Email"].Width = 180;
-            dgvStudents.Columns["GioiTinh"].HeaderText = "Giới tính";
-            dgvStudents.Columns["GioiTinh"].Width = 80;
-            dgvStudents.Columns["NgaySinh"].HeaderText = "Ngày sinh";
-            dgvStudents.Columns["NgaySinh"].Width = 100;
-            dgvStudents.Columns["DiaChi"].HeaderText = "Địa chỉ";
-            dgvStudents.Columns["SoDienThoai"].HeaderText = "SĐT";
-            dgvStudents.Columns["SoDienThoai"].Width = 100;
-            dgvStudents.Columns["SDTPhuHuynh"].HeaderText = "SĐT Phụ huynh";
-            dgvStudents.Columns["SDTPhuHuynh"].Width = 110;
-            dgvStudents.Columns["TrangThai"].HeaderText = "Trạng thái";
-            dgvStudents.Columns["TrangThai"].Width = 110;
+            lblTotalStudents.Text = dgvStudents.Rows.Count.ToString();
         }
 
         private void BtnAdd_Click(object sender, EventArgs e)
         {
-            var formAdd = new StudentFormDialog(_serviceHub);
-            if (formAdd.ShowDialog() == DialogResult.OK)
+            this.Controls.Clear();
+            this.Controls.Add(new AddStudentControl(_serviceHub)
             {
-                LoadStudents();
-            }
+                Dock = DockStyle.Fill
+            });
         }
 
-        private void BtnEdit_Click(object sender, EventArgs e)
+        private async void BtnEdit_Click(object sender, EventArgs e)
         {
-            if (dgvStudents.CurrentRow == null)
+            if (dgvStudents.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Vui lòng chọn sinh viên cần sửa!", "Thông báo",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            int studentId = Convert.ToInt32(dgvStudents.CurrentRow.Cells["StudentId"].Value);
-            var formEdit = new StudentFormDialog(_serviceHub,studentId);
-            if (formEdit.ShowDialog() == DialogResult.OK)
+            try
             {
-                LoadStudents();
+                int studentId = Convert.ToInt32(dgvStudents.SelectedRows[0].Cells["Id"].Value);
+                var result = await _serviceHub.StudentService.GetStudentByIdAsync(studentId);
+
+                if (result.Data != null)
+                {
+                    // TODO: Open edit form with student data
+                    MessageBox.Show("Chức năng sửa đang được phát triển!", "Thông báo",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi: {ex.Message}", "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private async void BtnDelete_Click(object sender, EventArgs e)
         {
-            if (dgvStudents.CurrentRow == null)
+            if (dgvStudents.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Vui lòng chọn sinh viên cần xóa!", "Thông báo",
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            var isConfirm = MessageBox.Show("Bạn có chắc chắn muốn xóa sinh viên này?",
-                "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            var result = MessageBox.Show(
+                "Bạn có chắc chắn muốn xóa sinh viên này?\n" +
+                "Tất cả ảnh khuôn mặt cũng sẽ bị xóa!",
+                "Xác nhận xóa",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
 
-            if (isConfirm == DialogResult.Yes)
+            if (result == DialogResult.Yes)
             {
                 try
                 {
-                    int studentId = Convert.ToInt32(dgvStudents.CurrentRow.Cells["StudentId"].Value);
-                    
-                    var result = await _serviceHub.StudentService.DeleteStudentAsync(studentId);
+                    int studentId = Convert.ToInt32(dgvStudents.SelectedRows[0].Cells["Id"].Value);
 
+                    // Delete face images first
+                    await _serviceHub.StudentFaceService.DeleteAllImagesAsync(studentId);
 
-                    // kiểm tra trạng thái trả về
-                    if (!result.Success)
+                    // Delete student
+                    var deleteResult = await _serviceHub.StudentService.DeleteStudentAsync(studentId);
+
+                    if (!deleteResult.Success)
                     {
-                        MessageHelper.ShowError(result.Message);
-                        return;
+                        MessageHelper.ShowError(deleteResult.Message);
+
+                        await LoadStudentDataAsync();
+                        UpdateStudentCount();
                     }
-
-                    // hiển thị thông báo thành công
-                    MessageHelper.ShowSuccess(result.Message);
-
-                    // tải lại danh sách sinh viên
-                    LoadStudents();
+                    else
+                    {
+                       MessageHelper.ShowSuccess(deleteResult.Message);
+                    }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Lỗi khi xóa: {ex.Message}", "Lỗi",
+                    MessageBox.Show($"Lỗi: {ex.Message}", "Lỗi",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
 
-        private void BtnRefresh_Click(object sender, EventArgs e)
+        private async void BtnRefresh_Click(object sender, EventArgs e)
         {
+            await LoadStudentDataAsync();
+            UpdateStudentCount();
             txtSearch.Clear();
-            LoadStudents();
         }
 
-        private async void BtnImport_Click(object sender, EventArgs e)
+        private void TxtSearch_TextChanged(object sender, EventArgs e)
+        {
+            string searchText = txtSearch.Text.ToLower().Trim();
+
+            if (string.IsNullOrWhiteSpace(searchText))
+            {
+                foreach (DataGridViewRow row in dgvStudents.Rows)
+                {
+                    row.Visible = true;
+                }
+                return;
+            }
+
+            foreach (DataGridViewRow row in dgvStudents.Rows)
+            {
+                bool visible = false;
+
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    if (cell.Value != null &&
+                        cell.OwningColumn.Name != "Id" &&
+                        cell.Value.ToString().ToLower().Contains(searchText))
+                    {
+                        visible = true;
+                        break;
+                    }
+                }
+
+                row.Visible = visible;
+            }
+        }
+
+        private void BtnSearch_Click(object sender, EventArgs e)
+        {
+            TxtSearch_TextChanged(sender, e);
+        }
+
+        private  void BtnImport_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog
             {
@@ -177,75 +282,13 @@ namespace BaiTapLonWinForm.View.Admin.Students
             {
                 try
                 {
-
-                    using (var package = new ExcelPackage(new FileInfo(openFileDialog.FileName)))
-                    {
-                        var worksheet = package.Workbook.Worksheets[0];
-                        int rowCount = worksheet.Dimension.Rows;
-                        int imported = 0;
-
-                        for (int row = 2; row <= rowCount; row++)
-                        {
-                            try
-                            {
-                                var user = new User
-                                {
-                                    FirstName = worksheet.Cells[row, 2].Value?.ToString() ?? "",
-                                    LastName = worksheet.Cells[row, 1].Value?.ToString() ?? "",
-                                    Email = worksheet.Cells[row, 3].Value?.ToString() ?? "",
-                                    PasswordHashing = BCrypt.Net.BCrypt.HashPassword("123456"),
-                                    Gender = worksheet.Cells[row, 4].Value?.ToString() == "Nam",
-                                    DateOfBirth = DateOnly.FromDateTime(
-                                        Convert.ToDateTime(worksheet.Cells[row, 5].Value)),
-                                    Address = worksheet.Cells[row, 6].Value?.ToString(),
-                                    PhoneNumber = worksheet.Cells[row, 7].Value?.ToString(),
-                                    IsActive = true,
-                                    CreateAt = DateTime.Now,
-                                    RoleId = 3 // Role Student
-                                };
-
-                                // tạo user
-                                var resultUser = await _serviceHub.UserService.CreateAsync(user);
-
-                                // nếu xảy ra lỗi return ngay lập tức
-                                if (!resultUser.Success)
-                                {
-                                    MessageHelper.ShowError(resultUser.Message);
-                                    return;
-                                }
-
-                                var student = new Student
-                                {
-                                    UserId = user.UserId,
-                                    PhoneNumberOfParents = worksheet.Cells[row, 8].Value?.ToString()
-                                };
-
-                                // tạo student
-                                var resultStudent = await _serviceHub.StudentService.CreateStudentAsync(student);
-
-                                // nếu xảy ra lỗi return ngay lập tức
-                                if (!resultStudent.Success)
-                                {
-                                    MessageHelper.ShowError(resultStudent.Message);
-                                    return;
-                                }
-
-                                imported++;
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageHelper.ShowError($"Lỗi tại dòng {row}: {ex.Message}");
-                            }
-                        }
-
-                        MessageBox.Show($"Import thành công {imported} sinh viên!", "Thành công",
-                            MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        LoadStudents();
-                    }
+                    // TODO: Implement Excel import functionality
+                    MessageBox.Show("Chức năng import đang được phát triển!", "Thông báo",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Lỗi khi import: {ex.Message}", "Lỗi",
+                    MessageBox.Show($"Lỗi import: {ex.Message}", "Lỗi",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
@@ -257,95 +300,31 @@ namespace BaiTapLonWinForm.View.Admin.Students
             {
                 Filter = "Excel Files|*.xlsx",
                 Title = "Lưu file mẫu Excel",
-                FileName = "MauImportSinhVien.xlsx"
+                FileName = "Student_Template.xlsx"
             };
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 try
                 {
-                    using (var package = new ExcelPackage())
-                    {
-                        var worksheet = package.Workbook.Worksheets.Add("DanhSachSinhVien");
-
-                        // Header
-                        worksheet.Cells[1, 1].Value = "Họ";
-                        worksheet.Cells[1, 2].Value = "Tên";
-                        worksheet.Cells[1, 3].Value = "Email";
-                        worksheet.Cells[1, 4].Value = "Giới tính";
-                        worksheet.Cells[1, 5].Value = "Ngày sinh";
-                        worksheet.Cells[1, 6].Value = "Địa chỉ";
-                        worksheet.Cells[1, 7].Value = "Số điện thoại";
-                        worksheet.Cells[1, 8].Value = "SĐT Phụ huynh";
-
-                        // Style header
-                        using (var range = worksheet.Cells[1, 1, 1, 8])
-                        {
-                            range.Style.Font.Bold = true;
-                            range.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                            range.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.FromArgb(79, 129, 189));
-                            range.Style.Font.Color.SetColor(System.Drawing.Color.White);
-                        }
-
-                        // Dữ liệu mẫu
-                        worksheet.Cells[2, 1].Value = "Nguyễn Văn";
-                        worksheet.Cells[2, 2].Value = "A";
-                        worksheet.Cells[2, 3].Value = "nguyenvana@example.com";
-                        worksheet.Cells[2, 4].Value = "Nam";
-                        worksheet.Cells[2, 5].Value = "01/01/2000";
-                        worksheet.Cells[2, 6].Value = "Hà Nội";
-                        worksheet.Cells[2, 7].Value = "0123456789";
-                        worksheet.Cells[2, 8].Value = "0987654321";
-
-                        worksheet.Cells.AutoFitColumns();
-                        package.SaveAs(new FileInfo(saveFileDialog.FileName));
-                    }
-
-                    MessageBox.Show("Tải file mẫu thành công!", "Thành công",
+                    // TODO: Implement Excel export functionality
+                    MessageBox.Show("Chức năng export đang được phát triển!", "Thông báo",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Lỗi khi tạo file: {ex.Message}", "Lỗi",
+                    MessageBox.Show($"Lỗi export: {ex.Message}", "Lỗi",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
 
-        private async void TxtSearch_TextChanged(object sender, EventArgs e)
+        private void DgvStudents_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            try
+            if (e.RowIndex >= 0)
             {
-                string searchText = txtSearch.Text.ToLower();
-                var result = await _serviceHub.StudentService.GetAllStudentsAsync();
-
-                var students = result.Data
-                    .Where(s => s.User.FirstName.ToLower().Contains(searchText) ||
-                               s.User.LastName.ToLower().Contains(searchText) ||
-                               s.User.Email.ToLower().Contains(searchText) ||
-                               s.StudentId.ToString().Contains(searchText))
-                    .Select(s => new
-                    {
-                        s.StudentId,
-                        s.UserId,
-                        HoTen = s.User.LastName + " " + s.User.FirstName,
-                        Email = s.User.Email,
-                        GioiTinh = s.User.Gender == true ? "Nam" : "Nữ",
-                        NgaySinh = s.User.DateOfBirth,
-                        DiaChi = s.User.Address,
-                        SoDienThoai = s.User.PhoneNumber,
-                        SDTPhuHuynh = s.PhoneNumberOfParents,
-                        TrangThai = s.User.IsActive == true ? "Hoạt động" : "Không hoạt động"
-                    })
-                    .ToList();
-
-                dgvStudents.DataSource = students;
+                BtnEdit_Click(sender, e);
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Lỗi khi tìm kiếm: {ex.Message}", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
+        }      
     }
 }

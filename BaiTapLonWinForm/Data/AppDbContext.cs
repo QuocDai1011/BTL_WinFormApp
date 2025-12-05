@@ -18,7 +18,11 @@ public partial class AppDbContext : DbContext
 
     public virtual DbSet<Admin> Admins { get; set; }
 
+    public virtual DbSet<Attendance> Attendances { get; set; }
+
     public virtual DbSet<Class> Classes { get; set; }
+
+    public virtual DbSet<ClassSession> ClassSessions { get; set; }
 
     public virtual DbSet<Course> Courses { get; set; }
 
@@ -34,13 +38,11 @@ public partial class AppDbContext : DbContext
 
     public virtual DbSet<StudentClass> StudentClasses { get; set; }
 
+    public virtual DbSet<StudentFaceImage> StudentFaceImages { get; set; }
+
     public virtual DbSet<Teacher> Teachers { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=localhost,1431;Database=english_center_management_dev;User Id=sa;Password=Abc@12345XyZ;TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -48,22 +50,92 @@ public partial class AppDbContext : DbContext
         {
             entity.HasKey(e => e.AdminId).HasName("PK__admin__43AA4141593C90B4");
 
+            entity.ToTable("admin");
+
+            entity.Property(e => e.AdminId).HasColumnName("admin_id");
+            entity.Property(e => e.Salary)
+                .HasColumnType("decimal(12, 3)")
+                .HasColumnName("salary");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+
             entity.HasOne(d => d.User).WithMany(p => p.Admins)
+                .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__admin__user_id__4316F928");
+        });
+
+        modelBuilder.Entity<Attendance>(entity =>
+        {
+            entity.HasKey(e => e.AttendanceId).HasName("PK__attendan__20D6A96801455719");
+
+            entity.ToTable("attendance");
+
+            entity.HasIndex(e => new { e.SessionId, e.IsPresent }, "idx_attendance");
+
+            entity.HasIndex(e => new { e.StudentId, e.SessionId }, "uq_student_session").IsUnique();
+
+            entity.Property(e => e.AttendanceId).HasColumnName("attendance_id");
+            entity.Property(e => e.CheckInTime)
+                .HasDefaultValueSql("(sysdatetime())")
+                .HasColumnType("datetime")
+                .HasColumnName("check_in_time");
+            entity.Property(e => e.IsPresent)
+                .HasDefaultValue(true)
+                .HasColumnName("is_present");
+            entity.Property(e => e.Note)
+                .HasMaxLength(255)
+                .HasColumnName("note");
+            entity.Property(e => e.SessionId).HasColumnName("session_id");
+            entity.Property(e => e.StudentId).HasColumnName("student_id");
+
+            entity.HasOne(d => d.Session).WithMany(p => p.Attendances)
+                .HasForeignKey(d => d.SessionId)
+                .HasConstraintName("FK__attendanc__sessi__114A936A");
+
+            entity.HasOne(d => d.Student).WithMany(p => p.Attendances)
+                .HasForeignKey(d => d.StudentId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__attendanc__stude__10566F31");
         });
 
         modelBuilder.Entity<Class>(entity =>
         {
             entity.HasKey(e => e.ClassId).HasName("PK__class__FDF4798638113F7F");
 
-            entity.Property(e => e.CreateAt).HasDefaultValueSql("(sysdatetime())");
-            entity.Property(e => e.CurrentStudent).HasDefaultValue(0);
-            entity.Property(e => e.MaxStudent).HasDefaultValue(30);
-            entity.Property(e => e.Shift).HasDefaultValue((byte)6);
-            entity.Property(e => e.Status).HasDefaultValue(-1);
+            entity.ToTable("class");
+
+            entity.Property(e => e.ClassId).HasColumnName("class_id");
+            entity.Property(e => e.ClassName).HasColumnName("class_name");
+            entity.Property(e => e.CreateAt)
+                .HasDefaultValueSql("(sysdatetime())")
+                .HasColumnType("datetime")
+                .HasColumnName("create_at");
+            entity.Property(e => e.CurrentStudent)
+                .HasDefaultValue(0)
+                .HasColumnName("current_student");
+            entity.Property(e => e.EndDate).HasColumnName("end_date");
+            entity.Property(e => e.MaxStudent)
+                .HasDefaultValue(30)
+                .HasColumnName("max_student");
+            entity.Property(e => e.Note).HasColumnName("note");
+            entity.Property(e => e.OnlineMeetingLink)
+                .HasMaxLength(255)
+                .IsUnicode(false)
+                .HasColumnName("online_meeting_link");
+            entity.Property(e => e.Shift)
+                .HasDefaultValue((byte)6)
+                .HasColumnName("shift");
+            entity.Property(e => e.StartDate).HasColumnName("start_date");
+            entity.Property(e => e.Status)
+                .HasDefaultValue(-1)
+                .HasColumnName("status");
+            entity.Property(e => e.TeacherId).HasColumnName("teacher_id");
+            entity.Property(e => e.UpdateAt)
+                .HasColumnType("datetime")
+                .HasColumnName("update_at");
 
             entity.HasOne(d => d.Teacher).WithMany(p => p.Classes)
+                .HasForeignKey(d => d.TeacherId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__class__teacher_i__5DCAEF64");
 
@@ -106,50 +178,185 @@ public partial class AppDbContext : DbContext
                     });
         });
 
+        modelBuilder.Entity<ClassSession>(entity =>
+        {
+            entity.HasKey(e => e.SessionId).HasName("PK__class_se__69B13FDCE01C159F");
+
+            entity.ToTable("class_session");
+
+            entity.HasIndex(e => new { e.ClassId, e.SessionDate }, "idx_session_date");
+
+            entity.HasIndex(e => new { e.ClassId, e.SessionNumber }, "uq_class_session").IsUnique();
+
+            entity.Property(e => e.SessionId).HasColumnName("session_id");
+            entity.Property(e => e.ClassId).HasColumnName("class_id");
+            entity.Property(e => e.CreateAt)
+                .HasDefaultValueSql("(sysdatetime())")
+                .HasColumnType("datetime")
+                .HasColumnName("create_at");
+            entity.Property(e => e.SessionDate).HasColumnName("session_date");
+            entity.Property(e => e.SessionNumber).HasColumnName("session_number");
+
+            entity.HasOne(d => d.Class).WithMany(p => p.ClassSessions)
+                .HasForeignKey(d => d.ClassId)
+                .HasConstraintName("FK__class_ses__class__0A9D95DB");
+        });
+
         modelBuilder.Entity<Course>(entity =>
         {
             entity.HasKey(e => e.CourseId).HasName("PK__course__8F1EF7AE6FA18845");
 
-            entity.Property(e => e.CreateAt).HasDefaultValueSql("(sysdatetime())");
+            entity.ToTable("course");
+
+            entity.HasIndex(e => e.CourseCode, "UQ__course__AB6B45F12F0466D5").IsUnique();
+
+            entity.Property(e => e.CourseId).HasColumnName("course_id");
+            entity.Property(e => e.CourseCode)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("course_code");
+            entity.Property(e => e.CourseName)
+                .HasMaxLength(255)
+                .HasColumnName("course_name");
+            entity.Property(e => e.CreateAt)
+                .HasDefaultValueSql("(sysdatetime())")
+                .HasColumnType("datetime")
+                .HasColumnName("create_at");
+            entity.Property(e => e.Level)
+                .HasMaxLength(5)
+                .IsUnicode(false)
+                .HasColumnName("level");
+            entity.Property(e => e.NumberSessions).HasColumnName("number_sessions");
+            entity.Property(e => e.Tuition)
+                .HasColumnType("decimal(12, 3)")
+                .HasColumnName("tuition");
+            entity.Property(e => e.UpdateAt)
+                .HasColumnType("datetime")
+                .HasColumnName("update_at");
         });
 
         modelBuilder.Entity<Promotion>(entity =>
         {
             entity.HasKey(e => e.PromotionId).HasName("PK__promotio__2CB9556B72F35C43");
 
-            entity.Property(e => e.CreateAt).HasDefaultValueSql("(sysdatetime())");
-            entity.Property(e => e.DiscountType).HasDefaultValue("percent");
-            entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.ToTable("promotion");
+
+            entity.Property(e => e.PromotionId).HasColumnName("promotion_id");
+            entity.Property(e => e.CreateAt)
+                .HasDefaultValueSql("(sysdatetime())")
+                .HasColumnType("datetime")
+                .HasColumnName("create_at");
+            entity.Property(e => e.DiscountType)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasDefaultValue("percent")
+                .HasColumnName("discount_type");
+            entity.Property(e => e.DiscountValue)
+                .HasColumnType("decimal(12, 3)")
+                .HasColumnName("discount_value");
+            entity.Property(e => e.IsActive)
+                .HasDefaultValue(true)
+                .HasColumnName("is_active");
+            entity.Property(e => e.PromotionName).HasColumnName("promotion_name");
+            entity.Property(e => e.UpdateAt)
+                .HasColumnType("datetime")
+                .HasColumnName("update_at");
         });
 
         modelBuilder.Entity<Receipt>(entity =>
         {
-            entity.HasKey(e => new { e.StudentId, e.ClassId, e.PromotionId }).HasName("PK__receipt__3FC0F8575CC0DD8D");
+            entity.HasKey(e => new { e.StudentId, e.ClassId, e.PromotionId }).HasName("PK__receipt__3FC0F8576FE76B6B");
 
-            entity.Property(e => e.CreateAt).HasDefaultValueSql("(sysdatetime())");
-            entity.Property(e => e.NumberOfPayments).HasDefaultValue(1);
-            entity.Property(e => e.PaymentDate).HasDefaultValueSql("(CONVERT([date],getdate()))");
-            entity.Property(e => e.PaymentMethod).HasDefaultValue("online");
-            entity.Property(e => e.Status).HasDefaultValue("paid");
+            entity.ToTable("receipt");
+
+            entity.Property(e => e.StudentId).HasColumnName("student_id");
+            entity.Property(e => e.ClassId).HasColumnName("class_id");
+            entity.Property(e => e.PromotionId).HasColumnName("promotion_id");
+            entity.Property(e => e.Amount)
+                .HasColumnType("decimal(12, 3)")
+                .HasColumnName("amount");
+            entity.Property(e => e.CreateAt)
+                .HasDefaultValueSql("(sysdatetime())")
+                .HasColumnType("datetime")
+                .HasColumnName("create_at");
+            entity.Property(e => e.NumberOfPayments)
+                .HasDefaultValue(1)
+                .HasColumnName("number_of_payments");
+            entity.Property(e => e.PaymentDate)
+                .HasDefaultValueSql("(CONVERT([date],getdate()))")
+                .HasColumnName("payment_date");
+            entity.Property(e => e.PaymentMethod)
+                .HasMaxLength(30)
+                .IsUnicode(false)
+                .HasDefaultValue("online")
+                .HasColumnName("payment_method");
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .IsUnicode(false)
+                .HasDefaultValue("paid")
+                .HasColumnName("status");
+            entity.Property(e => e.UpdateAt)
+                .HasColumnType("datetime")
+                .HasColumnName("update_at");
+
+            entity.HasOne(d => d.Class).WithMany(p => p.Receipts)
+                .HasForeignKey(d => d.ClassId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__receipt__class_i__208CD6FA");
+
+            entity.HasOne(d => d.Promotion).WithMany(p => p.Receipts)
+                .HasForeignKey(d => d.PromotionId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__receipt__promoti__2180FB33");
+
+            entity.HasOne(d => d.Student).WithMany(p => p.Receipts)
+                .HasForeignKey(d => d.StudentId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__receipt__update___1F98B2C1");
         });
 
         modelBuilder.Entity<Role>(entity =>
         {
             entity.HasKey(e => e.RoleId).HasName("PK__role__760965CC0569F847");
 
-            entity.Property(e => e.RoleId).ValueGeneratedOnAdd();
+            entity.ToTable("role");
+
+            entity.Property(e => e.RoleId)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("role_id");
+            entity.Property(e => e.RoleName)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasColumnName("role_name");
         });
 
         modelBuilder.Entity<SchoolDay>(entity =>
         {
             entity.HasKey(e => e.SchoolDayId).HasName("PK__school_d__6A4EB2FADF42BF53");
+
+            entity.ToTable("school_day");
+
+            entity.Property(e => e.SchoolDayId).HasColumnName("school_day_id");
+            entity.Property(e => e.DayOfWeek)
+                .HasMaxLength(100)
+                .HasColumnName("day_of_week");
         });
 
         modelBuilder.Entity<Student>(entity =>
         {
             entity.HasKey(e => e.StudentId).HasName("PK__student__2A33069A9416D23D");
 
+            entity.ToTable("student");
+
+            entity.Property(e => e.StudentId).HasColumnName("student_id");
+            entity.Property(e => e.PhoneNumberOfParents)
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasColumnName("phone_number_of_parents");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+
             entity.HasOne(d => d.User).WithMany(p => p.Students)
+                .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__student__user_id__4CA06362");
         });
@@ -158,22 +365,66 @@ public partial class AppDbContext : DbContext
         {
             entity.HasKey(e => new { e.StudentId, e.ClassId }).HasName("PK__student___55EC4102AD52496F");
 
-            entity.Property(e => e.CreateAt).HasDefaultValueSql("(sysdatetime())");
+            entity.ToTable("student_class");
+
+            entity.Property(e => e.StudentId).HasColumnName("student_id");
+            entity.Property(e => e.ClassId).HasColumnName("class_id");
+            entity.Property(e => e.CreateAt)
+                .HasDefaultValueSql("(sysdatetime())")
+                .HasColumnType("datetime")
+                .HasColumnName("create_at");
+            entity.Property(e => e.UpdateAt)
+                .HasColumnType("datetime")
+                .HasColumnName("update_at");
 
             entity.HasOne(d => d.Class).WithMany(p => p.StudentClasses)
+                .HasForeignKey(d => d.ClassId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__student_c__class__6E01572D");
 
             entity.HasOne(d => d.Student).WithMany(p => p.StudentClasses)
+                .HasForeignKey(d => d.StudentId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__student_c__stude__6D0D32F4");
+        });
+
+        modelBuilder.Entity<StudentFaceImage>(entity =>
+        {
+            entity.HasKey(e => e.ImageId).HasName("PK__student___DC9AC9551FF4352D");
+
+            entity.ToTable("student_face_image");
+
+            entity.HasIndex(e => e.StudentId, "idx_student_face");
+
+            entity.Property(e => e.ImageId).HasColumnName("image_id");
+            entity.Property(e => e.ImagePath)
+                .HasMaxLength(500)
+                .IsUnicode(false)
+                .HasColumnName("image_path");
+            entity.Property(e => e.StudentId).HasColumnName("student_id");
+            entity.Property(e => e.UploadedDate)
+                .HasDefaultValueSql("(sysdatetime())")
+                .HasColumnType("datetime")
+                .HasColumnName("uploaded_date");
+
+            entity.HasOne(d => d.Student).WithMany(p => p.StudentFaceImages)
+                .HasForeignKey(d => d.StudentId)
+                .HasConstraintName("FK__student_f__stude__04E4BC85");
         });
 
         modelBuilder.Entity<Teacher>(entity =>
         {
             entity.HasKey(e => e.TeacherId).HasName("PK__teacher__03AE777EEE8C9FF3");
 
+            entity.ToTable("teacher");
+
+            entity.Property(e => e.TeacherId).HasColumnName("teacher_id");
+            entity.Property(e => e.ExperienceYear).HasColumnName("experience_year");
+            entity.Property(e => e.Salary).HasColumnName("salary");
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+
             entity.HasOne(d => d.User).WithMany(p => p.Teachers)
+                .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__teacher__user_id__48CFD27E");
         });
@@ -182,11 +433,49 @@ public partial class AppDbContext : DbContext
         {
             entity.HasKey(e => e.UserId).HasName("PK__user__B9BE370FA890A853");
 
-            entity.Property(e => e.CreateAt).HasDefaultValueSql("(sysdatetime())");
-            entity.Property(e => e.Gender).HasDefaultValue(true);
-            entity.Property(e => e.IsActive).HasDefaultValue(true);
+            entity.ToTable("user");
+
+            entity.HasIndex(e => e.Email, "UQ__user__AB6E6164816B992A").IsUnique();
+
+            entity.Property(e => e.UserId).HasColumnName("user_id");
+            entity.Property(e => e.Address)
+                .HasMaxLength(255)
+                .HasColumnName("address");
+            entity.Property(e => e.CreateAt)
+                .HasDefaultValueSql("(sysdatetime())")
+                .HasColumnType("datetime")
+                .HasColumnName("create_at");
+            entity.Property(e => e.DateOfBirth).HasColumnName("date_of_birth");
+            entity.Property(e => e.Email)
+                .HasMaxLength(100)
+                .IsUnicode(false)
+                .HasColumnName("email");
+            entity.Property(e => e.FirstName)
+                .HasMaxLength(255)
+                .HasColumnName("first_name");
+            entity.Property(e => e.Gender)
+                .HasDefaultValue(true)
+                .HasColumnName("gender");
+            entity.Property(e => e.IsActive)
+                .HasDefaultValue(true)
+                .HasColumnName("is_active");
+            entity.Property(e => e.LastName)
+                .HasMaxLength(255)
+                .HasColumnName("last_name");
+            entity.Property(e => e.PasswordHashing)
+                .IsUnicode(false)
+                .HasColumnName("password_hashing");
+            entity.Property(e => e.PhoneNumber)
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasColumnName("phone_number");
+            entity.Property(e => e.RoleId).HasColumnName("role_id");
+            entity.Property(e => e.UpdateAt)
+                .HasColumnType("datetime")
+                .HasColumnName("update_at");
 
             entity.HasOne(d => d.Role).WithMany(p => p.Users)
+                .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__user__role_id__3F466844");
         });

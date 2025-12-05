@@ -14,6 +14,7 @@ namespace BaiTapLonWinForm.View.Admin.Class
     {
         public ClassManagement()
         {
+
             InitializeComponent();
         }
     }

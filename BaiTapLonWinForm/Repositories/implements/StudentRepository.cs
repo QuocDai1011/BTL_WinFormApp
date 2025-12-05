@@ -19,15 +19,17 @@ namespace BaiTapLonWinForm.Repositories.implements
             _context = context;
         }
 
+        public async Task<bool> IsStudentInClassAsync(int studentId, int classId)
+        {
+            return await _context.StudentClasses
+                .AnyAsync(sc => sc.StudentId == studentId && sc.ClassId == classId);
+        }
         public async Task<IEnumerable<Student>> GetAllAsync()
         {
             try
             {
                 return await _context.Students
                     .Include(s => s.User)
-                    .Include(s => s.StudentClasses)
-                        .ThenInclude(sc => sc.Class)
-                    .OrderByDescending(s => s.StudentId)
                     .ToListAsync();
             }
             catch (Exception)

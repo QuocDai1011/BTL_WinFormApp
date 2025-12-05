@@ -1,5 +1,6 @@
 ﻿using BaiTapLonWinForm.Models;
 using BaiTapLonWinForm.Repositories.interfaces;
+using BaiTapLonWinForm.Repository.interfaces;
 using BaiTapLonWinForm.Services.interfaces;
 using BaiTapLonWinForm.Validate;
 using Microsoft.EntityFrameworkCore;
@@ -14,10 +15,21 @@ namespace BaiTapLonWinForm.Services.implements
     public class StudentService : IStudentService
     {
         private readonly IStudentRepository _studentRepository;
-
-        public StudentService(IStudentRepository studentRepository)
+        private readonly IUserRepository _userRepository;
+        private readonly IStudentFaceService _faceService;
+        private readonly IUnitOfWork _unitOfWork; 
+        public StudentService(
+            IStudentRepository studentRepository,
+            IUserRepository userRepository,
+            IStudentFaceService faceService,
+            IUnitOfWork unitOfWork
+            )
         {
             _studentRepository = studentRepository;
+            _userRepository = userRepository;
+            _faceService = faceService;
+            _unitOfWork = unitOfWork;
+
         }
 
         public async Task<(bool Success, string Message, IEnumerable<Student> Data)> GetAllStudentsAsync()
@@ -73,36 +85,98 @@ namespace BaiTapLonWinForm.Services.implements
             }
         }
 
-        public async Task<(bool Success, string Message, Student Data)> CreateStudentAsync(Student student)
+        public async Task<(bool Success, string Message)> RegisterStudentFullAsync(User user, Student student, List<byte[]> faceImages)
         {
+            List<string> createdFiles = new List<string>();
+
             try
             {
-                // Validation
-                var (isValid, message) = StudentValidator.ValidateForCreate(student);
-                if (!isValid)
-                    return (false, message, null);
+                // 1. BẮT ĐẦU TRANSACTION
+                _unitOfWork.BeginTransaction();
 
-                // Check user exists in student table
-                if (await _studentRepository.UserIdExistsAsync(student.UserId))
-                    return (false, "User ID này đã được gán cho học sinh khác", null);
+                // 2. Validate & Tạo User
+                if (await _userRepository.EmailExistsAsync(user.Email))
+                {
+                    // Chưa làm gì DB -> Không cần rollback -> Return luôn
+                    return (false, "Email đã tồn tại.");
+                }
 
+                var createdUser = await _userRepository.CreateAsync(user);
+
+                // Lưu tạm để Database sinh ra UserId (nhưng chưa Commit Transaction)
+                await _unitOfWork.SaveChangesAsync();
+
+                // 3. Tạo Student
+                student.UserId = createdUser.UserId; // Lấy ID từ user vừa tạo
                 var createdStudent = await _studentRepository.CreateAsync(student);
-                return (true, "Tạo học sinh thành công", createdStudent);
-            }
-            catch (DbUpdateException ex)
-            {
-                if (ex.InnerException?.Message.Contains("FK_student_user") == true)
-                    return (false, "User ID không tồn tại trong hệ thống", null);
 
-                return (false, $"Lỗi cơ sở dữ liệu: {ex.InnerException?.Message ?? ex.Message}", null);
+                // Lưu tạm Student
+                await _unitOfWork.SaveChangesAsync();
+
+                // 4. Lưu ảnh (Logic file hệ thống + DB)
+                var faceResult = await _faceService.SaveFaceImagesAndGetPathsAsync(createdStudent.StudentId, faceImages);
+
+                // Ghi nhận các file đã tạo để xóa nếu lỗi
+                createdFiles.AddRange(faceResult.createdFilePaths);
+
+                if (!faceResult.success)
+                {
+                    throw new Exception($"Lỗi lưu ảnh: {faceResult.message}");
+                }
+
+                // 5. MỌI THỨ OK -> COMMIT (CHỐT SỔ)
+                // Lúc này dữ liệu mới chính thức được lưu vĩnh viễn vào DB
+                await _unitOfWork.CommitAsync();
+
+                return (true, "Thêm sinh viên thành công!");
             }
             catch (Exception ex)
             {
-                return (false, $"Lỗi: {ex.Message}", null);
+                // 6. CÓ LỖI -> ROLLBACK (HOÀN TÁC DB)
+                // User và Student vừa tạo sẽ bị xóa khỏi DB
+                await _unitOfWork.RollbackAsync();
+
+                // 7. DỌN DẸP FILE RÁC (HOÀN TÁC FILE)
+                foreach (var path in createdFiles)
+                {
+                    if (File.Exists(path))
+                    {
+                        try { File.Delete(path); } catch { }
+                    }
+                }
+
+                // Xóa thư mục rỗng nếu cần
+                if (createdFiles.Count > 0)
+                {
+                    try
+                    {
+                        string folder = Path.GetDirectoryName(createdFiles[0]);
+                        if (Directory.Exists(folder)) Directory.Delete(folder, true);
+                    }
+                    catch { }
+                }
+                // 3. LẤY LỖI CHI TIẾT (INNER EXCEPTION)
+                // Lỗi thực sự nằm sâu bên trong InnerException
+                string realErrorMessage = ex.Message;
+
+                if (ex.InnerException != null)
+                {
+                    realErrorMessage += $"\nChi tiết: {ex.InnerException.Message}";
+
+                    // Đôi khi lỗi nằm sâu hơn nữa (cấp 2)
+                    if (ex.InnerException.InnerException != null)
+                    {
+                        realErrorMessage += $"\nSQL Error: {ex.InnerException.InnerException.Message}";
+                    }
+                }
+
+                return (false, $"Lỗi hệ thống: {realErrorMessage}");
+
+                //return (false, $"Lỗi hệ thống (Đã hoàn tác dữ liệu): {ex.Message}");
             }
         }
 
-        public async Task<(bool Success, string Message, Student Data)> UpdateStudentAsync(Student student)
+        public async Task<(bool Success, string Message, Student? Data)> UpdateStudentAsync(Student student)
         {
             try
             {

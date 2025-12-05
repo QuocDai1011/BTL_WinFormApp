@@ -12,24 +12,34 @@ namespace BaiTapLonWinForm.Services
     {
         public IClassService ClassService { get; }
         public IUserService UserService { get; }
-
         public ITeacherService TeacherService { get; }
-
         public ICourseService CourseService { get; }
-
         public IStudentService StudentService { get; }
+        public IClassSessionService ClassSessionService { get; }
+        public IAttendanceService AttendanceService { get; }
+        public ICompreFaceApiService CompreFaceApiService { get; }
+
+        public IStudentFaceService StudentFaceService { get; set; }
         public ServiceHub(
                 IClassService classService,
                 IUserService userService,
                 ITeacherService teacherService,
                 ICourseService courseService,
-                IStudentService studentService
+                IStudentService studentService,
+                IClassSessionService classSessionService,
+                IAttendanceService attendanceService,
+                ICompreFaceApiService compreFaceApiService,
+                IStudentFaceService studentFaceService
             ) {
             ClassService = classService;
             UserService = userService;
             TeacherService = teacherService;
             CourseService = courseService;
             StudentService = studentService;
+            ClassSessionService = classSessionService;
+            AttendanceService = attendanceService;
+            CompreFaceApiService = compreFaceApiService;
+            StudentFaceService = studentFaceService;
 
         }
     }

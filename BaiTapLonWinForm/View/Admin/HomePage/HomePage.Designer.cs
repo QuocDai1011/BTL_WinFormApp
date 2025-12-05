@@ -66,6 +66,9 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
         private void InitializeComponent()
         {
             sidebarPanel = new Panel();
+            pnAttendance = new Panel();
+            pbAttendance = new PictureBox();
+            lblAttendance = new Label();
             pnlSidebarFooter = new Panel();
             lblVersion = new Label();
             pnlLogout = new Panel();
@@ -100,6 +103,8 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             logoBox = new PictureBox();
             contentPanel = new Panel();
             sidebarPanel.SuspendLayout();
+            pnAttendance.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbAttendance).BeginInit();
             pnlSidebarFooter.SuspendLayout();
             pnlLogout.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picLogout).BeginInit();
@@ -126,6 +131,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             // sidebarPanel
             // 
             sidebarPanel.BackColor = Color.FromArgb(41, 128, 185);
+            sidebarPanel.Controls.Add(pnAttendance);
             sidebarPanel.Controls.Add(pnlSidebarFooter);
             sidebarPanel.Controls.Add(pnlLogout);
             sidebarPanel.Controls.Add(pnlSettings);
@@ -141,6 +147,44 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             sidebarPanel.Name = "sidebarPanel";
             sidebarPanel.Size = new Size(350, 903);
             sidebarPanel.TabIndex = 0;
+            // 
+            // pnAttendance
+            // 
+            pnAttendance.BackColor = Color.Transparent;
+            pnAttendance.Controls.Add(pbAttendance);
+            pnAttendance.Controls.Add(lblAttendance);
+            pnAttendance.Cursor = Cursors.Hand;
+            pnAttendance.Location = new Point(19, 549);
+            pnAttendance.Margin = new Padding(4);
+            pnAttendance.Name = "pnAttendance";
+            pnAttendance.Size = new Size(312, 69);
+            pnAttendance.TabIndex = 9;
+            pnAttendance.Click += Attendance_Click;
+            // 
+            // pbAttendance
+            // 
+            pbAttendance.Image = BaiTapLonWinForm.Properties.Resources.logo2019_png_1;
+            pbAttendance.Location = new Point(25, 15);
+            pbAttendance.Margin = new Padding(4);
+            pbAttendance.Name = "pbAttendance";
+            pbAttendance.Size = new Size(40, 40);
+            pbAttendance.SizeMode = PictureBoxSizeMode.Zoom;
+            pbAttendance.TabIndex = 0;
+            pbAttendance.TabStop = false;
+            pbAttendance.Click += Attendance_Click;
+            // 
+            // lblAttendance
+            // 
+            lblAttendance.AutoSize = true;
+            lblAttendance.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
+            lblAttendance.ForeColor = Color.White;
+            lblAttendance.Location = new Point(81, 21);
+            lblAttendance.Margin = new Padding(4, 0, 4, 0);
+            lblAttendance.Name = "lblAttendance";
+            lblAttendance.Size = new Size(106, 25);
+            lblAttendance.TabIndex = 1;
+            lblAttendance.Text = "Điểm danh";
+            lblAttendance.Click += Attendance_Click;
             // 
             // pnlSidebarFooter
             // 
@@ -599,6 +643,9 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Trung Tâm Anh Ngữ Tre Xanh - Quản Lý";
             sidebarPanel.ResumeLayout(false);
+            pnAttendance.ResumeLayout(false);
+            pnAttendance.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbAttendance).EndInit();
             pnlSidebarFooter.ResumeLayout(false);
             pnlLogout.ResumeLayout(false);
             pnlLogout.PerformLayout();
@@ -633,5 +680,8 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             ResumeLayout(false);
         }
         private Panel contentPanel;
+        private Panel pnAttendance;
+        private PictureBox pbAttendance;
+        private Label lblAttendance;
     }
 }

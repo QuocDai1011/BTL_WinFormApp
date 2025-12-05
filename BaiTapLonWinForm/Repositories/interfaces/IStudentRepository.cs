@@ -23,5 +23,8 @@ namespace BaiTapLonWinForm.Repositories.interfaces
         Task<int> GetClassCountAsync(int studentId);
         Task<IEnumerable<Student>> GetStudentsWithoutClassAsync();
 
+        Task<bool> IsStudentInClassAsync(int studentId, int classId);
+
+
     }
 }
