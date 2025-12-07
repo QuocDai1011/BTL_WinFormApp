@@ -40,6 +40,7 @@ namespace BaiTapLonWinForm.Repositories.implements
         public async Task<Class?> GetByIdAsync(int id)
         {
             return await _context.Classes
+                .AsNoTracking()
                 .Include(c => c.Course)          
                 .Include(c => c.Teacher)
                     .ThenInclude(t => t.User)   
@@ -224,6 +225,44 @@ namespace BaiTapLonWinForm.Repositories.implements
             {
 
                 throw;
+            }
+        }
+
+        public async Task<bool> RemoveStudentFromClassAsync(int classId, int studentId)
+        {
+            try
+            {
+
+                var studentClass = await _context.StudentClasses
+                    .FirstOrDefaultAsync(sc => sc.ClassId == classId && sc.StudentId == studentId);
+
+                if (studentClass == null) return false;
+
+                _context.StudentClasses.Remove(studentClass);
+
+
+                var classEntity = await _context.Classes.FindAsync(classId);
+
+                if (classEntity != null)
+                {
+                    if (classEntity.CurrentStudent > 0)
+                    {
+                        classEntity.CurrentStudent -= 1;
+                    }
+
+                }
+                else
+                {
+                    throw new Exception("Dữ liệu không đồng bộ: Không tìm thấy lớp học.");
+                }
+
+                await _context.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Lỗi khi xóa học viên: {ex.InnerException?.Message ?? ex.Message}");
             }
         }
     }

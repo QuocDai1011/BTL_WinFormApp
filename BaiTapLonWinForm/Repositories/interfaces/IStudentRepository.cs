@@ -25,6 +25,5 @@ namespace BaiTapLonWinForm.Repositories.interfaces
 
         Task<bool> IsStudentInClassAsync(int studentId, int classId);
 
-
     }
 }

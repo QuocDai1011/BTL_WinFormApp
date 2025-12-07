@@ -269,13 +269,29 @@ namespace BaiTapLonWinForm.Services.implements
                     bool result = await _classRepository.AddStudentToClass(studentClass);
                 }
 
-                // Cập nhật lại số lượng học viên
-                classEntity.CurrentStudent += studentIds.Count;
-                await _classRepository.UpdateAsync(classEntity);
 
                 return (true, "Thêm học viên thành công.");
             }
             catch (Exception ex)
+            {
+                return (false, $"Lỗi: {ex.Message}");
+            }
+        }
+
+        public async Task<(bool Success, string Message)> RemoveStudentFromClassAsync(int classId, int studentId)
+        {
+            try
+            {
+                if(classId <= 0 || studentId <= 0)
+                    return (false, "ID lớp học hoặc học viên không hợp lệ");
+
+
+                return
+                    await _classRepository.RemoveStudentFromClassAsync(classId, studentId)
+                    ? (true, "Xóa học viên khỏi lớp thành công.")
+                    : (false, "Xóa học viên khỏi lớp thất bại.");
+            }
+            catch(Exception ex)
             {
                 return (false, $"Lỗi: {ex.Message}");
             }

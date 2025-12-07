@@ -10,8 +10,6 @@
         private Panel pnlHeader;
         private Label lblClassName;
         private Label lblStatusBadge;
-        private Button btnEdit;
-        private Button btnDelete;
         private Button btnAddStudent; // Nút thêm nhanh học viên
 
         // 2. Sidebar (Left)
@@ -53,11 +51,12 @@
         private void InitializeComponent()
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             pnlHeader = new Panel();
+            lblCourseName = new Label();
             lblClassName = new Label();
             lblStatusBadge = new Label();
             btnDelete = new Button();
-            btnEdit = new Button();
             btnAddStudent = new Button();
             pnlSidebar = new Panel();
             grpGeneral = new GroupBox();
@@ -90,12 +89,12 @@
             lblDaysValue = new Label();
             lblTeacherPhone = new Label();
             pnlMain = new Panel();
+            lblProportion = new Label();
             dgvStudents = new DataGridView();
             colName = new DataGridViewTextBoxColumn();
             colDob = new DataGridViewTextBoxColumn();
             colPhone = new DataGridViewTextBoxColumn();
             colEmail = new DataGridViewTextBoxColumn();
-            colCourseName = new DataGridViewTextBoxColumn();
             lblListTitle = new Label();
             pnlHeader.SuspendLayout();
             pnlSidebar.SuspendLayout();
@@ -110,10 +109,10 @@
             // pnlHeader
             // 
             pnlHeader.BackColor = Color.White;
+            pnlHeader.Controls.Add(lblCourseName);
             pnlHeader.Controls.Add(lblClassName);
             pnlHeader.Controls.Add(lblStatusBadge);
             pnlHeader.Controls.Add(btnDelete);
-            pnlHeader.Controls.Add(btnEdit);
             pnlHeader.Controls.Add(btnAddStudent);
             pnlHeader.Dock = DockStyle.Top;
             pnlHeader.Location = new Point(0, 0);
@@ -121,6 +120,17 @@
             pnlHeader.Padding = new Padding(30, 10, 30, 10);
             pnlHeader.Size = new Size(1480, 100);
             pnlHeader.TabIndex = 2;
+            // 
+            // lblCourseName
+            // 
+            lblCourseName.AutoSize = true;
+            lblCourseName.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            lblCourseName.ForeColor = Color.FromArgb(40, 40, 40);
+            lblCourseName.Location = new Point(33, 66);
+            lblCourseName.Name = "lblCourseName";
+            lblCourseName.Size = new Size(155, 31);
+            lblCourseName.TabIndex = 6;
+            lblCourseName.Text = "Tên khóa học";
             // 
             // lblClassName
             // 
@@ -138,7 +148,7 @@
             lblStatusBadge.BackColor = Color.SeaGreen;
             lblStatusBadge.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             lblStatusBadge.ForeColor = Color.White;
-            lblStatusBadge.Location = new Point(33, 67);
+            lblStatusBadge.Location = new Point(280, 67);
             lblStatusBadge.Name = "lblStatusBadge";
             lblStatusBadge.Size = new Size(120, 30);
             lblStatusBadge.TabIndex = 2;
@@ -152,26 +162,13 @@
             btnDelete.FlatAppearance.BorderSize = 0;
             btnDelete.FlatStyle = FlatStyle.Flat;
             btnDelete.ForeColor = Color.White;
-            btnDelete.Location = new Point(1330, 30);
+            btnDelete.Location = new Point(1311, 30);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(120, 40);
             btnDelete.TabIndex = 3;
-            btnDelete.Text = "Xóa Lớp";
+            btnDelete.Text = "Xóa Học Viên";
             btnDelete.UseVisualStyleBackColor = false;
-            // 
-            // btnEdit
-            // 
-            btnEdit.BackColor = Color.SteelBlue;
-            btnEdit.Cursor = Cursors.Hand;
-            btnEdit.FlatAppearance.BorderSize = 0;
-            btnEdit.FlatStyle = FlatStyle.Flat;
-            btnEdit.ForeColor = Color.White;
-            btnEdit.Location = new Point(1200, 30);
-            btnEdit.Name = "btnEdit";
-            btnEdit.Size = new Size(120, 40);
-            btnEdit.TabIndex = 4;
-            btnEdit.Text = "Chỉnh Sửa";
-            btnEdit.UseVisualStyleBackColor = false;
+            btnDelete.Click += btnDelete_Click;
             // 
             // btnAddStudent
             // 
@@ -180,7 +177,7 @@
             btnAddStudent.FlatAppearance.BorderSize = 0;
             btnAddStudent.FlatStyle = FlatStyle.Flat;
             btnAddStudent.ForeColor = Color.White;
-            btnAddStudent.Location = new Point(1040, 30);
+            btnAddStudent.Location = new Point(1145, 30);
             btnAddStudent.Name = "btnAddStudent";
             btnAddStudent.Size = new Size(150, 40);
             btnAddStudent.TabIndex = 5;
@@ -499,14 +496,26 @@
             // 
             // pnlMain
             // 
+            pnlMain.Controls.Add(lblProportion);
             pnlMain.Controls.Add(dgvStudents);
             pnlMain.Controls.Add(lblListTitle);
             pnlMain.Dock = DockStyle.Fill;
             pnlMain.Location = new Point(400, 100);
             pnlMain.Name = "pnlMain";
-            pnlMain.Padding = new Padding(30);
+            pnlMain.Padding = new Padding(20);
             pnlMain.Size = new Size(1080, 750);
             pnlMain.TabIndex = 0;
+            // 
+            // lblProportion
+            // 
+            lblProportion.AutoSize = true;
+            lblProportion.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            lblProportion.ForeColor = Color.Black;
+            lblProportion.Location = new Point(945, 27);
+            lblProportion.Name = "lblProportion";
+            lblProportion.Size = new Size(31, 23);
+            lblProportion.TabIndex = 2;
+            lblProportion.Text = "---";
             // 
             // dgvStudents
             // 
@@ -520,24 +529,34 @@
             dataGridViewCellStyle1.ForeColor = Color.Black;
             dgvStudents.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvStudents.ColumnHeadersHeight = 40;
-            dgvStudents.Columns.AddRange(new DataGridViewColumn[] { colName, colDob, colPhone, colEmail, colCourseName });
+            dgvStudents.Columns.AddRange(new DataGridViewColumn[] { colName, colDob, colPhone, colEmail });
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dgvStudents.DefaultCellStyle = dataGridViewCellStyle2;
             dgvStudents.Dock = DockStyle.Fill;
-            dgvStudents.Location = new Point(30, 80);
+            dgvStudents.Location = new Point(20, 70);
             dgvStudents.Name = "dgvStudents";
             dgvStudents.ReadOnly = true;
             dgvStudents.RowHeadersVisible = false;
             dgvStudents.RowHeadersWidth = 51;
             dgvStudents.RowTemplate.Height = 40;
             dgvStudents.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvStudents.Size = new Size(1020, 640);
+            dgvStudents.Size = new Size(1040, 660);
             dgvStudents.TabIndex = 0;
             // 
             // colName
             // 
+            colName.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             colName.HeaderText = "Họ và Tên";
             colName.MinimumWidth = 6;
             colName.Name = "colName";
             colName.ReadOnly = true;
+            colName.Width = 150;
             // 
             // colDob
             // 
@@ -560,21 +579,14 @@
             colEmail.Name = "colEmail";
             colEmail.ReadOnly = true;
             // 
-            // colCourseName
-            // 
-            colCourseName.HeaderText = "Khóa học";
-            colCourseName.MinimumWidth = 6;
-            colCourseName.Name = "colCourseName";
-            colCourseName.ReadOnly = true;
-            // 
             // lblListTitle
             // 
             lblListTitle.Dock = DockStyle.Top;
             lblListTitle.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
             lblListTitle.ForeColor = Color.FromArgb(64, 64, 64);
-            lblListTitle.Location = new Point(30, 30);
+            lblListTitle.Location = new Point(20, 20);
             lblListTitle.Name = "lblListTitle";
-            lblListTitle.Size = new Size(1020, 50);
+            lblListTitle.Size = new Size(1040, 50);
             lblListTitle.TabIndex = 1;
             lblListTitle.Text = "Danh Sách Học Viên";
             // 
@@ -597,6 +609,7 @@
             grpStats.PerformLayout();
             pnlProgressBg.ResumeLayout(false);
             pnlMain.ResumeLayout(false);
+            pnlMain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvStudents).EndInit();
             ResumeLayout(false);
         }
@@ -629,10 +642,12 @@
         private Label lblStartDate;
         private Label lblShift;
         private Label label5;
+        private Label lblCourseName;
+        private Button btnDelete;
         private DataGridViewTextBoxColumn colName;
         private DataGridViewTextBoxColumn colDob;
         private DataGridViewTextBoxColumn colPhone;
         private DataGridViewTextBoxColumn colEmail;
-        private DataGridViewTextBoxColumn colCourseName;
+        private Label lblProportion;
     }
 }

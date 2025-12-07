@@ -27,8 +27,14 @@ namespace BaiTapLonWinForm.View.Admin.Class
             _serviceHub = serviceHub;
             _classId = classId;
             InitializeComponent();
+            this.Load += AddStudentToClass_Load;
         }
+        private async void AddStudentToClass_Load(object sender, EventArgs e)
+        {
 
+            await LoadDataAsync();
+
+        }
         private async Task LoadDataAsync()
         {
             try
@@ -75,8 +81,9 @@ namespace BaiTapLonWinForm.View.Admin.Class
                     dgvAvailableStudents.Rows.Add(
                         false, // Checkbox mặc định unchecked
                         s.StudentId,
-                        $"{s.User.LastName} {s.User.FirstName}",
+                        $"{s.User.FirstName} {s.User.LastName}",
                         s.User.DateOfBirth.ToString("dd/MM/yyyy"),
+                        s.User.Email,
                         s.User.PhoneNumber
                     );
                 }
@@ -95,9 +102,10 @@ namespace BaiTapLonWinForm.View.Admin.Class
             {
                 // Filter local list
                 var filtered = _allStudents.Where(s =>
-                    (s.User.LastName + " " + s.User.FirstName).ToLower().Contains(keyword) ||
+                    (s.User.FirstName + " " + s.User.LastName).ToLower().Contains(keyword) ||
                     s.User.Email.ToLower().Contains(keyword) ||
-                    s.User.PhoneNumber.Contains(keyword)
+                    s.User.PhoneNumber.Contains(keyword) ||
+                    s.User.Email.Contains(keyword)
                 ).ToList();
                 BindGrid(filtered);
             }
@@ -146,18 +154,15 @@ namespace BaiTapLonWinForm.View.Admin.Class
                 return;
             }
 
-            // 2. Gọi Service để lưu (Bạn cần bổ sung hàm này vào ClassService)
             try
             {
-                // Lưu ý: Vì trong code Service bạn gửi chưa có hàm AddStudentsToClassAsync,
-                // Tôi sẽ giả lập hoặc bạn cần thêm hàm này vào ClassService.
-                // Ở đây tôi giả định bạn sẽ thêm hàm này vào ServiceHub.ClassService
 
                 var result = await _serviceHub.ClassService.AddStudentsToClassAsync(_classId, selectedIds);
 
                 if (result.Success)
                 {
                     MessageHelper.ShowInfo($"Đã thêm thành công {selectedIds.Count} học viên vào lớp!");
+                    await LoadDataAsync();
                     OnStudentsAdded?.Invoke(this, EventArgs.Empty); // Báo form cha reload lại danh sách
                     OnCloseRequired?.Invoke(this, EventArgs.Empty); // Đóng form
                 }
@@ -174,7 +179,7 @@ namespace BaiTapLonWinForm.View.Admin.Class
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            OnStudentsAdded?.Invoke(this, EventArgs.Empty); 
+            OnStudentsAdded?.Invoke(this, EventArgs.Empty);
             OnCloseRequired?.Invoke(this, EventArgs.Empty);
         }
     }

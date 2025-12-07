@@ -49,9 +49,11 @@ namespace BaiTapLonWinForm.View.Admin.Students
             // Xóa cột cũ (nếu có) và thêm cột mới
             lvAttendance.Columns.Clear();
             lvAttendance.Columns.Add("Thời gian", 100);
-            lvAttendance.Columns.Add("Họ tên", 200);
+            lvAttendance.Columns.Add("Họ và tên", 200);
             lvAttendance.Columns.Add("Lớp học - Ca", 250);
             lvAttendance.Columns.Add("Trạng thái", 150);
+            lvAttendance.Columns.Add("Ghi chú", 100);
+
         }
 
         // --- CAMERA LOGIC ---
@@ -194,15 +196,14 @@ namespace BaiTapLonWinForm.View.Admin.Students
 
             try
             {
-                // 1. Chụp ảnh từ stream hiện tại
+                // Chụp ảnh từ stream hiện tại
                 Bitmap currentFrame = new Bitmap(picCamera.Image);
                 byte[] imageBytes = BitmapToByteArray(currentFrame);
 
-                // 2. GỌI SERVICE ĐIỂM DANH TỰ ĐỘNG
                 // Hàm này sẽ tự tìm lớp, tìm ca, và mark attendance
                 var result = await _serviceHub.AttendanceService.CheckInAtReceptionAsync(imageBytes);
 
-                // 3. Xử lý kết quả trả về
+                //  Xử lý kết quả trả về
                 ProcessCheckInResult(result);
             }
             catch (Exception ex)
@@ -257,7 +258,10 @@ namespace BaiTapLonWinForm.View.Admin.Students
             item.SubItems.Add(result.StudentName); // Cột 2: Tên
             item.SubItems.Add($"{result.ClassName} ({result.ShiftName})"); // Cột 3: Lớp
             item.SubItems.Add("Có mặt"); // Cột 4: Trạng thái
-
+            if (result.isLate)
+            {
+                item.SubItems.Add("Đi muộn");
+            }
             // Style
             item.ForeColor = Color.DarkGreen;
             item.Font = new Font(lvAttendance.Font, FontStyle.Bold);
@@ -276,7 +280,7 @@ namespace BaiTapLonWinForm.View.Admin.Students
             lblNotificationTitle.Text = title;
             lblNotificationTitle.ForeColor = success ? Color.Green : Color.Red;
             lblNotificationMessage.Text = message;
-
+            lblNotificationMessage.ForeColor = Color.Black;
             // Auto hide sau 3s
             Timer t = new Timer();
             t.Interval = 3000;

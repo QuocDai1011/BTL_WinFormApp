@@ -13,13 +13,6 @@
         private Label lblSelectedCount;
         private DataGridView dgvAvailableStudents;
 
-        // Columns
-        private DataGridViewCheckBoxColumn colSelect;
-        private DataGridViewTextBoxColumn colId;
-        private DataGridViewTextBoxColumn colName;
-        private DataGridViewTextBoxColumn colDob;
-        private DataGridViewTextBoxColumn colPhone;
-
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null)) components.Dispose();
@@ -29,6 +22,7 @@
         private void InitializeComponent()
         {
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             pnlTop = new Panel();
             lblSearch = new Label();
             txtSearch = new TextBox();
@@ -41,6 +35,7 @@
             colId = new DataGridViewTextBoxColumn();
             colName = new DataGridViewTextBoxColumn();
             colDob = new DataGridViewTextBoxColumn();
+            ColEmail = new DataGridViewTextBoxColumn();
             colPhone = new DataGridViewTextBoxColumn();
             pnlTop.SuspendLayout();
             pnlBottom.SuspendLayout();
@@ -145,7 +140,15 @@
             dataGridViewCellStyle1.ForeColor = Color.Black;
             dgvAvailableStudents.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvAvailableStudents.ColumnHeadersHeight = 40;
-            dgvAvailableStudents.Columns.AddRange(new DataGridViewColumn[] { colSelect, colId, colName, colDob, colPhone });
+            dgvAvailableStudents.Columns.AddRange(new DataGridViewColumn[] { colSelect, colId, colName, colDob, ColEmail, colPhone });
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = SystemColors.Window;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dgvAvailableStudents.DefaultCellStyle = dataGridViewCellStyle2;
             dgvAvailableStudents.Dock = DockStyle.Fill;
             dgvAvailableStudents.Location = new Point(0, 70);
             dgvAvailableStudents.Name = "dgvAvailableStudents";
@@ -155,6 +158,7 @@
             dgvAvailableStudents.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvAvailableStudents.Size = new Size(1050, 580);
             dgvAvailableStudents.TabIndex = 0;
+            dgvAvailableStudents.CellContentClick += Dgv_CellContentClick;
             // 
             // colSelect
             // 
@@ -183,6 +187,12 @@
             colDob.MinimumWidth = 6;
             colDob.Name = "colDob";
             // 
+            // ColEmail
+            // 
+            ColEmail.HeaderText = "Email";
+            ColEmail.MinimumWidth = 6;
+            ColEmail.Name = "ColEmail";
+            // 
             // colPhone
             // 
             colPhone.HeaderText = "SĐT";
@@ -204,5 +214,11 @@
             ((System.ComponentModel.ISupportInitialize)dgvAvailableStudents).EndInit();
             ResumeLayout(false);
         }
+        private DataGridViewCheckBoxColumn colSelect;
+        private DataGridViewTextBoxColumn colId;
+        private DataGridViewTextBoxColumn colName;
+        private DataGridViewTextBoxColumn colDob;
+        private DataGridViewTextBoxColumn ColEmail;
+        private DataGridViewTextBoxColumn colPhone;
     }
 }

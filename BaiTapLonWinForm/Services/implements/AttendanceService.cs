@@ -4,7 +4,6 @@ using BaiTapLonWinForm.Services.interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BaiTapLonWinForm.Services.implements
@@ -15,109 +14,259 @@ namespace BaiTapLonWinForm.Services.implements
         private readonly IStudentRepository _studentRepo;
         private readonly IClassSessionRepository _sessionRepo;
         private readonly ICompreFaceApiService _faceApi;
-        private readonly IClassRepository _classRepo;
+
+
+        // Cho phép check-in sớm 30 phút trước giờ học
+        private const int WINDOW_OPEN_MINUTES_BEFORE = 30;
+
+        // Nếu check-in sau 15 phút kể từ giờ bắt đầu -> Đánh dấu là LATE
+        private const int LATE_THRESHOLD_MINUTES = 15;
+
         public AttendanceService(
             IAttendanceRepository attendanceRepo,
             IStudentRepository studentRepo,
             IClassSessionRepository sessionRepo,
-            IClassRepository classRepo,
             ICompreFaceApiService faceApi)
         {
             _attendanceRepo = attendanceRepo;
             _studentRepo = studentRepo;
             _sessionRepo = sessionRepo;
             _faceApi = faceApi;
-            _classRepo = classRepo;
         }
 
-        public async Task<(bool success, string studentName, DateTime? checkInTime, string message)> TakeAttendanceByFaceAsync(
-            int sessionId, byte[] capturedImage)
+        public async Task<ReceptionCheckInResult> CheckInAtReceptionAsync(byte[] capturedImage)
         {
+            Console.WriteLine("\n==================================================");
+            Console.WriteLine($"[DEBUG SYSTEM] BẮT ĐẦU CHECK-IN: {DateTime.Now:HH:mm:ss dd/MM/yyyy}");
+
+            var result = new ReceptionCheckInResult();
+
             try
             {
-                var (recognizeSuccess, studentId, confidence, recognizeMessage) =
-                    await _faceApi.RecognizeFaceAsync(capturedImage);
+                Console.WriteLine("[DEBUG STEP 1] Đang gửi ảnh lên AI Server...");
+                var (isRecognized, studentId, confidence, msg) = await _faceApi.RecognizeFaceAsync(capturedImage);
 
-                if (!recognizeSuccess || !studentId.HasValue)
+                if (!isRecognized || !studentId.HasValue)
                 {
-                    return (false, null, null, recognizeMessage);
+                    result.Success = false;
+                    result.Message = "Không nhận diện được khuôn mặt.";
+                    return result;
+                }
+                Console.WriteLine($"[DEBUG SUCCESS] ID: {studentId} (Confidence: {confidence:P0})");
+                
+                result.confidence = confidence;
+                
+                var student = await _studentRepo.GetByIdAsync(studentId.Value);
+                if (student == null || student.StudentClasses == null)
+                {
+                    result.Success = false;
+                    result.Message = "Lỗi dữ liệu sinh viên (Không tìm thấy hoặc thiếu Class Include).";
+                    return result;
                 }
 
-                var session = await _sessionRepo.GetByIdAsync(sessionId);
-                if (session == null)
+                result.StudentId = student.StudentId;
+                result.StudentName = $"{student.User?.LastName} {student.User?.FirstName}";
+                result.StudentCode = student.StudentId.ToString();
+                result.Avatar = capturedImage;
+
+                // (Chỉ tìm lớp đang diễn ra, hết giờ là thôi)
+                Console.WriteLine($"[DEBUG STEP 3] Tìm lớp cho: {result.StudentName}...");
+                var activeClass = FindActiveBooking(student, DateTime.Now);
+
+                if (activeClass == null)
                 {
-                    return (false, null, null, "Buổi học không tồn tại!");
+                    result.Success = false;
+                    result.Message = $"Xin chào {result.StudentName}. Không tìm thấy lịch học phù hợp lúc này.";
+                    Console.WriteLine("[DEBUG FAIL] Không tìm thấy lớp (Do chưa đến giờ hoặc đã hết giờ học).");
+                    return result;
                 }
 
-                var isInClass = await _studentRepo.IsStudentInClassAsync(studentId.Value, session.ClassId);
-                if (!isInClass)
+                Console.WriteLine($"[DEBUG SUCCESS] Lớp: {activeClass.ClassName} - Ca {activeClass.Shift}");
+                result.ClassName = activeClass.ClassName;
+                result.ShiftName = GetShiftName(activeClass.Shift);
+
+                // BƯỚC 4: LẤY SESSION
+                var sessions = await _sessionRepo.GetByClassIdAsync(activeClass.ClassId);
+                var todayDateOnly = DateOnly.FromDateTime(DateTime.Now);
+                var todaySession = sessions.FirstOrDefault(s => s.SessionDate == todayDateOnly);
+
+                if (todaySession == null)
                 {
-                    return (false, null, null, "Sinh viên không thuộc lớp này!");
+                    result.Success = false;
+                    result.Message = "Chưa có lịch học (Session) trên hệ thống hôm nay.";
+                    return result;
                 }
 
-                var existing = await _attendanceRepo.GetByStudentAndSessionAsync(studentId.Value, sessionId);
+                // =========================================================
+                //  XỬ LÝ ĐI MUỘN (LATE)
+                // =========================================================
+                var (shiftStart, _) = GetShiftTimes(activeClass.Shift);
+                var lateTimeLimit = shiftStart.Add(TimeSpan.FromMinutes(LATE_THRESHOLD_MINUTES));
+                var currentTime = DateTime.Now.TimeOfDay;
+
+                bool isLate = currentTime > lateTimeLimit;
+                string lateNote = isLate ? " - LATE (Đi muộn)" : "";
+                string displayMessage = isLate ? "Điểm danh thành công (Đi muộn)." : "Điểm danh thành công!";
+
+                if (isLate)
+                {
+                    result.isLate = true;
+                    Console.WriteLine($"[DEBUG STATUS] ⚠️ Sinh viên đi muộn! Giờ: {currentTime:hh\\:mm} > Ngưỡng: {lateTimeLimit:hh\\:mm}");
+                }
+
+                // =========================================================
+
+                var existing = await _attendanceRepo.GetByStudentAndSessionAsync(studentId.Value, todaySession.SessionId);
+
                 if (existing != null)
                 {
-                    var student = await _studentRepo.GetByIdAsync(studentId.Value);
-                    string studentName = $"{student.User.LastName} {student.User.FirstName}";
-                    return (false, studentName, existing.CheckInTime, "Sinh viên đã điểm danh rồi!");
+                    result.Success = true;
+                    result.CheckInTime = existing.CheckInTime;
+                    result.Message = $"Bạn đã điểm danh lúc {existing.CheckInTime:HH:mm}.";
+                }
+                else
+                {
+                    var newAtt = new Attendance
+                    {
+                        StudentId = studentId.Value,
+                        SessionId = todaySession.SessionId,
+                        IsPresent = true,
+                        CheckInTime = DateTime.Now,
+                        Note = $"Face Check-in ({confidence:P0}){lateNote}"
+                    };
+
+                    await _attendanceRepo.AddAsync(newAtt);
+                    result.Success = true;
+                    result.CheckInTime = newAtt.CheckInTime;
+                    result.Message = displayMessage;
+                    Console.WriteLine($"[DEBUG END] Đã lưu điểm danh. Note: {newAtt.Note}");
                 }
 
-                var attendance = new Attendance
-                {
-                    StudentId = studentId.Value,
-                    SessionId = sessionId,
-                    IsPresent = true,
-                    CheckInTime = DateTime.Now,
-                    Note = $"Face Recognition - Confidence: {confidence:P1}"
-                };
-
-                await _attendanceRepo.AddAsync(attendance);
-
-                var studentInfo = await _studentRepo.GetByIdAsync(studentId.Value);
-                string name = $"{studentInfo.User.LastName} {studentInfo.User.FirstName}";
-
-                return (true, name, attendance.CheckInTime, "Điểm danh thành công!");
+                return result;
             }
             catch (Exception ex)
             {
-                return (false, null, null, $"Lỗi: {ex.Message}");
+                Console.WriteLine($"[DEBUG EXCEPTION] {ex}");
+                result.Success = false;
+                result.Message = "Lỗi Server: " + ex.Message;
+                return result;
             }
         }
 
-        public async Task<(bool success, string message)> TakeManualAttendanceAsync(
-            int studentId, int sessionId, bool isPresent, string note = null)
+        // =========================================================================
+        // LOGIC TÌM LỚP
+        // =========================================================================
+
+        private Class? FindActiveBooking(Student student, DateTime currentTime)
+        {
+            string currentDayVi = ConvertToVietnameseDay(currentTime.DayOfWeek);
+
+            foreach (var sc in student.StudentClasses)
+            {
+                var cls = sc.Class;
+                if (cls == null || cls.Status != 1) continue;
+                if (cls.SchoolDays == null || !cls.SchoolDays.Any()) continue;
+
+                // 1. Kiểm tra ngày
+                bool isDayMatch = cls.SchoolDays.Any(d =>
+                    d.DayOfWeek.Trim().Equals(currentDayVi, StringComparison.OrdinalIgnoreCase) ||
+                    (currentTime.DayOfWeek == DayOfWeek.Sunday &&
+                     (d.DayOfWeek.Trim().Equals("Chủ Nhật", StringComparison.OrdinalIgnoreCase) ||
+                      d.DayOfWeek.Trim().Equals("Chu Nhat", StringComparison.OrdinalIgnoreCase)))
+                );
+
+                if (!isDayMatch) continue;
+
+                // 2. Kiểm tra giờ (Logic Mới: Chỉ từ Start-30p đến End)
+                if (IsTimeInBookingWindow(currentTime, cls.Shift))
+                {
+                    return cls;
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Kiểm tra xem giờ hiện tại có nằm trong khoảng thời gian Check-in không.
+        /// Từ [Start - 30p] đến [End]. Không mở rộng sau khi kết thúc.
+        /// </summary>
+        private bool IsTimeInBookingWindow(DateTime time, byte shift)
+        {
+            TimeSpan now = time.TimeOfDay;
+
+            var (start, end) = GetShiftTimes(shift);
+
+            // Cửa sổ mở: Trước giờ học 30 phút
+            var windowOpen = start.Subtract(TimeSpan.FromMinutes(WINDOW_OPEN_MINUTES_BEFORE));
+
+            // Cửa sổ đóng: Đúng giờ kết thúc lớp học (Không cho phép checkout sau giờ)
+            var windowClose = end;
+
+            // Debug logic
+            // Console.WriteLine($"   [Window Check] Ca {shift}: {windowOpen:hh\\:mm} -> {windowClose:hh\\:mm} | Now: {now:hh\\:mm}");
+
+            return now >= windowOpen && now <= windowClose;
+        }
+
+        private (TimeSpan start, TimeSpan end) GetShiftTimes(byte shift)
+        {
+            return shift switch
+            {
+                1 => (new TimeSpan(8, 0, 0), new TimeSpan(9, 30, 0)),
+                2 => (new TimeSpan(9, 30, 0), new TimeSpan(11, 0, 0)),
+                3 => (new TimeSpan(14, 0, 0), new TimeSpan(15, 30, 0)),
+                4 => (new TimeSpan(15, 30, 0), new TimeSpan(17, 0, 0)),
+                5 => (new TimeSpan(18, 0, 0), new TimeSpan(19, 30, 0)),
+                6 => (new TimeSpan(19, 30, 0), new TimeSpan(21, 0, 0)),
+                _ => (TimeSpan.Zero, TimeSpan.Zero)
+            };
+        }
+
+        private string ConvertToVietnameseDay(DayOfWeek day)
+        {
+            return day switch
+            {
+                DayOfWeek.Monday => "Thứ 2",
+                DayOfWeek.Tuesday => "Thứ 3",
+                DayOfWeek.Wednesday => "Thứ 4",
+                DayOfWeek.Thursday => "Thứ 5",
+                DayOfWeek.Friday => "Thứ 6",
+                DayOfWeek.Saturday => "Thứ 7",
+                DayOfWeek.Sunday => "Chủ nhật",
+                _ => ""
+            };
+        }
+
+        private string GetShiftName(byte shift)
+        {
+            var (s, e) = GetShiftTimes(shift);
+            return $"Ca {shift} ({s:hh\\:mm} - {e:hh\\:mm})";
+        }
+
+        public async Task<(bool success, string message)> TakeManualAttendanceAsync(int studentId, int sessionId, bool isPresent, string note = null)
         {
             try
             {
                 var existing = await _attendanceRepo.GetByStudentAndSessionAsync(studentId, sessionId);
-
                 if (existing != null)
                 {
-                    existing.IsPresent = isPresent;
-                    existing.Note = note ?? "Manual Attendance";
+                    existing.IsPresent = isPresent; existing.Note = note ?? "Manual Update";
                     await _attendanceRepo.UpdateAsync(existing);
-                    return (true, "Cập nhật điểm danh thành công!");
                 }
                 else
                 {
-                    var attendance = new Attendance
+                    await _attendanceRepo.AddAsync(new Attendance
                     {
                         StudentId = studentId,
                         SessionId = sessionId,
                         IsPresent = isPresent,
                         CheckInTime = DateTime.Now,
-                        Note = note ?? "Manual Attendance"
-                    };
-
-                    await _attendanceRepo.AddAsync(attendance);
-                    return (true, "Điểm danh thành công!");
+                        Note = note ?? "Manual"
+                    });
                 }
+                return (true, "Thành công");
             }
-            catch (Exception ex)
-            {
-                return (false, $"Lỗi: {ex.Message}");
-            }
+            catch (Exception ex) { return (false, ex.Message); }
         }
 
         public async Task<List<AttendanceRecord>> GetSessionAttendanceAsync(int sessionId)
@@ -126,11 +275,9 @@ namespace BaiTapLonWinForm.Services.implements
             {
                 var session = await _sessionRepo.GetByIdAsync(sessionId);
                 if (session == null) return new List<AttendanceRecord>();
-
                 var students = await _studentRepo.GetStudentsByClassIdAsync(session.ClassId);
                 var attendances = await _attendanceRepo.GetBySessionIdAsync(sessionId);
-
-                var records = students.Select(s => new AttendanceRecord
+                return students.Select(s => new AttendanceRecord
                 {
                     StudentId = s.StudentId,
                     StudentName = $"{s.User.LastName} {s.User.FirstName}",
@@ -139,235 +286,24 @@ namespace BaiTapLonWinForm.Services.implements
                     CheckInTime = attendances.FirstOrDefault(a => a.StudentId == s.StudentId)?.CheckInTime,
                     Note = attendances.FirstOrDefault(a => a.StudentId == s.StudentId)?.Note
                 }).ToList();
-
-                return records;
             }
-            catch
-            {
-                return new List<AttendanceRecord>();
-            }
+            catch { return new List<AttendanceRecord>(); }
         }
 
         public async Task<(int present, int absent, double rate)> GetAttendanceStatsAsync(int sessionId)
         {
-            try
-            {
-                var records = await GetSessionAttendanceAsync(sessionId);
-                int total = records.Count;
-                int present = records.Count(r => r.IsPresent);
-                int absent = total - present;
-                double rate = total > 0 ? (double)present / total * 100 : 0;
-
-                return (present, absent, rate);
-            }
-            catch
-            {
-                return (0, 0, 0);
-            }
+            var list = await GetSessionAttendanceAsync(sessionId);
+            int p = list.Count(x => x.IsPresent);
+            return (p, list.Count - p, list.Count > 0 ? (double)p / list.Count * 100 : 0);
         }
 
-        Task<List<Attendance>> IAttendanceService.GetSessionAttendanceAsync(int sessionId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<ReceptionCheckInResult> CheckInAtReceptionAsync(byte[] capturedImage)
-        {
-            var result = new ReceptionCheckInResult();
-
-            try
-            {
-                // BƯỚC 1: Nhận diện khuôn mặt
-                var (isRecognized, studentId, confidence, msg) = await _faceApi.RecognizeFaceAsync(capturedImage);
-
-                if (!isRecognized || !studentId.HasValue)
-                {
-                    result.Success = false;
-                    result.Message = "Không nhận diện được khuôn mặt hoặc chưa đăng ký.";
-                    return result;
-                }
-
-                // BƯỚC 2: Lấy thông tin sinh viên và các lớp đang học
-                // Hàm GetByIdAsync trong StudentRepo đã Include(s => s.StudentClasses).ThenInclude(sc => sc.Class)
-                var student = await _studentRepo.GetByIdAsync(studentId.Value);
-
-                if (student == null)
-                {
-                    result.Success = false;
-                    result.Message = "Dữ liệu sinh viên không tồn tại trong hệ thống.";
-                    return result;
-                }
-
-                // Fill thông tin cơ bản để hiển thị dù có check-in được hay không
-                result.StudentId = student.StudentId;
-                result.StudentName = $"{student.User.LastName} {student.User.FirstName}";
-                result.StudentCode = student.StudentId.ToString(); // Hoặc mã sinh viên nếu có
-                result.Avatar = capturedImage; // Trả lại ảnh vừa chụp để hiển thị
-
-                // BƯỚC 3: Tìm lớp học đang diễn ra (Logic khớp Lịch + Giờ)
-                var activeClass = FindActiveBooking(student, DateTime.Now);
-
-                if (activeClass == null)
-                {
-                    result.Success = false;
-                    result.Message = $"Xin chào {result.StudentName}. Bạn không có lịch học vào khung giờ này.";
-                    return result;
-                }
-
-                result.ClassName = activeClass.ClassName;
-                result.ShiftName = GetShiftName(activeClass.Shift);
-
-                // BƯỚC 4: Tìm Session (Buổi học) của ngày hôm nay
-                // Logic này giả định Session đã được sinh ra trước đó
-                var sessions = await _sessionRepo.GetByClassIdAsync(activeClass.ClassId);
-
-                // Tìm session khớp ngày hôm nay (So sánh DateOnly hoặc DateTime)
-                var today = DateOnly.FromDateTime(DateTime.Now);
-
-                // Giả sử ClassSession có thuộc tính Date (kiểu DateOnly hoặc DateTime)
-                // Nếu Model ClassSession chưa có Date, bạn cần logic tính toán dựa trên StartDate + SchoolDays
-                var todaySession = sessions.FirstOrDefault(s => s.SessionDate == today);
-
-                if (todaySession == null)
-                {
-                    result.Success = false;
-                    result.Message = "Lớp học có lịch hôm nay nhưng chưa tạo Buổi học (Session) trên hệ thống.";
-                    return result;
-                }
-
-                // BƯỚC 5: Thực hiện điểm danh
-                var existingAttendance = await _attendanceRepo.GetByStudentAndSessionAsync(studentId.Value, todaySession.SessionId);
-
-                if (existingAttendance != null)
-                {
-                    // Đã điểm danh rồi
-                    result.Success = true;
-                    result.CheckInTime = existingAttendance.CheckInTime;
-                    result.Message = $"Bạn đã điểm danh lúc {existingAttendance.CheckInTime?.ToString("HH:mm")}.";
-                }
-                else
-                {
-                    // Chưa điểm danh -> Tạo mới
-                    var newAttendance = new Attendance
-                    {
-                        StudentId = studentId.Value,
-                        SessionId = todaySession.SessionId,
-                        IsPresent = true,
-                        CheckInTime = DateTime.Now,
-                        Note = $"Auto Check-in (Confidence: {confidence:P0})"
-                    };
-
-                    await _attendanceRepo.AddAsync(newAttendance);
-
-                    result.Success = true;
-                    result.CheckInTime = newAttendance.CheckInTime;
-                    result.Message = "Điểm danh thành công! Chúc bạn buổi học vui vẻ.";
-                }
-
-                return result;
-            }
-            catch (Exception ex)
-            {
-                result.Success = false;
-                result.Message = $"Lỗi hệ thống: {ex.Message}";
-                return result;
-            }
-        }
-
-
-        private Class? FindActiveBooking(Student student, DateTime currentTime)
-        {
-            // 1. Lấy thứ trong tuần (Monday, Tuesday...)
-            var currentDayOfWeek = currentTime.DayOfWeek;
-
-            // 2. Duyệt qua các lớp sinh viên đang tham gia
-            foreach (var sc in student.StudentClasses)
-            {
-                var classInfo = sc.Class;
-
-                // Check 1: Lớp có đang Active không?
-                if (classInfo.Status != 1) continue; // 1 = Active/In Progress
-
-                // Check 2: Hôm nay có phải ngày học không?
-                // Lưu ý: ClassRepository cần Include SchoolDays
-                if (classInfo.SchoolDays == null || !classInfo.SchoolDays.Any(d => d.DayOfWeek.ToString() == currentDayOfWeek.ToString()))
-                {
-                    continue;
-                }
-
-                // Check 3: Có đúng ca (Shift) không?
-                // Bạn cần định nghĩa giờ bắt đầu/kết thúc cho từng Ca
-                if (IsTimeInShift(currentTime, classInfo.Shift))
-                {
-                    return classInfo;
-                }
-            }
-            return null;
-        }
-
-        private bool IsTimeInShift(DateTime time, byte shift)
-        {
-            // Lấy TimeSpan từ giờ hiện tại
-            TimeSpan now = time.TimeOfDay;
-
-            TimeSpan start, end;
-
-            switch (shift)
-            {
-                case 1: // Ca 1: 8:00 - 9:30
-                    start = new TimeSpan(8, 0, 0);
-                    end = new TimeSpan(9, 30, 0);
-                    break;
-
-                case 2: // Ca 2: 9:30 - 11:00
-                    start = new TimeSpan(9, 30, 0);
-                    end = new TimeSpan(11, 0, 0);
-                    break;
-
-                case 3: // Ca 3: 14:00 - 15:30
-                    start = new TimeSpan(14, 0, 0);
-                    end = new TimeSpan(15, 30, 0);
-                    break;
-
-                case 4: // Ca 4: 15:30 - 17:00
-                    start = new TimeSpan(15, 30, 0);
-                    end = new TimeSpan(17, 0, 0);
-                    break;
-
-                case 5: // Ca 5: 18:00 - 19:30
-                    start = new TimeSpan(18, 0, 0);
-                    end = new TimeSpan(19, 30, 0);
-                    break;
-
-                case 6: // Ca 6: 19:30 - 21:00
-                    start = new TimeSpan(19, 30, 0);
-                    end = new TimeSpan(21, 0, 0);
-                    break;
-
-                default:
-                    return false;
-            }
-
-            return now >= start && now <= end;
-        }
-
-
-        private string GetShiftName(byte shift)
-        {
-            return shift switch
-            {
-                1 => "Sáng",
-                2 => "Chiều",
-                3 => "Tối",
-                _ => "Khác"
-            };
-        }
-
+        public Task<(bool success, string studentName, DateTime? checkInTime, string message)> TakeAttendanceByFaceAsync(int sessionId, byte[] capturedImage) => throw new NotImplementedException();
+        Task<List<Attendance>> IAttendanceService.GetSessionAttendanceAsync(int sessionId) => throw new NotImplementedException();
     }
-    /// <summary>
-    /// DTO cho kết quả điểm danh
-    /// </summary>
-    public class AttendanceRecord
+
+
+// --- DTO CLASSES ---
+public class AttendanceRecord
     {
         public int StudentId { get; set; }
         public string StudentName { get; set; }
@@ -387,6 +323,8 @@ namespace BaiTapLonWinForm.Services.implements
         public string ClassName { get; set; }
         public string ShiftName { get; set; }
         public DateTime? CheckInTime { get; set; }
-        public byte[] Avatar { get; set; } // Ảnh chụp từ camera
-    }
+        public byte[] Avatar { get; set; }
+        public bool isLate { get; set; }
+        public double confidence { get; set; }
+        }
 }

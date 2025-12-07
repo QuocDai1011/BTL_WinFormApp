@@ -29,7 +29,7 @@ namespace BaiTapLonWinForm.View.Admin.Students
         private System.Windows.Forms.Timer frameTimer;
         private List<byte[]> capturedImages = new List<byte[]>();
 
-       
+
         public List<byte[]> FaceImages => capturedImages;
 
         public AddStudentControl(ServiceHub serviceHub)
@@ -421,7 +421,7 @@ namespace BaiTapLonWinForm.View.Admin.Students
             // Lưu dữ liệu
             var result = await _serviceHub.StudentService.RegisterStudentFullAsync(newUser, newStudent, capturedImages);
 
-            if(!result.Success)
+            if (!result.Success)
             {
                 MessageHelper.ShowError(result.Message);
                 return;
@@ -498,5 +498,10 @@ namespace BaiTapLonWinForm.View.Admin.Students
             lblInstruction.Text = "💡 Bước 1: Vui lòng điền đầy đủ thông tin sinh viên trước khi chụp ảnh.";
         }
 
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            Controls.Clear();
+            Controls.Add(new StudentManagement(_serviceHub));
+        }
     }
 }

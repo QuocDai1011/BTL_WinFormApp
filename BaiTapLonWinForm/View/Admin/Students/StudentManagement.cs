@@ -325,6 +325,7 @@ namespace BaiTapLonWinForm.View.Admin.Students
             {
                 BtnEdit_Click(sender, e);
             }
-        }      
+        }
+
     }
 }

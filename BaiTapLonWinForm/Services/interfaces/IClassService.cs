@@ -21,5 +21,7 @@ namespace BaiTapLonWinForm.Services.interfaces
         Task<(bool Success, string Message)> UpdateStudentCountAsync(int classId, int count);
 
         Task<(bool Success, string Message)> AddStudentsToClassAsync(int classId, List<int> studentIds);
+
+        Task<(bool Success, string Message)> RemoveStudentFromClassAsync(int classId, int studentId);
     }
 }

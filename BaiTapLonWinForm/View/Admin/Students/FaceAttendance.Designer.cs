@@ -37,6 +37,9 @@
             lblSelectCamera = new Label();
             btnStartCamera = new Button();
             panelRight = new Panel();
+            panelNotification = new Panel();
+            lblNotificationMessage = new Label();
+            lblNotificationTitle = new Label();
             groupBoxAttendance = new GroupBox();
             lvAttendance = new ListView();
             colTime = new ColumnHeader();
@@ -46,11 +49,7 @@
             colConfidence = new ColumnHeader();
             colStatus = new ColumnHeader();
             panelBottom = new Panel();
-            btnClose = new Button();
             btnExport = new Button();
-            panelNotification = new Panel();
-            lblNotificationMessage = new Label();
-            lblNotificationTitle = new Label();
             panelTop.SuspendLayout();
             panelLeft.SuspendLayout();
             groupBoxStats.SuspendLayout();
@@ -58,9 +57,9 @@
             panelCamera.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picCamera).BeginInit();
             panelRight.SuspendLayout();
+            panelNotification.SuspendLayout();
             groupBoxAttendance.SuspendLayout();
             panelBottom.SuspendLayout();
-            panelNotification.SuspendLayout();
             SuspendLayout();
             // 
             // panelTop
@@ -299,6 +298,7 @@
             // panelRight
             // 
             panelRight.BackColor = Color.White;
+            panelRight.Controls.Add(panelNotification);
             panelRight.Controls.Add(groupBoxAttendance);
             panelRight.Dock = DockStyle.Fill;
             panelRight.Location = new Point(550, 80);
@@ -306,6 +306,38 @@
             panelRight.Padding = new Padding(15);
             panelRight.Size = new Size(850, 670);
             panelRight.TabIndex = 2;
+            // 
+            // panelNotification
+            // 
+            panelNotification.BackColor = Color.FromArgb(46, 204, 113);
+            panelNotification.Controls.Add(lblNotificationMessage);
+            panelNotification.Controls.Add(lblNotificationTitle);
+            panelNotification.Location = new Point(315, 15);
+            panelNotification.Name = "panelNotification";
+            panelNotification.Size = new Size(450, 120);
+            panelNotification.TabIndex = 4;
+            panelNotification.Visible = false;
+            // 
+            // lblNotificationMessage
+            // 
+            lblNotificationMessage.Font = new Font("Segoe UI", 11F);
+            lblNotificationMessage.ForeColor = Color.White;
+            lblNotificationMessage.Location = new Point(15, 50);
+            lblNotificationMessage.Name = "lblNotificationMessage";
+            lblNotificationMessage.Size = new Size(420, 60);
+            lblNotificationMessage.TabIndex = 1;
+            lblNotificationMessage.Text = "Nguyễn Văn A\nĐộ tin cậy: 95%";
+            // 
+            // lblNotificationTitle
+            // 
+            lblNotificationTitle.AutoSize = true;
+            lblNotificationTitle.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            lblNotificationTitle.ForeColor = Color.White;
+            lblNotificationTitle.Location = new Point(15, 18);
+            lblNotificationTitle.Name = "lblNotificationTitle";
+            lblNotificationTitle.Size = new Size(274, 32);
+            lblNotificationTitle.TabIndex = 0;
+            lblNotificationTitle.Text = "Điểm danh thành công";
             // 
             // groupBoxAttendance
             // 
@@ -343,53 +375,42 @@
             // colStudentId
             // 
             colStudentId.Text = "MSSV";
+            colStudentId.TextAlign = HorizontalAlignment.Center;
             colStudentId.Width = 100;
             // 
             // colStudentName
             // 
             colStudentName.Text = "Họ và tên";
+            colStudentName.TextAlign = HorizontalAlignment.Center;
             colStudentName.Width = 200;
             // 
             // colEmail
             // 
             colEmail.Text = "Email";
+            colEmail.TextAlign = HorizontalAlignment.Center;
             colEmail.Width = 200;
             // 
             // colConfidence
             // 
             colConfidence.Text = "Độ tin cậy";
+            colConfidence.TextAlign = HorizontalAlignment.Center;
             colConfidence.Width = 100;
             // 
             // colStatus
             // 
             colStatus.Text = "Trạng thái";
+            colStatus.TextAlign = HorizontalAlignment.Center;
             colStatus.Width = 100;
             // 
             // panelBottom
             // 
             panelBottom.BackColor = Color.FromArgb(236, 240, 241);
-            panelBottom.Controls.Add(btnClose);
             panelBottom.Controls.Add(btnExport);
             panelBottom.Dock = DockStyle.Bottom;
             panelBottom.Location = new Point(0, 750);
             panelBottom.Name = "panelBottom";
             panelBottom.Size = new Size(1400, 80);
             panelBottom.TabIndex = 3;
-            // 
-            // btnClose
-            // 
-            btnClose.BackColor = Color.FromArgb(149, 165, 166);
-            btnClose.Cursor = Cursors.Hand;
-            btnClose.FlatAppearance.BorderSize = 0;
-            btnClose.FlatStyle = FlatStyle.Flat;
-            btnClose.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            btnClose.ForeColor = Color.White;
-            btnClose.Location = new Point(1210, 17);
-            btnClose.Name = "btnClose";
-            btnClose.Size = new Size(170, 50);
-            btnClose.TabIndex = 2;
-            btnClose.Text = "❌ Đóng";
-            btnClose.UseVisualStyleBackColor = false;
             // 
             // btnExport
             // 
@@ -399,51 +420,17 @@
             btnExport.FlatStyle = FlatStyle.Flat;
             btnExport.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             btnExport.ForeColor = Color.White;
-            btnExport.Location = new Point(1015, 17);
+            btnExport.Location = new Point(1195, 18);
             btnExport.Name = "btnExport";
             btnExport.Size = new Size(180, 50);
             btnExport.TabIndex = 1;
             btnExport.Text = "📄 Xuất Excel";
             btnExport.UseVisualStyleBackColor = false;
-            //btnExport.Click += BtnExport_Click;
-            // 
-            // panelNotification
-            // 
-            panelNotification.BackColor = Color.FromArgb(46, 204, 113);
-            panelNotification.Controls.Add(lblNotificationMessage);
-            panelNotification.Controls.Add(lblNotificationTitle);
-            panelNotification.Location = new Point(900, 100);
-            panelNotification.Name = "panelNotification";
-            panelNotification.Size = new Size(450, 120);
-            panelNotification.TabIndex = 4;
-            panelNotification.Visible = false;
-            // 
-            // lblNotificationMessage
-            // 
-            lblNotificationMessage.Font = new Font("Segoe UI", 11F);
-            lblNotificationMessage.ForeColor = Color.White;
-            lblNotificationMessage.Location = new Point(15, 50);
-            lblNotificationMessage.Name = "lblNotificationMessage";
-            lblNotificationMessage.Size = new Size(420, 60);
-            lblNotificationMessage.TabIndex = 1;
-            lblNotificationMessage.Text = "Nguyễn Văn A\nĐộ tin cậy: 95%";
-            // 
-            // lblNotificationTitle
-            // 
-            lblNotificationTitle.AutoSize = true;
-            lblNotificationTitle.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            lblNotificationTitle.ForeColor = Color.White;
-            lblNotificationTitle.Location = new Point(15, 18);
-            lblNotificationTitle.Name = "lblNotificationTitle";
-            lblNotificationTitle.Size = new Size(274, 32);
-            lblNotificationTitle.TabIndex = 0;
-            lblNotificationTitle.Text = "Điểm danh thành công";
             // 
             // FaceAttendance
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            Controls.Add(panelNotification);
             Controls.Add(panelRight);
             Controls.Add(panelLeft);
             Controls.Add(panelBottom);
@@ -460,10 +447,10 @@
             panelCamera.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)picCamera).EndInit();
             panelRight.ResumeLayout(false);
-            groupBoxAttendance.ResumeLayout(false);
-            panelBottom.ResumeLayout(false);
             panelNotification.ResumeLayout(false);
             panelNotification.PerformLayout();
+            groupBoxAttendance.ResumeLayout(false);
+            panelBottom.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -498,7 +485,6 @@
         private ColumnHeader colConfidence;
         private ColumnHeader colStatus;
         private Panel panelBottom;
-        private Button btnClose;
         private Button btnExport;
         private Panel panelNotification;
         private Label lblNotificationMessage;

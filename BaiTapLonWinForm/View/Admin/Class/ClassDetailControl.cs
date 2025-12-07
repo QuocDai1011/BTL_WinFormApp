@@ -36,9 +36,7 @@ namespace BaiTapLonWinForm.View.Admin.Class
         {
             try
             {
-                // 1. GỌI SERVICE LẤY DỮ LIỆU
-                // Lưu ý quan trọng: Trong ClassRepository.GetByIdAsync, 
-                // bạn cần đảm bảo đã .Include(c => c.Course) và .Include(c => c.Teacher).ThenInclude(t => t.User)
+
                 var (success, message, data) = await _serviceHub.ClassService.GetClassByIdAsync(_classId);
 
                 if (!success || data == null)
@@ -119,10 +117,9 @@ namespace BaiTapLonWinForm.View.Admin.Class
                     courseName = data.Course.CourseName;
                 }
 
-                // (Tùy chọn) Nếu bạn muốn hiển thị tên khóa học ở Header, hãy gán vào label tương ứng
-                // lblCourseName.Text = courseName; 
+                lblCourseName.Text = courseName;
 
-                // 4. ĐỔ DỮ LIỆU VÀO DATA GRID VIEW (DANH SÁCH HỌC VIÊN)
+
                 dgvStudents.Rows.Clear();
 
                 if (data.StudentClasses != null && data.StudentClasses.Any())
@@ -135,16 +132,19 @@ namespace BaiTapLonWinForm.View.Admin.Class
                             var user = sc.Student.User;
 
                             // Thêm dòng mới vào bảng
-                            dgvStudents.Rows.Add(
-                                $"{user.LastName} {user.FirstName}",       // Cột 1: Họ tên
+                            int rowIndex = dgvStudents.Rows.Add(
+                                $"{user.FirstName} {user.LastName}",       // Cột 1: Họ tên
                                 user.DateOfBirth.ToString("dd/MM/yyyy") ?? "N/A",  // Cột 2: Ngày sinh
                                 user.PhoneNumber,                           // Cột 3: SĐT
-                                user.Email,                                 // Cột 4: Email
-                                courseName                                  // Cột 5: Tên khóa học (Dùng chung cho cả lớp)
-                            );
+                                user.Email                               // Cột 4: Email
+                                );
+
+                            dgvStudents.Rows[rowIndex].Tag = sc.Student.StudentId;
                         }
                     }
                 }
+
+                lblProportion.Text = dgvStudents.Rows.Count > 0 ? $"{dgvStudents.Rows.Count} học viên" : "Chưa có học viên nào";
             }
             catch (Exception ex)
             {
@@ -187,6 +187,41 @@ namespace BaiTapLonWinForm.View.Admin.Class
 
             // Tải lại dữ liệu mới nhất
             this.initialDetailClass();
+        }
+
+        private async void btnDelete_Click(object sender, EventArgs e)
+        {
+            if(dgvStudents.SelectedRows.Count <= 0)
+            {
+                MessageHelper.ShowInfo("Vui lòng chọn 1 học viên để xóa!");
+                return;
+            }
+            var selectedRow = dgvStudents.SelectedRows[0];
+            if(selectedRow.Tag == null)
+            {
+                MessageHelper.ShowError("Không tìm thấy thông tin học viên!");
+                return;
+            }
+
+            if(!MessageHelper.ShowConfirmation("Bạn có chắc muốn xóa học viên này khỏi lớp học không?"))
+            {
+                return;
+            }
+            
+            int studentId = (int)selectedRow.Tag;
+            
+            var (success, message) = await _serviceHub.ClassService.RemoveStudentFromClassAsync(_classId, studentId);
+        
+            if(success)
+            {
+                MessageHelper.ShowInfo("Xóa học viên khỏi lớp học thành công!");
+                initialDetailClass();
+            }
+            else
+            {
+                MessageHelper.ShowError($"Xóa học viên thất bại! Lỗi: {message}");
+            }
+            
         }
     }
 }

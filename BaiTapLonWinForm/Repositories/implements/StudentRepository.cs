@@ -46,6 +46,7 @@ namespace BaiTapLonWinForm.Repositories.implements
                     .Include(s => s.User)
                     .Include(s => s.StudentClasses)
                         .ThenInclude(sc => sc.Class)
+                            .ThenInclude(c => c.SchoolDays)
                     .FirstOrDefaultAsync(s => s.StudentId == id);
             }
             catch (Exception)
