@@ -1,4 +1,5 @@
 ﻿using BaiTapLonWinForm.Models;
+using BaiTapLonWinForm.Services.implements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +14,8 @@ namespace BaiTapLonWinForm.Services.interfaces
         Task<(bool success, string message)> TakeManualAttendanceAsync(int studentId, int sessionId, bool isPresent, string note = null);
         Task<List<Attendance>> GetSessionAttendanceAsync(int sessionId);
         Task<(int present, int absent, double rate)> GetAttendanceStatsAsync(int sessionId);
-    }
+
+        Task<ReceptionCheckInResult> CheckInAtReceptionAsync(byte[] capturedImage);
+
+    }    
 }

@@ -1,4 +1,5 @@
 ﻿using BaiTapLonWinForm.Models;
+using CloudinaryDotNet.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -120,10 +121,6 @@ namespace BaiTapLonWinForm.Validate
         {
             if (course == null)
                 return (false, "Đối tượng khóa học không tồn tại");
-
-            if (course.Classes != null && course.Classes.Any())
-                return (false, "Không thể xóa khóa học đang có lớp học");
-
             return (true, string.Empty);
         }
 

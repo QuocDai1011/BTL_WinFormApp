@@ -405,7 +405,7 @@
             btnExport.TabIndex = 1;
             btnExport.Text = "📄 Xuất Excel";
             btnExport.UseVisualStyleBackColor = false;
-            btnExport.Click += BtnExport_Click;
+            //btnExport.Click += BtnExport_Click;
             // 
             // panelNotification
             // 

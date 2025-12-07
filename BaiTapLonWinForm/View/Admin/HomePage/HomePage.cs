@@ -133,7 +133,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
         private void MyClass_Click(object sender, EventArgs e)
         {
             SetActiveMenuItem(pnlMyClass);
-            LoadUserControl(new ClassManagement());
+            LoadUserControl(new ClassManagement(_serviceHub));
         }
 
         private void StudentList_Click(object sender, EventArgs e)

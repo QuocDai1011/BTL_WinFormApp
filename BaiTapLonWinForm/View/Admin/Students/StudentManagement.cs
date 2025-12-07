@@ -162,14 +162,14 @@ namespace BaiTapLonWinForm.View.Admin.Students
             try
             {
                 int studentId = Convert.ToInt32(dgvStudents.SelectedRows[0].Cells["Id"].Value);
-                var result = await _serviceHub.StudentService.GetStudentByIdAsync(studentId);
+                //var result = await _serviceHub.StudentService.Get(studentId);
 
-                if (result.Data != null)
-                {
-                    // TODO: Open edit form with student data
-                    MessageBox.Show("Chức năng sửa đang được phát triển!", "Thông báo",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+                //if (result.Data != null)
+                //{
+                //    // TODO: Open edit form with student data
+                //    MessageBox.Show("Chức năng sửa đang được phát triển!", "Thông báo",
+                //        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //}
             }
             catch (Exception ex)
             {

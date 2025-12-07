@@ -7,10 +7,6 @@ namespace BaiTapLonWinForm.Data;
 
 public partial class AppDbContext : DbContext
 {
-    public AppDbContext()
-    {
-    }
-
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
     {
@@ -106,6 +102,7 @@ public partial class AppDbContext : DbContext
 
             entity.Property(e => e.ClassId).HasColumnName("class_id");
             entity.Property(e => e.ClassName).HasColumnName("class_name");
+            entity.Property(e => e.CourseId).HasColumnName("course_id");
             entity.Property(e => e.CreateAt)
                 .HasDefaultValueSql("(sysdatetime())")
                 .HasColumnType("datetime")
@@ -134,29 +131,14 @@ public partial class AppDbContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("update_at");
 
+            entity.HasOne(d => d.Course).WithMany(p => p.Classes)
+                .HasForeignKey(d => d.CourseId)
+                .HasConstraintName("FK_class_course");
+
             entity.HasOne(d => d.Teacher).WithMany(p => p.Classes)
                 .HasForeignKey(d => d.TeacherId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__class__teacher_i__5DCAEF64");
-
-            entity.HasMany(d => d.Courses).WithMany(p => p.Classes)
-                .UsingEntity<Dictionary<string, object>>(
-                    "ClassCourse",
-                    r => r.HasOne<Course>().WithMany()
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK__class_cou__cours__6383C8BA"),
-                    l => l.HasOne<Class>().WithMany()
-                        .HasForeignKey("ClassId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK__class_cou__class__628FA481"),
-                    j =>
-                    {
-                        j.HasKey("ClassId", "CourseId").HasName("PK__class_co__050596FCE34723CC");
-                        j.ToTable("class_course");
-                        j.IndexerProperty<int>("ClassId").HasColumnName("class_id");
-                        j.IndexerProperty<int>("CourseId").HasColumnName("course_id");
-                    });
 
             entity.HasMany(d => d.SchoolDays).WithMany(p => p.Classes)
                 .UsingEntity<Dictionary<string, object>>(
@@ -365,7 +347,7 @@ public partial class AppDbContext : DbContext
         {
             entity.HasKey(e => new { e.StudentId, e.ClassId }).HasName("PK__student___55EC4102AD52496F");
 
-            entity.ToTable("student_class");
+            entity.ToTable("student_class", tb => tb.HasTrigger("trg_check_insert_student_class"));
 
             entity.Property(e => e.StudentId).HasColumnName("student_id");
             entity.Property(e => e.ClassId).HasColumnName("class_id");

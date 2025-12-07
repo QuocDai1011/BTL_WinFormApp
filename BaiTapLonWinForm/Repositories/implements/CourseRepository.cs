@@ -24,7 +24,6 @@ namespace BaiTapLonWinForm.Repositories.implements
             try
             {
                 return await _context.Courses
-                    .Include(c => c.Classes)
                     .OrderByDescending(c => c.CreateAt)
                     .ToListAsync();
             }
@@ -39,7 +38,6 @@ namespace BaiTapLonWinForm.Repositories.implements
             try
             {
                 return await _context.Courses
-                    .Include(c => c.Classes)
                     .FirstOrDefaultAsync(c => c.CourseId == id);
             }
             catch (Exception)
@@ -53,7 +51,6 @@ namespace BaiTapLonWinForm.Repositories.implements
             try
             {
                 return await _context.Courses
-                    .Include(c => c.Classes)
                     .FirstOrDefaultAsync(c => c.CourseCode == courseCode);
             }
             catch (Exception)
@@ -150,7 +147,6 @@ namespace BaiTapLonWinForm.Repositories.implements
             try
             {
                 return await _context.Courses
-                    .Include(c => c.Classes)
                     .Where(c => c.Level == level)
                     .OrderBy(c => c.CourseName)
                     .ToListAsync();
@@ -166,8 +162,6 @@ namespace BaiTapLonWinForm.Repositories.implements
             try
             {
                 return await _context.Courses
-                    .Include(c => c.Classes)
-                    .Where(c => c.Classes.Any())
                     .OrderBy(c => c.CourseName)
                     .ToListAsync();
             }
@@ -182,7 +176,6 @@ namespace BaiTapLonWinForm.Repositories.implements
             try
             {
                 return await _context.Courses
-                    .Include(c => c.Classes)
                     .Where(c => c.CourseName.Contains(keyword) || c.CourseCode.Contains(keyword))
                     .OrderBy(c => c.CourseName)
                     .ToListAsync();
@@ -198,7 +191,6 @@ namespace BaiTapLonWinForm.Repositories.implements
             try
             {
                 var course = await _context.Courses
-                    .Include(c => c.Classes)
                     .FirstOrDefaultAsync(c => c.CourseId == courseId);
 
                 return course?.Classes.Count ?? 0;
@@ -214,7 +206,6 @@ namespace BaiTapLonWinForm.Repositories.implements
             try
             {
                 return await _context.Courses
-                    .Include(c => c.Classes)
                     .Where(c => c.Tuition >= minTuition && c.Tuition <= maxTuition)
                     .OrderBy(c => c.Tuition)
                     .ToListAsync();

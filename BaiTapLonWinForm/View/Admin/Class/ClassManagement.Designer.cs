@@ -241,6 +241,7 @@
             // 
             // tableLayoutPanel1
             // 
+            tableLayoutPanel1.AutoScroll = true;
             tableLayoutPanel1.BackColor = Color.White;
             tableLayoutPanel1.ColumnCount = 3;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle());
@@ -256,7 +257,7 @@
             tableLayoutPanel1.Controls.Add(guna2ShadowPanel3, 1, 0);
             tableLayoutPanel1.Controls.Add(guna2ShadowPanel2, 0, 0);
             tableLayoutPanel1.Location = new Point(20, 99);
-            tableLayoutPanel1.Margin = new Padding(5);
+            tableLayoutPanel1.Margin = new Padding(0);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 3;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 49.8929329F));

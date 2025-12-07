@@ -55,6 +55,55 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Update="SampleFaces\0d53858d-0cb8-45ae-82c2-d57b506a5396.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleFaces\25128e13-286a-4aac-b1b0-855e4997b4aa.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleFaces\36b2b7a2-074d-435d-8f70-396bcae64323.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleFaces\3d46e924-dea0-4263-96bb-1d90938a7296.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleFaces\46dd8b52-db40-44a1-a78f-9de46287aa80.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleFaces\47bf1cdc-9db7-45f6-a6cf-2937cc569a90.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleFaces\86f1cf95-a5d9-4bd8-9111-952c47dddf28.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleFaces\8c0bd2dd-7985-4416-822e-cc092922271c.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleFaces\97111f85-9370-40ba-a761-3e58ce3da329.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleFaces\a8ca8958-e5e1-4595-8ffb-86776674788a.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleFaces\b2d62aa8-29c6-45e9-9347-8583415b6d39.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleFaces\c588352b-eac0-4f58-858c-046473371eda.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleFaces\de004892-cf4d-436f-8534-b603939dff3e.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleFaces\e1302294-6781-4df3-b0ec-0c2e4660fc28.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleFaces\e8159f6d-71de-48ef-b92d-c5f1d41f62a4.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Debug\net8.0-windows\" />
+    <Folder Include="SampleFaces\" />
   </ItemGroup>
 
 </Project>

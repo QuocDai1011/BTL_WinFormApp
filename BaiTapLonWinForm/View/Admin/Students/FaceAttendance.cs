@@ -1,15 +1,11 @@
-﻿using BaiTapLonWinForm.Models;
-using BaiTapLonWinForm.Services;
-using BaiTapLonWinForm.Services.interfaces;
+﻿using BaiTapLonWinForm.Services;
+using BaiTapLonWinForm.Services.implements; // Để dùng DTO ReceptionCheckInResult
 using Emgu.CV;
 using Emgu.CV.Structure;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
+using System.IO;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Timer = System.Windows.Forms.Timer;
@@ -18,95 +14,81 @@ namespace BaiTapLonWinForm.View.Admin.Students
 {
     public partial class FaceAttendance : UserControl
     {
+        // --- EmguCV Variables ---
         private VideoCapture capture;
         private Mat frame;
         private bool isCameraRunning = false;
         private System.Windows.Forms.Timer frameTimer;
         private bool isRecognizing = false;
 
+        // --- Service & Data ---
         private readonly ServiceHub _serviceHub;
 
+        // Cache danh sách sinh viên đã điểm danh trong phiên chạy này để tránh spam
+        // Key: StudentId, Value: Thời điểm check-in
+        private Dictionary<int, DateTime> _checkedInCache = new Dictionary<int, DateTime>();
 
-        private ClassSession _currentSession;
-        private List<AttendanceRecord> _attendanceRecords = new List<AttendanceRecord>();
-        private HashSet<int> _checkedInStudentIds = new HashSet<int>();
-
-        public FaceAttendance(
-            ServiceHub serviceHub
-            )
+        public FaceAttendance(ServiceHub serviceHub)
         {
             InitializeComponent();
             _serviceHub = serviceHub;
 
-            //LoadSessionData(sessionId);
+            // Setup giao diện ban đầu
+            InitializeListView();
             InitializeCamera();
             InitializeTimer();
         }
 
-        private async void LoadSessionData(int sessionId)
+        // Cấu hình cột cho ListView hiển thị kết quả
+        private void InitializeListView()
         {
-            try
-            {
-                _currentSession = await _serviceHub.ClassSessionService.GetSessionAsync(sessionId);
+            lvAttendance.View = System.Windows.Forms.View.Details;
+            lvAttendance.GridLines = true;
+            lvAttendance.FullRowSelect = true;
 
-                if (_currentSession != null)
-                {
-                    lblSessionInfo.Text = $"Buổi {_currentSession.SessionNumber} - {_currentSession.SessionDate:dd/MM/yyyy} - {_currentSession.Class}";
-
-                    // Load existing attendance records
-                    var existingRecords = await _serviceHub.AttendanceService.GetSessionAttendanceAsync(sessionId);
-                    foreach (var record in existingRecords)
-                    {
-                        _checkedInStudentIds.Add(record.StudentId);
-                    }
-
-                    UpdateAttendanceStats();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Lỗi tải thông tin buổi học: {ex.Message}", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            // Xóa cột cũ (nếu có) và thêm cột mới
+            lvAttendance.Columns.Clear();
+            lvAttendance.Columns.Add("Thời gian", 100);
+            lvAttendance.Columns.Add("Họ tên", 200);
+            lvAttendance.Columns.Add("Lớp học - Ca", 250);
+            lvAttendance.Columns.Add("Trạng thái", 150);
         }
 
+        // --- CAMERA LOGIC ---
         private void InitializeCamera()
         {
             try
             {
+                cboCamera.Items.Clear();
+                // Tìm các device camera
                 for (int i = 0; i < 5; i++)
                 {
                     try
                     {
-                        using (VideoCapture testCapture = new VideoCapture(i))
+                        using (var temp = new VideoCapture(i))
                         {
-                            if (testCapture.IsOpened)
-                            {
-                                cboCamera.Items.Add($"Camera {i}");
-                            }
+                            if (temp.IsOpened) cboCamera.Items.Add($"Camera {i}");
                         }
                     }
-                    catch
-                    {
-                        continue;
-                    }
+                    catch { break; }
                 }
 
-                if (cboCamera.Items.Count == 0)
+                if (cboCamera.Items.Count > 0)
                 {
-                    MessageBox.Show("Không tìm thấy camera nào!", "Lỗi",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    cboCamera.SelectedIndex = 0;
+                    btnStartCamera.Enabled = true;
+                }
+                else
+                {
+                    lblCameraStatus.Text = "🚫 Không tìm thấy Camera";
                     btnStartCamera.Enabled = false;
-                    return;
                 }
 
-                cboCamera.SelectedIndex = 0;
                 frame = new Mat();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi khởi tạo camera: {ex.Message}", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Lỗi init camera: {ex.Message}");
             }
         }
 
@@ -124,109 +106,79 @@ namespace BaiTapLonWinForm.View.Admin.Students
                 try
                 {
                     capture.Read(frame);
-
                     if (!frame.IsEmpty)
                     {
+                        // Hiển thị lên PictureBox
                         Bitmap bitmap = frame.ToImage<Bgr, byte>().ToBitmap();
 
-                        if (picCamera.Image != null)
-                            picCamera.Image.Dispose();
-
+                        // Dispose ảnh cũ để tránh leak memory
+                        var oldImg = picCamera.Image;
                         picCamera.Image = bitmap;
+                        if (oldImg != null) oldImg.Dispose();
 
-                        // Auto recognize if enabled
+                        // Logic Tự động nhận diện
                         if (chkAutoRecognize.Checked && !isRecognizing)
                         {
+                            // Chỉ nhận diện mỗi 2 giây 1 lần để đỡ lag
                             await RecognizeFaceAsync();
                         }
                     }
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error reading frame: {ex.Message}");
-                }
+                catch { }
             }
         }
 
         private void BtnStartCamera_Click(object sender, EventArgs e)
         {
-            if (!isCameraRunning)
-            {
-                StartCamera();
-            }
-            else
-            {
-                StopCamera();
-            }
+            if (!isCameraRunning) StartCamera();
+            else StopCamera();
         }
 
         private void StartCamera()
         {
-            if (cboCamera.SelectedIndex == -1)
-            {
-                MessageBox.Show("Vui lòng chọn camera!", "Thông báo",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
+            if (cboCamera.SelectedIndex == -1) return;
 
             try
             {
-                int cameraIndex = cboCamera.SelectedIndex;
-                capture = new VideoCapture(cameraIndex);
-
-                if (!capture.IsOpened)
-                {
-                    MessageBox.Show("Không thể mở camera!", "Lỗi",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
+                capture = new VideoCapture(cboCamera.SelectedIndex);
                 capture.Set(Emgu.CV.CvEnum.CapProp.FrameWidth, 640);
                 capture.Set(Emgu.CV.CvEnum.CapProp.FrameHeight, 480);
 
                 frameTimer.Start();
                 isCameraRunning = true;
 
-                btnStartCamera.Text = "⏸️ Dừng Camera";
-                btnStartCamera.BackColor = Color.FromArgb(231, 76, 60);
+                btnStartCamera.Text = "🛑 Dừng Camera";
+                btnStartCamera.BackColor = Color.IndianRed;
                 btnRecognize.Enabled = true;
                 chkAutoRecognize.Enabled = true;
-                lblCameraStatus.Text = "📹 Camera đang hoạt động";
-                lblCameraStatus.ForeColor = Color.FromArgb(46, 204, 113);
+                lblCameraStatus.Text = "🟢 Camera đang chạy";
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Không thể khởi động camera: {ex.Message}", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Không thể bật camera: {ex.Message}");
             }
         }
 
         private void StopCamera()
         {
             frameTimer.Stop();
-
             if (capture != null)
             {
                 capture.Dispose();
                 capture = null;
             }
 
-            if (picCamera.Image != null)
-            {
-                picCamera.Image.Dispose();
-                picCamera.Image = null;
-            }
-
             isCameraRunning = false;
-            btnStartCamera.Text = "📷 Bật Camera";
-            btnStartCamera.BackColor = Color.FromArgb(52, 152, 219);
+            btnStartCamera.Text = "▶ Bật Camera";
+            btnStartCamera.BackColor = Color.SeaGreen;
             btnRecognize.Enabled = false;
             chkAutoRecognize.Enabled = false;
             chkAutoRecognize.Checked = false;
-            lblCameraStatus.Text = "⏹️ Camera đã dừng";
-            lblCameraStatus.ForeColor = Color.FromArgb(149, 165, 166);
+            lblCameraStatus.Text = "⚫ Camera đã tắt";
+            picCamera.Image = null;
         }
 
+        // --- RECOGNITION LOGIC ---
         private async void BtnRecognize_Click(object sender, EventArgs e)
         {
             await RecognizeFaceAsync();
@@ -234,176 +186,106 @@ namespace BaiTapLonWinForm.View.Admin.Students
 
         private async Task RecognizeFaceAsync()
         {
-            if (isRecognizing || picCamera.Image == null)
-                return;
+            if (isRecognizing || picCamera.Image == null) return;
 
             isRecognizing = true;
             lblRecognitionStatus.Text = "🔍 Đang nhận diện...";
-            lblRecognitionStatus.ForeColor = Color.FromArgb(243, 156, 18);
+            lblRecognitionStatus.ForeColor = Color.Orange;
 
             try
             {
+                // 1. Chụp ảnh từ stream hiện tại
                 Bitmap currentFrame = new Bitmap(picCamera.Image);
                 byte[] imageBytes = BitmapToByteArray(currentFrame);
 
-                var (success, studentId, confidence, message) =
-                    await _serviceHub.CompreFaceApiService.RecognizeFaceAsync(imageBytes);
+                // 2. GỌI SERVICE ĐIỂM DANH TỰ ĐỘNG
+                // Hàm này sẽ tự tìm lớp, tìm ca, và mark attendance
+                var result = await _serviceHub.AttendanceService.CheckInAtReceptionAsync(imageBytes);
 
-                if (success && studentId.HasValue)
-                {
-                    await ProcessRecognitionResultAsync(studentId.Value, confidence, imageBytes);
-                }
-                else
-                {
-                    lblRecognitionStatus.Text = $"❌ {message}";
-                    lblRecognitionStatus.ForeColor = Color.FromArgb(231, 76, 60);
-
-                    // Show temporary notification
-                    ShowNotification("Không nhận diện được", message, false);
-                }
+                // 3. Xử lý kết quả trả về
+                ProcessCheckInResult(result);
             }
             catch (Exception ex)
             {
-                lblRecognitionStatus.Text = $"❌ Lỗi: {ex.Message}";
-                lblRecognitionStatus.ForeColor = Color.FromArgb(231, 76, 60);
+                ShowNotification("Lỗi hệ thống", ex.Message, false);
             }
             finally
             {
+                // Delay nhỏ để tránh spam request liên tục
+                if (chkAutoRecognize.Checked) await Task.Delay(2000);
+                else await Task.Delay(500);
+
                 isRecognizing = false;
-
-                // Delay before next recognition in auto mode
-                if (chkAutoRecognize.Checked)
-                {
-                    await Task.Delay(2000); // 2 seconds delay
-                }
             }
         }
 
-        private async Task ProcessRecognitionResultAsync(int studentId, double confidence, byte[] imageBytes)
+        private void ProcessCheckInResult(ReceptionCheckInResult result)
         {
-            try
+            // Cập nhật trạng thái text
+            lblRecognitionStatus.Text = result.Success ? "✅ " + result.Message : "❌ " + result.Message;
+            lblRecognitionStatus.ForeColor = result.Success ? Color.Green : Color.Red;
+
+            // Hiển thị thông báo Popup đẹp
+            ShowNotification(
+                result.Success ? "Thành công" : "Thất bại",
+                result.Message,
+                result.Success
+            );
+
+            // Nếu thành công, thêm vào danh sách hiển thị
+            if (result.Success)
             {
-                // Check if already checked in
-                if (_checkedInStudentIds.Contains(studentId))
+                // Kiểm tra spam log (nếu vừa hiển thị người này trong vòng 10s thì thôi không add list nữa cho đỡ rác)
+                if (_checkedInCache.ContainsKey(result.StudentId))
                 {
-                    lblRecognitionStatus.Text = "⚠️ Sinh viên đã điểm danh";
-                    lblRecognitionStatus.ForeColor = Color.FromArgb(243, 156, 18);
-
-                    var student = await _serviceHub.StudentService.GetStudentByIdAsync(studentId);
-                    ShowNotification("Đã điểm danh", $"{student.Data.User.FirstName + student.Data.User.LastName} đã điểm danh rồi!", false);
-                    return;
-                }
-
-                // Get student info
-                var recognizedStudent = await _serviceHub.StudentService.GetStudentByIdAsync(studentId);
-               
-                string fullName = recognizedStudent.Data != null
-                    ? recognizedStudent.Data.User.FirstName + " " + recognizedStudent.Data.User.LastName
-                    : "Không xác định";
-
-                if (recognizedStudent.Data == null)
-                {
-                    lblRecognitionStatus.Text = "❌ Không tìm thấy sinh viên";
-                    lblRecognitionStatus.ForeColor = Color.FromArgb(231, 76, 60);
-                    return;
+                    var lastTime = _checkedInCache[result.StudentId];
+                    if ((DateTime.Now - lastTime).TotalSeconds < 10) return;
                 }
 
-                // Save recognition image
-                string imagePath = await SaveRecognitionImageAsync(studentId, imageBytes);
+                _checkedInCache[result.StudentId] = DateTime.Now;
+                AddRecordToListView(result);
 
-                var result = await _serviceHub.AttendanceService.TakeManualAttendanceAsync(studentId, _currentSession.SessionId, true);
-
-                if (result.success)
-                {
-                    _checkedInStudentIds.Add(studentId);
-
-                    // Add to list
-                    AddAttendanceToList(recognizedStudent.Data, confidence, DateTime.Now);
-
-                    // Update stats
-                    UpdateAttendanceStats();
-
-                    // Show success notification
-                    lblRecognitionStatus.Text = $"✅ Điểm danh thành công: {fullName}";
-                    lblRecognitionStatus.ForeColor = Color.FromArgb(46, 204, 113);
-
-                    ShowNotification("Điểm danh thành công",
-                        $"{fullName}\nĐộ tin cậy: {confidence:P0}", true);
-
-                    // Play success sound (optional)
-                    System.Media.SystemSounds.Beep.Play();
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Lỗi xử lý điểm danh: {ex.Message}", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Cập nhật số lượng
+                lblTotalPresent.Text = _checkedInCache.Count.ToString();
             }
         }
 
-        private async Task<string> SaveRecognitionImageAsync(int studentId, byte[] imageBytes)
+        private void AddRecordToListView(ReceptionCheckInResult result)
         {
-            try
-            {
-                string folder = Path.Combine("AttendanceImages", _currentSession.SessionId.ToString());
-                Directory.CreateDirectory(folder);
+            // Tạo Item mới
+            ListViewItem item = new ListViewItem(result.CheckInTime?.ToString("HH:mm:ss")); // Cột 1: Giờ
+            item.SubItems.Add(result.StudentName); // Cột 2: Tên
+            item.SubItems.Add($"{result.ClassName} ({result.ShiftName})"); // Cột 3: Lớp
+            item.SubItems.Add("Có mặt"); // Cột 4: Trạng thái
 
-                string fileName = $"{studentId}_{DateTime.Now:yyyyMMddHHmmss}.jpg";
-                string filePath = Path.Combine(folder, fileName);
+            // Style
+            item.ForeColor = Color.DarkGreen;
+            item.Font = new Font(lvAttendance.Font, FontStyle.Bold);
 
-                await File.WriteAllBytesAsync(filePath, imageBytes);
-
-                return filePath;
-            }
-            catch
-            {
-                return null;
-            }
+            // Insert lên đầu danh sách
+            lvAttendance.Items.Insert(0, item);
         }
 
-        private void AddAttendanceToList(Student student, double confidence, DateTime checkInTime)
-        {
-            string fullName = student.User.FirstName + " " + student.User.LastName;
-            var item = new ListViewItem(new[]
-            {
-                checkInTime.ToString("HH:mm:ss"),
-                $"{confidence:P0}",
-                "Có mặt"
-            });
-
-            item.BackColor = Color.FromArgb(230, 247, 235);
-            item.Tag = student.StudentId;
-
-            lvAttendance.Items.Insert(0, item); // Add to top
-        }
-
-        private void UpdateAttendanceStats()
-        {
-            int totalPresent = _checkedInStudentIds.Count;
-            lblTotalPresent.Text = totalPresent.ToString();
-
-            // You can calculate total students in class here
-            // lblAttendanceRate.Text = $"{(totalPresent * 100.0 / totalStudents):F1}%";
-        }
+        // --- HELPERS ---
 
         private void ShowNotification(string title, string message, bool success)
         {
+            // Hiển thị Panel Notification (Giả sử bạn đã design panel này)
             panelNotification.Visible = true;
+            panelNotification.BackColor = success ? Color.FromArgb(220, 255, 220) : Color.FromArgb(255, 220, 220);
             lblNotificationTitle.Text = title;
+            lblNotificationTitle.ForeColor = success ? Color.Green : Color.Red;
             lblNotificationMessage.Text = message;
-            panelNotification.BackColor = success
-                ? Color.FromArgb(46, 204, 113)
-                : Color.FromArgb(231, 76, 60);
 
-            // Auto hide after 3 seconds
-            Timer hideTimer = new Timer { Interval = 3000 };
-            hideTimer.Tick += (s, e) =>
-            {
+            // Auto hide sau 3s
+            Timer t = new Timer();
+            t.Interval = 3000;
+            t.Tick += (s, e) => {
                 panelNotification.Visible = false;
-                hideTimer.Stop();
-                hideTimer.Dispose();
+                t.Stop();
+                t.Dispose();
             };
-            hideTimer.Start();
+            t.Start();
         }
 
         private byte[] BitmapToByteArray(Bitmap bitmap)
@@ -415,96 +297,18 @@ namespace BaiTapLonWinForm.View.Admin.Students
             }
         }
 
-        //private async void BtnManualAttendance_Click(object sender, EventArgs e)
-        //{
-        //    // Open manual attendance form
-        //    using (ManualAttendanceForm form = new ManualAttendanceForm(
-        //        _studentService, _attendanceService, _currentSession.SessionId))
-        //    {
-        //        if (form.ShowDialog() == DialogResult.OK)
-        //        {
-        //            // Reload attendance list
-        //            await RefreshAttendanceListAsync();
-        //        }
-        //    }
-        //}
-
-        //private async Task RefreshAttendanceListAsync()
-        //{
-        //    try
-        //    {
-        //        lvAttendance.Items.Clear();
-        //        _checkedInStudentIds.Clear();
-
-        //        var records = await _attendanceService.GetBySessionIdAsync(_currentSession.Id);
-
-        //        foreach (var record in records)
-        //        {
-        //            var student = await _studentService.GetByIdAsync(record.StudentId);
-
-        //            if (student != null)
-        //            {
-        //                _checkedInStudentIds.Add(student.Id);
-        //                AddAttendanceToList(student, record.Confidence ?? 0, record.CheckInTime ?? DateTime.Now);
-        //            }
-        //        }
-
-        //        UpdateAttendanceStats();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show($"Lỗi tải danh sách: {ex.Message}", "Lỗi",
-        //            MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //    }
-        //}
-
-        private  void BtnExport_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                SaveFileDialog saveDialog = new SaveFileDialog
-                {
-                    Filter = "Excel Files|*.xlsx",
-                    FileName = $"DiemDanh_{_currentSession.SessionDate:yyyyMMdd}_Buoi{_currentSession.SessionNumber}.xlsx"
-                };
-
-                if (saveDialog.ShowDialog() == DialogResult.OK)
-                {
-                    // TODO: Implement Excel export
-                    MessageBox.Show("Chức năng export đang được phát triển!", "Thông báo",
-                        MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Lỗi export: {ex.Message}", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-
         private void ChkAutoRecognize_CheckedChanged(object sender, EventArgs e)
         {
             if (chkAutoRecognize.Checked)
             {
-                lblRecognitionStatus.Text = "🔄 Chế độ nhận diện tự động";
-                lblRecognitionStatus.ForeColor = Color.FromArgb(52, 152, 219);
+                lblRecognitionStatus.Text = "🔄 Chế độ tự động đang chạy...";
+                btnRecognize.Enabled = false; // Disable nút thủ công khi đang auto
             }
             else
             {
                 lblRecognitionStatus.Text = "⏸️ Chế độ thủ công";
-                lblRecognitionStatus.ForeColor = Color.FromArgb(149, 165, 166);
+                btnRecognize.Enabled = true;
             }
         }
-    }
-
-    // Helper class for attendance record
-    public class AttendanceRecord
-    {
-        public int StudentId { get; set; }
-        public string StudentCode { get; set; }
-        public string StudentName { get; set; }
-        public DateTime CheckInTime { get; set; }
-        public double Confidence { get; set; }
     }
 }

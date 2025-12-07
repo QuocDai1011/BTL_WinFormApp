@@ -234,7 +234,6 @@ namespace BaiTapLonWinForm.Services.implements
                 return (false, $"Lỗi: {ex.Message}", null);
             }
         }
-
         public async Task<(bool Success, string Message, int Data)> GetClassCountAsync(int courseId)
         {
             try
@@ -250,6 +249,7 @@ namespace BaiTapLonWinForm.Services.implements
                 return (false, $"Lỗi: {ex.Message}", 0);
             }
         }
+
 
         public async Task<(bool Success, string Message, IEnumerable<Course> Data)> GetCoursesByTuitionRangeAsync(decimal minTuition, decimal maxTuition)
         {

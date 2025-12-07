@@ -26,7 +26,7 @@ namespace BaiTapLonWinForm.Repositories.implements
                 return await _context.Classes
                     .Include(c => c.Teacher)
                     .Include(c => c.StudentClasses)
-                    .Include(c => c.Courses)
+                    .Include(c => c.Course)
                     .Include(c => c.SchoolDays)
                     .OrderByDescending(c => c.CreateAt)
                     .ToListAsync();
@@ -39,19 +39,14 @@ namespace BaiTapLonWinForm.Repositories.implements
 
         public async Task<Class?> GetByIdAsync(int id)
         {
-            try
-            {
-                return await _context.Classes
-                    .Include(c => c.Teacher)
-                    .Include(c => c.StudentClasses)
-                    .Include(c => c.Courses)
-                    .Include(c => c.SchoolDays)
-                    .FirstOrDefaultAsync(c => c.ClassId == id);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            return await _context.Classes
+                .Include(c => c.Course)          
+                .Include(c => c.Teacher)
+                    .ThenInclude(t => t.User)   
+                .Include(c => c.StudentClasses)
+                    .ThenInclude(sc => sc.Student)
+                        .ThenInclude(s => s.User) 
+                .FirstOrDefaultAsync(c => c.ClassId == id);
         }
 
         public async Task<Class> CreateAsync(Class entity)
@@ -213,6 +208,21 @@ namespace BaiTapLonWinForm.Repositories.implements
             }
             catch (Exception)
             {
+                throw;
+            }
+        }
+
+        public async Task<bool> AddStudentToClass(StudentClass studentClass)
+        {
+            try
+            {
+                _context.StudentClasses.Add(studentClass);
+
+                return await _context.SaveChangesAsync() > 0;
+            }
+            catch (Exception)
+            {
+
                 throw;
             }
         }

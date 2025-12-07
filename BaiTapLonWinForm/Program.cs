@@ -10,6 +10,7 @@ using BaiTapLonWinForm.Service.interfaces;
 using BaiTapLonWinForm.Services;
 using BaiTapLonWinForm.Services.implements;
 using BaiTapLonWinForm.Services.interfaces;
+using BaiTapLonWinForm.Test;
 using BaiTapLonWinForm.View.Admin.Students;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -24,7 +25,7 @@ namespace BaiTapLonWinForm
         ///  The main entry point for the application.
         /// </summary>
         [STAThread]
-        static void Main()
+        static async Task Main()
         {
             ExcelPackage.License.SetNonCommercialPersonal(Environment.UserName);
 
@@ -74,6 +75,7 @@ namespace BaiTapLonWinForm
             services.AddTransient<AddStudentControl>();
             services.AddTransient<DashBoard>();
 
+            services.AddTransient<TestDataSeeder>();
 
             Application.EnableVisualStyles();
             // 5. Build provider
@@ -81,6 +83,24 @@ namespace BaiTapLonWinForm
 
             // 6. Chạy WinForms
             ApplicationConfiguration.Initialize();
+
+            // Tạo một Scope riêng để lấy Seeder ra, chạy xong thì hủy Scope để giải phóng RAM
+            using (var scope = provider.CreateScope())
+            {
+                try
+                {
+                    // Lấy TestDataSeeder từ DI (DI sẽ tự điền ServiceHub và Context vào)
+                    var seeder = scope.ServiceProvider.GetRequiredService<TestDataSeeder>();
+
+                    // Chạy hàm nạp dữ liệu
+                    await seeder.SeedAsync();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Lỗi khởi tạo dữ liệu Test: {ex.Message}");
+                }
+            }
+
             Application.Run(provider.GetRequiredService<HomePage>());
         }
     }

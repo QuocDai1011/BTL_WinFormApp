@@ -349,10 +349,5 @@ namespace BaiTapLonWinForm.Services.implements
                 return (false, $"Lỗi: {ex.Message}");
             }
         }
-
-        public Task<(bool Success, string Message, Student Data)> GetStudentByIdAsync(int? id)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

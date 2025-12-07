@@ -238,5 +238,47 @@ namespace BaiTapLonWinForm.Services.implements
                 return (false, $"Lỗi: {ex.Message}");
             }
         }
+
+        public async Task<(bool Success, string Message)> AddStudentsToClassAsync(int classId, List<int> studentIds)
+        {
+            try
+            {
+                // Kiểm tra lớp tồn tại
+                var classEntity = await _classRepository.GetByIdAsync(classId);
+                if (classEntity == null) return (false, "Lớp học không tồn tại.");
+
+                // Kiểm tra sĩ số tối đa
+                int currentCount = classEntity.CurrentStudent ?? 0;
+                int maxCount = classEntity.MaxStudent ?? 0;
+
+                if (maxCount > 0 && (currentCount + studentIds.Count) > maxCount)
+                {
+                    return (false, $"Lớp đã đầy hoặc không đủ chỗ. Còn trống {maxCount - currentCount} chỗ.");
+                }
+
+
+                foreach (var studentId in studentIds)
+                {
+                    var studentClass = new StudentClass
+                    {
+                        ClassId = classId,
+                        StudentId = studentId,
+                        CreateAt = DateTime.Now,
+                    };
+
+                    bool result = await _classRepository.AddStudentToClass(studentClass);
+                }
+
+                // Cập nhật lại số lượng học viên
+                classEntity.CurrentStudent += studentIds.Count;
+                await _classRepository.UpdateAsync(classEntity);
+
+                return (true, "Thêm học viên thành công.");
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Lỗi: {ex.Message}");
+            }
+        }
     }
 }

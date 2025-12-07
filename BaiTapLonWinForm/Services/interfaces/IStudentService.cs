@@ -10,7 +10,6 @@ namespace BaiTapLonWinForm.Services.interfaces
     public interface IStudentService
     {
         Task<(bool Success, string Message, IEnumerable<Student> Data)> GetAllStudentsAsync();
-        Task<(bool Success, string Message, Student Data)> GetStudentByIdAsync(int? id);
         Task<(bool Success, string Message, Student Data)> GetStudentByUserIdAsync(long userId);
         Task<(bool Success, string Message)> RegisterStudentFullAsync(User user, Student student, List<byte[]> faceImages);
         Task<(bool Success, string Message, Student? Data)> UpdateStudentAsync(Student student);

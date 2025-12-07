@@ -31,15 +31,17 @@ public partial class Class
 
     public DateTime? UpdateAt { get; set; }
 
+    public int? CourseId { get; set; }
+
     public virtual ICollection<ClassSession> ClassSessions { get; set; } = new List<ClassSession>();
+
+    public virtual Course? Course { get; set; }
 
     public virtual ICollection<Receipt> Receipts { get; set; } = new List<Receipt>();
 
     public virtual ICollection<StudentClass> StudentClasses { get; set; } = new List<StudentClass>();
 
     public virtual Teacher Teacher { get; set; } = null!;
-
-    public virtual ICollection<Course> Courses { get; set; } = new List<Course>();
 
     public virtual ICollection<SchoolDay> SchoolDays { get; set; } = new List<SchoolDay>();
 }

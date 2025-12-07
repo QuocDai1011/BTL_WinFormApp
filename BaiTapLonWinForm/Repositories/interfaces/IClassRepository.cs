@@ -18,5 +18,7 @@ namespace BaiTapLonWinForm.Repositories.interfaces
         Task<IEnumerable<Class>> GetByTeacherIdAsync(int teacherId);
         Task<IEnumerable<Class>> GetByStatusAsync(int status);
         Task<IEnumerable<Class>> GetActiveClassesAsync();
+
+        Task<bool> AddStudentToClass(StudentClass studentClass);
     }
 }
