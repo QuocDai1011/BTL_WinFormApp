@@ -203,6 +203,7 @@ namespace BaiTapLonWinForm.View.Admin.Students
                     // Delete face images first
                     await _serviceHub.StudentFaceService.DeleteAllImagesAsync(studentId);
 
+
                     // Delete student
                     var deleteResult = await _serviceHub.StudentService.DeleteStudentAsync(studentId);
 

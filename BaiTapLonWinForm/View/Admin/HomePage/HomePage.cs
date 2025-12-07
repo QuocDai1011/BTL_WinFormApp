@@ -2,6 +2,8 @@
 using BaiTapLonWinForm.Services;
 using BaiTapLonWinForm.View.Admin.Class;
 using BaiTapLonWinForm.View.Admin.Students;
+using BaiTapLonWinForm.View.Admin.Teacher;
+using BaiTapLonWinForm.View.Setting;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -145,7 +147,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
         private void TeacherList_Click(object sender, EventArgs e)
         {
             SetActiveMenuItem(pnlTeacherList);
-            LoadUserControl(new TeacherManagementControl());
+            LoadUserControl(new TeacherManagement(_serviceHub));
         }
 
         private void Courses_Click(object sender, EventArgs e)
@@ -163,7 +165,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
         private void Settings_Click(object sender, EventArgs e)
         {
             SetActiveMenuItem(pnlSettings);
-            LoadUserControl(new SettingsControl());
+            LoadUserControl(new Setting(_serviceHub));
         }
 
         private void Attendance_Click(object sender, EventArgs e)
