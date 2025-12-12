@@ -296,5 +296,28 @@ namespace BaiTapLonWinForm.Services.implements
                 return (false, $"Lỗi: {ex.Message}");
             }
         }
+
+        public (bool Success, string Message, IEnumerable<Class> Data) getClassesByStudentId(int studentId)
+        {
+            try
+            {
+                if (studentId <= 0)
+                {
+                    return (false, "Student ID không hợp lệ", null);
+                }
+
+                var classes = _classRepository.GetClassByStudentId(studentId);
+
+                if (classes == null)
+                {
+                    return (false, "Hiện tại học viên này chưa đăng ký lớp học nào", null);
+                }
+                return (true, $"Lấy danh sách {classes.Count()} lớp học của học viên thành công", classes.ToList());
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Lỗi: {ex.Message}", null);
+            }
+        }
     }
 }

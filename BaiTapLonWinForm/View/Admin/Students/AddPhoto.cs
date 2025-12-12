@@ -1,6 +1,4 @@
-﻿using BaiTapLonWinForm.Models;
-using BaiTapLonWinForm.Services;
-using BaiTapLonWinForm.Services.interfaces;
+﻿using BaiTapLonWinForm.Services;
 using BaiTapLonWinForm.Utils;
 using Emgu.CV;
 using Emgu.CV.Structure;
@@ -10,110 +8,30 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Formats.Asn1;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Linq;
 
 namespace BaiTapLonWinForm.View.Admin.Students
 {
-    public partial class AddStudentControl : UserControl
+    public partial class AddPhoto : UserControl
     {
-        private ServiceHub _serviceHub;
-
+        private readonly ServiceHub _serviceHub;
+        private readonly int _studentId;
+        private List<byte[]> capturedImages = new List<byte[]>();
         private VideoCapture capture;
         private Mat frame;
         private bool isCameraRunning = false;
         private System.Windows.Forms.Timer frameTimer;
-        private List<byte[]> capturedImages = new List<byte[]>();
 
-
-
-        public List<byte[]> FaceImages => capturedImages;
-
-        public AddStudentControl(ServiceHub serviceHub)
+        public AddPhoto(ServiceHub serviceHub, int studentId)
         {
             _serviceHub = serviceHub;
+            _studentId = studentId;
             InitializeComponent();
             InitializeCamera();
             InitializeTimer();
-            SetupValidationEvents();
-        }
-
-        private void SetupValidationEvents()
-        {
-            // Validate ngay khi gõ phím
-            txtFirstName.TextChanged += (s, e) => CheckFirstName();
-            txtLastName.TextChanged += (s, e) => CheckLastName();
-            txtEmail.TextChanged += (s, e) => CheckEmail();
-            txtPhone.TextChanged += (s, e) => CheckPhone();
-            txtPhoneNumberOfParent.TextChanged += (s, e) => CheckParentPhone();
-            cboGender.SelectedIndexChanged += (s, e) => CheckGender();
-        }
-
-        private bool CheckFirstName()
-        {
-            return ValidateInput(txtFirstName, lblErrFirstName,
-                t => !string.IsNullOrWhiteSpace(t) && Regex.IsMatch(t, @"^[\p{L}\s]+$"),
-                "Họ không được để trống và không chứa số.");
-        }
-
-        private bool CheckLastName()
-        {
-            return ValidateInput(txtLastName, lblErrLastName,
-                t => !string.IsNullOrWhiteSpace(t) && Regex.IsMatch(t, @"^[\p{L}\s]+$"),
-                "Tên không được để trống và không chứa số.");
-        }
-
-        private bool CheckEmail()
-        {
-            // Check regex email
-            return ValidateInput(txtEmail, lblErrEmail,
-                t => !string.IsNullOrWhiteSpace(t) && Regex.IsMatch(t, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"),
-                "Email không đúng định dạng.");
-        }
-
-        private bool CheckPhone()
-        {
-            // Check số và độ dài >= 10
-            return ValidateInput(txtPhone, lblErrPhone,
-                t => !string.IsNullOrWhiteSpace(t) && t.All(char.IsDigit) && t.Length >= 10,
-                "SĐT phải là số và đủ 10 ký tự.");
-        }
-
-        private bool CheckParentPhone()
-        {
-            return ValidateInput(txtPhoneNumberOfParent, lblErrParentPhone,
-                t => !string.IsNullOrWhiteSpace(t) && t.All(char.IsDigit) && t.Length >= 10,
-                "SĐT phụ huynh không hợp lệ.");
-        }
-
-        private bool CheckGender()
-        {
-            if (cboGender.SelectedItem == null)
-            {
-                lblErrGender.Text = "Vui lòng chọn giới tính.";
-                lblErrGender.Visible = true;
-                return false;
-            }
-            lblErrGender.Visible = false;
-            return true;
-        }
-
-        // Hàm Helper: Check điều kiện -> Hiện/Ẩn Label
-        private bool ValidateInput(TextBox txt, Label lbl, Func<string, bool> rule, string errMsg)
-        {
-            if (!rule(txt.Text.Trim()))
-            {
-                lbl.Text = errMsg;
-                lbl.Visible = true;
-                return false;
-            }
-            lbl.Visible = false;
-            return true;
         }
 
         private void InitializeCamera()
@@ -438,75 +356,6 @@ namespace BaiTapLonWinForm.View.Admin.Students
                 return ms.ToArray();
             }
         }
-
-        private async void BtnSave_Click(object sender, EventArgs e)
-        {
-            // validate dữ liệu
-            if (string.IsNullOrWhiteSpace(txtFirstName.Text))
-            {
-                MessageBox.Show("Vui lòng nhập họ sinh viên!", "Thông báo",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtFirstName.Focus();
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(txtEmail.Text))
-            {
-                MessageBox.Show("Vui lòng nhập email!", "Thông báo",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                txtEmail.Focus();
-                return;
-            }
-
-            if (capturedImages.Count < 10)
-            {
-                var confirm = MessageBox.Show(
-                    $"Bạn chỉ có {capturedImages.Count} ảnh. Cần ít nhất 10 ảnh để nhận diện chính xác!\n\n" +
-                    "Bạn có muốn tiếp tục không?",
-                    "Cảnh báo",
-                    MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Warning);
-
-                if (confirm == DialogResult.No)
-                    return;
-            }
-
-            // hash password mặc định
-            string passwordHassing = BCrypt.Net.BCrypt.HashPassword("12345678");
-
-            // chuẩn bị dữ liệu 
-            var newUser = new User
-            {
-                FirstName = txtFirstName.Text.Trim(),
-                LastName = txtLastName.Text.Trim(),
-                Email = txtEmail.Text.Trim(),
-                DateOfBirth = DateOnly.FromDateTime(dtpDateOfBirth.Value),
-                Address = txtAddress.Text.Trim(),
-                Gender = cboGender.SelectedIndex == 0 ? true : false,
-                PhoneNumber = txtPhone.Text.Trim(),
-                PasswordHashing = passwordHassing,
-                IsActive = true,
-                RoleId = 3
-            };
-
-            var newStudent = new Student
-            {
-                PhoneNumberOfParents = txtPhoneNumberOfParent.Text.Trim()
-            };
-
-            // Lưu dữ liệu
-            var result = await _serviceHub.StudentService.RegisterStudentFullAsync(newUser, newStudent, capturedImages);
-
-            if (!result.Success)
-            {
-                MessageHelper.ShowError(result.Message);
-                return;
-            }
-
-            MessageHelper.ShowSuccess("Thêm sinh viên thành công!");
-        }
-
-
         private void BtnClearAll_Click(object sender, EventArgs e)
         {
             if (capturedImages.Count == 0)
@@ -532,54 +381,51 @@ namespace BaiTapLonWinForm.View.Admin.Students
             }
         }
 
-        private void BtnNext_Click(object sender, EventArgs e)
+        private async void BtnSave_Click(object sender, EventArgs e)
         {
-            // 1. Validate dữ liệu Bước 1 trước khi sang Bước 2
-            bool isAllValid = CheckFirstName() & CheckLastName() & CheckEmail() &
-                              CheckPhone() & CheckParentPhone() & CheckGender();
-
-            if (!isAllValid)
+            if (capturedImages.Count < 10)
             {
-                // Nếu có lỗi, các Label đã tự hiện lên rồi, chỉ cần return
-                MessageHelper.ShowWarning("Vui lòng nhập đầy đủ và chính xác thông tin trước khi tiếp tục.");
+                MessageBox.Show("Cần ít nhất 10 ảnh để lưu!", "Thông báo",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // 2. Chuyển Step
-            panelStep1.Visible = false;
-            panelStep2.Visible = true;
+            Console.WriteLine($"Stundent Id: {_studentId}");
 
-            // 3. Đổi nút bấm
-            btnNext.Visible = false;
-            btnBack.Visible = true;
-            btnSave.Visible = true;
+            this.Enabled = false;
+            btnSave.Text = "Đang lưu...";
+            btnSave.Enabled = false;
+            try
+            {
+                var result = await _serviceHub.StudentFaceService.SaveFaceImagesAsync(_studentId, capturedImages);
 
-            // 4. Update hướng dẫn
-            lblInstruction.Text = "💡 Bước 2: Chụp ảnh khuôn mặt để hệ thống nhận diện (Tối thiểu 10 ảnh).";
+                if (!result.success)
+                {
+                    MessageHelper.ShowError($"Lỗi lưu ảnh: {result.message}");
+                    return;
+                }
+                
+                MessageHelper.ShowSuccess("Lưu ảnh thành công");
+                
+                UpdateImageGallery();
+                UpdateImageStatus();
 
-            // Tự động bật camera nếu chưa bật (Optional)
-            // if(cboCamera.Items.Count > 0) BtnStartCamera_Click(null, null);
-        }
-
-        private void BtnBack_Click(object sender, EventArgs e)
-        {
-            // 1. Chuyển về Step 1
-            panelStep2.Visible = false;
-            panelStep1.Visible = true;
-
-            // 2. Đổi nút bấm
-            btnNext.Visible = true;
-            btnBack.Visible = false;
-            btnSave.Visible = false;
-
-            // 3. Update hướng dẫn
-            lblInstruction.Text = "💡 Bước 1: Vui lòng điền đầy đủ thông tin sinh viên trước khi chụp ảnh.";
-        }
-
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            Controls.Clear();
-            Controls.Add(new StudentManagement(_serviceHub));
+                if (picPreview.Image != null)
+                {
+                    picPreview.Image.Dispose();
+                    picPreview.Image = null;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageHelper.ShowError($"Lỗi lưu ảnh: {ex.Message}");
+            }
+            finally
+            {
+                this.Enabled = true;
+                btnSave.Text = "💾 Lưu Ảnh";
+                btnSave.Enabled = true;
+            }
         }
     }
 }

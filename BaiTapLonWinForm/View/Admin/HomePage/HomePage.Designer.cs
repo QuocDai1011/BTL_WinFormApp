@@ -414,9 +414,9 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             lblTeacherList.Location = new Point(81, 21);
             lblTeacherList.Margin = new Padding(4, 0, 4, 0);
             lblTeacherList.Name = "lblTeacherList";
-            lblTeacherList.Size = new Size(92, 25);
+            lblTeacherList.Size = new Size(103, 25);
             lblTeacherList.TabIndex = 1;
-            lblTeacherList.Text = "Giáo viên";
+            lblTeacherList.Text = "Giảng viên";
             lblTeacherList.Click += TeacherList_Click;
             lblTeacherList.MouseEnter += MenuItem_MouseEnter;
             // 
@@ -456,9 +456,9 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             lblStudentList.Location = new Point(81, 21);
             lblStudentList.Margin = new Padding(4, 0, 4, 0);
             lblStudentList.Name = "lblStudentList";
-            lblStudentList.Size = new Size(86, 25);
+            lblStudentList.Size = new Size(87, 25);
             lblStudentList.TabIndex = 1;
-            lblStudentList.Text = "Học sinh";
+            lblStudentList.Text = "Học viên";
             lblStudentList.Click += StudentList_Click;
             lblStudentList.MouseEnter += MenuItem_MouseEnter;
             // 

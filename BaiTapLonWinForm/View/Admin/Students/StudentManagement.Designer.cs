@@ -20,8 +20,18 @@
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             lblTitle = new Label();
             dgvStudents = new DataGridView();
+            UserId = new DataGridViewTextBoxColumn();
+            StudentId = new DataGridViewTextBoxColumn();
+            StudentName = new DataGridViewTextBoxColumn();
+            Email = new DataGridViewTextBoxColumn();
+            Phone = new DataGridViewTextBoxColumn();
+            PhoneNumberOfParent = new DataGridViewTextBoxColumn();
+            DateOfBirth = new DataGridViewTextBoxColumn();
+            FaceImageCount = new DataGridViewTextBoxColumn();
             btnAdd = new Button();
             btnEdit = new Button();
             btnDelete = new Button();
@@ -35,8 +45,11 @@
             txtSearch = new TextBox();
             lblSearch = new Label();
             panelButtons = new Panel();
+            btnAddPhoto = new Button();
             btnExport = new Button();
             btnImport = new Button();
+            cboFilter = new Guna.UI2.WinForms.Guna2ComboBox();
+            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvStudents).BeginInit();
             panelTop.SuspendLayout();
             panelStats.SuspendLayout();
@@ -51,9 +64,9 @@
             lblTitle.ForeColor = Color.FromArgb(44, 62, 80);
             lblTitle.Location = new Point(25, 15);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(358, 41);
+            lblTitle.Size = new Size(349, 41);
             lblTitle.TabIndex = 0;
-            lblTitle.Text = "📚 QUẢN LÝ SINH VIÊN";
+            lblTitle.Text = "📚 QUẢN LÝ HỌC VIÊN";
             // 
             // dgvStudents
             // 
@@ -75,6 +88,7 @@
             dgvStudents.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dgvStudents.ColumnHeadersHeight = 45;
             dgvStudents.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgvStudents.Columns.AddRange(new DataGridViewColumn[] { UserId, StudentId, StudentName, Email, Phone, PhoneNumberOfParent, DateOfBirth, FaceImageCount });
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = Color.White;
             dataGridViewCellStyle2.Font = new Font("Segoe UI", 9.5F);
@@ -103,7 +117,64 @@
             dgvStudents.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvStudents.Size = new Size(1425, 570);
             dgvStudents.TabIndex = 3;
-            dgvStudents.CellDoubleClick += DgvStudents_CellDoubleClick;
+            // 
+            // UserId
+            // 
+            UserId.HeaderText = "UserId";
+            UserId.MinimumWidth = 6;
+            UserId.Name = "UserId";
+            UserId.ReadOnly = true;
+            UserId.Visible = false;
+            // 
+            // StudentId
+            // 
+            StudentId.HeaderText = "StudentId";
+            StudentId.MinimumWidth = 6;
+            StudentId.Name = "StudentId";
+            StudentId.ReadOnly = true;
+            StudentId.Visible = false;
+            // 
+            // StudentName
+            // 
+            StudentName.HeaderText = "Họ và tên";
+            StudentName.MinimumWidth = 6;
+            StudentName.Name = "StudentName";
+            StudentName.ReadOnly = true;
+            // 
+            // Email
+            // 
+            Email.HeaderText = "Email";
+            Email.MinimumWidth = 6;
+            Email.Name = "Email";
+            Email.ReadOnly = true;
+            // 
+            // Phone
+            // 
+            Phone.HeaderText = "Số điện thoại";
+            Phone.MinimumWidth = 6;
+            Phone.Name = "Phone";
+            Phone.ReadOnly = true;
+            // 
+            // PhoneNumberOfParent
+            // 
+            PhoneNumberOfParent.HeaderText = "Số điện thoại phụ huynh";
+            PhoneNumberOfParent.MinimumWidth = 6;
+            PhoneNumberOfParent.Name = "PhoneNumberOfParent";
+            PhoneNumberOfParent.ReadOnly = true;
+            // 
+            // DateOfBirth
+            // 
+            DateOfBirth.HeaderText = "Ngày sinh";
+            DateOfBirth.MinimumWidth = 6;
+            DateOfBirth.Name = "DateOfBirth";
+            DateOfBirth.ReadOnly = true;
+            // 
+            // FaceImageCount
+            // 
+            FaceImageCount.HeaderText = "Số ảnh";
+            FaceImageCount.MinimumWidth = 6;
+            FaceImageCount.Name = "FaceImageCount";
+            FaceImageCount.ReadOnly = true;
             // 
             // btnAdd
             // 
@@ -114,12 +185,12 @@
             btnAdd.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
             btnAdd.ForeColor = Color.White;
             btnAdd.ImageAlign = ContentAlignment.MiddleLeft;
-            btnAdd.Location = new Point(28, 11);
+            btnAdd.Location = new Point(28, 9);
             btnAdd.Name = "btnAdd";
             btnAdd.Padding = new Padding(10, 0, 10, 0);
             btnAdd.Size = new Size(201, 40);
             btnAdd.TabIndex = 0;
-            btnAdd.Text = "➕ Thêm sinh viên";
+            btnAdd.Text = "➕ Thêm học viên";
             btnAdd.UseVisualStyleBackColor = false;
             btnAdd.Click += BtnAdd_Click;
             // 
@@ -131,7 +202,7 @@
             btnEdit.FlatStyle = FlatStyle.Flat;
             btnEdit.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
             btnEdit.ForeColor = Color.White;
-            btnEdit.Location = new Point(271, 11);
+            btnEdit.Location = new Point(235, 9);
             btnEdit.Name = "btnEdit";
             btnEdit.Size = new Size(140, 40);
             btnEdit.TabIndex = 1;
@@ -147,7 +218,7 @@
             btnDelete.FlatStyle = FlatStyle.Flat;
             btnDelete.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
             btnDelete.ForeColor = Color.White;
-            btnDelete.Location = new Point(449, 10);
+            btnDelete.Location = new Point(381, 9);
             btnDelete.Name = "btnDelete";
             btnDelete.Size = new Size(120, 40);
             btnDelete.TabIndex = 2;
@@ -163,7 +234,7 @@
             btnRefresh.FlatStyle = FlatStyle.Flat;
             btnRefresh.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
             btnRefresh.ForeColor = Color.White;
-            btnRefresh.Location = new Point(610, 11);
+            btnRefresh.Location = new Point(507, 9);
             btnRefresh.Name = "btnRefresh";
             btnRefresh.Size = new Size(130, 40);
             btnRefresh.TabIndex = 3;
@@ -220,9 +291,9 @@
             panelSearch.Controls.Add(btnSearch);
             panelSearch.Controls.Add(txtSearch);
             panelSearch.Controls.Add(lblSearch);
-            panelSearch.Location = new Point(25, 85);
+            panelSearch.Location = new Point(24, 85);
             panelSearch.Name = "panelSearch";
-            panelSearch.Size = new Size(632, 60);
+            panelSearch.Size = new Size(560, 60);
             panelSearch.TabIndex = 1;
             // 
             // btnSearch
@@ -233,7 +304,7 @@
             btnSearch.FlatStyle = FlatStyle.Flat;
             btnSearch.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnSearch.ForeColor = Color.White;
-            btnSearch.Location = new Point(506, 11);
+            btnSearch.Location = new Point(437, 9);
             btnSearch.Name = "btnSearch";
             btnSearch.Size = new Size(100, 40);
             btnSearch.TabIndex = 2;
@@ -249,7 +320,7 @@
             txtSearch.Multiline = true;
             txtSearch.Name = "txtSearch";
             txtSearch.PlaceholderText = "Nhập tên sinh viên...";
-            txtSearch.Size = new Size(350, 27);
+            txtSearch.Size = new Size(290, 27);
             txtSearch.TabIndex = 1;
             txtSearch.TextChanged += TxtSearch_TextChanged;
             // 
@@ -267,14 +338,31 @@
             // panelButtons
             // 
             panelButtons.BackColor = Color.FromArgb(236, 240, 241);
+            panelButtons.Controls.Add(btnAddPhoto);
             panelButtons.Controls.Add(btnRefresh);
             panelButtons.Controls.Add(btnDelete);
             panelButtons.Controls.Add(btnEdit);
             panelButtons.Controls.Add(btnAdd);
-            panelButtons.Location = new Point(682, 85);
+            panelButtons.Location = new Point(627, 85);
             panelButtons.Name = "panelButtons";
-            panelButtons.Size = new Size(768, 60);
+            panelButtons.Size = new Size(823, 60);
             panelButtons.TabIndex = 2;
+            // 
+            // btnAddPhoto
+            // 
+            btnAddPhoto.BackColor = Color.MediumPurple;
+            btnAddPhoto.Cursor = Cursors.Hand;
+            btnAddPhoto.FlatAppearance.BorderSize = 0;
+            btnAddPhoto.FlatStyle = FlatStyle.Flat;
+            btnAddPhoto.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            btnAddPhoto.ForeColor = Color.White;
+            btnAddPhoto.Location = new Point(643, 10);
+            btnAddPhoto.Name = "btnAddPhoto";
+            btnAddPhoto.Size = new Size(140, 40);
+            btnAddPhoto.TabIndex = 4;
+            btnAddPhoto.Text = "✏️ Bổ sung ảnh";
+            btnAddPhoto.UseVisualStyleBackColor = false;
+            btnAddPhoto.Click += BtnAddPhoto_Click;
             // 
             // btnExport
             // 
@@ -308,11 +396,44 @@
             btnImport.UseVisualStyleBackColor = false;
             btnImport.Click += BtnImport_Click;
             // 
+            // cboFilter
+            // 
+            cboFilter.BackColor = Color.Transparent;
+            cboFilter.CustomizableEdges = customizableEdges1;
+            cboFilter.DrawMode = DrawMode.OwnerDrawFixed;
+            cboFilter.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboFilter.FocusedColor = Color.FromArgb(94, 148, 255);
+            cboFilter.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            cboFilter.Font = new Font("Segoe UI", 10F);
+            cboFilter.ForeColor = Color.FromArgb(68, 88, 112);
+            cboFilter.ItemHeight = 30;
+            cboFilter.Items.AddRange(new object[] { "Tất cả", "Nam", "Nữ", "Đang hoạt động", "Ngừng hoạt động", "Chưa có ảnh", "Có ảnh" });
+            cboFilter.Location = new Point(154, 764);
+            cboFilter.Name = "cboFilter";
+            cboFilter.ShadowDecoration.BorderRadius = 10;
+            cboFilter.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            cboFilter.Size = new Size(222, 36);
+            cboFilter.TabIndex = 6;
+            cboFilter.SelectedIndexChanged += CboGender_SelectedIndexChanged;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            label1.ForeColor = Color.FromArgb(52, 73, 94);
+            label1.Location = new Point(26, 771);
+            label1.Name = "label1";
+            label1.Size = new Size(108, 23);
+            label1.TabIndex = 7;
+            label1.Text = "Lọc dữ liệu :";
+            // 
             // StudentManagement
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(250, 251, 252);
+            Controls.Add(label1);
+            Controls.Add(cboFilter);
             Controls.Add(btnExport);
             Controls.Add(btnImport);
             Controls.Add(dgvStudents);
@@ -331,6 +452,7 @@
             panelSearch.PerformLayout();
             panelButtons.ResumeLayout(false);
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -352,5 +474,16 @@
         private Panel panelStats;
         private Label lblTotalStudents;
         private Label lblStatsTitle;
+        private Button btnAddPhoto;
+        private Guna.UI2.WinForms.Guna2ComboBox cboFilter;
+        private Label label1;
+        private DataGridViewTextBoxColumn UserId;
+        private DataGridViewTextBoxColumn StudentId;
+        private DataGridViewTextBoxColumn StudentName;
+        private DataGridViewTextBoxColumn Email;
+        private DataGridViewTextBoxColumn Phone;
+        private DataGridViewTextBoxColumn PhoneNumberOfParent;
+        private DataGridViewTextBoxColumn DateOfBirth;
+        private DataGridViewTextBoxColumn FaceImageCount;
     }
 }

@@ -1,23 +1,55 @@
 ﻿using BaiTapLonWinForm.Services;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using BaiTapLonWinForm.Utils;
+
 
 namespace BaiTapLonWinForm.View.Admin.Teacher
 {
     public partial class TeacherManagement : UserControl
     {
-        private readonly ServiceHub serviceHub;
+        private readonly ServiceHub _serviceHub;
+        private List<Models.Teacher> teachers;
         public TeacherManagement(ServiceHub serviceHub)
         {
-            this.serviceHub = serviceHub;
+            _serviceHub = serviceHub;
             InitializeComponent();
+            refreshDataGridView();
+        }
+
+
+        private async void refreshDataGridView()
+        {
+            var teacher = await _serviceHub.TeacherService.GetAllTeachersAsync();
+            if (!teacher.Success)
+            {
+                MessageHelper.ShowError(teacher.Message);
+            }
+            teachers = teacher.Data.ToList();
+
+            LoadDataGridView(teachers);
+        }
+
+        private void LoadDataGridView(List<Models.Teacher> teachers)
+        {
+            dgvTeachers.Rows.Clear();
+
+            foreach (var t in teachers)
+            {
+                dgvTeachers.Rows.Add(
+                    $"{t.User.FirstName} {t.User.LastName}",
+                    t.User.Email,
+                    t.User.PhoneNumber,
+                    t.User.DateOfBirth,
+                    t.User.Gender == true ? "Nam" : "Nữ",
+                    t.User.Address == null ? "N/A" : t.User.Address,
+                    t.User.FirstName,
+                    t.User.LastName,
+                    t.ExperienceYear,
+                    t.Salary,
+                    t.TeacherId,
+                    t.User.UserId
+                    );
+            }
+
         }
 
         private void dgvTeachers_SelectionChanged(object sender, EventArgs e)
@@ -27,33 +59,64 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            LoadDataGridView(teachers);
         }
 
-        private void btnSearch_Click(object sender, EventArgs e)
+
+        private async void btnDelete_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            if (dgvTeachers.SelectedRows.Count == 0)
+            {
+                MessageHelper.ShowWarning("Vui lòng chọn giảng viên để xóa.");
+                return;
+            }
+
+            int teacherId = Convert.ToInt32(dgvTeachers.SelectedRows[0].Cells["ColTeacherId"].Value);
+
+            var confirm = MessageHelper.ShowConfirmation("Bạn có chắc chắn muốn xóa giảng viên này?");
+            if (!confirm)
+                return;
+            var deleteResult = await _serviceHub.TeacherService.DeleteTeacherAsync(teacherId);
+
+            if (!deleteResult.Success)
+            {
+                MessageHelper.ShowError(deleteResult.Message);
+                return;
+            }
+            MessageHelper.ShowSuccess(deleteResult.Message);
         }
 
-        private void btnDelete_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
 
-        private void btnClear_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
             Controls.Clear();
-            Controls.Add(new AddTeacher(serviceHub));
+            Controls.Add(new AddTeacher(_serviceHub));
         }
 
-        private void btnUpdate_Click(object sender, EventArgs e)
+
+        private async void btnUpdate_Click(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            if(dgvTeachers.SelectedRows.Count == 0)
+            {
+                MessageHelper.ShowWarning("Vui lòng chọn giáo viên để cập nhật.");
+                return;
+            }
+
+            Controls.Clear();
+            
+            int teacherId = Convert.ToInt32(dgvTeachers.SelectedRows[0].Cells["ColTeacherId"].Value);
+            
+            var teacher = await _serviceHub.TeacherService.GetTeacherByIdAsync(teacherId);
+
+            if(!teacher.Success)
+            {
+                MessageHelper.ShowError(teacher.Message);
+                return;
+            }
+
+            Controls.Add(new AddTeacher(_serviceHub, teacher.Data) { Dock = DockStyle.Fill});
         }
     }
 }

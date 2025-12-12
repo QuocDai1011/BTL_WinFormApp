@@ -30,6 +30,7 @@ namespace BaiTapLonWinForm.Repositories.implements
             {
                 return await _context.Students
                     .Include(s => s.User)
+                    .Include(f => f.StudentFaceImages)
                     .ToListAsync();
             }
             catch (Exception)
@@ -47,7 +48,8 @@ namespace BaiTapLonWinForm.Repositories.implements
                     .Include(s => s.StudentClasses)
                         .ThenInclude(sc => sc.Class)
                             .ThenInclude(c => c.SchoolDays)
-                    .FirstOrDefaultAsync(s => s.StudentId == id);
+                    .FirstOrDefaultAsync(s => s.StudentId == id)
+                    ?? null;
             }
             catch (Exception)
             {
@@ -63,7 +65,8 @@ namespace BaiTapLonWinForm.Repositories.implements
                     .Include(s => s.User)
                     .Include(s => s.StudentClasses)
                         .ThenInclude(sc => sc.Class)
-                    .FirstOrDefaultAsync(s => s.UserId == userId);
+                    .FirstOrDefaultAsync(s => s.UserId == userId)
+                    ?? null;
             }
             catch (Exception)
             {
@@ -91,19 +94,36 @@ namespace BaiTapLonWinForm.Repositories.implements
             }
         }
 
-        public async Task<Student> UpdateAsync(Student entity)
+        public async Task<Student?> UpdateAsync(Student entity)
         {
             try
             {
-                _context.Students.Update(entity);
+                var existingStudent = await _context.Students
+                                            .Include(s => s.User) 
+                                            .FirstOrDefaultAsync(s => s.StudentId == entity.StudentId);
+                
+                if (existingStudent == null) return null;
+                
+                existingStudent.PhoneNumberOfParents = entity.PhoneNumberOfParents;
+
+                if (entity.User != null && existingStudent.User != null)
+                {
+                    existingStudent.User.FirstName = entity.User.FirstName;
+                    existingStudent.User.LastName = entity.User.LastName;
+                    existingStudent.User.Email = entity.User.Email;
+                    existingStudent.User.DateOfBirth = entity.User.DateOfBirth;
+                    existingStudent.User.Address = entity.User.Address;
+                    existingStudent.User.PhoneNumber = entity.User.PhoneNumber;
+                    existingStudent.User.Gender = entity.User.Gender;
+                    existingStudent.User.IsActive = entity.User.IsActive;
+                    existingStudent.User.UpdateAt = DateTime.Now;
+                }
+
                 await _context.SaveChangesAsync();
 
-                // Reload to get updated navigation properties
-                await _context.Entry(entity)
-                    .Reference(s => s.User)
-                    .LoadAsync();
+                return existingStudent;
 
-                return entity;
+
             }
             catch (Exception)
             {
@@ -241,6 +261,6 @@ namespace BaiTapLonWinForm.Repositories.implements
             {
                 throw;
             }
-        }
+        }     
     }
 }

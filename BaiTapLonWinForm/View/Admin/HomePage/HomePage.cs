@@ -22,7 +22,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
         private readonly Color hoverColor = Color.FromArgb(52, 152, 219);
         private readonly Color normalColor = Color.Transparent;
         private readonly Color activeColor = Color.FromArgb(52, 152, 219);
-        private readonly ServiceHub _serviceHub; 
+        private readonly ServiceHub _serviceHub;
         public HomePage(ServiceHub serviceHub)
         {
             InitializeComponent();
@@ -185,7 +185,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             if (result == DialogResult.Yes)
             {
                 //Perform logout
-                 this.Hide();
+                this.Hide();
                 //LoginForm loginForm = new LoginForm();
                 //loginForm.ShowDialog();
                 this.Close();
@@ -213,6 +213,8 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             }
         }
         #endregion
+
+
     }
 
     #region Sample User Controls (Replace with your actual controls)

@@ -19,6 +19,8 @@ namespace BaiTapLonWinForm.Repositories.interfaces
         Task<IEnumerable<Class>> GetByStatusAsync(int status);
         Task<IEnumerable<Class>> GetActiveClassesAsync();
 
+        IEnumerable<Class> GetClassByStudentId(int studentId);
+
         Task<bool> AddStudentToClass(StudentClass studentClass);
 
         Task<bool> RemoveStudentFromClassAsync(int classId, int studentId);

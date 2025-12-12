@@ -265,5 +265,22 @@ namespace BaiTapLonWinForm.Repositories.implements
                 throw new Exception($"Lỗi khi xóa học viên: {ex.InnerException?.Message ?? ex.Message}");
             }
         }
+
+        public  IEnumerable<Class> GetClassByStudentId(int studentId)
+        {
+            try
+            {
+                return _context.StudentClasses
+                   .Where(sc => sc.StudentId == studentId)
+                   .Include(sc => sc.Class)
+                   .Select(c => c.Class)
+                   .ToList();
+                
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

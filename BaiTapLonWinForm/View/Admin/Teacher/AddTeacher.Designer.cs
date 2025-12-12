@@ -33,33 +33,33 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             panelMain = new Panel();
             panelContent = new Panel();
             grpTeacherInfo = new GroupBox();
+            lblErrorExperience = new Label();
+            lblErrorSalary = new Label();
             nudExperienceYear = new NumericUpDown();
             nudSalary = new NumericUpDown();
             lblExperienceYear = new Label();
             lblSalary = new Label();
-            txtTeacherId = new TextBox();
-            lblTeacherId = new Label();
             grpUserInfo = new GroupBox();
-            cboRole = new ComboBox();
-            lblRole = new Label();
+            lblErrorDob = new Label();
+            lblErrorGender = new Label();
+            lblErrorPhoneNumber = new Label();
+            lblErrorEmail = new Label();
+            lblErrorLastName = new Label();
+            lblErrorFirstName = new Label();
             cboGender = new ComboBox();
             lblGender = new Label();
             dtpDateOfBirth = new DateTimePicker();
             lblDateOfBirth = new Label();
             txtAddress = new TextBox();
             lblAddress = new Label();
-            txtPhone = new TextBox();
+            txtPhoneNumber = new TextBox();
             lblPhone = new Label();
             txtEmail = new TextBox();
             lblEmail = new Label();
-            txtFullName = new TextBox();
-            lblFullName = new Label();
-            txtPassword = new TextBox();
-            lblPassword = new Label();
-            txtUsername = new TextBox();
-            lblUsername = new Label();
-            txtUserId = new TextBox();
-            lblUserId = new Label();
+            lblLastName = new Label();
+            txtLastName = new TextBox();
+            txtFirstName = new TextBox();
+            lblFirstName = new Label();
             panelButtons = new Panel();
             btnCancel = new Button();
             btnSave = new Button();
@@ -104,12 +104,12 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             // grpTeacherInfo
             // 
             grpTeacherInfo.BackColor = Color.White;
+            grpTeacherInfo.Controls.Add(lblErrorExperience);
+            grpTeacherInfo.Controls.Add(lblErrorSalary);
             grpTeacherInfo.Controls.Add(nudExperienceYear);
             grpTeacherInfo.Controls.Add(nudSalary);
             grpTeacherInfo.Controls.Add(lblExperienceYear);
             grpTeacherInfo.Controls.Add(lblSalary);
-            grpTeacherInfo.Controls.Add(txtTeacherId);
-            grpTeacherInfo.Controls.Add(lblTeacherId);
             grpTeacherInfo.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             grpTeacherInfo.Location = new Point(959, 27);
             grpTeacherInfo.Margin = new Padding(3, 4, 3, 4);
@@ -120,10 +120,28 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             grpTeacherInfo.TabStop = false;
             grpTeacherInfo.Text = "Thông tin giáo viên";
             // 
+            // lblErrorExperience
+            // 
+            lblErrorExperience.AutoSize = true;
+            lblErrorExperience.Font = new Font("Segoe UI", 9F);
+            lblErrorExperience.Location = new Point(35, 205);
+            lblErrorExperience.Name = "lblErrorExperience";
+            lblErrorExperience.Size = new Size(0, 20);
+            lblErrorExperience.TabIndex = 20;
+            // 
+            // lblErrorSalary
+            // 
+            lblErrorSalary.AutoSize = true;
+            lblErrorSalary.Font = new Font("Segoe UI", 9F);
+            lblErrorSalary.Location = new Point(35, 111);
+            lblErrorSalary.Name = "lblErrorSalary";
+            lblErrorSalary.Size = new Size(0, 20);
+            lblErrorSalary.TabIndex = 19;
+            // 
             // nudExperienceYear
             // 
             nudExperienceYear.Font = new Font("Segoe UI", 10F);
-            nudExperienceYear.Location = new Point(42, 267);
+            nudExperienceYear.Location = new Point(35, 171);
             nudExperienceYear.Margin = new Padding(3, 4, 3, 4);
             nudExperienceYear.Maximum = new decimal(new int[] { 50, 0, 0, 0 });
             nudExperienceYear.Name = "nudExperienceYear";
@@ -133,7 +151,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             // nudSalary
             // 
             nudSalary.Font = new Font("Segoe UI", 10F);
-            nudSalary.Location = new Point(42, 173);
+            nudSalary.Location = new Point(35, 77);
             nudSalary.Margin = new Padding(3, 4, 3, 4);
             nudSalary.Maximum = new decimal(new int[] { 1000000000, 0, 0, 0 });
             nudSalary.Name = "nudSalary";
@@ -145,65 +163,45 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             // 
             lblExperienceYear.AutoSize = true;
             lblExperienceYear.Font = new Font("Segoe UI", 9F);
-            lblExperienceYear.Location = new Point(42, 241);
+            lblExperienceYear.Location = new Point(35, 145);
             lblExperienceYear.Name = "lblExperienceYear";
-            lblExperienceYear.Size = new Size(147, 20);
+            lblExperienceYear.Size = new Size(157, 20);
             lblExperienceYear.TabIndex = 4;
-            lblExperienceYear.Text = "Số năm kinh nghiệm:";
+            lblExperienceYear.Text = "Số năm kinh nghiệm: *";
             // 
             // lblSalary
             // 
             lblSalary.AutoSize = true;
             lblSalary.Font = new Font("Segoe UI", 9F);
-            lblSalary.Location = new Point(42, 147);
+            lblSalary.Location = new Point(35, 51);
             lblSalary.Name = "lblSalary";
-            lblSalary.Size = new Size(99, 20);
+            lblSalary.Size = new Size(109, 20);
             lblSalary.TabIndex = 2;
-            lblSalary.Text = "Lương (VNĐ):";
-            // 
-            // txtTeacherId
-            // 
-            txtTeacherId.Enabled = false;
-            txtTeacherId.Font = new Font("Segoe UI", 10F);
-            txtTeacherId.Location = new Point(42, 80);
-            txtTeacherId.Margin = new Padding(3, 4, 3, 4);
-            txtTeacherId.Name = "txtTeacherId";
-            txtTeacherId.Size = new Size(411, 30);
-            txtTeacherId.TabIndex = 1;
-            // 
-            // lblTeacherId
-            // 
-            lblTeacherId.AutoSize = true;
-            lblTeacherId.Font = new Font("Segoe UI", 9F);
-            lblTeacherId.Location = new Point(42, 53);
-            lblTeacherId.Name = "lblTeacherId";
-            lblTeacherId.Size = new Size(93, 20);
-            lblTeacherId.TabIndex = 0;
-            lblTeacherId.Text = "ID Giáo viên:";
+            lblSalary.Text = "Lương (VNĐ): *";
             // 
             // grpUserInfo
             // 
             grpUserInfo.BackColor = Color.White;
-            grpUserInfo.Controls.Add(cboRole);
-            grpUserInfo.Controls.Add(lblRole);
+            grpUserInfo.Controls.Add(lblErrorDob);
+            grpUserInfo.Controls.Add(lblErrorGender);
+            grpUserInfo.Controls.Add(lblErrorPhoneNumber);
+            grpUserInfo.Controls.Add(lblErrorEmail);
+            grpUserInfo.Controls.Add(lblErrorLastName);
+            grpUserInfo.Controls.Add(lblErrorFirstName);
             grpUserInfo.Controls.Add(cboGender);
             grpUserInfo.Controls.Add(lblGender);
             grpUserInfo.Controls.Add(dtpDateOfBirth);
             grpUserInfo.Controls.Add(lblDateOfBirth);
             grpUserInfo.Controls.Add(txtAddress);
             grpUserInfo.Controls.Add(lblAddress);
-            grpUserInfo.Controls.Add(txtPhone);
+            grpUserInfo.Controls.Add(txtPhoneNumber);
             grpUserInfo.Controls.Add(lblPhone);
             grpUserInfo.Controls.Add(txtEmail);
             grpUserInfo.Controls.Add(lblEmail);
-            grpUserInfo.Controls.Add(txtFullName);
-            grpUserInfo.Controls.Add(lblFullName);
-            grpUserInfo.Controls.Add(txtPassword);
-            grpUserInfo.Controls.Add(lblPassword);
-            grpUserInfo.Controls.Add(txtUsername);
-            grpUserInfo.Controls.Add(lblUsername);
-            grpUserInfo.Controls.Add(txtUserId);
-            grpUserInfo.Controls.Add(lblUserId);
+            grpUserInfo.Controls.Add(lblLastName);
+            grpUserInfo.Controls.Add(txtLastName);
+            grpUserInfo.Controls.Add(txtFirstName);
+            grpUserInfo.Controls.Add(lblFirstName);
             grpUserInfo.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             grpUserInfo.Location = new Point(6, 27);
             grpUserInfo.Margin = new Padding(3, 4, 3, 4);
@@ -214,26 +212,59 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             grpUserInfo.TabStop = false;
             grpUserInfo.Text = "Thông tin người dùng";
             // 
-            // cboRole
+            // lblErrorDob
             // 
-            cboRole.DropDownStyle = ComboBoxStyle.DropDownList;
-            cboRole.Font = new Font("Segoe UI", 10F);
-            cboRole.FormattingEnabled = true;
-            cboRole.Location = new Point(479, 362);
-            cboRole.Margin = new Padding(3, 4, 3, 4);
-            cboRole.Name = "cboRole";
-            cboRole.Size = new Size(411, 31);
-            cboRole.TabIndex = 19;
+            lblErrorDob.AutoSize = true;
+            lblErrorDob.Font = new Font("Segoe UI", 9F);
+            lblErrorDob.Location = new Point(479, 246);
+            lblErrorDob.Name = "lblErrorDob";
+            lblErrorDob.Size = new Size(0, 20);
+            lblErrorDob.TabIndex = 23;
             // 
-            // lblRole
+            // lblErrorGender
             // 
-            lblRole.AutoSize = true;
-            lblRole.Font = new Font("Segoe UI", 9F);
-            lblRole.Location = new Point(479, 335);
-            lblRole.Name = "lblRole";
-            lblRole.Size = new Size(55, 20);
-            lblRole.TabIndex = 18;
-            lblRole.Text = "Vai trò:";
+            lblErrorGender.AutoSize = true;
+            lblErrorGender.Font = new Font("Segoe UI", 9F);
+            lblErrorGender.Location = new Point(479, 339);
+            lblErrorGender.Name = "lblErrorGender";
+            lblErrorGender.Size = new Size(0, 20);
+            lblErrorGender.TabIndex = 22;
+            // 
+            // lblErrorPhoneNumber
+            // 
+            lblErrorPhoneNumber.AutoSize = true;
+            lblErrorPhoneNumber.Font = new Font("Segoe UI", 9F);
+            lblErrorPhoneNumber.Location = new Point(44, 382);
+            lblErrorPhoneNumber.Name = "lblErrorPhoneNumber";
+            lblErrorPhoneNumber.Size = new Size(0, 20);
+            lblErrorPhoneNumber.TabIndex = 21;
+            // 
+            // lblErrorEmail
+            // 
+            lblErrorEmail.AutoSize = true;
+            lblErrorEmail.Font = new Font("Segoe UI", 9F);
+            lblErrorEmail.Location = new Point(44, 296);
+            lblErrorEmail.Name = "lblErrorEmail";
+            lblErrorEmail.Size = new Size(0, 20);
+            lblErrorEmail.TabIndex = 20;
+            // 
+            // lblErrorLastName
+            // 
+            lblErrorLastName.AutoSize = true;
+            lblErrorLastName.Font = new Font("Segoe UI", 9F);
+            lblErrorLastName.Location = new Point(44, 206);
+            lblErrorLastName.Name = "lblErrorLastName";
+            lblErrorLastName.Size = new Size(0, 20);
+            lblErrorLastName.TabIndex = 19;
+            // 
+            // lblErrorFirstName
+            // 
+            lblErrorFirstName.AutoSize = true;
+            lblErrorFirstName.Font = new Font("Segoe UI", 9F);
+            lblErrorFirstName.Location = new Point(44, 111);
+            lblErrorFirstName.Name = "lblErrorFirstName";
+            lblErrorFirstName.Size = new Size(0, 20);
+            lblErrorFirstName.TabIndex = 18;
             // 
             // cboGender
             // 
@@ -241,7 +272,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             cboGender.Font = new Font("Segoe UI", 10F);
             cboGender.FormattingEnabled = true;
             cboGender.Items.AddRange(new object[] { "Nam", "Nữ" });
-            cboGender.Location = new Point(479, 282);
+            cboGender.Location = new Point(479, 304);
             cboGender.Margin = new Padding(3, 4, 3, 4);
             cboGender.Name = "cboGender";
             cboGender.Size = new Size(411, 31);
@@ -251,7 +282,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             // 
             lblGender.AutoSize = true;
             lblGender.Font = new Font("Segoe UI", 9F);
-            lblGender.Location = new Point(479, 255);
+            lblGender.Location = new Point(479, 277);
             lblGender.Name = "lblGender";
             lblGender.Size = new Size(68, 20);
             lblGender.TabIndex = 16;
@@ -261,7 +292,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             // 
             dtpDateOfBirth.Font = new Font("Segoe UI", 10F);
             dtpDateOfBirth.Format = DateTimePickerFormat.Short;
-            dtpDateOfBirth.Location = new Point(479, 202);
+            dtpDateOfBirth.Location = new Point(479, 212);
             dtpDateOfBirth.Margin = new Padding(3, 4, 3, 4);
             dtpDateOfBirth.Name = "dtpDateOfBirth";
             dtpDateOfBirth.Size = new Size(411, 30);
@@ -271,7 +302,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             // 
             lblDateOfBirth.AutoSize = true;
             lblDateOfBirth.Font = new Font("Segoe UI", 9F);
-            lblDateOfBirth.Location = new Point(479, 175);
+            lblDateOfBirth.Location = new Point(479, 185);
             lblDateOfBirth.Name = "lblDateOfBirth";
             lblDateOfBirth.Size = new Size(77, 20);
             lblDateOfBirth.TabIndex = 14;
@@ -297,29 +328,29 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             lblAddress.TabIndex = 12;
             lblAddress.Text = "Địa chỉ:";
             // 
-            // txtPhone
+            // txtPhoneNumber
             // 
-            txtPhone.Font = new Font("Segoe UI", 10F);
-            txtPhone.Location = new Point(34, 480);
-            txtPhone.Margin = new Padding(3, 4, 3, 4);
-            txtPhone.Name = "txtPhone";
-            txtPhone.Size = new Size(411, 30);
-            txtPhone.TabIndex = 11;
+            txtPhoneNumber.Font = new Font("Segoe UI", 10F);
+            txtPhoneNumber.Location = new Point(44, 348);
+            txtPhoneNumber.Margin = new Padding(3, 4, 3, 4);
+            txtPhoneNumber.Name = "txtPhoneNumber";
+            txtPhoneNumber.Size = new Size(411, 30);
+            txtPhoneNumber.TabIndex = 11;
             // 
             // lblPhone
             // 
             lblPhone.AutoSize = true;
             lblPhone.Font = new Font("Segoe UI", 9F);
-            lblPhone.Location = new Point(34, 453);
+            lblPhone.Location = new Point(44, 323);
             lblPhone.Name = "lblPhone";
-            lblPhone.Size = new Size(100, 20);
+            lblPhone.Size = new Size(114, 20);
             lblPhone.TabIndex = 10;
-            lblPhone.Text = "Số điện thoại:";
+            lblPhone.Text = "Số điện thoại : *";
             // 
             // txtEmail
             // 
             txtEmail.Font = new Font("Segoe UI", 10F);
-            txtEmail.Location = new Point(34, 400);
+            txtEmail.Location = new Point(44, 258);
             txtEmail.Margin = new Padding(3, 4, 3, 4);
             txtEmail.Name = "txtEmail";
             txtEmail.Size = new Size(411, 30);
@@ -329,89 +360,49 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             // 
             lblEmail.AutoSize = true;
             lblEmail.Font = new Font("Segoe UI", 9F);
-            lblEmail.Location = new Point(34, 373);
+            lblEmail.Location = new Point(44, 231);
             lblEmail.Name = "lblEmail";
             lblEmail.Size = new Size(59, 20);
             lblEmail.TabIndex = 8;
             lblEmail.Text = "Email: *";
             // 
-            // txtFullName
+            // lblLastName
             // 
-            txtFullName.Font = new Font("Segoe UI", 10F);
-            txtFullName.Location = new Point(34, 320);
-            txtFullName.Margin = new Padding(3, 4, 3, 4);
-            txtFullName.Name = "txtFullName";
-            txtFullName.Size = new Size(411, 30);
-            txtFullName.TabIndex = 7;
+            lblLastName.AutoSize = true;
+            lblLastName.Font = new Font("Segoe UI", 9F);
+            lblLastName.Location = new Point(44, 140);
+            lblLastName.Name = "lblLastName";
+            lblLastName.Size = new Size(35, 20);
+            lblLastName.TabIndex = 6;
+            lblLastName.Text = "Tên:";
             // 
-            // lblFullName
+            // txtLastName
             // 
-            lblFullName.AutoSize = true;
-            lblFullName.Font = new Font("Segoe UI", 9F);
-            lblFullName.Location = new Point(34, 293);
-            lblFullName.Name = "lblFullName";
-            lblFullName.Size = new Size(76, 20);
-            lblFullName.TabIndex = 6;
-            lblFullName.Text = "Họ và tên:";
+            txtLastName.Font = new Font("Segoe UI", 10F);
+            txtLastName.Location = new Point(44, 167);
+            txtLastName.Margin = new Padding(3, 4, 3, 4);
+            txtLastName.Name = "txtLastName";
+            txtLastName.Size = new Size(411, 30);
+            txtLastName.TabIndex = 7;
             // 
-            // txtPassword
+            // txtFirstName
             // 
-            txtPassword.Font = new Font("Segoe UI", 10F);
-            txtPassword.Location = new Point(34, 240);
-            txtPassword.Margin = new Padding(3, 4, 3, 4);
-            txtPassword.Name = "txtPassword";
-            txtPassword.Size = new Size(411, 30);
-            txtPassword.TabIndex = 5;
-            txtPassword.UseSystemPasswordChar = true;
+            txtFirstName.Font = new Font("Segoe UI", 10F);
+            txtFirstName.Location = new Point(44, 77);
+            txtFirstName.Margin = new Padding(3, 4, 3, 4);
+            txtFirstName.Name = "txtFirstName";
+            txtFirstName.Size = new Size(411, 30);
+            txtFirstName.TabIndex = 5;
             // 
-            // lblPassword
+            // lblFirstName
             // 
-            lblPassword.AutoSize = true;
-            lblPassword.Font = new Font("Segoe UI", 9F);
-            lblPassword.Location = new Point(34, 213);
-            lblPassword.Name = "lblPassword";
-            lblPassword.Size = new Size(83, 20);
-            lblPassword.TabIndex = 4;
-            lblPassword.Text = "Mật khẩu: *";
-            // 
-            // txtUsername
-            // 
-            txtUsername.Font = new Font("Segoe UI", 10F);
-            txtUsername.Location = new Point(34, 160);
-            txtUsername.Margin = new Padding(3, 4, 3, 4);
-            txtUsername.Name = "txtUsername";
-            txtUsername.Size = new Size(411, 30);
-            txtUsername.TabIndex = 3;
-            // 
-            // lblUsername
-            // 
-            lblUsername.AutoSize = true;
-            lblUsername.Font = new Font("Segoe UI", 9F);
-            lblUsername.Location = new Point(34, 133);
-            lblUsername.Name = "lblUsername";
-            lblUsername.Size = new Size(120, 20);
-            lblUsername.TabIndex = 2;
-            lblUsername.Text = "Tên đăng nhập: *";
-            // 
-            // txtUserId
-            // 
-            txtUserId.Enabled = false;
-            txtUserId.Font = new Font("Segoe UI", 10F);
-            txtUserId.Location = new Point(34, 80);
-            txtUserId.Margin = new Padding(3, 4, 3, 4);
-            txtUserId.Name = "txtUserId";
-            txtUserId.Size = new Size(411, 30);
-            txtUserId.TabIndex = 1;
-            // 
-            // lblUserId
-            // 
-            lblUserId.AutoSize = true;
-            lblUserId.Font = new Font("Segoe UI", 9F);
-            lblUserId.Location = new Point(34, 53);
-            lblUserId.Name = "lblUserId";
-            lblUserId.Size = new Size(111, 20);
-            lblUserId.TabIndex = 0;
-            lblUserId.Text = "ID Người dùng:";
+            lblFirstName.AutoSize = true;
+            lblFirstName.Font = new Font("Segoe UI", 9F);
+            lblFirstName.Location = new Point(44, 50);
+            lblFirstName.Name = "lblFirstName";
+            lblFirstName.Size = new Size(42, 20);
+            lblFirstName.TabIndex = 4;
+            lblFirstName.Text = "Họ: *";
             // 
             // panelButtons
             // 
@@ -499,37 +490,19 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             ResumeLayout(false);
         }
 
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        //private void TeacherAddUpdateUserControl_Load(object sender, EventArgs e)
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        private void btnSave_Click(object sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
 
         private Panel panelMain;
         private Panel panelHeader;
         private Label lblTitle;
         private Panel panelContent;
         private GroupBox grpUserInfo;
-        private TextBox txtUserId;
-        private Label lblUserId;
-        private TextBox txtUsername;
-        private Label lblUsername;
-        private TextBox txtPassword;
+        private TextBox txtFirstName;
         private Label lblPassword;
-        private TextBox txtFullName;
+        private TextBox txtLastName;
         private Label lblFullName;
         private TextBox txtEmail;
         private Label lblEmail;
-        private TextBox txtPhone;
+        private TextBox txtPhoneNumber;
         private Label lblPhone;
         private TextBox txtAddress;
         private Label lblAddress;
@@ -537,8 +510,6 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
         private Label lblDateOfBirth;
         private ComboBox cboGender;
         private Label lblGender;
-        private ComboBox cboRole;
-        private Label lblRole;
         private GroupBox grpTeacherInfo;
         private TextBox txtTeacherId;
         private Label lblTeacherId;
@@ -549,8 +520,19 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
         private Panel panelButtons;
         private Button btnSave;
         private Button btnCancel;
+        private Label lblErrorDob;
+        private Label lblErrorGender;
+        private Label lblErrorPhoneNumber;
+        private Label lblErrorEmail;
+        private Label lblErrorLastName;
+        private Label lblErrorFirstName;
+        private Label lblErrorExperience;
+        private Label lblErrorSalary;
+        private Label lblLastName;
+        private Label lblFirstName;
+
     }
 
-        #endregion
-    }
+    #endregion
+}
 

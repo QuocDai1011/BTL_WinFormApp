@@ -26,6 +26,7 @@ namespace BaiTapLonWinForm.Repositories.implements
                 return await _context.Teachers
                     .Include(t => t.User)
                     .Include(t => t.Classes)
+                    .AsNoTracking()
                     .OrderByDescending(t => t.TeacherId)
                     .ToListAsync();
             }
@@ -89,15 +90,30 @@ namespace BaiTapLonWinForm.Repositories.implements
         {
             try
             {
-                _context.Teachers.Update(entity);
+                var existingTeacher = await _context.Teachers
+                    .Include(t => t.User)
+                    .FirstOrDefaultAsync(t => t.TeacherId == entity.TeacherId);
+
+                if (existingTeacher == null) return null;
+
+                existingTeacher.Salary = entity.Salary;
+                existingTeacher.ExperienceYear = entity.ExperienceYear;
+
+
+                if (existingTeacher.User != null && entity.User != null)
+                {
+                    existingTeacher.User.FirstName = entity.User.FirstName;
+                    existingTeacher.User.LastName = entity.User.LastName;
+                    existingTeacher.User.Email = entity.User.Email;
+                    existingTeacher.User.PhoneNumber = entity.User.PhoneNumber;
+                    existingTeacher.User.Address = entity.User.Address;
+                    existingTeacher.User.DateOfBirth = entity.User.DateOfBirth;
+                    existingTeacher.User.Gender = entity.User.Gender; 
+                }
+
                 await _context.SaveChangesAsync();
 
-                // Reload to get updated navigation properties
-                await _context.Entry(entity)
-                    .Reference(t => t.User)
-                    .LoadAsync();
-
-                return entity;
+                return existingTeacher;
             }
             catch (Exception)
             {
@@ -135,23 +151,7 @@ namespace BaiTapLonWinForm.Repositories.implements
                 throw;
             }
         }
-
-        public async Task<bool> UserIdExistsAsync(long userId, int? excludeTeacherId = null)
-        {
-            try
-            {
-                var query = _context.Teachers.Where(t => t.UserId == userId);
-
-                if (excludeTeacherId.HasValue)
-                    query = query.Where(t => t.TeacherId != excludeTeacherId.Value);
-
-                return await query.AnyAsync();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+        
 
         public async Task<IEnumerable<Teacher>> GetTeachersWithClassesAsync()
         {
@@ -216,6 +216,30 @@ namespace BaiTapLonWinForm.Repositories.implements
                 return teacher?.Classes.Count ?? 0;
             }
             catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<bool> IsTeacherUserMatchAsync(int teacherId, long userId)
+        {
+            try
+            {
+                return await _context.Teachers
+              .AnyAsync(t => t.TeacherId == teacherId && t.UserId == userId);
+            }catch(Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<bool> IsUserIdAssignedToOtherTeacherAsync(long userId, int currentTeacherId)
+        {
+            try
+            {
+                return await _context.Teachers
+                .AnyAsync(t => t.UserId == userId && t.TeacherId != currentTeacherId);
+            }catch(Exception)
             {
                 throw;
             }

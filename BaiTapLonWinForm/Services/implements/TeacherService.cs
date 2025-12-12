@@ -25,7 +25,7 @@ namespace BaiTapLonWinForm.Services.implements
             try
             {
                 var teachers = await _teacherRepository.GetAllAsync();
-                return (true, $"Lấy danh sách {teachers.Count()} giáo viên thành công", teachers);
+                return (true, $"Lấy danh sách {teachers.Count()} giảng viên thành công", teachers);
             }
             catch (Exception ex)
             {
@@ -38,14 +38,14 @@ namespace BaiTapLonWinForm.Services.implements
             try
             {
                 if (id <= 0)
-                    return (false, "ID giáo viên không hợp lệ", null);
+                    return (false, "ID giảng viên không hợp lệ", null);
 
                 var teacher = await _teacherRepository.GetByIdAsync(id);
 
                 if (teacher == null)
-                    return (false, "Không tìm thấy giáo viên", null);
+                    return (false, "Không tìm thấy giảng viên", null);
 
-                return (true, "Lấy thông tin giáo viên thành công", teacher);
+                return (true, "Lấy thông tin giảng viên thành công", teacher);
             }
             catch (Exception ex)
             {
@@ -63,9 +63,9 @@ namespace BaiTapLonWinForm.Services.implements
                 var teacher = await _teacherRepository.GetByUserIdAsync(userId);
 
                 if (teacher == null)
-                    return (false, "Không tìm thấy giáo viên với User ID này", null);
+                    return (false, "Không tìm thấy giảng viên với User ID này", null);
 
-                return (true, "Lấy thông tin giáo viên thành công", teacher);
+                return (true, "Lấy thông tin giảng viên thành công", teacher);
             }
             catch (Exception ex)
             {
@@ -82,12 +82,9 @@ namespace BaiTapLonWinForm.Services.implements
                 if (!isValid)
                     return (false, message, null);
 
-                // Check user exists in teacher table
-                if (await _teacherRepository.UserIdExistsAsync(teacher.UserId))
-                    return (false, "User ID này đã được gán cho giáo viên khác", null);
 
                 var createdTeacher = await _teacherRepository.CreateAsync(teacher);
-                return (true, "Tạo giáo viên thành công", createdTeacher);
+                return (true, "Tạo giảng viên thành công", createdTeacher);
             }
             catch (DbUpdateException ex)
             {
@@ -102,7 +99,7 @@ namespace BaiTapLonWinForm.Services.implements
             }
         }
 
-        public async Task<(bool Success, string Message, Teacher Data)> UpdateTeacherAsync(Teacher teacher)
+        public async Task<(bool Success, string Message, Teacher? Data)> UpdateTeacherAsync(Teacher teacher)
         {
             try
             {
@@ -113,18 +110,30 @@ namespace BaiTapLonWinForm.Services.implements
 
                 // Check exists
                 if (!await _teacherRepository.ExistsAsync(teacher.TeacherId))
-                    return (false, "Không tìm thấy giáo viên", null);
+                    return (false, "Không tìm thấy giảng viên", null);
 
-                // Check user exists (exclude current teacher)
-                if (await _teacherRepository.UserIdExistsAsync(teacher.UserId, teacher.TeacherId))
-                    return (false, "User ID này đã được gán cho giáo viên khác", null);
+                if (teacher.User != null)
+                {
+                    var currentDbTeacher = await _teacherRepository.GetByIdAsync(teacher.TeacherId);
+                    if (currentDbTeacher == null) return (false, "Không tìm thấy giảng viên", null);
+
+                    long userIdToCheck = currentDbTeacher.UserId; 
+
+
+                    var checkResult = await ValidateTeacherUserRelationshipAsync(teacher.TeacherId, userIdToCheck);
+
+                    if (!checkResult.IsValid)
+                    {
+                        return (false, checkResult.Message, null);
+                    }
+                }
 
                 var updatedTeacher = await _teacherRepository.UpdateAsync(teacher);
 
                 if (updatedTeacher == null)
-                    return (false, "Không thể cập nhật giáo viên", null);
+                    return (false, "Không thể cập nhật giảng viên", null);
 
-                return (true, "Cập nhật giáo viên thành công", updatedTeacher);
+                return (true, "Cập nhật giảng viên thành công", updatedTeacher);
             }
             catch (DbUpdateException ex)
             {
@@ -144,11 +153,11 @@ namespace BaiTapLonWinForm.Services.implements
             try
             {
                 if (id <= 0)
-                    return (false, "ID giáo viên không hợp lệ");
+                    return (false, "ID giảng viên không hợp lệ");
 
                 var teacher = await _teacherRepository.GetByIdAsync(id);
                 if (teacher == null)
-                    return (false, "Không tìm thấy giáo viên");
+                    return (false, "Không tìm thấy giảng viên");
 
                 // Validate can delete
                 var (canDelete, message) = TeacherValidator.CanDeleteTeacher(teacher);
@@ -158,14 +167,14 @@ namespace BaiTapLonWinForm.Services.implements
                 var result = await _teacherRepository.DeleteAsync(id);
 
                 if (!result)
-                    return (false, "Không thể xóa giáo viên");
+                    return (false, "Không thể xóa giảng viên");
 
-                return (true, "Xóa giáo viên thành công");
+                return (true, "Xóa giảng viên thành công");
             }
             catch (DbUpdateException ex)
             {
                 if (ex.InnerException?.Message.Contains("REFERENCE constraint") == true)
-                    return (false, "Không thể xóa giáo viên vì có dữ liệu liên quan (lớp học)");
+                    return (false, "Không thể xóa giảng viên vì có dữ liệu liên quan (lớp học)");
 
                 return (false, $"Lỗi cơ sở dữ liệu: {ex.InnerException?.Message ?? ex.Message}");
             }
@@ -180,7 +189,7 @@ namespace BaiTapLonWinForm.Services.implements
             try
             {
                 var teachers = await _teacherRepository.GetTeachersWithClassesAsync();
-                return (true, $"Lấy danh sách {teachers.Count()} giáo viên đang có lớp học thành công", teachers);
+                return (true, $"Lấy danh sách {teachers.Count()} giảng viên đang có lớp học thành công", teachers);
             }
             catch (Exception ex)
             {
@@ -199,7 +208,7 @@ namespace BaiTapLonWinForm.Services.implements
                     return (false, "Số năm tối thiểu không thể lớn hơn số năm tối đa", null);
 
                 var teachers = await _teacherRepository.GetTeachersByExperienceAsync(minYears, maxYears);
-                return (true, $"Lấy danh sách {teachers.Count()} giáo viên theo kinh nghiệm thành công", teachers);
+                return (true, $"Lấy danh sách {teachers.Count()} giảng viên theo kinh nghiệm thành công", teachers);
             }
             catch (Exception ex)
             {
@@ -212,7 +221,7 @@ namespace BaiTapLonWinForm.Services.implements
             try
             {
                 var teachers = await _teacherRepository.GetAvailableTeachersAsync();
-                return (true, $"Lấy danh sách {teachers.Count()} giáo viên có thể nhận lớp thành công", teachers);
+                return (true, $"Lấy danh sách {teachers.Count()} giảng viên có thể nhận lớp thành công", teachers);
             }
             catch (Exception ex)
             {
@@ -225,18 +234,18 @@ namespace BaiTapLonWinForm.Services.implements
             try
             {
                 if (teacherId <= 0)
-                    return (false, "ID giáo viên không hợp lệ");
+                    return (false, "ID giảng viên không hợp lệ");
 
                 var teacher = await _teacherRepository.GetByIdAsync(teacherId);
                 if (teacher == null)
-                    return (false, "Không tìm thấy giáo viên");
+                    return (false, "Không tìm thấy giảng viên");
 
                 var (canAssign, message) = TeacherValidator.CanAssignClass(teacher);
 
                 if (!canAssign)
                     return (false, message);
 
-                return (true, "Giáo viên có thể nhận thêm lớp học");
+                return (true, "giảng viên có thể nhận thêm lớp học");
             }
             catch (Exception ex)
             {
@@ -249,14 +258,39 @@ namespace BaiTapLonWinForm.Services.implements
             try
             {
                 if (teacherId <= 0)
-                    return (false, "ID giáo viên không hợp lệ", 0);
+                    return (false, "ID giảng viên không hợp lệ", 0);
 
                 var count = await _teacherRepository.GetClassCountAsync(teacherId);
-                return (true, $"Giáo viên đang có {count} lớp học", count);
+                return (true, $"giảng viên đang có {count} lớp học", count);
             }
             catch (Exception ex)
             {
                 return (false, $"Lỗi: {ex.Message}", 0);
+            }
+        }
+        public async Task<(bool IsValid, string Message)> ValidateTeacherUserRelationshipAsync(int teacherId, long userId)
+        {
+            try
+            {
+                bool isAssignedToOther = await _teacherRepository.IsUserIdAssignedToOtherTeacherAsync(userId, teacherId);
+                if (isAssignedToOther)
+                {
+                    return (false, "Lỗi dữ liệu nghiêm trọng: User ID này đang được liên kết với một giảng viên khác. Vui lòng kiểm tra lại database!");
+                }
+
+
+                bool isMatch = await _teacherRepository.IsTeacherUserMatchAsync(teacherId, userId);
+                if (!isMatch)
+                {
+
+                    return (false, "Dữ liệu không đồng bộ: Giảng viên này không liên kết với User ID được cung cấp.");
+                }
+
+                return (true, "Dữ liệu hợp lệ");
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Lỗi kiểm tra quan hệ Teacher-User: {ex.Message}");
             }
         }
     }

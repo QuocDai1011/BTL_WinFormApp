@@ -16,10 +16,12 @@ namespace BaiTapLonWinForm.Repositories.interfaces
         Task<Teacher> UpdateAsync(Teacher entity);
         Task<bool> DeleteAsync(int id);
         Task<bool> ExistsAsync(int id);
-        Task<bool> UserIdExistsAsync(long userId, int? excludeTeacherId = null);
         Task<IEnumerable<Teacher>> GetTeachersWithClassesAsync();
         Task<IEnumerable<Teacher>> GetTeachersByExperienceAsync(int minYears, int maxYears);
         Task<IEnumerable<Teacher>> GetAvailableTeachersAsync();
         Task<int> GetClassCountAsync(int teacherId);
+
+        Task<bool> IsTeacherUserMatchAsync(int teacherId, long userId);
+        Task<bool> IsUserIdAssignedToOtherTeacherAsync(long userId, int currentTeacherId);
     }
 }

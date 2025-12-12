@@ -23,5 +23,7 @@ namespace BaiTapLonWinForm.Services.interfaces
         Task<(bool Success, string Message)> AddStudentsToClassAsync(int classId, List<int> studentIds);
 
         Task<(bool Success, string Message)> RemoveStudentFromClassAsync(int classId, int studentId);
+        
+        (bool Success, string Message, IEnumerable<Class> Data) getClassesByStudentId(int studentId);
     }
 }

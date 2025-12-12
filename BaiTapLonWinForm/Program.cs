@@ -25,7 +25,7 @@ namespace BaiTapLonWinForm
         ///  The main entry point for the application.
         /// </summary>
         [STAThread]
-        static async Task Main()
+        static void Main()
         {
             ExcelPackage.License.SetNonCommercialPersonal(Environment.UserName);
 
@@ -89,11 +89,9 @@ namespace BaiTapLonWinForm
             {
                 try
                 {
-                    // Lấy TestDataSeeder từ DI (DI sẽ tự điền ServiceHub và Context vào)
                     var seeder = scope.ServiceProvider.GetRequiredService<TestDataSeeder>();
 
-                    // Chạy hàm nạp dữ liệu
-                    await seeder.SeedAsync();
+                    seeder.SeedAsync().GetAwaiter().GetResult();
                 }
                 catch (Exception ex)
                 {

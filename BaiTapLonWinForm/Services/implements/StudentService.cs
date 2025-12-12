@@ -37,7 +37,7 @@ namespace BaiTapLonWinForm.Services.implements
             try
             {
                 var students = await _studentRepository.GetAllAsync();
-                return (true, $"Lấy danh sách {students.Count()} học sinh thành công", students);
+                return (true, $"Lấy danh sách {students.Count()} học viên thành công", students);
             }
             catch (Exception ex)
             {
@@ -50,14 +50,14 @@ namespace BaiTapLonWinForm.Services.implements
             try
             {
                 if (id <= 0)
-                    return (false, "ID học sinh không hợp lệ", null);
+                    return (false, "ID học viên không hợp lệ", null);
 
                 var student = await _studentRepository.GetByIdAsync(id);
 
                 if (student == null)
-                    return (false, "Không tìm thấy học sinh", null);
+                    return (false, "Không tìm thấy học viên", null);
 
-                return (true, "Lấy thông tin học sinh thành công", student);
+                return (true, "Lấy thông tin học viên thành công", student);
             }
             catch (Exception ex)
             {
@@ -75,9 +75,9 @@ namespace BaiTapLonWinForm.Services.implements
                 var student = await _studentRepository.GetByUserIdAsync(userId);
 
                 if (student == null)
-                    return (false, "Không tìm thấy học sinh với User ID này", null);
+                    return (false, "Không tìm thấy học viên với User ID này", null);
 
-                return (true, "Lấy thông tin học sinh thành công", student);
+                return (true, "Lấy thông tin học viên thành công", student);
             }
             catch (Exception ex)
             {
@@ -103,7 +103,7 @@ namespace BaiTapLonWinForm.Services.implements
 
                 var createdUser = await _userRepository.CreateAsync(user);
 
-                // Lưu tạm để Database sinh ra UserId (nhưng chưa Commit Transaction)
+                // Lưu tạm để Database viên ra UserId (nhưng chưa Commit Transaction)
                 await _unitOfWork.SaveChangesAsync();
 
                 // 3. Tạo Student
@@ -113,22 +113,25 @@ namespace BaiTapLonWinForm.Services.implements
                 // Lưu tạm Student
                 await _unitOfWork.SaveChangesAsync();
 
-                // 4. Lưu ảnh (Logic file hệ thống + DB)
-                var faceResult = await _faceService.SaveFaceImagesAndGetPathsAsync(createdStudent.StudentId, faceImages);
-
-                // Ghi nhận các file đã tạo để xóa nếu lỗi
-                createdFiles.AddRange(faceResult.createdFilePaths);
-
-                if (!faceResult.success)
+                if(faceImages != null)
                 {
-                    throw new Exception($"Lỗi lưu ảnh: {faceResult.message}");
+                    // 4. Lưu ảnh (Logic file hệ thống + DB)
+                    var faceResult = await _faceService.SaveFaceImagesAndGetPathsAsync(createdStudent.StudentId, faceImages);
+
+                    // Ghi nhận các file đã tạo để xóa nếu lỗi
+                    createdFiles.AddRange(faceResult.createdFilePaths);
+
+                    if (!faceResult.success)
+                    {
+                        throw new Exception($"Lỗi lưu ảnh: {faceResult.message}");
+                    }
                 }
 
                 // 5. MỌI THỨ OK -> COMMIT (CHỐT SỔ)
                 // Lúc này dữ liệu mới chính thức được lưu vĩnh viễn vào DB
                 await _unitOfWork.CommitAsync();
 
-                return (true, "Thêm sinh viên thành công!");
+                return (true, "Thêm viên viên thành công!");
             }
             catch (Exception ex)
             {
@@ -180,30 +183,27 @@ namespace BaiTapLonWinForm.Services.implements
         {
             try
             {
-                // Validation
-                var (isValid, message) = StudentValidator.ValidateForUpdate(student);
-                if (!isValid)
-                    return (false, message, null);
+                if (string.IsNullOrEmpty(student.User?.Email))
+                    return (false, "Email không được để trống", null);
 
-                // Check exists
-                if (!await _studentRepository.ExistsAsync(student.StudentId))
-                    return (false, "Không tìm thấy học sinh", null);
+                if(await _userRepository.EmailExistsAsync(student.User.Email, student.UserId))
+                    return (false, "Email đã tồn tại", null);
 
                 // Check user exists (exclude current student)
-                if (await _studentRepository.UserIdExistsAsync(student.UserId, student.StudentId))
-                    return (false, "User ID này đã được gán cho học sinh khác", null);
-
                 var updatedStudent = await _studentRepository.UpdateAsync(student);
 
                 if (updatedStudent == null)
-                    return (false, "Không thể cập nhật học sinh", null);
+                    return (false, "Không thể cập nhật học viên", null);
 
-                return (true, "Cập nhật học sinh thành công", updatedStudent);
+                return (true, "Cập nhật học viên thành công", updatedStudent);
             }
             catch (DbUpdateException ex)
             {
                 if (ex.InnerException?.Message.Contains("FK_student_user") == true)
                     return (false, "User ID không tồn tại trong hệ thống", null);
+
+                if (ex.InnerException?.Message.Contains("UQ_") == true || ex.InnerException?.Message.Contains("Unique") == true)
+                    return (false, "Email hoặc số điện thoại đã tồn tại trong hệ thống", null);
 
                 return (false, $"Lỗi cơ sở dữ liệu: {ex.InnerException?.Message ?? ex.Message}", null);
             }
@@ -218,11 +218,11 @@ namespace BaiTapLonWinForm.Services.implements
             try
             {
                 if (id <= 0)
-                    return (false, "ID học sinh không hợp lệ");
+                    return (false, "ID học viên không hợp lệ");
 
                 var student = await _studentRepository.GetByIdAsync(id);
                 if (student == null)
-                    return (false, "Không tìm thấy học sinh");
+                    return (false, "Không tìm thấy học viên");
 
                 // Validate can delete
                 var (canDelete, message) = StudentValidator.CanDeleteStudent(student);
@@ -232,14 +232,18 @@ namespace BaiTapLonWinForm.Services.implements
                 var result = await _studentRepository.DeleteAsync(id);
 
                 if (!result)
-                    return (false, "Không thể xóa học sinh");
+                    return (false, "Không thể xóa học viên");
 
-                return (true, "Xóa học sinh thành công");
+
+                // sau khi xóa học viên thì thực hiện xóa mềm user (vô hiệu hóa tài khoản)
+                await _userRepository.SoftDeleteAsync(student.UserId);
+
+                return (true, "Xóa học viên thành công");
             }
             catch (DbUpdateException ex)
             {
                 if (ex.InnerException?.Message.Contains("REFERENCE constraint") == true)
-                    return (false, "Không thể xóa học sinh vì có dữ liệu liên quan (lớp học)");
+                    return (false, "Không thể xóa học viên vì có dữ liệu liên quan (lớp học)");
 
                 return (false, $"Lỗi cơ sở dữ liệu: {ex.InnerException?.Message ?? ex.Message}");
             }
@@ -254,7 +258,7 @@ namespace BaiTapLonWinForm.Services.implements
             try
             {
                 var students = await _studentRepository.GetStudentsWithClassesAsync();
-                return (true, $"Lấy danh sách {students.Count()} học sinh đang có lớp học thành công", students);
+                return (true, $"Lấy danh sách {students.Count()} học viên đang có lớp học thành công", students);
             }
             catch (Exception ex)
             {
@@ -270,7 +274,7 @@ namespace BaiTapLonWinForm.Services.implements
                     return (false, "ID lớp học không hợp lệ", null);
 
                 var students = await _studentRepository.GetStudentsByClassIdAsync(classId);
-                return (true, $"Lấy danh sách {students.Count()} học sinh của lớp thành công", students);
+                return (true, $"Lấy danh sách {students.Count()} học viên của lớp thành công", students);
             }
             catch (Exception ex)
             {
@@ -289,7 +293,7 @@ namespace BaiTapLonWinForm.Services.implements
                     return (false, "Từ khóa tìm kiếm phải có ít nhất 2 ký tự", null);
 
                 var students = await _studentRepository.SearchByNameAsync(keyword);
-                return (true, $"Tìm thấy {students.Count()} học sinh", students);
+                return (true, $"Tìm thấy {students.Count()} học viên", students);
             }
             catch (Exception ex)
             {
@@ -302,10 +306,10 @@ namespace BaiTapLonWinForm.Services.implements
             try
             {
                 if (studentId <= 0)
-                    return (false, "ID học sinh không hợp lệ", 0);
+                    return (false, "ID học viên không hợp lệ", 0);
 
                 var count = await _studentRepository.GetClassCountAsync(studentId);
-                return (true, $"Học sinh đang học {count} lớp", count);
+                return (true, $"Học viên đang học {count} lớp", count);
             }
             catch (Exception ex)
             {
@@ -318,7 +322,7 @@ namespace BaiTapLonWinForm.Services.implements
             try
             {
                 var students = await _studentRepository.GetStudentsWithoutClassAsync();
-                return (true, $"Lấy danh sách {students.Count()} học sinh chưa có lớp thành công", students);
+                return (true, $"Lấy danh sách {students.Count()} học viên chưa có lớp thành công", students);
             }
             catch (Exception ex)
             {
@@ -331,23 +335,25 @@ namespace BaiTapLonWinForm.Services.implements
             try
             {
                 if (studentId <= 0)
-                    return (false, "ID học sinh không hợp lệ");
+                    return (false, "ID học viên không hợp lệ");
 
                 var student = await _studentRepository.GetByIdAsync(studentId);
                 if (student == null)
-                    return (false, "Không tìm thấy học sinh");
+                    return (false, "Không tìm thấy học viên");
 
                 var (canEnroll, message) = StudentValidator.CanEnrollClass(student);
 
                 if (!canEnroll)
                     return (false, message);
 
-                return (true, "Học sinh có thể đăng ký thêm lớp học");
+                return (true, "Học viên có thể đăng ký thêm lớp học");
             }
             catch (Exception ex)
             {
                 return (false, $"Lỗi: {ex.Message}");
             }
         }
+
+        
     }
 }

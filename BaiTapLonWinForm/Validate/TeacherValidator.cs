@@ -14,10 +14,7 @@ namespace BaiTapLonWinForm.Validate
             if (teacher == null)
                 return (false, "Đối tượng giáo viên không được null");
 
-            var result = ValidateUserId(teacher.UserId);
-            if (!result.IsValid) return result;
-
-            result = ValidateSalary(teacher.Salary);
+            var result = ValidateSalary(teacher.Salary);
             if (!result.IsValid) return result;
 
             result = ValidateExperienceYear(teacher.ExperienceYear);
@@ -58,8 +55,8 @@ namespace BaiTapLonWinForm.Validate
 
         public static (bool IsValid, string Message) ValidateForCreate(Teacher teacher)
         {
-            if (teacher.TeacherId != 0)
-                return (false, "TeacherId phải bằng 0 khi tạo mới");
+            if (teacher.TeacherId < 0)
+                return (false, "TeacherId không hợp lệ");
 
             return Validate(teacher);
         }

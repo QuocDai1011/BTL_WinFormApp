@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-
-namespace BaiTapLonWinForm.View.Admin.Teacher
+﻿namespace BaiTapLonWinForm.View.Admin.Teacher
 {
     partial class TeacherManagement
     {
@@ -30,311 +28,359 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
         /// </summary>
         private void InitializeComponent()
         {
-            dgvTeachers = new DataGridView();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             panelTop = new Panel();
+            panelSearchContainer = new Panel();
             btnRefresh = new Button();
             btnSearch = new Button();
             txtSearch = new TextBox();
-            lblSearch = new Label();
-            panelRight = new Panel();
-            btnDelete = new Button();
-            btnUpdate = new Button();
+            lblTitle = new Label();
+            panelGrid = new Panel();
+            panelButtons = new Panel();
             btnAdd = new Button();
-            btnClear = new Button();
-            grpTeacherInfo = new GroupBox();
-            nudExperienceYear = new NumericUpDown();
-            nudSalary = new NumericUpDown();
-            cboUser = new ComboBox();
-            lblExperienceYear = new Label();
-            lblSalary = new Label();
-            lblUser = new Label();
-            txtTeacherId = new TextBox();
-            lblTeacherId = new Label();
-            ((ISupportInitialize)dgvTeachers).BeginInit();
+            btnUpdate = new Button();
+            btnDelete = new Button();
+            dgvTeachers = new DataGridView();
+            ColTeacherName = new DataGridViewTextBoxColumn();
+            ColEmail = new DataGridViewTextBoxColumn();
+            ColPhoneNumber = new DataGridViewTextBoxColumn();
+            ColDateOfBirth = new DataGridViewTextBoxColumn();
+            ColGender = new DataGridViewTextBoxColumn();
+            ColAddress = new DataGridViewTextBoxColumn();
+            ColFirstName = new DataGridViewTextBoxColumn();
+            ColLastName = new DataGridViewTextBoxColumn();
+            ColExperience = new DataGridViewTextBoxColumn();
+            ColSalary = new DataGridViewTextBoxColumn();
+            ColTeacherId = new DataGridViewTextBoxColumn();
+            ColUserId = new DataGridViewTextBoxColumn();
             panelTop.SuspendLayout();
-            panelRight.SuspendLayout();
-            grpTeacherInfo.SuspendLayout();
-            ((ISupportInitialize)nudExperienceYear).BeginInit();
-            ((ISupportInitialize)nudSalary).BeginInit();
+            panelSearchContainer.SuspendLayout();
+            panelGrid.SuspendLayout();
+            panelButtons.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvTeachers).BeginInit();
             SuspendLayout();
-            // 
-            // dgvTeachers
-            // 
-            dgvTeachers.AllowUserToAddRows = false;
-            dgvTeachers.AllowUserToDeleteRows = false;
-            dgvTeachers.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dgvTeachers.BackgroundColor = Color.White;
-            dgvTeachers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvTeachers.Dock = DockStyle.Fill;
-            dgvTeachers.Location = new Point(0, 60);
-            dgvTeachers.Name = "dgvTeachers";
-            dgvTeachers.ReadOnly = true;
-            dgvTeachers.RowHeadersWidth = 51;
-            dgvTeachers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvTeachers.Size = new Size(800, 525);
-            dgvTeachers.TabIndex = 0;
-            dgvTeachers.SelectionChanged += dgvTeachers_SelectionChanged;
             // 
             // panelTop
             // 
-            panelTop.BackColor = Color.FromArgb(41, 128, 185);
-            panelTop.Controls.Add(btnRefresh);
-            panelTop.Controls.Add(btnSearch);
-            panelTop.Controls.Add(txtSearch);
-            panelTop.Controls.Add(lblSearch);
+            panelTop.BackColor = Color.White;
+            panelTop.Controls.Add(panelSearchContainer);
+            panelTop.Controls.Add(lblTitle);
             panelTop.Dock = DockStyle.Top;
             panelTop.Location = new Point(0, 0);
             panelTop.Name = "panelTop";
-            panelTop.Size = new Size(1150, 60);
-            panelTop.TabIndex = 1;
+            panelTop.Padding = new Padding(20, 10, 20, 10);
+            panelTop.Size = new Size(1450, 70);
+            panelTop.TabIndex = 0;
+            // 
+            // panelSearchContainer
+            // 
+            panelSearchContainer.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            panelSearchContainer.Controls.Add(btnRefresh);
+            panelSearchContainer.Controls.Add(btnSearch);
+            panelSearchContainer.Controls.Add(txtSearch);
+            panelSearchContainer.Location = new Point(860, 18);
+            panelSearchContainer.Name = "panelSearchContainer";
+            panelSearchContainer.Size = new Size(548, 40);
+            panelSearchContainer.TabIndex = 1;
             // 
             // btnRefresh
             // 
-            btnRefresh.BackColor = Color.FromArgb(52, 152, 219);
+            btnRefresh.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnRefresh.BackColor = Color.Transparent;
+            btnRefresh.Cursor = Cursors.Hand;
+            btnRefresh.FlatAppearance.BorderColor = Color.FromArgb(52, 152, 219);
             btnRefresh.FlatStyle = FlatStyle.Flat;
-            btnRefresh.ForeColor = Color.White;
-            btnRefresh.Location = new Point(540, 15);
+            btnRefresh.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnRefresh.ForeColor = Color.FromArgb(52, 152, 219);
+            btnRefresh.Location = new Point(445, 3);
             btnRefresh.Name = "btnRefresh";
-            btnRefresh.Size = new Size(100, 30);
-            btnRefresh.TabIndex = 3;
-            btnRefresh.Text = "Làm mới";
+            btnRefresh.Size = new Size(100, 34);
+            btnRefresh.TabIndex = 0;
+            btnRefresh.Text = "↻ Tải lại";
             btnRefresh.UseVisualStyleBackColor = false;
             btnRefresh.Click += btnRefresh_Click;
             // 
             // btnSearch
             // 
             btnSearch.BackColor = Color.FromArgb(52, 152, 219);
+            btnSearch.Cursor = Cursors.Hand;
+            btnSearch.FlatAppearance.BorderSize = 0;
             btnSearch.FlatStyle = FlatStyle.Flat;
+            btnSearch.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             btnSearch.ForeColor = Color.White;
-            btnSearch.Location = new Point(420, 15);
+            btnSearch.Location = new Point(340, 3);
             btnSearch.Name = "btnSearch";
-            btnSearch.Size = new Size(100, 30);
-            btnSearch.TabIndex = 2;
-            btnSearch.Text = "Tìm kiếm";
+            btnSearch.Size = new Size(90, 34);
+            btnSearch.TabIndex = 0;
+            btnSearch.Text = "Tìm";
             btnSearch.UseVisualStyleBackColor = false;
-            btnSearch.Click += btnSearch_Click;
             // 
             // txtSearch
             // 
-            txtSearch.Location = new Point(170, 18);
+            txtSearch.Font = new Font("Segoe UI", 11F);
+            txtSearch.Location = new Point(4, 3);
             txtSearch.Name = "txtSearch";
-            txtSearch.Size = new Size(230, 27);
+            txtSearch.PlaceholderText = "🔍 Tìm kiếm theo tên hoặc email...";
+            txtSearch.Size = new Size(329, 32);
             txtSearch.TabIndex = 1;
             // 
-            // lblSearch
+            // lblTitle
             // 
-            lblSearch.AutoSize = true;
-            lblSearch.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            lblSearch.ForeColor = Color.White;
-            lblSearch.Location = new Point(20, 18);
-            lblSearch.Name = "lblSearch";
-            lblSearch.Size = new Size(135, 23);
-            lblSearch.TabIndex = 0;
-            lblSearch.Text = "Tìm kiếm (Tên):";
+            lblTitle.AutoSize = true;
+            lblTitle.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            lblTitle.ForeColor = Color.FromArgb(52, 73, 94);
+            lblTitle.Location = new Point(20, 11);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(331, 41);
+            lblTitle.TabIndex = 2;
+            lblTitle.Text = "QUẢN LÝ GIẢNG VIÊN";
             // 
-            // panelRight
+            // panelGrid
             // 
-            panelRight.BackColor = Color.FromArgb(236, 240, 241);
-            panelRight.Controls.Add(btnDelete);
-            panelRight.Controls.Add(btnUpdate);
-            panelRight.Controls.Add(btnAdd);
-            panelRight.Controls.Add(btnClear);
-            panelRight.Controls.Add(grpTeacherInfo);
-            panelRight.Dock = DockStyle.Right;
-            panelRight.Location = new Point(800, 60);
-            panelRight.Name = "panelRight";
-            panelRight.Size = new Size(350, 525);
-            panelRight.TabIndex = 2;
+            panelGrid.Controls.Add(panelButtons);
+            panelGrid.Controls.Add(dgvTeachers);
+            panelGrid.Dock = DockStyle.Fill;
+            panelGrid.Location = new Point(0, 70);
+            panelGrid.Name = "panelGrid";
+            panelGrid.Padding = new Padding(20);
+            panelGrid.Size = new Size(1450, 780);
+            panelGrid.TabIndex = 0;
             // 
-            // btnDelete
+            // panelButtons
             // 
-            btnDelete.BackColor = Color.FromArgb(231, 76, 60);
-            btnDelete.FlatStyle = FlatStyle.Flat;
-            btnDelete.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            btnDelete.ForeColor = Color.White;
-            btnDelete.Location = new Point(190, 430);
-            btnDelete.Name = "btnDelete";
-            btnDelete.Size = new Size(140, 40);
-            btnDelete.TabIndex = 4;
-            btnDelete.Text = "Xóa";
-            btnDelete.UseVisualStyleBackColor = false;
-            btnDelete.Click += btnDelete_Click;
-            // 
-            // btnUpdate
-            // 
-            btnUpdate.BackColor = Color.FromArgb(243, 156, 18);
-            btnUpdate.FlatStyle = FlatStyle.Flat;
-            btnUpdate.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            btnUpdate.ForeColor = Color.White;
-            btnUpdate.Location = new Point(20, 430);
-            btnUpdate.Name = "btnUpdate";
-            btnUpdate.Size = new Size(140, 40);
-            btnUpdate.TabIndex = 3;
-            btnUpdate.Text = "Cập nhật";
-            btnUpdate.UseVisualStyleBackColor = false;
-            btnUpdate.Click += btnUpdate_Click;
+            panelButtons.Controls.Add(btnAdd);
+            panelButtons.Controls.Add(btnUpdate);
+            panelButtons.Controls.Add(btnDelete);
+            panelButtons.Dock = DockStyle.Bottom;
+            panelButtons.Location = new Point(20, 640);
+            panelButtons.Name = "panelButtons";
+            panelButtons.Size = new Size(1410, 120);
+            panelButtons.TabIndex = 2;
             // 
             // btnAdd
             // 
             btnAdd.BackColor = Color.FromArgb(46, 204, 113);
+            btnAdd.Cursor = Cursors.Hand;
+            btnAdd.FlatAppearance.BorderSize = 0;
             btnAdd.FlatStyle = FlatStyle.Flat;
             btnAdd.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             btnAdd.ForeColor = Color.White;
-            btnAdd.Location = new Point(190, 375);
+            btnAdd.Location = new Point(1205, 39);
             btnAdd.Name = "btnAdd";
-            btnAdd.Size = new Size(140, 40);
-            btnAdd.TabIndex = 2;
-            btnAdd.Text = "Thêm mới";
+            btnAdd.Size = new Size(180, 45);
+            btnAdd.TabIndex = 0;
+            btnAdd.Text = "➕ Thêm mới";
             btnAdd.UseVisualStyleBackColor = false;
             btnAdd.Click += btnAdd_Click;
             // 
-            // btnClear
+            // btnUpdate
             // 
-            btnClear.BackColor = Color.FromArgb(149, 165, 166);
-            btnClear.FlatStyle = FlatStyle.Flat;
-            btnClear.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            btnClear.ForeColor = Color.White;
-            btnClear.Location = new Point(20, 375);
-            btnClear.Name = "btnClear";
-            btnClear.Size = new Size(140, 40);
-            btnClear.TabIndex = 1;
-            btnClear.Text = "Làm mới form";
-            btnClear.UseVisualStyleBackColor = false;
-            btnClear.Click += btnClear_Click;
+            btnUpdate.BackColor = Color.FromArgb(243, 156, 18);
+            btnUpdate.Cursor = Cursors.Hand;
+            btnUpdate.FlatAppearance.BorderSize = 0;
+            btnUpdate.FlatStyle = FlatStyle.Flat;
+            btnUpdate.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnUpdate.ForeColor = Color.White;
+            btnUpdate.Location = new Point(1019, 39);
+            btnUpdate.Name = "btnUpdate";
+            btnUpdate.Size = new Size(180, 45);
+            btnUpdate.TabIndex = 1;
+            btnUpdate.Text = "✏️ Cập nhật";
+            btnUpdate.UseVisualStyleBackColor = false;
+            btnUpdate.Click += btnUpdate_Click;
             // 
-            // grpTeacherInfo
+            // btnDelete
             // 
-            grpTeacherInfo.Controls.Add(nudExperienceYear);
-            grpTeacherInfo.Controls.Add(nudSalary);
-            grpTeacherInfo.Controls.Add(cboUser);
-            grpTeacherInfo.Controls.Add(lblExperienceYear);
-            grpTeacherInfo.Controls.Add(lblSalary);
-            grpTeacherInfo.Controls.Add(lblUser);
-            grpTeacherInfo.Controls.Add(txtTeacherId);
-            grpTeacherInfo.Controls.Add(lblTeacherId);
-            grpTeacherInfo.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            grpTeacherInfo.Location = new Point(20, 20);
-            grpTeacherInfo.Name = "grpTeacherInfo";
-            grpTeacherInfo.Size = new Size(310, 340);
-            grpTeacherInfo.TabIndex = 0;
-            grpTeacherInfo.TabStop = false;
-            grpTeacherInfo.Text = "Thông tin giáo viên";
+            btnDelete.BackColor = Color.FromArgb(231, 76, 60);
+            btnDelete.Cursor = Cursors.Hand;
+            btnDelete.FlatAppearance.BorderSize = 0;
+            btnDelete.FlatStyle = FlatStyle.Flat;
+            btnDelete.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnDelete.ForeColor = Color.White;
+            btnDelete.Location = new Point(833, 39);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(180, 45);
+            btnDelete.TabIndex = 2;
+            btnDelete.Text = "🗑️ Xóa";
+            btnDelete.UseVisualStyleBackColor = false;
+            btnDelete.Click += btnDelete_Click;
             // 
-            // nudExperienceYear
+            // dgvTeachers
             // 
-            nudExperienceYear.Location = new Point(20, 280);
-            nudExperienceYear.Maximum = new decimal(new int[] { 50, 0, 0, 0 });
-            nudExperienceYear.Name = "nudExperienceYear";
-            nudExperienceYear.Size = new Size(270, 30);
-            nudExperienceYear.TabIndex = 7;
+            dgvTeachers.AllowUserToAddRows = false;
+            dgvTeachers.AllowUserToDeleteRows = false;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(248, 249, 249);
+            dgvTeachers.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dgvTeachers.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvTeachers.BackgroundColor = Color.White;
+            dgvTeachers.BorderStyle = BorderStyle.None;
+            dgvTeachers.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(44, 62, 80);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dgvTeachers.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dgvTeachers.ColumnHeadersHeight = 45;
+            dgvTeachers.Columns.AddRange(new DataGridViewColumn[] { ColTeacherName, ColEmail, ColPhoneNumber, ColDateOfBirth, ColGender, ColAddress, ColFirstName, ColLastName, ColExperience, ColSalary, ColTeacherId, ColUserId });
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle3.BackColor = Color.White;
+            dataGridViewCellStyle3.Font = new Font("Segoe UI", 10F);
+            dataGridViewCellStyle3.ForeColor = Color.Black;
+            dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(212, 230, 241);
+            dataGridViewCellStyle3.SelectionForeColor = Color.Black;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
+            dgvTeachers.DefaultCellStyle = dataGridViewCellStyle3;
+            dgvTeachers.Dock = DockStyle.Fill;
+            dgvTeachers.EnableHeadersVisualStyles = false;
+            dgvTeachers.Location = new Point(20, 20);
+            dgvTeachers.Name = "dgvTeachers";
+            dgvTeachers.ReadOnly = true;
+            dgvTeachers.RowHeadersVisible = false;
+            dgvTeachers.RowHeadersWidth = 51;
+            dgvTeachers.RowTemplate.Height = 40;
+            dgvTeachers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvTeachers.Size = new Size(1410, 740);
+            dgvTeachers.TabIndex = 0;
             // 
-            // nudSalary
+            // ColTeacherName
             // 
-            nudSalary.Location = new Point(20, 210);
-            nudSalary.Maximum = new decimal(new int[] { 1000000000, 0, 0, 0 });
-            nudSalary.Name = "nudSalary";
-            nudSalary.Size = new Size(270, 30);
-            nudSalary.TabIndex = 6;
-            nudSalary.ThousandsSeparator = true;
+            ColTeacherName.HeaderText = "HỌ VÀ TÊN";
+            ColTeacherName.MinimumWidth = 6;
+            ColTeacherName.Name = "ColTeacherName";
+            ColTeacherName.ReadOnly = true;
             // 
-            // cboUser
+            // ColEmail
             // 
-            cboUser.DropDownStyle = ComboBoxStyle.DropDownList;
-            cboUser.FormattingEnabled = true;
-            cboUser.Location = new Point(20, 140);
-            cboUser.Name = "cboUser";
-            cboUser.Size = new Size(270, 31);
-            cboUser.TabIndex = 5;
+            ColEmail.HeaderText = "EMAIL";
+            ColEmail.MinimumWidth = 6;
+            ColEmail.Name = "ColEmail";
+            ColEmail.ReadOnly = true;
             // 
-            // lblExperienceYear
+            // ColPhoneNumber
             // 
-            lblExperienceYear.AutoSize = true;
-            lblExperienceYear.Font = new Font("Segoe UI", 9F);
-            lblExperienceYear.Location = new Point(20, 255);
-            lblExperienceYear.Name = "lblExperienceYear";
-            lblExperienceYear.Size = new Size(147, 20);
-            lblExperienceYear.TabIndex = 4;
-            lblExperienceYear.Text = "Số năm kinh nghiệm:";
+            ColPhoneNumber.HeaderText = "SỐ ĐIỆN THOẠI";
+            ColPhoneNumber.MinimumWidth = 6;
+            ColPhoneNumber.Name = "ColPhoneNumber";
+            ColPhoneNumber.ReadOnly = true;
             // 
-            // lblSalary
+            // ColDateOfBirth
             // 
-            lblSalary.AutoSize = true;
-            lblSalary.Font = new Font("Segoe UI", 9F);
-            lblSalary.Location = new Point(20, 185);
-            lblSalary.Name = "lblSalary";
-            lblSalary.Size = new Size(54, 20);
-            lblSalary.TabIndex = 3;
-            lblSalary.Text = "Lương:";
+            ColDateOfBirth.HeaderText = "NGÀY SINH";
+            ColDateOfBirth.MinimumWidth = 6;
+            ColDateOfBirth.Name = "ColDateOfBirth";
+            ColDateOfBirth.ReadOnly = true;
             // 
-            // lblUser
+            // ColGender
             // 
-            lblUser.AutoSize = true;
-            lblUser.Font = new Font("Segoe UI", 9F);
-            lblUser.Location = new Point(20, 115);
-            lblUser.Name = "lblUser";
-            lblUser.Size = new Size(92, 20);
-            lblUser.TabIndex = 2;
-            lblUser.Text = "Người dùng:";
+            ColGender.HeaderText = "GIỚI TÍNH";
+            ColGender.MinimumWidth = 6;
+            ColGender.Name = "ColGender";
+            ColGender.ReadOnly = true;
             // 
-            // txtTeacherId
+            // ColAddress
             // 
-            txtTeacherId.Enabled = false;
-            txtTeacherId.Location = new Point(20, 70);
-            txtTeacherId.Name = "txtTeacherId";
-            txtTeacherId.Size = new Size(270, 30);
-            txtTeacherId.TabIndex = 1;
+            ColAddress.HeaderText = "ĐỊA CHỈ";
+            ColAddress.MinimumWidth = 6;
+            ColAddress.Name = "ColAddress";
+            ColAddress.ReadOnly = true;
             // 
-            // lblTeacherId
+            // ColFirstName
             // 
-            lblTeacherId.AutoSize = true;
-            lblTeacherId.Font = new Font("Segoe UI", 9F);
-            lblTeacherId.Location = new Point(20, 45);
-            lblTeacherId.Name = "lblTeacherId";
-            lblTeacherId.Size = new Size(93, 20);
-            lblTeacherId.TabIndex = 0;
-            lblTeacherId.Text = "ID Giáo viên:";
+            ColFirstName.HeaderText = "FirstName";
+            ColFirstName.MinimumWidth = 6;
+            ColFirstName.Name = "ColFirstName";
+            ColFirstName.ReadOnly = true;
+            ColFirstName.Visible = false;
+            // 
+            // ColLastName
+            // 
+            ColLastName.HeaderText = "LastName";
+            ColLastName.MinimumWidth = 6;
+            ColLastName.Name = "ColLastName";
+            ColLastName.ReadOnly = true;
+            ColLastName.Visible = false;
+            // 
+            // ColExperience
+            // 
+            ColExperience.HeaderText = "Kinh Nghiệm";
+            ColExperience.MinimumWidth = 6;
+            ColExperience.Name = "ColExperience";
+            ColExperience.ReadOnly = true;
+            ColExperience.Visible = false;
+            // 
+            // ColSalary
+            // 
+            ColSalary.HeaderText = "Lương";
+            ColSalary.MinimumWidth = 6;
+            ColSalary.Name = "ColSalary";
+            ColSalary.ReadOnly = true;
+            ColSalary.Visible = false;
+            // 
+            // ColTeacherId
+            // 
+            ColTeacherId.HeaderText = "TeacherId";
+            ColTeacherId.MinimumWidth = 6;
+            ColTeacherId.Name = "ColTeacherId";
+            ColTeacherId.ReadOnly = true;
+            ColTeacherId.Visible = false;
+            // 
+            // ColUserId
+            // 
+            ColUserId.HeaderText = "UserId";
+            ColUserId.MinimumWidth = 6;
+            ColUserId.Name = "ColUserId";
+            ColUserId.ReadOnly = true;
+            ColUserId.Visible = false;
             // 
             // TeacherManagement
             // 
-            Controls.Add(dgvTeachers);
-            Controls.Add(panelRight);
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(236, 240, 241);
+            Controls.Add(panelGrid);
             Controls.Add(panelTop);
             Name = "TeacherManagement";
-            Size = new Size(1150, 585);
-            ((ISupportInitialize)dgvTeachers).EndInit();
+            Size = new Size(1450, 850);
             panelTop.ResumeLayout(false);
             panelTop.PerformLayout();
-            panelRight.ResumeLayout(false);
-            grpTeacherInfo.ResumeLayout(false);
-            grpTeacherInfo.PerformLayout();
-            ((ISupportInitialize)nudExperienceYear).EndInit();
-            ((ISupportInitialize)nudSalary).EndInit();
+            panelSearchContainer.ResumeLayout(false);
+            panelSearchContainer.PerformLayout();
+            panelGrid.ResumeLayout(false);
+            panelButtons.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvTeachers).EndInit();
             ResumeLayout(false);
         }
 
-
-
-        private DataGridView dgvTeachers;
-        private Panel panelTop;
-        private Button btnRefresh;
-        private Button btnSearch;
-        private TextBox txtSearch;
-        private Label lblSearch;
-        private Panel panelRight;
-        private Button btnDelete;
-        private Button btnUpdate;
-        private Button btnAdd;
-        private Button btnClear;
-        private GroupBox grpTeacherInfo;
-        private NumericUpDown nudExperienceYear;
-        private NumericUpDown nudSalary;
-        private ComboBox cboUser;
-        private Label lblExperienceYear;
-        private Label lblSalary;
-        private Label lblUser;
-        private TextBox txtTeacherId;
-        private Label lblTeacherId;
-
         #endregion
+
+        // Controls Declaration
+        private System.Windows.Forms.Panel panelTop;
+        private System.Windows.Forms.Label lblTitle;
+        private System.Windows.Forms.Panel panelSearchContainer;
+        private System.Windows.Forms.TextBox txtSearch;
+        private System.Windows.Forms.Button btnSearch;
+        private System.Windows.Forms.Button btnRefresh;
+
+        // Grid
+        private System.Windows.Forms.Panel panelGrid;
+        private System.Windows.Forms.DataGridView dgvTeachers;
+        private DataGridViewTextBoxColumn ColTeacherName;
+        private DataGridViewTextBoxColumn ColEmail;
+        private DataGridViewTextBoxColumn ColPhoneNumber;
+        private DataGridViewTextBoxColumn ColDateOfBirth;
+        private DataGridViewTextBoxColumn ColGender;
+        private DataGridViewTextBoxColumn ColAddress;
+        private DataGridViewTextBoxColumn ColFirstName;
+        private DataGridViewTextBoxColumn ColLastName;
+        private DataGridViewTextBoxColumn ColExperience;
+        private DataGridViewTextBoxColumn ColSalary;
+        private DataGridViewTextBoxColumn ColTeacherId;
+        private DataGridViewTextBoxColumn ColUserId;
+        private Panel panelButtons;
+        private Button btnAdd;
+        private Button btnUpdate;
+        private Button btnDelete;
     }
 }

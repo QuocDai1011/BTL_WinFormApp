@@ -74,6 +74,13 @@
             lblEmail = new Label();
             txtFirstName = new TextBox();
             lblFirstName = new Label();
+            lblErrFirstName = new Label();
+            lblErrLastName = new Label();
+            lblErrEmail = new Label();
+            lblErrPhone = new Label();
+            lblErrParentPhone = new Label();
+            lblErrGender = new Label();
+
             panelTop.SuspendLayout();
             panelContent.SuspendLayout();
             panelStep2.SuspendLayout();
@@ -453,7 +460,13 @@
             panelStep1.TabIndex = 0;
             // 
             // groupBoxInfo
-            // 
+            //
+            groupBoxInfo.Controls.Add(lblErrFirstName);
+            groupBoxInfo.Controls.Add(lblErrLastName);
+            groupBoxInfo.Controls.Add(lblErrEmail);
+            groupBoxInfo.Controls.Add(lblErrPhone);
+            groupBoxInfo.Controls.Add(lblErrParentPhone);
+            groupBoxInfo.Controls.Add(lblErrGender);
             groupBoxInfo.Controls.Add(txtPhoneNumberOfParent);
             groupBoxInfo.Controls.Add(lblPhoneNumberOfParent);
             groupBoxInfo.Controls.Add(cboGender);
@@ -613,6 +626,59 @@
             // 
             // AddStudentControl
             // 
+            lblErrFirstName.AutoSize = true;
+            lblErrFirstName.Font = new Font("Segoe UI", 9F);
+            lblErrFirstName.ForeColor = Color.Red;
+            lblErrFirstName.Location = new Point(80, 108);
+            lblErrFirstName.Name = "lblErrFirstName";
+            lblErrFirstName.Size = new Size(0, 15);
+            lblErrFirstName.Visible = false;
+
+            // lblErrLastName (Dưới txtLastName)
+            lblErrLastName.AutoSize = true;
+            lblErrLastName.Font = new Font("Segoe UI", 9F);
+            lblErrLastName.ForeColor = Color.Red;
+            lblErrLastName.Location = new Point(80, 208);
+            lblErrLastName.Name = "lblErrLastName";
+            lblErrLastName.Size = new Size(0, 15);
+            lblErrLastName.Visible = false;
+
+            // lblErrEmail (Dưới txtEmail)
+            lblErrEmail.AutoSize = true;
+            lblErrEmail.Font = new Font("Segoe UI", 9F);
+            lblErrEmail.ForeColor = Color.Red;
+            lblErrEmail.Location = new Point(80, 308);
+            lblErrEmail.Name = "lblErrEmail";
+            lblErrEmail.Size = new Size(0, 15);
+            lblErrEmail.Visible = false;
+
+            // lblErrPhone (Dưới txtPhone)
+            lblErrPhone.AutoSize = true;
+            lblErrPhone.Font = new Font("Segoe UI", 9F);
+            lblErrPhone.ForeColor = Color.Red;
+            lblErrPhone.Location = new Point(80, 408);
+            lblErrPhone.Name = "lblErrPhone";
+            lblErrPhone.Size = new Size(0, 15);
+            lblErrPhone.Visible = false;
+
+            // lblErrParentPhone (Dưới txtPhoneNumberOfParent)
+            lblErrParentPhone.AutoSize = true;
+            lblErrParentPhone.Font = new Font("Segoe UI", 9F);
+            lblErrParentPhone.ForeColor = Color.Red;
+            lblErrParentPhone.Location = new Point(630, 108);
+            lblErrParentPhone.Name = "lblErrParentPhone";
+            lblErrParentPhone.Size = new Size(0, 15);
+            lblErrParentPhone.Visible = false;
+
+            // lblErrGender (Dưới cboGender)
+            lblErrGender.AutoSize = true;
+            lblErrGender.Font = new Font("Segoe UI", 9F);
+            lblErrGender.ForeColor = Color.Red;
+            lblErrGender.Location = new Point(630, 211);
+            lblErrGender.Name = "lblErrGender";
+            lblErrGender.Size = new Size(0, 15);
+            lblErrGender.Visible = false;
+
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(panelTop);
@@ -694,5 +760,11 @@
         public System.Windows.Forms.ComboBox cboCamera;
         private System.Windows.Forms.Label lblSelectCamera;
         public System.Windows.Forms.Button btnStartCamera;
+        private System.Windows.Forms.Label lblErrFirstName;
+        private System.Windows.Forms.Label lblErrLastName;
+        private System.Windows.Forms.Label lblErrEmail;
+        private System.Windows.Forms.Label lblErrPhone;
+        private System.Windows.Forms.Label lblErrParentPhone;
+        private System.Windows.Forms.Label lblErrGender;
     }
 }
