@@ -38,10 +38,6 @@
             txtSearch = new TextBox();
             lblTitle = new Label();
             panelGrid = new Panel();
-            panelButtons = new Panel();
-            btnAdd = new Button();
-            btnUpdate = new Button();
-            btnDelete = new Button();
             dgvTeachers = new DataGridView();
             ColTeacherName = new DataGridViewTextBoxColumn();
             ColEmail = new DataGridViewTextBoxColumn();
@@ -55,23 +51,28 @@
             ColSalary = new DataGridViewTextBoxColumn();
             ColTeacherId = new DataGridViewTextBoxColumn();
             ColUserId = new DataGridViewTextBoxColumn();
+            panelButtons = new Panel();
+            btnAdd = new Button();
+            btnUpdate = new Button();
+            btnDelete = new Button();
             panelTop.SuspendLayout();
             panelSearchContainer.SuspendLayout();
             panelGrid.SuspendLayout();
-            panelButtons.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvTeachers).BeginInit();
+            panelButtons.SuspendLayout();
             SuspendLayout();
             // 
             // panelTop
             // 
+            panelTop.AutoSize = true;
             panelTop.BackColor = Color.White;
             panelTop.Controls.Add(panelSearchContainer);
             panelTop.Controls.Add(lblTitle);
             panelTop.Dock = DockStyle.Top;
-            panelTop.Location = new Point(0, 0);
+            panelTop.Location = new Point(20, 20);
             panelTop.Name = "panelTop";
             panelTop.Padding = new Padding(20, 10, 20, 10);
-            panelTop.Size = new Size(1450, 70);
+            panelTop.Size = new Size(1430, 71);
             panelTop.TabIndex = 0;
             // 
             // panelSearchContainer
@@ -80,7 +81,7 @@
             panelSearchContainer.Controls.Add(btnRefresh);
             panelSearchContainer.Controls.Add(btnSearch);
             panelSearchContainer.Controls.Add(txtSearch);
-            panelSearchContainer.Location = new Point(860, 18);
+            panelSearchContainer.Location = new Point(840, 18);
             panelSearchContainer.Name = "panelSearchContainer";
             panelSearchContainer.Size = new Size(548, 40);
             panelSearchContainer.TabIndex = 1;
@@ -125,6 +126,7 @@
             txtSearch.PlaceholderText = "🔍 Tìm kiếm theo tên hoặc email...";
             txtSearch.Size = new Size(329, 32);
             txtSearch.TabIndex = 1;
+            txtSearch.TextChanged += txtSearch_TextChanged;
             // 
             // lblTitle
             // 
@@ -139,73 +141,17 @@
             // 
             // panelGrid
             // 
-            panelGrid.Controls.Add(panelButtons);
+            panelGrid.AutoSize = true;
+            panelGrid.BackColor = Color.White;
+            panelGrid.Controls.Add(panelTop);
             panelGrid.Controls.Add(dgvTeachers);
+            panelGrid.Controls.Add(panelButtons);
             panelGrid.Dock = DockStyle.Fill;
-            panelGrid.Location = new Point(0, 70);
+            panelGrid.Location = new Point(0, 0);
             panelGrid.Name = "panelGrid";
             panelGrid.Padding = new Padding(20);
-            panelGrid.Size = new Size(1450, 780);
+            panelGrid.Size = new Size(1470, 850);
             panelGrid.TabIndex = 0;
-            // 
-            // panelButtons
-            // 
-            panelButtons.Controls.Add(btnAdd);
-            panelButtons.Controls.Add(btnUpdate);
-            panelButtons.Controls.Add(btnDelete);
-            panelButtons.Dock = DockStyle.Bottom;
-            panelButtons.Location = new Point(20, 640);
-            panelButtons.Name = "panelButtons";
-            panelButtons.Size = new Size(1410, 120);
-            panelButtons.TabIndex = 2;
-            // 
-            // btnAdd
-            // 
-            btnAdd.BackColor = Color.FromArgb(46, 204, 113);
-            btnAdd.Cursor = Cursors.Hand;
-            btnAdd.FlatAppearance.BorderSize = 0;
-            btnAdd.FlatStyle = FlatStyle.Flat;
-            btnAdd.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            btnAdd.ForeColor = Color.White;
-            btnAdd.Location = new Point(1205, 39);
-            btnAdd.Name = "btnAdd";
-            btnAdd.Size = new Size(180, 45);
-            btnAdd.TabIndex = 0;
-            btnAdd.Text = "➕ Thêm mới";
-            btnAdd.UseVisualStyleBackColor = false;
-            btnAdd.Click += btnAdd_Click;
-            // 
-            // btnUpdate
-            // 
-            btnUpdate.BackColor = Color.FromArgb(243, 156, 18);
-            btnUpdate.Cursor = Cursors.Hand;
-            btnUpdate.FlatAppearance.BorderSize = 0;
-            btnUpdate.FlatStyle = FlatStyle.Flat;
-            btnUpdate.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            btnUpdate.ForeColor = Color.White;
-            btnUpdate.Location = new Point(1019, 39);
-            btnUpdate.Name = "btnUpdate";
-            btnUpdate.Size = new Size(180, 45);
-            btnUpdate.TabIndex = 1;
-            btnUpdate.Text = "✏️ Cập nhật";
-            btnUpdate.UseVisualStyleBackColor = false;
-            btnUpdate.Click += btnUpdate_Click;
-            // 
-            // btnDelete
-            // 
-            btnDelete.BackColor = Color.FromArgb(231, 76, 60);
-            btnDelete.Cursor = Cursors.Hand;
-            btnDelete.FlatAppearance.BorderSize = 0;
-            btnDelete.FlatStyle = FlatStyle.Flat;
-            btnDelete.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            btnDelete.ForeColor = Color.White;
-            btnDelete.Location = new Point(833, 39);
-            btnDelete.Name = "btnDelete";
-            btnDelete.Size = new Size(180, 45);
-            btnDelete.TabIndex = 2;
-            btnDelete.Text = "🗑️ Xóa";
-            btnDelete.UseVisualStyleBackColor = false;
-            btnDelete.Click += btnDelete_Click;
             // 
             // dgvTeachers
             // 
@@ -232,16 +178,16 @@
             dataGridViewCellStyle3.SelectionForeColor = Color.Black;
             dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
             dgvTeachers.DefaultCellStyle = dataGridViewCellStyle3;
-            dgvTeachers.Dock = DockStyle.Fill;
             dgvTeachers.EnableHeadersVisualStyles = false;
-            dgvTeachers.Location = new Point(20, 20);
+            dgvTeachers.Location = new Point(20, 98);
+            dgvTeachers.Margin = new Padding(20);
             dgvTeachers.Name = "dgvTeachers";
             dgvTeachers.ReadOnly = true;
             dgvTeachers.RowHeadersVisible = false;
             dgvTeachers.RowHeadersWidth = 51;
             dgvTeachers.RowTemplate.Height = 40;
             dgvTeachers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvTeachers.Size = new Size(1410, 740);
+            dgvTeachers.Size = new Size(1385, 606);
             dgvTeachers.TabIndex = 0;
             // 
             // ColTeacherName
@@ -334,23 +280,84 @@
             ColUserId.ReadOnly = true;
             ColUserId.Visible = false;
             // 
+            // panelButtons
+            // 
+            panelButtons.Controls.Add(btnAdd);
+            panelButtons.Controls.Add(btnUpdate);
+            panelButtons.Controls.Add(btnDelete);
+            panelButtons.Dock = DockStyle.Bottom;
+            panelButtons.Location = new Point(20, 743);
+            panelButtons.Name = "panelButtons";
+            panelButtons.Size = new Size(1430, 87);
+            panelButtons.TabIndex = 2;
+            // 
+            // btnAdd
+            // 
+            btnAdd.BackColor = Color.FromArgb(46, 204, 113);
+            btnAdd.Cursor = Cursors.Hand;
+            btnAdd.FlatAppearance.BorderSize = 0;
+            btnAdd.FlatStyle = FlatStyle.Flat;
+            btnAdd.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnAdd.ForeColor = Color.White;
+            btnAdd.Location = new Point(1205, 7);
+            btnAdd.Name = "btnAdd";
+            btnAdd.Size = new Size(180, 45);
+            btnAdd.TabIndex = 0;
+            btnAdd.Text = "➕ Thêm mới";
+            btnAdd.UseVisualStyleBackColor = false;
+            btnAdd.Click += btnAdd_Click;
+            // 
+            // btnUpdate
+            // 
+            btnUpdate.BackColor = Color.FromArgb(243, 156, 18);
+            btnUpdate.Cursor = Cursors.Hand;
+            btnUpdate.FlatAppearance.BorderSize = 0;
+            btnUpdate.FlatStyle = FlatStyle.Flat;
+            btnUpdate.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnUpdate.ForeColor = Color.White;
+            btnUpdate.Location = new Point(1019, 7);
+            btnUpdate.Name = "btnUpdate";
+            btnUpdate.Size = new Size(180, 45);
+            btnUpdate.TabIndex = 1;
+            btnUpdate.Text = "✏️ Cập nhật";
+            btnUpdate.UseVisualStyleBackColor = false;
+            btnUpdate.Click += btnUpdate_Click;
+            // 
+            // btnDelete
+            // 
+            btnDelete.BackColor = Color.FromArgb(231, 76, 60);
+            btnDelete.Cursor = Cursors.Hand;
+            btnDelete.FlatAppearance.BorderSize = 0;
+            btnDelete.FlatStyle = FlatStyle.Flat;
+            btnDelete.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            btnDelete.ForeColor = Color.White;
+            btnDelete.Location = new Point(833, 7);
+            btnDelete.Name = "btnDelete";
+            btnDelete.Size = new Size(180, 45);
+            btnDelete.TabIndex = 2;
+            btnDelete.Text = "🗑️ Xóa";
+            btnDelete.UseVisualStyleBackColor = false;
+            btnDelete.Click += btnDelete_Click;
+            // 
             // TeacherManagement
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            AutoSize = true;
             BackColor = Color.FromArgb(236, 240, 241);
             Controls.Add(panelGrid);
-            Controls.Add(panelTop);
             Name = "TeacherManagement";
-            Size = new Size(1450, 850);
+            Size = new Size(1470, 850);
             panelTop.ResumeLayout(false);
             panelTop.PerformLayout();
             panelSearchContainer.ResumeLayout(false);
             panelSearchContainer.PerformLayout();
             panelGrid.ResumeLayout(false);
-            panelButtons.ResumeLayout(false);
+            panelGrid.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvTeachers).EndInit();
+            panelButtons.ResumeLayout(false);
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion

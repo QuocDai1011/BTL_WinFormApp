@@ -18,6 +18,8 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
         private readonly ServiceHub _serviceHub;
         private Models.Teacher _teacher;
         private bool _isEditMode;
+
+        public event EventHandler CloseRequested;
         public AddTeacher(ServiceHub serviceHub, Models.Teacher teacher = null)
         {
             _serviceHub = serviceHub;
@@ -157,19 +159,24 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
 
         private bool ValidateSalary()
         {
-            if (nudSalary.Value <= 0)
+            if (nudSalary.Value >= 0 && nudSalary.Value <= 100000000)
             {
-                SetError(lblErrorSalary, "Lương phải lớn hơn 0");
-                return false;
+                ClearError(lblErrorSalary);
+                return true;
             }
-            ClearError(lblErrorSalary);
-            return true;
+            SetError(lblErrorSalary, "Lương phải lớn hơn 0 và nhỏ hơn 100.000.000VNĐ");
+            return false;
         }
 
         private bool ValidateExperience()
         {
-            ClearError(lblErrorExperience);
-            return true;
+            if(nudExperienceYear.Value >= 0 && nudExperienceYear.Value <= 50)
+            {
+                ClearError(lblErrorExperience);
+                return true;
+            }
+            SetError(lblExperienceYear, "Số năm kinh nghiệm không thể quá 50 năm");
+            return false;
         }
 
         // Hàm kiểm tra tổng hợp tất cả
@@ -246,11 +253,12 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
                 var result = await _serviceHub.TeacherService.UpdateTeacherAsync(_teacher);
                 if (result.Success)
                 {
-                    MessageHelper.ShowSuccess("Cập nhật giáo viên thành công.");
+                    MessageHelper.ShowSuccess("Cập nhật giảng viên thành công.");
+                    CloseRequested?.Invoke(this, EventArgs.Empty);
                 }
                 else
                 {
-                    MessageHelper.ShowError($"Cập nhật giáo viên thất bại. Lỗi: {result.Message}");
+                    MessageHelper.ShowError($"Cập nhật giảng viên thất bại. Lỗi: {result.Message}");
                     return;
                 }
             }
@@ -305,7 +313,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
                 _teacher.User.Address = txtAddress.Text.Trim();
                 _teacher.User.DateOfBirth = DateOnly.FromDateTime(dtpDateOfBirth.Value);
 
-                Console.WriteLine("Teacher đã sửa đổi: " + _teacher.ToString());
+                return _teacher;
             }
             else
             {
@@ -335,7 +343,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            Controls.Clear();
+            CloseRequested?.Invoke(this, EventArgs.Empty);
         }
     }
 }

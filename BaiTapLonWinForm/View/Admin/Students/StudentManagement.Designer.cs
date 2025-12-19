@@ -50,11 +50,13 @@
             btnImport = new Button();
             cboFilter = new Guna.UI2.WinForms.Guna2ComboBox();
             label1 = new Label();
+            pnlContent = new Panel();
             ((System.ComponentModel.ISupportInitialize)dgvStudents).BeginInit();
             panelTop.SuspendLayout();
             panelStats.SuspendLayout();
             panelSearch.SuspendLayout();
             panelButtons.SuspendLayout();
+            pnlContent.SuspendLayout();
             SuspendLayout();
             // 
             // lblTitle
@@ -117,6 +119,7 @@
             dgvStudents.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvStudents.Size = new Size(1425, 570);
             dgvStudents.TabIndex = 3;
+            dgvStudents.DoubleClick += dgvStudents_DoubleClick;
             // 
             // UserId
             // 
@@ -245,8 +248,8 @@
             // panelTop
             // 
             panelTop.BackColor = Color.White;
-            panelTop.Controls.Add(lblTitle);
             panelTop.Controls.Add(panelStats);
+            panelTop.Controls.Add(lblTitle);
             panelTop.Dock = DockStyle.Top;
             panelTop.Location = new Point(0, 0);
             panelTop.Name = "panelTop";
@@ -258,7 +261,7 @@
             panelStats.BackColor = Color.FromArgb(52, 152, 219);
             panelStats.Controls.Add(lblTotalStudents);
             panelStats.Controls.Add(lblStatsTitle);
-            panelStats.Location = new Point(1254, 10);
+            panelStats.Location = new Point(1254, 5);
             panelStats.Name = "panelStats";
             panelStats.Size = new Size(196, 60);
             panelStats.TabIndex = 1;
@@ -427,19 +430,28 @@
             label1.TabIndex = 7;
             label1.Text = "Lọc dữ liệu :";
             // 
+            // pnlContent
+            // 
+            pnlContent.Controls.Add(panelTop);
+            pnlContent.Controls.Add(panelSearch);
+            pnlContent.Controls.Add(panelButtons);
+            pnlContent.Controls.Add(dgvStudents);
+            pnlContent.Controls.Add(btnImport);
+            pnlContent.Controls.Add(btnExport);
+            pnlContent.Controls.Add(cboFilter);
+            pnlContent.Controls.Add(label1);
+            pnlContent.Dock = DockStyle.Fill;
+            pnlContent.Location = new Point(0, 0);
+            pnlContent.Name = "pnlContent";
+            pnlContent.Size = new Size(1480, 850);
+            pnlContent.TabIndex = 8;
+            // 
             // StudentManagement
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(250, 251, 252);
-            Controls.Add(label1);
-            Controls.Add(cboFilter);
-            Controls.Add(btnExport);
-            Controls.Add(btnImport);
-            Controls.Add(dgvStudents);
-            Controls.Add(panelButtons);
-            Controls.Add(panelSearch);
-            Controls.Add(panelTop);
+            Controls.Add(pnlContent);
             Name = "StudentManagement";
             Size = new Size(1480, 850);
             Load += StudentManagement_Load;
@@ -451,8 +463,9 @@
             panelSearch.ResumeLayout(false);
             panelSearch.PerformLayout();
             panelButtons.ResumeLayout(false);
+            pnlContent.ResumeLayout(false);
+            pnlContent.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -485,5 +498,6 @@
         private DataGridViewTextBoxColumn PhoneNumberOfParent;
         private DataGridViewTextBoxColumn DateOfBirth;
         private DataGridViewTextBoxColumn FaceImageCount;
+        private Panel pnlContent;
     }
 }

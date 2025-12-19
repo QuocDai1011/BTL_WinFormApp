@@ -1,4 +1,5 @@
-﻿using BaiTapLonWinForm.Services.interfaces;
+﻿using BaiTapLonWinForm.Models.CompreFace;
+using BaiTapLonWinForm.Services.interfaces;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -92,6 +93,66 @@ namespace BaiTapLonWinForm.Services.implements
             {
                 return (false, null, 0, $"Lỗi: {ex.Message}");
             }
+        }
+
+
+        public async Task<byte[]> FindBestAvatarAsync(List<byte[]> images)
+        {
+            if (images == null || images.Count == 0) return null;
+
+            var tasks = new Dictionary<byte[], Task<FaceDetectionResponse>>();
+
+            foreach (var img in images)
+            {
+                tasks.Add(img, DetectFaceAsync(img));
+            }
+
+            await Task.WhenAll(tasks.Values);
+
+            byte[] bestImage = null;
+            double bestScore = double.MaxValue; 
+
+            foreach (var item in tasks)
+            {
+                var originalImage = item.Key;
+                var response = await item.Value;
+
+                if (response?.result != null && response.result.Count > 0)
+                {
+                    var face = response.result.OrderByDescending(f => f.probability).First();
+
+                    if (face.probability < 0.9) continue;
+
+                    if (face.pose.Deviation < bestScore)
+                    {
+                        bestScore = face.pose.Deviation;
+                        bestImage = originalImage;
+                    }
+                }
+            }
+
+            return bestImage ?? images.FirstOrDefault();
+        }
+
+        private async Task<FaceDetectionResponse> DetectFaceAsync(byte[] imageBytes)
+        {
+            try
+            {
+                using (var content = new MultipartFormDataContent())
+                {
+                    content.Add(new ByteArrayContent(imageBytes), "file", "check.jpg");
+                    // Quan trọng: face_plugins=pose để lấy góc mặt
+                    var response = await _httpClient.PostAsync($"{BASE_URL}/detection/detect?face_plugins=pose", content);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var json = await response.Content.ReadAsStringAsync();
+                        return JsonConvert.DeserializeObject<FaceDetectionResponse>(json);
+                    }
+                }
+            }
+            catch { }
+            return null;
         }
 
         // Response models

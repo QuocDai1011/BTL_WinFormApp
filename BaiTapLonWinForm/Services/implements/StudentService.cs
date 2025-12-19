@@ -17,18 +17,21 @@ namespace BaiTapLonWinForm.Services.implements
         private readonly IStudentRepository _studentRepository;
         private readonly IUserRepository _userRepository;
         private readonly IStudentFaceService _faceService;
-        private readonly IUnitOfWork _unitOfWork; 
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly ICompreFaceApiService _compreFaceApiService;
         public StudentService(
             IStudentRepository studentRepository,
             IUserRepository userRepository,
             IStudentFaceService faceService,
-            IUnitOfWork unitOfWork
+            IUnitOfWork unitOfWork,
+            ICompreFaceApiService compreFaceApiService
             )
         {
             _studentRepository = studentRepository;
             _userRepository = userRepository;
             _faceService = faceService;
             _unitOfWork = unitOfWork;
+            _compreFaceApiService = compreFaceApiService;
 
         }
 
@@ -91,7 +94,31 @@ namespace BaiTapLonWinForm.Services.implements
 
             try
             {
-                // 1. BẮT ĐẦU TRANSACTION
+                if (faceImages != null && faceImages.Count > 0)
+                {
+                    int checkLimit = Math.Min(faceImages.Count, 5);
+
+                    for (int i = 0; i < checkLimit; i++)
+                    {
+                        var recognizeResult = await _compreFaceApiService.RecognizeFaceAsync(faceImages[i]);
+
+                        if (recognizeResult.success && recognizeResult.studentId.HasValue)
+                        {
+                            var existingStudent = await _studentRepository.GetByIdAsync(recognizeResult.studentId.Value);
+                            string existingName = "Không xác định";
+
+                            if (existingStudent != null && existingStudent.User != null)
+                            {
+                                existingName = $"{existingStudent.User.LastName} {existingStudent.User.FirstName}";
+                            }
+
+                            return (false, $"Khuôn mặt này đã tồn tại trong hệ thống!\n" +
+                                           $"Trùng khớp với học viên: {existingName}\n" +
+                                           $"Độ chính xác: {recognizeResult.confidence:P1}");
+                        }
+                    }
+                }
+
                 _unitOfWork.BeginTransaction();
 
                 // 2. Validate & Tạo User
@@ -135,11 +162,9 @@ namespace BaiTapLonWinForm.Services.implements
             }
             catch (Exception ex)
             {
-                // 6. CÓ LỖI -> ROLLBACK (HOÀN TÁC DB)
-                // User và Student vừa tạo sẽ bị xóa khỏi DB
+
                 await _unitOfWork.RollbackAsync();
 
-                // 7. DỌN DẸP FILE RÁC (HOÀN TÁC FILE)
                 foreach (var path in createdFiles)
                 {
                     if (File.Exists(path))
@@ -148,7 +173,7 @@ namespace BaiTapLonWinForm.Services.implements
                     }
                 }
 
-                // Xóa thư mục rỗng nếu cần
+
                 if (createdFiles.Count > 0)
                 {
                     try
@@ -158,15 +183,13 @@ namespace BaiTapLonWinForm.Services.implements
                     }
                     catch { }
                 }
-                // 3. LẤY LỖI CHI TIẾT (INNER EXCEPTION)
-                // Lỗi thực sự nằm sâu bên trong InnerException
+
                 string realErrorMessage = ex.Message;
 
                 if (ex.InnerException != null)
                 {
                     realErrorMessage += $"\nChi tiết: {ex.InnerException.Message}";
 
-                    // Đôi khi lỗi nằm sâu hơn nữa (cấp 2)
                     if (ex.InnerException.InnerException != null)
                     {
                         realErrorMessage += $"\nSQL Error: {ex.InnerException.InnerException.Message}";
@@ -175,7 +198,6 @@ namespace BaiTapLonWinForm.Services.implements
 
                 return (false, $"Lỗi hệ thống: {realErrorMessage}");
 
-                //return (false, $"Lỗi hệ thống (Đã hoàn tác dữ liệu): {ex.Message}");
             }
         }
 
@@ -354,6 +376,22 @@ namespace BaiTapLonWinForm.Services.implements
             }
         }
 
-        
+        public async Task<(bool Success, string Message, Student? Data)> getStudentById(int studentId)
+        {
+            try
+            {
+                if (studentId <= 0) return (false, "Mã học viên không hợp lệ!", null);
+                var student = await _studentRepository.GetByIdAsync(studentId);
+                if (student == null)
+                    return (false, "Không tìm thấy học viên", null);
+                else
+                    return (true, "",  student);
+            }
+            catch (Exception e)
+            {
+                return (false,  e.Message, null);
+            }
+
+        }
     }
 }

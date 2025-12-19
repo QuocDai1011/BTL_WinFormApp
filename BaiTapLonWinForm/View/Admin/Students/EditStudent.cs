@@ -13,6 +13,7 @@ namespace BaiTapLonWinForm.View.Admin.Students
         private readonly ServiceHub _serviceHub;
         private readonly int _userId;
 
+        public EventHandler CloseRequested { get; set; }
         public EditStudent(ServiceHub serviceHub, int userId)
         {
             _serviceHub = serviceHub;
@@ -151,7 +152,7 @@ namespace BaiTapLonWinForm.View.Admin.Students
                 PhoneNumber = txtPhone.Text.Trim(),
                 DateOfBirth = DateOnly.FromDateTime(dtpDateOfBirth.Value),
                 Address = txtAddress.Text.Trim(),
-                Gender = cboGender.SelectedItem.ToString() == "Nam",
+                Gender = cboGender.SelectedItem?.ToString() == "Nam",
                 IsActive = cbActive.Checked
             };
 
@@ -172,12 +173,13 @@ namespace BaiTapLonWinForm.View.Admin.Students
             }
 
             MessageHelper.ShowSuccess("Cập nhật học viên thành công.");
-            // this.Parent.Controls.Remove(this); // Uncomment nếu muốn đóng form sau khi lưu
+
+            CloseRequested?.Invoke(this, EventArgs.Empty);
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            this.Parent.Controls.Remove(this);
+            CloseRequested?.Invoke(this, EventArgs.Empty);
         }
     }
 }

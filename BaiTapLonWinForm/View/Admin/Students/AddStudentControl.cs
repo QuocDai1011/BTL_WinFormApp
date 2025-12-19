@@ -33,14 +33,20 @@ namespace BaiTapLonWinForm.View.Admin.Students
 
 
         public List<byte[]> FaceImages => capturedImages;
-
+        public event EventHandler CloseRequested;
         public AddStudentControl(ServiceHub serviceHub)
         {
             _serviceHub = serviceHub;
             InitializeComponent();
-            InitializeCamera();
+            this.Load += AddStudentControl_Load;
             InitializeTimer();
             SetupValidationEvents();
+        }
+
+        private async void AddStudentControl_Load(object? sender, EventArgs e)
+        {
+            await InitializeCameraAsync();
+
         }
 
         private void SetupValidationEvents()
@@ -116,44 +122,61 @@ namespace BaiTapLonWinForm.View.Admin.Students
             return true;
         }
 
-        private void InitializeCamera()
+        private async Task InitializeCameraAsync()
         {
+            cboCamera.Items.Clear();
+            cboCamera.Enabled = false; 
+            lblSelectCamera.Text = "Đang tìm camera...";
+            btnStartCamera.Enabled = false;
+
             try
             {
-                // Load available cameras
-                for (int i = 0; i < 5; i++)
+
+                var availableCameras = await Task.Run(() =>
                 {
-                    try
+                    var cameras = new List<string>();
+                    for (int i = 0; i < 3; i++)
                     {
-                        using (VideoCapture testCapture = new VideoCapture(i))
+                        try
                         {
-                            if (testCapture.IsOpened)
+                            using (VideoCapture testCapture = new VideoCapture(i))
                             {
-                                cboCamera.Items.Add($"Camera {i}");
+                                if (testCapture.IsOpened)
+                                {
+                                    cameras.Add($"Camera {i}");
+                                }
                             }
                         }
+                        catch { }
                     }
-                    catch
-                    {
-                        continue;
-                    }
-                }
+                    return cameras;
+                });
 
-                if (cboCamera.Items.Count == 0)
+                if (availableCameras.Count > 0)
                 {
-                    MessageBox.Show("Không tìm thấy camera nào trên thiết bị!", "Lỗi",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    btnStartCamera.Enabled = false;
-                    return;
+                    foreach (var cam in availableCameras)
+                    {
+                        cboCamera.Items.Add(cam);
+                    }
+                    cboCamera.SelectedIndex = 0;
+                    frame = new Mat();
+                    btnStartCamera.Enabled = true;
+                    lblSelectCamera.Text = "Chọn camera:";
                 }
-
-                cboCamera.SelectedIndex = 0;
-                frame = new Mat();
+                else
+                {
+                    lblSelectCamera.Text = "Không tìm thấy camera";
+                    lblSelectCamera.ForeColor = Color.Red;
+                    btnStartCamera.Enabled = false;
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi khởi tạo camera: {ex.Message}", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Lỗi khởi tạo camera: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cboCamera.Enabled = true;
             }
         }
 
@@ -441,7 +464,6 @@ namespace BaiTapLonWinForm.View.Admin.Students
 
         private async void BtnSave_Click(object sender, EventArgs e)
         {
-            // validate dữ liệu
             if (string.IsNullOrWhiteSpace(txtFirstName.Text))
             {
                 MessageBox.Show("Vui lòng nhập họ sinh viên!", "Thông báo",
@@ -471,10 +493,8 @@ namespace BaiTapLonWinForm.View.Admin.Students
                     return;
             }
 
-            // hash password mặc định
             string passwordHassing = BCrypt.Net.BCrypt.HashPassword("12345678");
 
-            // chuẩn bị dữ liệu 
             var newUser = new User
             {
                 FirstName = txtFirstName.Text.Trim(),
@@ -494,16 +514,24 @@ namespace BaiTapLonWinForm.View.Admin.Students
                 PhoneNumberOfParents = txtPhoneNumberOfParent.Text.Trim()
             };
 
-            // Lưu dữ liệu
             var result = await _serviceHub.StudentService.RegisterStudentFullAsync(newUser, newStudent, capturedImages);
 
             if (!result.Success)
             {
                 MessageHelper.ShowError(result.Message);
+                capturedImages.Clear();
+                UpdateImageGallery();
+                UpdateImageStatus();
+
+                if (picPreview.Image != null)
+                {
+                    picPreview.Image.Dispose();
+                    picPreview.Image = null;
+                }
                 return;
             }
 
-            MessageHelper.ShowSuccess("Thêm sinh viên thành công!");
+            MessageHelper.ShowSuccess("Thêm học viên thành công!");
         }
 
 
@@ -534,31 +562,26 @@ namespace BaiTapLonWinForm.View.Admin.Students
 
         private void BtnNext_Click(object sender, EventArgs e)
         {
-            // 1. Validate dữ liệu Bước 1 trước khi sang Bước 2
             bool isAllValid = CheckFirstName() & CheckLastName() & CheckEmail() &
                               CheckPhone() & CheckParentPhone() & CheckGender();
 
             if (!isAllValid)
             {
-                // Nếu có lỗi, các Label đã tự hiện lên rồi, chỉ cần return
                 MessageHelper.ShowWarning("Vui lòng nhập đầy đủ và chính xác thông tin trước khi tiếp tục.");
                 return;
             }
 
-            // 2. Chuyển Step
             panelStep1.Visible = false;
             panelStep2.Visible = true;
 
-            // 3. Đổi nút bấm
+
             btnNext.Visible = false;
             btnBack.Visible = true;
             btnSave.Visible = true;
 
-            // 4. Update hướng dẫn
             lblInstruction.Text = "💡 Bước 2: Chụp ảnh khuôn mặt để hệ thống nhận diện (Tối thiểu 10 ảnh).";
 
-            // Tự động bật camera nếu chưa bật (Optional)
-            // if(cboCamera.Items.Count > 0) BtnStartCamera_Click(null, null);
+
         }
 
         private void BtnBack_Click(object sender, EventArgs e)
@@ -578,8 +601,14 @@ namespace BaiTapLonWinForm.View.Admin.Students
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            Controls.Clear();
-            Controls.Add(new StudentManagement(_serviceHub));
+            CloseRequested?.Invoke(this, EventArgs.Empty);
+        }
+
+        protected override void OnHandleDestroyed(EventArgs e)
+        {
+            base.OnHandleDestroyed(e);
+            StopCamera(); 
+            if (frame != null) frame.Dispose(); 
         }
     }
 }

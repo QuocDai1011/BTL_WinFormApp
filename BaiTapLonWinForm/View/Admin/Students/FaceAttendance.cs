@@ -1,5 +1,5 @@
 ﻿using BaiTapLonWinForm.Services;
-using BaiTapLonWinForm.Services.implements; // Để dùng DTO ReceptionCheckInResult
+using BaiTapLonWinForm.Services.implements; 
 using Emgu.CV;
 using Emgu.CV.Structure;
 using System;
@@ -14,17 +14,14 @@ namespace BaiTapLonWinForm.View.Admin.Students
 {
     public partial class FaceAttendance : UserControl
     {
-        // --- EmguCV Variables ---
         private VideoCapture capture;
         private Mat frame;
         private bool isCameraRunning = false;
         private System.Windows.Forms.Timer frameTimer;
         private bool isRecognizing = false;
 
-        // --- Service & Data ---
         private readonly ServiceHub _serviceHub;
 
-        // Cache danh sách sinh viên đã điểm danh trong phiên chạy này để tránh spam
         // Key: StudentId, Value: Thời điểm check-in
         private Dictionary<int, DateTime> _checkedInCache = new Dictionary<int, DateTime>();
 
@@ -32,21 +29,22 @@ namespace BaiTapLonWinForm.View.Admin.Students
         {
             InitializeComponent();
             _serviceHub = serviceHub;
-
-            // Setup giao diện ban đầu
             InitializeListView();
-            InitializeCamera();
+            this.Load += FaceAttendance_Load; 
             InitializeTimer();
         }
 
-        // Cấu hình cột cho ListView hiển thị kết quả
+        private async void FaceAttendance_Load(object? sender, EventArgs e)
+        {
+            await InitializeCameraAsync();
+        }
+
         private void InitializeListView()
         {
             lvAttendance.View = System.Windows.Forms.View.Details;
             lvAttendance.GridLines = true;
             lvAttendance.FullRowSelect = true;
 
-            // Xóa cột cũ (nếu có) và thêm cột mới
             lvAttendance.Columns.Clear();
             lvAttendance.Columns.Add("Thời gian", 100);
             lvAttendance.Columns.Add("Họ và tên", 200);
@@ -56,29 +54,38 @@ namespace BaiTapLonWinForm.View.Admin.Students
 
         }
 
-        // --- CAMERA LOGIC ---
-        private void InitializeCamera()
+        private async Task InitializeCameraAsync()
         {
+            cboCamera.Items.Clear();
+            cboCamera.Enabled = false;
+            btnStartCamera.Enabled = false;
+            lblCameraStatus.Text = "⏳ Đang tìm camera...";
+
             try
             {
-                cboCamera.Items.Clear();
-                // Tìm các device camera
-                for (int i = 0; i < 5; i++)
+                var cameras = await Task.Run(() =>
                 {
-                    try
+                    var list = new List<string>();
+                    for (int i = 0; i < 3; i++)
                     {
-                        using (var temp = new VideoCapture(i))
+                        try
                         {
-                            if (temp.IsOpened) cboCamera.Items.Add($"Camera {i}");
+                            using (var temp = new VideoCapture(i))
+                            {
+                                if (temp.IsOpened) list.Add($"Camera {i}");
+                            }
                         }
+                        catch {  }
                     }
-                    catch { break; }
-                }
+                    return list;
+                });
 
-                if (cboCamera.Items.Count > 0)
+                if (cameras.Count > 0)
                 {
+                    foreach (var cam in cameras) cboCamera.Items.Add(cam);
                     cboCamera.SelectedIndex = 0;
                     btnStartCamera.Enabled = true;
+                    lblCameraStatus.Text = "⚫ Camera sẵn sàng";
                 }
                 else
                 {
@@ -91,6 +98,10 @@ namespace BaiTapLonWinForm.View.Admin.Students
             catch (Exception ex)
             {
                 MessageBox.Show($"Lỗi init camera: {ex.Message}");
+            }
+            finally
+            {
+                cboCamera.Enabled = true;
             }
         }
 
@@ -110,18 +121,14 @@ namespace BaiTapLonWinForm.View.Admin.Students
                     capture.Read(frame);
                     if (!frame.IsEmpty)
                     {
-                        // Hiển thị lên PictureBox
                         Bitmap bitmap = frame.ToImage<Bgr, byte>().ToBitmap();
 
-                        // Dispose ảnh cũ để tránh leak memory
                         var oldImg = picCamera.Image;
                         picCamera.Image = bitmap;
                         if (oldImg != null) oldImg.Dispose();
 
-                        // Logic Tự động nhận diện
                         if (chkAutoRecognize.Checked && !isRecognizing)
                         {
-                            // Chỉ nhận diện mỗi 2 giây 1 lần để đỡ lag
                             await RecognizeFaceAsync();
                         }
                     }
@@ -180,7 +187,6 @@ namespace BaiTapLonWinForm.View.Admin.Students
             picCamera.Image = null;
         }
 
-        // --- RECOGNITION LOGIC ---
         private async void BtnRecognize_Click(object sender, EventArgs e)
         {
             await RecognizeFaceAsync();
@@ -226,7 +232,6 @@ namespace BaiTapLonWinForm.View.Admin.Students
             lblRecognitionStatus.Text = result.Success ? "✅ " + result.Message : "❌ " + result.Message;
             lblRecognitionStatus.ForeColor = result.Success ? Color.Green : Color.Red;
 
-            // Hiển thị thông báo Popup đẹp
             ShowNotification(
                 result.Success ? "Thành công" : "Thất bại",
                 result.Message,
@@ -254,33 +259,31 @@ namespace BaiTapLonWinForm.View.Admin.Students
         private void AddRecordToListView(ReceptionCheckInResult result)
         {
             // Tạo Item mới
-            ListViewItem item = new ListViewItem(result.CheckInTime?.ToString("HH:mm:ss")); // Cột 1: Giờ
-            item.SubItems.Add(result.StudentName); // Cột 2: Tên
-            item.SubItems.Add($"{result.ClassName} ({result.ShiftName})"); // Cột 3: Lớp
-            item.SubItems.Add("Có mặt"); // Cột 4: Trạng thái
+            ListViewItem item = new ListViewItem(result.CheckInTime?.ToString("HH:mm:ss")); 
+            item.SubItems.Add(result.StudentName); 
+            item.SubItems.Add($"{result.ClassName} ({result.ShiftName})"); 
+            item.SubItems.Add("Có mặt"); 
             if (result.isLate)
             {
                 item.SubItems.Add("Đi muộn");
             }
-            // Style
             item.ForeColor = Color.DarkGreen;
             item.Font = new Font(lvAttendance.Font, FontStyle.Bold);
 
-            // Insert lên đầu danh sách
             lvAttendance.Items.Insert(0, item);
         }
 
-        // --- HELPERS ---
+
 
         private void ShowNotification(string title, string message, bool success)
         {
-            // Hiển thị Panel Notification (Giả sử bạn đã design panel này)
             panelNotification.Visible = true;
             panelNotification.BackColor = success ? Color.FromArgb(220, 255, 220) : Color.FromArgb(255, 220, 220);
             lblNotificationTitle.Text = title;
             lblNotificationTitle.ForeColor = success ? Color.Green : Color.Red;
             lblNotificationMessage.Text = message;
             lblNotificationMessage.ForeColor = Color.Black;
+
             // Auto hide sau 3s
             Timer t = new Timer();
             t.Interval = 3000;
@@ -306,13 +309,20 @@ namespace BaiTapLonWinForm.View.Admin.Students
             if (chkAutoRecognize.Checked)
             {
                 lblRecognitionStatus.Text = "🔄 Chế độ tự động đang chạy...";
-                btnRecognize.Enabled = false; // Disable nút thủ công khi đang auto
+                btnRecognize.Enabled = false; 
             }
             else
             {
                 lblRecognitionStatus.Text = "⏸️ Chế độ thủ công";
                 btnRecognize.Enabled = true;
             }
+        }
+
+        protected override void OnHandleDestroyed(EventArgs e)
+        {
+            base.OnHandleDestroyed(e);
+            StopCamera(); // Tắt camera
+            if (frame != null) frame.Dispose(); // Xóa bộ nhớ đệm
         }
     }
 }

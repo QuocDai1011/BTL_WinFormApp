@@ -13,6 +13,8 @@ namespace BaiTapLonWinForm.Services.interfaces
         Task<(bool Success, string Message, Student Data)> GetStudentByUserIdAsync(long userId);
         Task<(bool Success, string Message)> RegisterStudentFullAsync(User user, Student student, List<byte[]> faceImages = null);
         Task<(bool Success, string Message, Student? Data)> UpdateStudentAsync(Student student);
+
+        Task<(bool Success, string Message, Student? Data)> getStudentById(int studentId);
         Task<(bool Success, string Message)> DeleteStudentAsync(int id);
         Task<(bool Success, string Message, IEnumerable<Student> Data)> GetStudentsWithClassesAsync();
         Task<(bool Success, string Message, IEnumerable<Student> Data)> GetStudentsByClassIdAsync(int classId);

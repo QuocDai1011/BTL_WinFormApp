@@ -11,61 +11,66 @@ namespace BaiTapLonWinForm.View.Admin.Class
     public partial class ClassManagement : UserControl
     {
         private readonly ServiceHub _serviceHub;
+        private readonly Image _cachedLogo;
+        private readonly Image _cachedBranchIcon;
+        private readonly Image _cachedStudentIcon;
 
         public ClassManagement(ServiceHub serviceHub)
         {
             _serviceHub = serviceHub;
+            _cachedLogo = Properties.Resources.logo2019_png_1;
+            _cachedBranchIcon = Properties.Resources.Ảnh_chụp_màn_hình_2025_12_01_204527;
+            _cachedStudentIcon = Properties.Resources.Ảnh_chụp_màn_hình_2025_12_01_204702;
             InitializeComponent();
-            LoadClassData();
+            this.Load += async (s, e) => await LoadClassData();
         }
 
-
-        // Hàm lấy dữ liệu từ database (mock data example)
-
-
-        // Hàm load và render dữ liệu
-        private async void LoadClassData()
+        private async Task LoadClassData()
         {
-            // Xóa các control cũ (trừ header)
-            for (int i = tableLayoutPanel1.Controls.Count - 1; i >= 0; i--)
-            {
-                if (tableLayoutPanel1.Controls[i] is Guna2ShadowPanel)
-                {
-                    tableLayoutPanel1.Controls[i].Dispose();
-                }
-            }
-
-            // Lấy dữ liệu từ database
             var classes = await _serviceHub.ClassService.GetAllClassesAsync();
 
             if (!classes.Success)
             {
-                MessageHelper.ShowError("Lỗi khi tải dữ liệu lớp học: \n" + classes.Message);
+                MessageHelper.ShowError("Lỗi: " + classes.Message);
                 return;
             }
 
             var data = classes.Data.ToList();
 
-            // Tính toán số hàng cần thiết (3 cột mỗi hàng)
-            int columns = 3;
-            int rows = (int)Math.Ceiling(data.Count / (double)columns);
+            tableLayoutPanel1.SuspendLayout();
 
-            // Cấu hình TableLayoutPanel
-            tableLayoutPanel1.RowCount = rows;
-            tableLayoutPanel1.RowStyles.Clear();
-            for (int i = 0; i < rows; i++)
+            try
             {
-                tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 237F));
+
+                foreach (Control ctrl in tableLayoutPanel1.Controls)
+                {
+                    ctrl.Dispose();
+                }
+                tableLayoutPanel1.Controls.Clear();
+                tableLayoutPanel1.RowStyles.Clear();
+
+                int columns = 3;
+                int rows = (int)Math.Ceiling(data.Count / (double)columns);
+
+                tableLayoutPanel1.RowCount = rows;
+
+                for (int i = 0; i < rows; i++)
+                {
+                    tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 237F));
+                }
+
+                for (int i = 0; i < data.Count; i++)
+                {
+                    int row = i / columns;
+                    int col = i % columns;
+
+                    var classPanel = CreateClassPanel(data[i]);
+                    tableLayoutPanel1.Controls.Add(classPanel, col, row);
+                }
             }
-
-            // Render từng item
-            for (int i = 0; i < data.Count; i++)
+            finally
             {
-                int row = i / columns;
-                int col = i % columns;
-
-                Guna2ShadowPanel classPanel = CreateClassPanel(data[i]);
-                tableLayoutPanel1.Controls.Add(classPanel, col, row);
+                tableLayoutPanel1.ResumeLayout();
             }
         }
 
@@ -79,8 +84,9 @@ namespace BaiTapLonWinForm.View.Admin.Class
                 Margin = new Padding(10),
                 Size = new Size(449, 225),
                 ShadowColor = Color.Black,
-                ShadowDepth = 120,
+                ShadowDepth = 50,
                 ShadowShift = 3,
+                Radius = 10,
                 Cursor = Cursors.Hand
             };
 
@@ -102,7 +108,7 @@ namespace BaiTapLonWinForm.View.Admin.Class
                 AutoSize = false,
                 Size = new Size(240, 55),
                 BackColor = Color.Transparent,
-               
+                IsSelectionEnabled = false
             };
 
             // Start Date Label
@@ -118,9 +124,10 @@ namespace BaiTapLonWinForm.View.Admin.Class
             // Branch Icon
             var branchIcon = new Guna2PictureBox
             {
-                Image = Properties.Resources.Ảnh_chụp_màn_hình_2025_12_01_204527,
+                Image = _cachedBranchIcon,
                 Location = new Point(13, 172),
-                Size = new Size(35, 33)
+                Size = new Size(35, 33),
+                SizeMode = PictureBoxSizeMode.Zoom 
             };
 
             // Branch Label
@@ -136,9 +143,11 @@ namespace BaiTapLonWinForm.View.Admin.Class
             // Student Icon
             var studentIcon = new Guna2PictureBox
             {
-                Image = Properties.Resources.Ảnh_chụp_màn_hình_2025_12_01_204702,
+                Image = _cachedStudentIcon,
                 Location = new Point(372, 172),
-                Size = new Size(35, 33)
+                Size = new Size(35, 33),
+                SizeMode = PictureBoxSizeMode.Zoom
+
             };
 
             // Current Students Label
@@ -159,10 +168,12 @@ namespace BaiTapLonWinForm.View.Admin.Class
                 studentIcon, lblStudents
             });
 
+            panel.Click += OnClick;
+            logoBox.Click += OnClick;
+            lblClassName.Click += OnClick;
+
             // Thêm event click
-            panel.Click += (s, e) => OnClassPanelClick(classInfo.ClassId);
-            logoBox.Click += (s, e) => OnClassPanelClick(classInfo.ClassId);
-            lblClassName.Click += (s, e) => OnClassPanelClick(classInfo.ClassId);
+            void OnClick(object s, EventArgs e) => OnClassPanelClick(classInfo.ClassId);
 
             return panel;
         }

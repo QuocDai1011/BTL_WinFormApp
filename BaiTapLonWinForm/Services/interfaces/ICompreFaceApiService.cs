@@ -10,5 +10,7 @@ namespace BaiTapLonWinForm.Services.interfaces
     {
         Task<(bool success, string message)> AddFaceAsync(int studentId, byte[] imageBytes);
         Task<(bool success, int? studentId, double confidence, string message)> RecognizeFaceAsync(byte[] imageBytes);
+
+        Task<byte[]> FindBestAvatarAsync(List<byte[]> images);
     }
 }

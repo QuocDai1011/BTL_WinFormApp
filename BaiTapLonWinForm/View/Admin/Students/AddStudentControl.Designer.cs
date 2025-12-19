@@ -499,7 +499,7 @@
             txtPhoneNumberOfParent.Location = new Point(630, 75);
             txtPhoneNumberOfParent.Name = "txtPhoneNumberOfParent";
             txtPhoneNumberOfParent.Size = new Size(450, 30);
-            txtPhoneNumberOfParent.TabIndex = 0;
+            txtPhoneNumberOfParent.TabIndex = 1;
             // 
             // lblPhoneNumberOfParent
             // 
@@ -516,7 +516,7 @@
             cboGender.Location = new Point(630, 175);
             cboGender.Name = "cboGender";
             cboGender.Size = new Size(450, 33);
-            cboGender.TabIndex = 2;
+            cboGender.TabIndex = 3;
             // 
             // txtLastName
             // 
@@ -524,7 +524,7 @@
             txtLastName.Location = new Point(80, 175);
             txtLastName.Name = "txtLastName";
             txtLastName.Size = new Size(450, 30);
-            txtLastName.TabIndex = 3;
+            txtLastName.TabIndex = 2;
             // 
             // lblLastName
             // 
@@ -541,7 +541,7 @@
             txtAddress.Multiline = true;
             txtAddress.Name = "txtAddress";
             txtAddress.Size = new Size(450, 130);
-            txtAddress.TabIndex = 5;
+            txtAddress.TabIndex = 7;
             // 
             // lblAddress
             // 
@@ -558,7 +558,7 @@
             dtpDateOfBirth.Location = new Point(630, 275);
             dtpDateOfBirth.Name = "dtpDateOfBirth";
             dtpDateOfBirth.Size = new Size(450, 30);
-            dtpDateOfBirth.TabIndex = 7;
+            dtpDateOfBirth.TabIndex = 5;
             // 
             // lblDateOfBirth
             // 
@@ -582,7 +582,7 @@
             txtPhone.Location = new Point(80, 375);
             txtPhone.Name = "txtPhone";
             txtPhone.Size = new Size(450, 30);
-            txtPhone.TabIndex = 10;
+            txtPhone.TabIndex = 6;
             // 
             // lblPhone
             // 
@@ -598,7 +598,7 @@
             txtEmail.Location = new Point(80, 275);
             txtEmail.Name = "txtEmail";
             txtEmail.Size = new Size(450, 30);
-            txtEmail.TabIndex = 12;
+            txtEmail.TabIndex = 4;
             // 
             // lblEmail
             // 
@@ -614,7 +614,7 @@
             txtFirstName.Location = new Point(80, 75);
             txtFirstName.Name = "txtFirstName";
             txtFirstName.Size = new Size(450, 30);
-            txtFirstName.TabIndex = 14;
+            txtFirstName.TabIndex = 0;
             // 
             // lblFirstName
             // 

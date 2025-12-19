@@ -25,6 +25,7 @@ namespace BaiTapLonWinForm.View.Admin.Students
         private bool isCameraRunning = false;
         private System.Windows.Forms.Timer frameTimer;
 
+        public EventHandler CloseRequested { get; set; }
         public AddPhoto(ServiceHub serviceHub, int studentId)
         {
             _serviceHub = serviceHub;
@@ -404,9 +405,9 @@ namespace BaiTapLonWinForm.View.Admin.Students
                     MessageHelper.ShowError($"Lỗi lưu ảnh: {result.message}");
                     return;
                 }
-                
+
                 MessageHelper.ShowSuccess("Lưu ảnh thành công");
-                
+
                 UpdateImageGallery();
                 UpdateImageStatus();
 
@@ -426,6 +427,11 @@ namespace BaiTapLonWinForm.View.Admin.Students
                 btnSave.Text = "💾 Lưu Ảnh";
                 btnSave.Enabled = true;
             }
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            CloseRequested?.Invoke(this, EventArgs.Empty);
         }
     }
 }
