@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #editor {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <textarea id="editor"></textarea>
+
+    <script>
+        CKEDITOR.replace('editor', {
+            height: '100%',
+            resize_enabled: false,
+            removePlugins: 'elementspath',
+            removeButtons: 'Source'
+        });
+
+        CKEDITOR.on('instanceReady', function (ev) {
+            var editor = ev.editor;
+            editor.container.setStyle('height', '100%');
+            editor.resize('100%', '100%');
+        });
+    </script>
+</body>
+</html>

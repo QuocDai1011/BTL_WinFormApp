@@ -1,18 +1,20 @@
 ﻿using BaiTapLonWinForm.Models;
 using BaiTapLonWinForm.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace BaiTapLonWinForm.Repositories.Implementations
 {
-    public class AuthRepository : IAuthRepository
+    public class UserRepository : IUserRepository
     {
         private readonly EnglishCenterDbContext _context;
 
-        public AuthRepository(EnglishCenterDbContext context)
+        public UserRepository(EnglishCenterDbContext context)
         {
             _context = context;
         }
@@ -73,6 +75,45 @@ namespace BaiTapLonWinForm.Repositories.Implementations
         {
             _context.Users.Update(existUser);
             await _context.SaveChangesAsync();
+        }
+
+        public User GetUserByUserId(long userId)
+        {
+            var existUser = _context.Users.FirstOrDefault(u => u.UserId == userId);
+            if (existUser != null)
+            {
+                return existUser;
+            }
+            return null;
+        }
+        public async Task<User> UpdateAsync(User user)
+        {
+            var existingUser = await _context.Users.FindAsync(user.UserId);
+            if (existingUser == null)
+                return null;
+
+            user.UpdateAt = DateTime.Now;
+            user.CreateAt = existingUser.CreateAt;
+            user.Email = user.Email.ToLower();
+
+            _context.Entry(existingUser).CurrentValues.SetValues(user);
+            await _context.SaveChangesAsync();
+
+            return user;
+        }
+        public async Task<bool> ExistsAsync(long userId)
+        {
+            return await _context.Users.AnyAsync(u => u.UserId == userId);
+        }
+
+        public async Task<bool> EmailExistsAsync(string email, long? excludeUserId = null)
+        {
+            var query = _context.Users.Where(u => u.Email == email.ToLower());
+
+            if (excludeUserId.HasValue)
+                query = query.Where(u => u.UserId != excludeUserId.Value);
+
+            return await query.AnyAsync();
         }
     }
 }

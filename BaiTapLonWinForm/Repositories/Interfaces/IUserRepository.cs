@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BaiTapLonWinForm.Repositories.Interfaces
 {
-    public interface IAuthRepository
+    public interface IUserRepository
     {
         User GetUserByEmail(string email);
         string GetRoleNameByRoleId(long roleId);
@@ -16,5 +16,9 @@ namespace BaiTapLonWinForm.Repositories.Interfaces
                                 string address, DateTime dob, bool gender, string phone, string parentPhone);
         bool AddNewStudent(long userId, string parentPhone);
         Task UpdateExistUserAsync(User existUser);
+        User GetUserByUserId(long userId);
+        Task<User> UpdateAsync(User user);
+        Task<bool> ExistsAsync(long userId);
+        Task<bool> EmailExistsAsync(string email, long? excludeUserId = null);
     }
 }

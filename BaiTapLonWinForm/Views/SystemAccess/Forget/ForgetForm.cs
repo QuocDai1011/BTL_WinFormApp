@@ -225,7 +225,7 @@ namespace BaiTapLonWinForm.Views.SystemAcess.Pages.ForgetForm
             string newPass = txbNewPass.Text.Trim();
             string confirm = txbConfirmNewPass.Text.Trim();
             string email = OtpStorage.CurrentEmail;
-            int isSuccess = await _serviceHub.AuthService.ChangePasswordAsync(email, newPass, confirm);
+            int isSuccess = await _serviceHub.UserService.ChangePasswordAsync(email, newPass, confirm);
             if (isSuccess == 3)
             {
                 txbNewPass.Text = null;

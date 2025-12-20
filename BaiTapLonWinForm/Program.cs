@@ -1,10 +1,12 @@
-﻿using BaiTapLonWinForm.Models;
+﻿//using BaiTapLonWinForm.Models;
+using BaiTapLonWinForm.Models;
 using BaiTapLonWinForm.Repositories.Implementations;
 using BaiTapLonWinForm.Repositories.Interfaces;
 using BaiTapLonWinForm.Services;
 using BaiTapLonWinForm.Services.Implementations;
 using BaiTapLonWinForm.Services.Interfaces;
 using BaiTapLonWinForm.Views.SystemAcess.Login;
+using BaiTapLonWinForm.Views.Teacher;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,24 +35,32 @@ namespace BaiTapLonWinForm
             services.AddDbContext<EnglishCenterDbContext>(options =>
                 options.UseSqlServer(config.GetConnectionString("EnglishCenterDb")));
 
-            //services.AddScoped<IStudentRepository, StudentRepository>();
-            services.AddScoped<IAuthRepository, AuthRepository>();
-
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IClassRepository, ClassRepository>();
+            services.AddScoped<ICourseRepository, CourseRepository>();
+            services.AddScoped<IStudentRepository, StudentRepository>();
+            services.AddScoped<ITeacherRepository, TeacherRepository>();
+            services.AddScoped<ISchoolDayRepository, SchoolDayRepository>();
             //Đăng ký các service cho Service ở đây
-            //services.AddScoped<IStudentService, StudentService>();
-            services.AddScoped<IAuthService, AuthService>();
-
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IClassService, ClassService>();
+            services.AddScoped<ICourseService, CourseService>();
+            services.AddScoped<IStudentService, StudentService>();
+            services.AddScoped<ITeacherService, TeacherService>();
+            services.AddScoped<ISchoolDayService, SchoolDayService>();
             services.AddScoped<ServiceHub>();
 
 
             // 4. Đăng ký Form cần dùng DI
             services.AddTransient<Form1>();
             services.AddTransient<LoginForm>();
+            services.AddTransient<TeacherPage>();
             // 5. Build provider
             var provider = services.BuildServiceProvider();
             // 6. Chạy WinForms
             ApplicationConfiguration.Initialize();
             Application.Run(provider.GetRequiredService<LoginForm>());
+            //Application.Run(provider.GetRequiredService<TeacherPage>());
         }
     }
 }

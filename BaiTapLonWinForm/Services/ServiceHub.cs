@@ -1,4 +1,5 @@
-﻿using BaiTapLonWinForm.Services.Interfaces;
+﻿using BaiTapLonWinForm.Services.Implementations;
+using BaiTapLonWinForm.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,14 +11,29 @@ namespace BaiTapLonWinForm.Services
     public class ServiceHub
     {
         //public IStudentService StudentService { get; }
-        public IAuthService AuthService { get; }
+        public IUserService UserService { get; }
+        public IClassService ClassService { get; }
+        public ICourseService CourseService { get; }
+        public IStudentService StudentService { get; }
+        public ITeacherService TeacherService { get; }
+        public ISchoolDayService SchoolDayService { get; }
         public ServiceHub(
             //IStudentService studentService,
-            IAuthService authService
+            IUserService userService,
+            IClassService classService,
+            ICourseService courseService,
+            IStudentService studentService,
+            ITeacherService teacherService,
+            ISchoolDayService schoolDayService
             )
         {
             //StudentService = studentService;
-            AuthService = authService;
+            UserService = userService;
+            ClassService = classService;
+            StudentService = studentService;
+            TeacherService = teacherService;
+            CourseService = courseService;
+            SchoolDayService = schoolDayService;
         }
     }
 }

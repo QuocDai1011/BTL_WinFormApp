@@ -8,12 +8,14 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace BaiTapLonWinForm.Services.Interfaces
 {
-    public interface IAuthService
+    public interface IUserService
     {
         bool Login(string email, string password, out string role);
         bool RegisterStudent(string firstName, string lastName, string email, string password, string address, DateTime dob, bool gender, string phone, string parentPhone);
         Task<int> ChangePasswordAsync(string email, string newPassword, string confirm);
         User GetUserByEmail(string username);
         string GetRoleNameByRoleId(long roleId);
+        User GetUserByUserId(long userId);
+        Task<(bool Success, string Message, User Data)> UpdateAsync(User user);
     }
 }

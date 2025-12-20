@@ -2,25 +2,28 @@
 using BaiTapLonWinForm.Repositories.Interfaces;
 using BaiTapLonWinForm.Services.Interfaces;
 using BaiTapLonWinForm.Utils;
+using BaiTapLonWinForm.Vadilate;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace BaiTapLonWinForm.Services.Implementations
 {
-    public class AuthService : IAuthService
+    public class UserService : IUserService
     {
-        private readonly IAuthRepository _authRepository;
-        public AuthService(IAuthRepository authRepository)
+        private readonly IUserRepository _userRepository;
+        public UserService(IUserRepository userRepository)
         {
-            _authRepository = authRepository;
+            _userRepository = userRepository;
         }
         public bool Login(string email, string password, out string role)
         {
             role = null;
-            var getUser = _authRepository.GetUserByEmail(email);
+            var getUser = _userRepository.GetUserByEmail(email);
             string hash = getUser?.PasswordHashing;
             if (hash == null)
             {
@@ -30,7 +33,12 @@ namespace BaiTapLonWinForm.Services.Implementations
             if (BCrypt.Net.BCrypt.Verify(password, hash))
             {
                 //tìm role từ bảng role, xem user chứa role nào
-                role = _authRepository.GetRoleNameByRoleId(getUser.RoleId);
+                role = _userRepository.GetRoleNameByRoleId(getUser.RoleId);
+                if(getUser.IsActive == false)
+                {
+                    MessageHelper.ShowInfo("Tài khoản của bạn đã bị vô hiệu hóa. Vui lòng liên hệ quản trị viên để biết thêm chi tiết.");
+                    return false;
+                }
                 return true;
             }
             else
@@ -41,14 +49,14 @@ namespace BaiTapLonWinForm.Services.Implementations
         public bool RegisterStudent(string firstName, string lastName, string email, string password,
                                 string address, DateTime dob, bool gender, string phone, string parentPhone)
         {
-            if (_authRepository.EmailExists(email))
+            if (_userRepository.EmailExists(email))
             {
                 MessageHelper.ShowInfo("Email đã tồn tại trong hệ thống!");
                 return false;
             }
 
             string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
-            bool isAddUser = _authRepository.AddNewUser(firstName, lastName, email, hashedPassword,
+            bool isAddUser = _userRepository.AddNewUser(firstName, lastName, email, hashedPassword,
                                 address, dob, gender, phone, parentPhone);
             if(isAddUser == false)
             {
@@ -58,7 +66,7 @@ namespace BaiTapLonWinForm.Services.Implementations
             else
             {
                 //tìm userId vừa tạo
-                var createdUser = _authRepository.GetUserByEmail(email);
+                var createdUser = _userRepository.GetUserByEmail(email);
                 if(createdUser == null)
                 {
                     MessageHelper.ShowInfo("Không tìm thấy người dùng vừa tạo!");
@@ -67,7 +75,7 @@ namespace BaiTapLonWinForm.Services.Implementations
                 else
                 {
                     //tạo student với userId vừa tìm được
-                    bool isAddStudent = _authRepository.AddNewStudent(createdUser.UserId, parentPhone);
+                    bool isAddStudent = _userRepository.AddNewStudent(createdUser.UserId, parentPhone);
                     if (isAddStudent == false)
                     {
                         MessageHelper.ShowError("Đăng ký Student thất bại!");
@@ -102,11 +110,11 @@ namespace BaiTapLonWinForm.Services.Implementations
                 return 3;
             }
             string hashed = BCrypt.Net.BCrypt.HashPassword(newPassword);
-            var existUser = _authRepository.GetUserByEmail(email);
+            var existUser = _userRepository.GetUserByEmail(email);
             if (existUser != null)
             {
                 existUser.PasswordHashing = hashed;
-                _authRepository.UpdateExistUserAsync(existUser);
+                _userRepository.UpdateExistUserAsync(existUser);
                 MessageHelper.ShowSuccess("Đổi mật khẩu Student thành công!");
             }
             else
@@ -120,12 +128,52 @@ namespace BaiTapLonWinForm.Services.Implementations
 
         public User GetUserByEmail(string username)
         {
-            return _authRepository.GetUserByEmail(username);
+            return _userRepository.GetUserByEmail(username);
         }
 
         public string GetRoleNameByRoleId(long roleId)
         {
-            return _authRepository.GetRoleNameByRoleId(roleId);
+            return _userRepository.GetRoleNameByRoleId(roleId);
+        }
+
+        public User GetUserByUserId(long userId)
+        {
+            return _userRepository.GetUserByUserId(userId);
+        }
+        public async Task<(bool Success, string Message, User Data)> UpdateAsync(User user)
+        {
+            try
+            {
+                // Validation
+                var validationResult = UserValidator.ValidateUser(user, isUpdate: true);
+                if (!validationResult.IsValid)
+                    return (false, validationResult.Message, null);
+
+                // Check user exists
+                if (!await _userRepository.ExistsAsync(user.UserId))
+                    return (false, "Không tìm thấy người dùng", null);
+
+                // Check email exists (exclude current user)
+                if (await _userRepository.EmailExistsAsync(user.Email, user.UserId))
+                    return (false, "Email đã được sử dụng bởi người dùng khác", null);
+                var updatedUser = await _userRepository.UpdateAsync(user);
+
+                if (updatedUser == null)
+                    return (false, "Không thể cập nhật người dùng", null);
+
+                return (true, "Cập nhật người dùng thành công", updatedUser);
+            }
+            catch (DbUpdateException ex)
+            {
+                if (ex.InnerException?.Message.Contains("UQ__user__AB6E6164") == true)
+                    return (false, "Email đã được sử dụng bởi người dùng khác", null);
+
+                return (false, $"Lỗi cơ sở dữ liệu: {ex.InnerException?.Message ?? ex.Message}", null);
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Lỗi: {ex.Message}", null);
+            }
         }
     }
 }

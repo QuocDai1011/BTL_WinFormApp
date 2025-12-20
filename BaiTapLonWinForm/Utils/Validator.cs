@@ -47,5 +47,9 @@ namespace BaiTapLonWinForm.Utils
         {
             return age > 4;
         }
+        public static bool IsValidAgeForTeacher(int age)
+        {
+            return age >= 18;
+        }
     }
 }

@@ -3,6 +3,7 @@ using BaiTapLonWinForm.Services;
 using BaiTapLonWinForm.Services.Implementations;
 using BaiTapLonWinForm.Utils;
 using BaiTapLonWinForm.Views.SystemAcess.Pages.ForgetForm;
+using BaiTapLonWinForm.Views.Teacher;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -22,7 +23,6 @@ namespace BaiTapLonWinForm.Views.SystemAcess.Login
 {
     public partial class LoginForm : Form
     {
-        private readonly string _connectionString;
         private readonly ServiceHub _serviceHub;
         public LoginForm(ServiceHub serviceHub)
         {
@@ -37,7 +37,7 @@ namespace BaiTapLonWinForm.Views.SystemAcess.Login
                 return false;
             }
             string userRole;
-            var isLogin = _serviceHub.AuthService.Login(email, password, out userRole);
+            var isLogin = _serviceHub.UserService.Login(email, password, out userRole);
 
             if (isLogin == false)
             {
@@ -52,27 +52,25 @@ namespace BaiTapLonWinForm.Views.SystemAcess.Login
         }
         public void NavigatePage(string username)
         {
-            var existUser = _serviceHub.AuthService.GetUserByEmail(username);
-            string role = _serviceHub.AuthService.GetRoleNameByRoleId(existUser.RoleId);
+            var existUser = _serviceHub.UserService.GetUserByEmail(username);
+            string role = _serviceHub.UserService.GetRoleNameByRoleId(existUser.RoleId);
             if (existUser != null && role != null)
             {
                 switch (role)
                 {
                     case "admin":
                         {
-                            //new HomePage(_serviceHub, existUser.UserId).ShowDialog();
                             this.Dispose();
                             break;
                         }
                     case "teacher":
                         {
-                            //new TeacherMainForm(_serviceHub, existUser.UserId).ShowDialog();
+                            new TeacherPage(_serviceHub, (int)existUser.UserId).ShowDialog();
                             this.Dispose();
                             break;
                         }
                     case "student":
                         {
-                            //new StudentFrom(_serviceHub, existUser.UserId).ShowDialog();
                             this.Dispose();
                             break;
                         }
@@ -251,7 +249,7 @@ namespace BaiTapLonWinForm.Views.SystemAcess.Login
             {
                 return false;
             }
-            bool isRegistered = _serviceHub.AuthService.RegisterStudent(
+            bool isRegistered = _serviceHub.UserService.RegisterStudent(
               firstName, lastName, email, password, address, dob, gender, phone, parentPhone);
             if (!isRegistered)
             {
