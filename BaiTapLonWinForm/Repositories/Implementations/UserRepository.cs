@@ -115,5 +115,13 @@ namespace BaiTapLonWinForm.Repositories.Implementations
 
             return await query.AnyAsync();
         }
+
+        public User GetUserByTeacherId(long teacherId)
+        {
+            return _context.Teachers
+                .Where(t => t.TeacherId == teacherId)
+                .Select(t => t.User)
+                .FirstOrDefault();
+        }
     }
 }

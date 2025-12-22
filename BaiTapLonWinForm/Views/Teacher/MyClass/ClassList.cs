@@ -133,7 +133,7 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
             flowMain.Controls.Clear();
             cardCount = 0;
             // Tìm giáo viên hiện tại
-            User currentUser = _serviceHub.UserService.GetUserByUserId(_teacherId);
+            User currentUser = _serviceHub.UserService.GetUserByTeacherId(_teacherId);
 
             foreach (var item in list)
             {

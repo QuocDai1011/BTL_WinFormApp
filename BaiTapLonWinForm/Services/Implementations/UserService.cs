@@ -175,5 +175,10 @@ namespace BaiTapLonWinForm.Services.Implementations
                 return (false, $"Lỗi: {ex.Message}", null);
             }
         }
+
+        public User GetUserByTeacherId(long teacherId)
+        {
+            return _userRepository.GetUserByTeacherId(teacherId);
+        }
     }
 }

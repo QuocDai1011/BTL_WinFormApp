@@ -20,5 +20,6 @@ namespace BaiTapLonWinForm.Repositories.Interfaces
         Task<User> UpdateAsync(User user);
         Task<bool> ExistsAsync(long userId);
         Task<bool> EmailExistsAsync(string email, long? excludeUserId = null);
+        User GetUserByTeacherId(long teacherId);
     }
 }

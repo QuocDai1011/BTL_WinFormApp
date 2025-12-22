@@ -16,6 +16,7 @@ namespace BaiTapLonWinForm.Services.Interfaces
         User GetUserByEmail(string username);
         string GetRoleNameByRoleId(long roleId);
         User GetUserByUserId(long userId);
+        User GetUserByTeacherId(long teacherId);
         Task<(bool Success, string Message, User Data)> UpdateAsync(User user);
     }
 }
