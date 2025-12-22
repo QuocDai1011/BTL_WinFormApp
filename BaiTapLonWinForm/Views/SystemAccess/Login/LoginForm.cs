@@ -65,7 +65,8 @@ namespace BaiTapLonWinForm.Views.SystemAcess.Login
                         }
                     case "teacher":
                         {
-                            new TeacherPage(_serviceHub, (int)existUser.UserId).ShowDialog();
+                            int teacherId = _serviceHub.TeacherService.GetTeacherByUserId(existUser.UserId);
+                            new TeacherPage(_serviceHub, teacherId).ShowDialog();
                             this.Dispose();
                             break;
                         }

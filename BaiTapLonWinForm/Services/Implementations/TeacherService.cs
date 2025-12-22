@@ -42,6 +42,12 @@ namespace BaiTapLonWinForm.Services.Implementations
                 return (false, $"Lỗi: {ex.Message}", null);
             }
         }
+
+        public int GetTeacherByUserId(long userId)
+        {
+            return _teacherRepository.GetTeacherByUserId(userId);
+        }
+
         public async Task<(bool Success, string Message, Teacher Data)> UpdateTeacherAsync(Teacher teacher)
         {
             try

@@ -87,5 +87,13 @@ namespace BaiTapLonWinForm.Repositories.Implementations
                 throw;
             }
         }
+
+        public int GetTeacherByUserId(long userId)
+        {
+            return (int)_context.Teachers
+            .Where(t => t.UserId == userId)
+            .Select(t => (int?)t.TeacherId)
+            .FirstOrDefault();
+        }
     }
 }

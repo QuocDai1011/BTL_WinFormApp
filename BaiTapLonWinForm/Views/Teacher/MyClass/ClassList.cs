@@ -24,7 +24,7 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
             _teacherId = teacherId;
             _serviceHub = serviceHub;
         }
-        private const int MaxPerRow = 4; 
+        private const int MaxPerRow = 4;
         private int cardCount = 0;
 
         public void LoadClasses()
@@ -69,12 +69,18 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
             var shadow = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
             shadow.Width = 338;
             shadow.Height = 267;
-            shadow.BorderThickness = 2;
+            shadow.BorderThickness = 1;
             shadow.BorderRadius = 8;
             shadow.BorderColor = Color.FromArgb(224, 224, 224);
-            shadow.FillColor = Color.White;
+            //shadow.FillColor = Color.White;
+            shadow.FillColor = Color.FromArgb(200, 255, 255, 255);
+            shadow.FillColor2 = Color.FromArgb(200, 255, 255, 255);
+            shadow.FillColor3 = Color.FromArgb(200, 255, 255, 255);
+            shadow.FillColor4 = Color.FromArgb(200, 255, 255, 255);
+            //uc.BackColor = Color.Transparent;
+
             shadow.Padding = new Padding(1);
-            shadow.Margin = new Padding(0, 0, 20, 2);
+            shadow.Margin = new Padding(0, 0, 20, 20);
             shadow.ShadowDecoration.Enabled = false;
             shadow.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Custom;
             shadow.ShadowDecoration.BorderRadius = 12;
@@ -137,7 +143,7 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
                 //    continue;
                 //}
                 Course course = _serviceHub.CourseService.GetCourseByClassId(item.ClassId);
-                
+
                 if (course == null)
                 {
                     continue;
@@ -147,6 +153,11 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
                 var card = CreateCard(uc);
                 AddCardToFlow(card);
             }
+        }
+
+        private void iconCustom1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

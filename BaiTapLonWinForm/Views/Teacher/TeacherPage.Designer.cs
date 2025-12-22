@@ -33,10 +33,6 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges24 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges25 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
@@ -54,19 +50,21 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges20 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges21 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges19 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            guna2CustomGradientPanel2 = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            pnHeaderTeacher = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
             ptbxIconMap = new FontAwesome.Sharp.IconPictureBox();
             guna2HtmlLabel2 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             iconPictureBox1 = new FontAwesome.Sharp.IconPictureBox();
-            iconPictureBox2 = new FontAwesome.Sharp.IconPictureBox();
+            ptbxToggleMode = new FontAwesome.Sharp.IconPictureBox();
             iconPictureBox3 = new FontAwesome.Sharp.IconPictureBox();
-            guna2CustomGradientPanel3 = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
-            guna2Panel10 = new Guna.UI2.WinForms.Guna2Panel();
-            pnMain = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
+            pnBorderMain = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
             pnSideBar = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
             pnMenuPage = new Guna.UI2.WinForms.Guna2Panel();
-            flowLayoutPanel1 = new FlowLayoutPanel();
+            fpnBtnMenu = new FlowLayoutPanel();
             guna2GradientButton1 = new Guna.UI2.WinForms.Guna2GradientButton();
             guna2GradientButton2 = new Guna.UI2.WinForms.Guna2GradientButton();
             guna2GradientButton3 = new Guna.UI2.WinForms.Guna2GradientButton();
@@ -76,40 +74,42 @@
             lblMenuUserName = new Label();
             guna2CirclePictureBox1 = new Guna.UI2.WinForms.Guna2CirclePictureBox();
             guna2AnimateWindow1 = new Guna.UI2.WinForms.Guna2AnimateWindow(components);
-            guna2CustomGradientPanel2.SuspendLayout();
+            guna2CustomGradientPanel1 = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
+            pnMain = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
+            pnHeaderTeacher.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)ptbxIconMap).BeginInit();
             ((System.ComponentModel.ISupportInitialize)iconPictureBox1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)iconPictureBox2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)ptbxToggleMode).BeginInit();
             ((System.ComponentModel.ISupportInitialize)iconPictureBox3).BeginInit();
-            guna2CustomGradientPanel3.SuspendLayout();
-            guna2Panel10.SuspendLayout();
+            pnBorderMain.SuspendLayout();
             pnSideBar.SuspendLayout();
             pnMenuPage.SuspendLayout();
-            flowLayoutPanel1.SuspendLayout();
+            fpnBtnMenu.SuspendLayout();
             guna2Panel1.SuspendLayout();
             pnProfileTeacher.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)guna2CirclePictureBox1).BeginInit();
+            guna2CustomGradientPanel1.SuspendLayout();
             SuspendLayout();
             // 
-            // guna2CustomGradientPanel2
+            // pnHeaderTeacher
             // 
-            guna2CustomGradientPanel2.Controls.Add(ptbxIconMap);
-            guna2CustomGradientPanel2.Controls.Add(guna2HtmlLabel2);
-            guna2CustomGradientPanel2.Controls.Add(guna2HtmlLabel1);
-            guna2CustomGradientPanel2.Controls.Add(iconPictureBox1);
-            guna2CustomGradientPanel2.Controls.Add(iconPictureBox2);
-            guna2CustomGradientPanel2.Controls.Add(iconPictureBox3);
-            guna2CustomGradientPanel2.CustomizableEdges = customizableEdges1;
-            guna2CustomGradientPanel2.Dock = DockStyle.Top;
-            guna2CustomGradientPanel2.Location = new Point(314, 0);
-            guna2CustomGradientPanel2.Name = "guna2CustomGradientPanel2";
-            guna2CustomGradientPanel2.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            guna2CustomGradientPanel2.Size = new Size(1570, 60);
-            guna2CustomGradientPanel2.TabIndex = 1;
+            pnHeaderTeacher.Controls.Add(ptbxIconMap);
+            pnHeaderTeacher.Controls.Add(guna2HtmlLabel2);
+            pnHeaderTeacher.Controls.Add(guna2HtmlLabel1);
+            pnHeaderTeacher.Controls.Add(iconPictureBox1);
+            pnHeaderTeacher.Controls.Add(ptbxToggleMode);
+            pnHeaderTeacher.Controls.Add(iconPictureBox3);
+            pnHeaderTeacher.CustomizableEdges = customizableEdges1;
+            pnHeaderTeacher.Dock = DockStyle.Top;
+            pnHeaderTeacher.Location = new Point(314, 0);
+            pnHeaderTeacher.Name = "pnHeaderTeacher";
+            pnHeaderTeacher.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            pnHeaderTeacher.Size = new Size(1570, 60);
+            pnHeaderTeacher.TabIndex = 1;
             // 
             // ptbxIconMap
             // 
-            ptbxIconMap.BackColor = Color.White;
+            ptbxIconMap.BackColor = Color.Transparent;
             ptbxIconMap.ForeColor = Color.FromArgb(72, 181, 183);
             ptbxIconMap.IconChar = FontAwesome.Sharp.IconChar.LocationArrow;
             ptbxIconMap.IconColor = Color.FromArgb(72, 181, 183);
@@ -144,7 +144,7 @@
             // 
             // iconPictureBox1
             // 
-            iconPictureBox1.BackColor = Color.White;
+            iconPictureBox1.BackColor = Color.Transparent;
             iconPictureBox1.ForeColor = Color.FromArgb(72, 181, 183);
             iconPictureBox1.IconChar = FontAwesome.Sharp.IconChar.Bell;
             iconPictureBox1.IconColor = Color.FromArgb(72, 181, 183);
@@ -155,22 +155,23 @@
             iconPictureBox1.TabIndex = 1;
             iconPictureBox1.TabStop = false;
             // 
-            // iconPictureBox2
+            // ptbxToggleMode
             // 
-            iconPictureBox2.BackColor = Color.White;
-            iconPictureBox2.ForeColor = Color.FromArgb(72, 181, 183);
-            iconPictureBox2.IconChar = FontAwesome.Sharp.IconChar.Palette;
-            iconPictureBox2.IconColor = Color.FromArgb(72, 181, 183);
-            iconPictureBox2.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            iconPictureBox2.Location = new Point(1385, 20);
-            iconPictureBox2.Name = "iconPictureBox2";
-            iconPictureBox2.Size = new Size(41, 32);
-            iconPictureBox2.TabIndex = 1;
-            iconPictureBox2.TabStop = false;
+            ptbxToggleMode.BackColor = Color.Transparent;
+            ptbxToggleMode.ForeColor = Color.FromArgb(72, 181, 183);
+            ptbxToggleMode.IconChar = FontAwesome.Sharp.IconChar.Palette;
+            ptbxToggleMode.IconColor = Color.FromArgb(72, 181, 183);
+            ptbxToggleMode.IconFont = FontAwesome.Sharp.IconFont.Auto;
+            ptbxToggleMode.Location = new Point(1385, 20);
+            ptbxToggleMode.Name = "ptbxToggleMode";
+            ptbxToggleMode.Size = new Size(41, 32);
+            ptbxToggleMode.TabIndex = 1;
+            ptbxToggleMode.TabStop = false;
+            ptbxToggleMode.Click += ptbxToggleMode_Click;
             // 
             // iconPictureBox3
             // 
-            iconPictureBox3.BackColor = Color.White;
+            iconPictureBox3.BackColor = Color.Transparent;
             iconPictureBox3.ForeColor = SystemColors.ActiveCaptionText;
             iconPictureBox3.IconChar = FontAwesome.Sharp.IconChar.AngleDown;
             iconPictureBox3.IconColor = SystemColors.ActiveCaptionText;
@@ -182,45 +183,21 @@
             iconPictureBox3.TabIndex = 2;
             iconPictureBox3.TabStop = false;
             // 
-            // guna2CustomGradientPanel3
+            // pnBorderMain
             // 
-            guna2CustomGradientPanel3.BackColor = Color.FromArgb(213, 245, 232);
-            guna2CustomGradientPanel3.Controls.Add(guna2Panel10);
-            guna2CustomGradientPanel3.CustomizableEdges = customizableEdges7;
-            guna2CustomGradientPanel3.Dock = DockStyle.Fill;
-            guna2CustomGradientPanel3.FillColor = Color.FromArgb(213, 245, 232);
-            guna2CustomGradientPanel3.FillColor2 = Color.FromArgb(213, 245, 232);
-            guna2CustomGradientPanel3.FillColor3 = Color.FromArgb(213, 245, 232);
-            guna2CustomGradientPanel3.FillColor4 = Color.FromArgb(213, 245, 232);
-            guna2CustomGradientPanel3.Location = new Point(314, 60);
-            guna2CustomGradientPanel3.Name = "guna2CustomGradientPanel3";
-            guna2CustomGradientPanel3.ShadowDecoration.CustomizableEdges = customizableEdges8;
-            guna2CustomGradientPanel3.Size = new Size(1570, 951);
-            guna2CustomGradientPanel3.TabIndex = 2;
-            // 
-            // guna2Panel10
-            // 
-            guna2Panel10.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            guna2Panel10.BackColor = Color.White;
-            guna2Panel10.BorderColor = Color.White;
-            guna2Panel10.BorderRadius = 16;
-            guna2Panel10.BorderThickness = 1;
-            guna2Panel10.Controls.Add(pnMain);
-            guna2Panel10.CustomizableEdges = customizableEdges5;
-            guna2Panel10.Location = new Point(14, 14);
-            guna2Panel10.Name = "guna2Panel10";
-            guna2Panel10.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            guna2Panel10.Size = new Size(1544, 923);
-            guna2Panel10.TabIndex = 0;
-            // 
-            // pnMain
-            // 
-            pnMain.CustomizableEdges = customizableEdges3;
-            pnMain.Location = new Point(43, 37);
-            pnMain.Name = "pnMain";
-            pnMain.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            pnMain.Size = new Size(1459, 849);
-            pnMain.TabIndex = 0;
+            pnBorderMain.BackColor = Color.FromArgb(213, 245, 232);
+            pnBorderMain.Controls.Add(guna2CustomGradientPanel1);
+            pnBorderMain.CustomizableEdges = customizableEdges7;
+            pnBorderMain.Dock = DockStyle.Fill;
+            pnBorderMain.FillColor = Color.FromArgb(213, 245, 232);
+            pnBorderMain.FillColor2 = Color.FromArgb(213, 245, 232);
+            pnBorderMain.FillColor3 = Color.FromArgb(213, 245, 232);
+            pnBorderMain.FillColor4 = Color.FromArgb(213, 245, 232);
+            pnBorderMain.Location = new Point(314, 60);
+            pnBorderMain.Name = "pnBorderMain";
+            pnBorderMain.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            pnBorderMain.Size = new Size(1570, 951);
+            pnBorderMain.TabIndex = 2;
             // 
             // pnSideBar
             // 
@@ -242,7 +219,7 @@
             pnMenuPage.BackColor = Color.Transparent;
             pnMenuPage.BorderColor = Color.White;
             pnMenuPage.BorderRadius = 16;
-            pnMenuPage.Controls.Add(flowLayoutPanel1);
+            pnMenuPage.Controls.Add(fpnBtnMenu);
             pnMenuPage.CustomizableEdges = customizableEdges17;
             pnMenuPage.Dock = DockStyle.Fill;
             pnMenuPage.Location = new Point(0, 60);
@@ -252,18 +229,18 @@
             pnMenuPage.Size = new Size(314, 951);
             pnMenuPage.TabIndex = 1;
             // 
-            // flowLayoutPanel1
+            // fpnBtnMenu
             // 
-            flowLayoutPanel1.Controls.Add(guna2GradientButton1);
-            flowLayoutPanel1.Controls.Add(guna2GradientButton2);
-            flowLayoutPanel1.Controls.Add(guna2GradientButton3);
-            flowLayoutPanel1.Controls.Add(guna2GradientButton4);
-            flowLayoutPanel1.Location = new Point(3, 14);
-            flowLayoutPanel1.Margin = new Padding(0);
-            flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Padding = new Padding(8, 0, 8, 0);
-            flowLayoutPanel1.Size = new Size(308, 886);
-            flowLayoutPanel1.TabIndex = 0;
+            fpnBtnMenu.Controls.Add(guna2GradientButton1);
+            fpnBtnMenu.Controls.Add(guna2GradientButton2);
+            fpnBtnMenu.Controls.Add(guna2GradientButton3);
+            fpnBtnMenu.Controls.Add(guna2GradientButton4);
+            fpnBtnMenu.Location = new Point(3, 14);
+            fpnBtnMenu.Margin = new Padding(0);
+            fpnBtnMenu.Name = "fpnBtnMenu";
+            fpnBtnMenu.Padding = new Padding(8, 0, 8, 0);
+            fpnBtnMenu.Size = new Size(308, 886);
+            fpnBtnMenu.TabIndex = 0;
             // 
             // guna2GradientButton1
             // 
@@ -298,7 +275,7 @@
             // 
             guna2GradientButton2.BorderRadius = 24;
             guna2GradientButton2.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
-            guna2GradientButton2.CheckedState.FillColor = Color.White;
+            guna2GradientButton2.CheckedState.FillColor = Color.FromArgb(61, 104, 201);
             guna2GradientButton2.CheckedState.FillColor2 = Color.White;
             guna2GradientButton2.CustomizableEdges = customizableEdges11;
             guna2GradientButton2.DisabledState.BorderColor = Color.DarkGray;
@@ -325,7 +302,7 @@
             // 
             guna2GradientButton3.BorderRadius = 24;
             guna2GradientButton3.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
-            guna2GradientButton3.CheckedState.FillColor = Color.White;
+            guna2GradientButton3.CheckedState.FillColor = Color.FromArgb(61, 104, 201);
             guna2GradientButton3.CheckedState.FillColor2 = Color.White;
             guna2GradientButton3.CustomizableEdges = customizableEdges13;
             guna2GradientButton3.DisabledState.BorderColor = Color.DarkGray;
@@ -353,7 +330,7 @@
             // 
             guna2GradientButton4.BorderRadius = 24;
             guna2GradientButton4.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
-            guna2GradientButton4.CheckedState.FillColor = Color.White;
+            guna2GradientButton4.CheckedState.FillColor = Color.FromArgb(61, 104, 201);
             guna2GradientButton4.CheckedState.FillColor2 = Color.White;
             guna2GradientButton4.CustomizableEdges = customizableEdges15;
             guna2GradientButton4.DisabledState.BorderColor = Color.DarkGray;
@@ -427,57 +404,85 @@
             guna2CirclePictureBox1.TabIndex = 4;
             guna2CirclePictureBox1.TabStop = false;
             // 
+            // guna2CustomGradientPanel1
+            // 
+            guna2CustomGradientPanel1.Controls.Add(pnMain);
+            guna2CustomGradientPanel1.CustomizableEdges = customizableEdges5;
+            guna2CustomGradientPanel1.FillColor = Color.FromArgb(4, 59, 59);
+            guna2CustomGradientPanel1.FillColor2 = Color.Black;
+            guna2CustomGradientPanel1.FillColor3 = Color.Black;
+            guna2CustomGradientPanel1.FillColor4 = Color.FromArgb(0, 27, 51);
+            guna2CustomGradientPanel1.Location = new Point(14, 14);
+            guna2CustomGradientPanel1.Name = "guna2CustomGradientPanel1";
+            guna2CustomGradientPanel1.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            guna2CustomGradientPanel1.Size = new Size(1544, 923);
+            guna2CustomGradientPanel1.TabIndex = 0;
+            // 
+            // pnMain
+            // 
+            pnMain.BackColor = Color.Transparent;
+            pnMain.CustomizableEdges = customizableEdges3;
+            pnMain.FillColor = Color.Transparent;
+            pnMain.FillColor2 = Color.Transparent;
+            pnMain.FillColor3 = Color.Transparent;
+            pnMain.FillColor4 = Color.Transparent;
+            pnMain.Location = new Point(43, 37);
+            pnMain.Name = "pnMain";
+            pnMain.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            pnMain.Size = new Size(1459, 849);
+            pnMain.TabIndex = 1;
+            // 
             // TeacherPage
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1884, 1011);
-            Controls.Add(guna2CustomGradientPanel3);
-            Controls.Add(guna2CustomGradientPanel2);
+            Controls.Add(pnBorderMain);
+            Controls.Add(pnHeaderTeacher);
             Controls.Add(pnSideBar);
             Name = "TeacherPage";
             Text = "TeacherPage";
-            guna2CustomGradientPanel2.ResumeLayout(false);
-            guna2CustomGradientPanel2.PerformLayout();
+            pnHeaderTeacher.ResumeLayout(false);
+            pnHeaderTeacher.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)ptbxIconMap).EndInit();
             ((System.ComponentModel.ISupportInitialize)iconPictureBox1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)iconPictureBox2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)ptbxToggleMode).EndInit();
             ((System.ComponentModel.ISupportInitialize)iconPictureBox3).EndInit();
-            guna2CustomGradientPanel3.ResumeLayout(false);
-            guna2Panel10.ResumeLayout(false);
+            pnBorderMain.ResumeLayout(false);
             pnSideBar.ResumeLayout(false);
             pnMenuPage.ResumeLayout(false);
-            flowLayoutPanel1.ResumeLayout(false);
+            fpnBtnMenu.ResumeLayout(false);
             guna2Panel1.ResumeLayout(false);
             pnProfileTeacher.ResumeLayout(false);
             pnProfileTeacher.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)guna2CirclePictureBox1).EndInit();
+            guna2CustomGradientPanel1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
         #endregion
-        private Guna.UI2.WinForms.Guna2CustomGradientPanel guna2CustomGradientPanel2;
-        private Guna.UI2.WinForms.Guna2CustomGradientPanel guna2CustomGradientPanel3;
+        private Guna.UI2.WinForms.Guna2CustomGradientPanel pnHeaderTeacher;
+        private Guna.UI2.WinForms.Guna2CustomGradientPanel pnBorderMain;
         private Guna.UI2.WinForms.Guna2CustomGradientPanel pnSideBar;
         private Guna.UI2.WinForms.Guna2Panel guna2Panel1;
         private Guna.UI2.WinForms.Guna2Panel pnMenuPage;
         private Guna.UI2.WinForms.Guna2Panel pnProfileTeacher;
-        private Guna.UI2.WinForms.Guna2Panel guna2Panel10;
         private Label lblMenuUserName;
         private Guna.UI2.WinForms.Guna2CirclePictureBox guna2CirclePictureBox1;
         private Guna.UI2.WinForms.Guna2AnimateWindow guna2AnimateWindow1;
         private Controls.ClassList classList1;
-        private Guna.UI2.WinForms.Guna2CustomGradientPanel pnMain;
         private FontAwesome.Sharp.IconPictureBox iconPictureBox1;
-        private FontAwesome.Sharp.IconPictureBox iconPictureBox2;
+        private FontAwesome.Sharp.IconPictureBox ptbxToggleMode;
         private FontAwesome.Sharp.IconPictureBox iconPictureBox3;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel2;
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel1;
         private FontAwesome.Sharp.IconPictureBox ptbxIconMap;
-        private FlowLayoutPanel flowLayoutPanel1;
+        private FlowLayoutPanel fpnBtnMenu;
         private Guna.UI2.WinForms.Guna2GradientButton guna2GradientButton1;
         private Guna.UI2.WinForms.Guna2GradientButton guna2GradientButton2;
         private Guna.UI2.WinForms.Guna2GradientButton guna2GradientButton3;
         private Guna.UI2.WinForms.Guna2GradientButton guna2GradientButton4;
+        private Guna.UI2.WinForms.Guna2CustomGradientPanel guna2CustomGradientPanel1;
+        private Guna.UI2.WinForms.Guna2CustomGradientPanel pnMain;
     }
 }

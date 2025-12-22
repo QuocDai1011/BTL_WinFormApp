@@ -136,8 +136,8 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
             btnClassDetail.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
             btnClassDetail.DisabledState.FillColor2 = Color.FromArgb(169, 169, 169);
             btnClassDetail.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            btnClassDetail.FillColor = Color.White;
-            btnClassDetail.FillColor2 = Color.White;
+            btnClassDetail.FillColor = Color.Transparent;
+            btnClassDetail.FillColor2 = Color.Transparent;
             btnClassDetail.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnClassDetail.ForeColor = Color.Teal;
             btnClassDetail.HoverState.BorderColor = Color.Teal;
@@ -192,6 +192,10 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
             guna2CustomGradientPanel2.Controls.Add(lblSchoolDay);
             guna2CustomGradientPanel2.Controls.Add(lblShift);
             guna2CustomGradientPanel2.CustomizableEdges = customizableEdges8;
+            guna2CustomGradientPanel2.FillColor = Color.Transparent;
+            guna2CustomGradientPanel2.FillColor2 = Color.Transparent;
+            guna2CustomGradientPanel2.FillColor3 = Color.Transparent;
+            guna2CustomGradientPanel2.FillColor4 = Color.Transparent;
             guna2CustomGradientPanel2.Location = new Point(18, 142);
             guna2CustomGradientPanel2.Name = "guna2CustomGradientPanel2";
             guna2CustomGradientPanel2.ShadowDecoration.CustomizableEdges = customizableEdges9;
@@ -226,12 +230,13 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.White;
+            BackColor = Color.Transparent;
             Controls.Add(guna2CustomGradientPanel2);
             Controls.Add(guna2Panel1);
             Controls.Add(guna2CustomGradientPanel1);
             Controls.Add(lblNote);
             Controls.Add(lblClassName);
+            Margin = new Padding(3, 3, 3, 12);
             Name = "ClassItem";
             Size = new Size(330, 258);
             guna2CustomGradientPanel1.ResumeLayout(false);

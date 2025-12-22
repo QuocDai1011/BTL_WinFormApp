@@ -1,4 +1,5 @@
 ﻿using BaiTapLonWinForm.Models;
+using ServiceStack;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +13,6 @@ namespace BaiTapLonWinForm.Services.Interfaces
         Teacher getAllTeacherByClassId(long classId);
         Task<(bool Success, string Message, Teacher Data)> GetTeacherByIdAsync(int id);
         Task<(bool Success, string Message, Teacher Data)> UpdateTeacherAsync(Teacher teacher);
+        int GetTeacherByUserId(long userId);
     }
 }

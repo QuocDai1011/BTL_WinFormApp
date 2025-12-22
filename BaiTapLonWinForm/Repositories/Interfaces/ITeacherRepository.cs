@@ -1,4 +1,5 @@
 ﻿using BaiTapLonWinForm.Models;
+using Microsoft.VisualBasic.ApplicationServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,6 @@ namespace BaiTapLonWinForm.Repositories.Interfaces
         Task<Teacher> UpdateAsync(Teacher entity);
         Task<bool> ExistsAsync(int id);
         Task<bool> UserIdExistsAsync(long userId, int? excludeTeacherId = null);
+        int GetTeacherByUserId(long userId);
     }
 }
