@@ -35,8 +35,7 @@ namespace BaiTapLonWinForm.Views.Teacher
         }
         private void LoadLabelName()
         {
-            //var teacher = await _serviceHub.TeacherService.GetTeacherByIdAsync(_teacherId);
-            var teacher = _serviceHub.UserService.GetUserByUserId(_teacherId);
+            var teacher = _serviceHub.UserService.GetUserByTeacherId(_teacherId);
             lblMenuUserName.Text = teacher.FirstName + " " + teacher.LastName;
         }
         private void LoadClassList()
