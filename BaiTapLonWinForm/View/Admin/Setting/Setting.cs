@@ -19,5 +19,10 @@ namespace BaiTapLonWinForm.View.Setting
             InitializeComponent();
             _serviceHub = serviceHub;
         }
+
+        private void txtNewPass_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

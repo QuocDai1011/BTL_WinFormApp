@@ -16,6 +16,12 @@ namespace BaiTapLonWinForm.View.Admin.Students
     {
         private readonly int _studentId;
         private readonly ServiceHub _serviceHub;
+        private Dictionary<int, (string Text, Color Color)> statusMap = new Dictionary<int, (string Text, Color Color)>
+        {
+            { 1, ("Đã kết thúc", Color.Gray) },
+            { 0, ("Đang học", Color.SeaGreen) },
+            { -1, ("Sắp mở", Color.Orange) }
+        };
 
         // Constructor
         public StudentDetailForm(int studentId, ServiceHub serviceHub)
@@ -111,6 +117,7 @@ namespace BaiTapLonWinForm.View.Admin.Students
             }
         }
 
+
         private void AddClassCard(Models.Class classInfo)
         {
             Panel pnlCard = new Panel();
@@ -142,10 +149,14 @@ namespace BaiTapLonWinForm.View.Admin.Students
             pnlCard.Controls.Add(lblCourse);
 
             Label lblStatus = new Label();
-            bool isFinished = false;
-            lblStatus.Text = isFinished ? "Đã kết thúc" : "Đang diễn ra";
+            int key = classInfo.Status ?? -1;
+
+            var status = statusMap.ContainsKey(key)
+                        ? statusMap[key]
+                        : statusMap[-1];
+            lblStatus.Text = status.Text;
             lblStatus.Font = new Font("Segoe UI", 9, FontStyle.Bold);
-            lblStatus.ForeColor = isFinished ? Color.Gray : Color.FromArgb(39, 174, 96);
+            lblStatus.ForeColor = status.Color;
             lblStatus.Location = new Point(700, 25);
             lblStatus.AutoSize = true;
             pnlCard.Controls.Add(lblStatus);

@@ -25,6 +25,7 @@ namespace BaiTapLonWinForm.Repositories.implements
             {
                 return await _context.Classes
                     .Include(c => c.Teacher)
+                       .ThenInclude(u => u.User)
                     .Include(c => c.StudentClasses)
                     .Include(c => c.Course)
                     .Include(c => c.SchoolDays)
@@ -47,6 +48,7 @@ namespace BaiTapLonWinForm.Repositories.implements
                 .Include(c => c.StudentClasses)
                     .ThenInclude(sc => sc.Student)
                         .ThenInclude(s => s.User) 
+                .Include(sd => sd.SchoolDays)
                 .FirstOrDefaultAsync(c => c.ClassId == id);
         }
 
@@ -230,9 +232,9 @@ namespace BaiTapLonWinForm.Repositories.implements
 
         public async Task<bool> RemoveStudentFromClassAsync(int classId, int studentId)
         {
+            using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
-
                 var studentClass = await _context.StudentClasses
                     .FirstOrDefaultAsync(sc => sc.ClassId == classId && sc.StudentId == studentId);
 
@@ -240,16 +242,19 @@ namespace BaiTapLonWinForm.Repositories.implements
 
                 _context.StudentClasses.Remove(studentClass);
 
-
                 var classEntity = await _context.Classes.FindAsync(classId);
 
                 if (classEntity != null)
                 {
-                    if (classEntity.CurrentStudent > 0)
-                    {
-                        classEntity.CurrentStudent -= 1;
-                    }
+                    int currentCount = classEntity.CurrentStudent ?? 0;
 
+                    if (currentCount > 0)
+                    {
+                        classEntity.CurrentStudent = currentCount - 1;
+                        classEntity.UpdateAt = DateTime.Now; 
+
+                        _context.Classes.Update(classEntity);
+                    }
                 }
                 else
                 {
@@ -258,10 +263,13 @@ namespace BaiTapLonWinForm.Repositories.implements
 
                 await _context.SaveChangesAsync();
 
+                await transaction.CommitAsync();
+
                 return true;
             }
             catch (Exception ex)
             {
+                await transaction.RollbackAsync(); // Hoàn tác nếu lỗi
                 throw new Exception($"Lỗi khi xóa học viên: {ex.InnerException?.Message ?? ex.Message}");
             }
         }

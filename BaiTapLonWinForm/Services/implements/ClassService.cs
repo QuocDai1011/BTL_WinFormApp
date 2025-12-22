@@ -20,7 +20,7 @@ namespace BaiTapLonWinForm.Services.implements
             _classRepository = classRepository;
         }
 
-        public async Task<(bool Success, string Message, IEnumerable<Class> Data)> GetAllClassesAsync()
+        public async Task<(bool Success, string Message, IEnumerable<Class>? Data)> GetAllClassesAsync()
         {
             try
             {
@@ -33,7 +33,7 @@ namespace BaiTapLonWinForm.Services.implements
             }
         }
 
-        public async Task<(bool Success, string Message, Class Data)> GetClassByIdAsync(int id)
+        public async Task<(bool Success, string Message, Class? Data)> GetClassByIdAsync(int id)
         {
             try
             {
@@ -53,7 +53,7 @@ namespace BaiTapLonWinForm.Services.implements
             }
         }
 
-        public async Task<(bool Success, string Message, Class Data)> CreateClassAsync(Class classEntity)
+        public async Task<(bool Success, string Message, Class? Data)> CreateClassAsync(Class classEntity)
         {
             try
             {
@@ -75,7 +75,7 @@ namespace BaiTapLonWinForm.Services.implements
             }
         }
 
-        public async Task<(bool Success, string Message, Class Data)> UpdateClassAsync(Class classEntity)
+        public async Task<(bool Success, string Message, Class? Data)> UpdateClassAsync(Class classEntity)
         {
             try
             {
@@ -141,7 +141,7 @@ namespace BaiTapLonWinForm.Services.implements
             }
         }
 
-        public async Task<(bool Success, string Message, IEnumerable<Class> Data)> GetClassesByTeacherAsync(int teacherId)
+        public async Task<(bool Success, string Message, IEnumerable<Class>? Data)> GetClassesByTeacherAsync(int teacherId)
         {
             try
             {
@@ -170,7 +170,7 @@ namespace BaiTapLonWinForm.Services.implements
             }
         }
 
-        public async Task<(bool Success, string Message, IEnumerable<Class> Data)> GetActiveClassesAsync()
+        public async Task<(bool Success, string Message, IEnumerable<Class>? Data)> GetActiveClassesAsync()
         {
             try
             {
@@ -257,6 +257,21 @@ namespace BaiTapLonWinForm.Services.implements
                 }
 
 
+                // kiểm tra xem lớp đã diễn ra hay chưa
+                // nếu diễn ra chưa quá 1 tuần thì có thể thêm học viên 
+                DateOnly today = DateOnly.FromDateTime(DateTime.Now);
+
+                // Kiểm tra nếu lớp đã bắt đầu
+                if (today > classEntity.StartDate)
+                {
+                    int daysPassed = today.DayNumber - classEntity.StartDate.DayNumber;
+
+                    if (daysPassed > 7)
+                    {
+                        return (false, $"Không thể thêm học viên vì lớp học đã diễn ra được" +
+                            $" {daysPassed} ngày (Quá hạn 7 ngày cho phép).");
+                    }
+                }
                 foreach (var studentId in studentIds)
                 {
                     var studentClass = new StudentClass
@@ -297,7 +312,7 @@ namespace BaiTapLonWinForm.Services.implements
             }
         }
 
-        public (bool Success, string Message, IEnumerable<Class> Data) getClassesByStudentId(int studentId)
+        public (bool Success, string Message, IEnumerable<Class>? Data) getClassesByStudentId(int studentId)
         {
             try
             {
@@ -317,6 +332,69 @@ namespace BaiTapLonWinForm.Services.implements
             catch (Exception ex)
             {
                 return (false, $"Lỗi: {ex.Message}", null);
+            }
+        }
+
+        public async Task<int> UpdateClassStatusesAutoAsync()
+        {
+            Console.WriteLine("Đang cập nhật trạng thái cho lớp học...");
+            try
+            {
+                var today = DateOnly.FromDateTime(DateTime.Now);
+
+                var allClasses = await _classRepository.GetAllAsync();
+
+                int updatedCount = 0;
+
+                foreach (var classEntity in allClasses)
+                {
+                    int newStatus = classEntity.Status ?? -1;
+                    bool isChanged = false;
+
+
+                    // Trường hợp 1: Đã quá ngày kết thúc -> Set thành Đã kết thúc
+                    if (today > classEntity.EndDate)
+                    {
+                        if (newStatus != 1)
+                        {
+                            newStatus = 1;
+                            isChanged = true;
+                        }
+                    }
+                    // Trường hợp 2: Trong khoảng thời gian học -> Set thành Đang diễn ra
+                    else if (today >= classEntity.StartDate && today <= classEntity.EndDate)
+                    {
+                        if (newStatus != 0)
+                        {
+                            newStatus = 0;
+                            isChanged = true;
+                        }
+                    }
+                    // Trường hợp 3: Chưa đến ngày bắt đầu -> Set thành Sắp diễn ra
+                    else if (today < classEntity.StartDate)
+                    {
+                        if (newStatus != -1)
+                        {
+                            newStatus = -1;
+                            isChanged = true;
+                        }
+                    }
+
+                    if (isChanged)
+                    {
+                        classEntity.Status = newStatus;
+                        classEntity.UpdateAt = DateTime.Now; 
+                        await _classRepository.UpdateAsync(classEntity);
+                        updatedCount++;
+                    }
+                }
+
+                return updatedCount; 
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi cập nhật trạng thái tự động: {ex.Message}");
+                return 0;
             }
         }
     }

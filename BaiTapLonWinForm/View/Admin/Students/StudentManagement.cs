@@ -340,7 +340,7 @@ namespace BaiTapLonWinForm.View.Admin.Students
                 {
                     int successCount = 0;
                     int errorCount = 0;
-
+                    string message = "";
                     using (var package = new ExcelPackage(new FileInfo(openFileDialog.FileName)))
                     {
                         var worksheet = package.Workbook.Worksheets[0];
@@ -391,14 +391,15 @@ namespace BaiTapLonWinForm.View.Admin.Students
                                     errorCount++;
                                 }
                             }
-                            catch
+                            catch(Exception ex)
                             {
+                                message = ex.Message;
                                 errorCount++;
                             }
                         }
                     }
 
-                    MessageBox.Show($"Import hoàn tất!\nThành công: {successCount}\nLỗi: {errorCount}",
+                    MessageBox.Show($"Import hoàn tất!\nThành công: {successCount}\nLỗi: {errorCount} | message: {message}",
                         "Kết quả", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     // 4. QUAN TRỌNG: Load lại dữ liệu sau khi import

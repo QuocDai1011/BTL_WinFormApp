@@ -7,7 +7,7 @@ public partial class SchoolDay
 {
     public byte SchoolDayId { get; set; }
 
-    public string DayOfWeek { get; set; } = null!;
+    public string? DayOfWeek { get; set; }
 
     public virtual ICollection<Class> Classes { get; set; } = new List<Class>();
 }

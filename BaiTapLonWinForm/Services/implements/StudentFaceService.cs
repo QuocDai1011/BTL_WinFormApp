@@ -1,4 +1,5 @@
 ﻿using BaiTapLonWinForm.Models;
+using BaiTapLonWinForm.Repositories.implements;
 using BaiTapLonWinForm.Repositories.interfaces;
 using BaiTapLonWinForm.Services.interfaces;
 using System;
@@ -34,6 +35,36 @@ namespace BaiTapLonWinForm.Services.implements
         {
             try
             {
+                if (faceImages != null && faceImages.Count > 0)
+                {
+                    int checkLimit = Math.Min(faceImages.Count, 5);
+
+                    for (int i = 0; i < checkLimit; i++)
+                    {
+                        var recognizeResult = await _faceApi.RecognizeFaceAsync(faceImages[i]);
+
+                        if (recognizeResult.success && recognizeResult.studentId.HasValue)
+                        {
+                            if (recognizeResult.studentId.Value == studentId)
+                            {
+                                continue;
+                            }
+
+                            var existingStudent = await _studentRepo.GetByIdAsync(recognizeResult.studentId.Value);
+                            string existingName = "Không xác định";
+
+                            if (existingStudent != null && existingStudent.User != null)
+                            {
+                                existingName = $"{existingStudent.User.LastName} {existingStudent.User.FirstName}";
+                            }
+
+                            return (false, 0, $"Khuôn mặt này đã thuộc về người khác!\n" +
+                                               $"Trùng khớp với học viên: {existingName}\n" +
+                                               $"Độ chính xác: {recognizeResult.confidence:P1}");
+                        }       
+                    }
+                }
+
                 var student = await _studentRepo.GetByIdAsync(studentId);
                 if (student == null)
                 {
@@ -116,8 +147,10 @@ namespace BaiTapLonWinForm.Services.implements
             }
         }
 
-        public async Task<(bool success, int savedCount, string message, List<string>? createdFilePaths)> SaveFaceImagesAndGetPathsAsync(
-    int studentId, List<byte[]> faceImages)
+        public async Task<(bool success, int savedCount,
+            string message, List<string>? createdFilePaths)>
+            SaveFaceImagesAndGetPathsAsync(
+            int studentId, List<byte[]> faceImages)
         {
             var createdPaths = new List<string>();
             try

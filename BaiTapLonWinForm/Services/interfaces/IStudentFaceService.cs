@@ -14,6 +14,6 @@ namespace BaiTapLonWinForm.Services.interfaces
         Task<List<StudentFaceImage>> GetImagesAsync(int studentId);
         Task<(bool success, string message)> DeleteAllImagesAsync(int studentId);
 
-        Task<(bool success, int savedCount, string message, List<string> createdFilePaths)> SaveFaceImagesAndGetPathsAsync(int studentId, List<byte[]> faceImages);
+        Task<(bool success, int savedCount, string message, List<string>? createdFilePaths)> SaveFaceImagesAndGetPathsAsync(int studentId, List<byte[]> faceImages);
     }
 }

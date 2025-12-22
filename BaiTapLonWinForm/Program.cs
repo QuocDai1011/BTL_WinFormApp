@@ -1,6 +1,5 @@
 ﻿using BaiTapLon_WinFormApp.Views.Admin.HomePage;
 using BaiTapLonWinForm.Data;
-using BaiTapLonWinForm.Models;
 using BaiTapLonWinForm.Repositories.implements;
 using BaiTapLonWinForm.Repositories.interfaces;
 using BaiTapLonWinForm.Repository.implements;
@@ -27,6 +26,7 @@ namespace BaiTapLonWinForm
         [STAThread]
         static void Main()
         {
+            // đăng ký excel của EPPlus
             ExcelPackage.License.SetNonCommercialPersonal(Environment.UserName);
 
             // 1. Đọc file appsettings.json
@@ -98,6 +98,8 @@ namespace BaiTapLonWinForm
                     MessageBox.Show($"Lỗi khởi tạo dữ liệu Test: {ex.Message}");
                 }
             }
+
+            
 
             Application.Run(provider.GetRequiredService<HomePage>());
         }

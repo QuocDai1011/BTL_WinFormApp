@@ -48,7 +48,7 @@ namespace BaiTapLonWinForm.Services.implements
             }
         }
 
-        public async Task<(bool Success, string Message, Student Data)> GetStudentByIdAsync(int id)
+        public async Task<(bool Success, string Message, Student? Data)> GetStudentByIdAsync(int id)
         {
             try
             {
@@ -68,7 +68,7 @@ namespace BaiTapLonWinForm.Services.implements
             }
         }
 
-        public async Task<(bool Success, string Message, Student Data)> GetStudentByUserIdAsync(long userId)
+        public async Task<(bool Success, string Message, Student? Data)> GetStudentByUserIdAsync(long userId)
         {
             try
             {
@@ -275,7 +275,7 @@ namespace BaiTapLonWinForm.Services.implements
             }
         }
 
-        public async Task<(bool Success, string Message, IEnumerable<Student> Data)> GetStudentsWithClassesAsync()
+        public async Task<(bool Success, string Message, IEnumerable<Student>? Data)> GetStudentsWithClassesAsync()
         {
             try
             {
@@ -288,7 +288,7 @@ namespace BaiTapLonWinForm.Services.implements
             }
         }
 
-        public async Task<(bool Success, string Message, IEnumerable<Student> Data)> GetStudentsByClassIdAsync(int classId)
+        public async Task<(bool Success, string Message, IEnumerable<Student>? Data)> GetStudentsByClassIdAsync(int classId)
         {
             try
             {
@@ -304,7 +304,7 @@ namespace BaiTapLonWinForm.Services.implements
             }
         }
 
-        public async Task<(bool Success, string Message, IEnumerable<Student> Data)> SearchStudentsByNameAsync(string keyword)
+        public async Task<(bool Success, string Message, IEnumerable<Student>? Data)> SearchStudentsByNameAsync(string keyword)
         {
             try
             {
@@ -339,7 +339,7 @@ namespace BaiTapLonWinForm.Services.implements
             }
         }
 
-        public async Task<(bool Success, string Message, IEnumerable<Student> Data)> GetStudentsWithoutClassAsync()
+        public async Task<(bool Success, string Message, IEnumerable<Student>? Data)> GetStudentsWithoutClassAsync()
         {
             try
             {

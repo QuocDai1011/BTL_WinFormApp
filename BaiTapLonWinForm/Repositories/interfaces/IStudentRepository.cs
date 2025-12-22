@@ -13,7 +13,7 @@ namespace BaiTapLonWinForm.Repositories.interfaces
         Task<Student?> GetByIdAsync(int id);
         Task<Student?> GetByUserIdAsync(long userId);
         Task<Student> CreateAsync(Student entity);
-        Task<Student> UpdateAsync(Student entity);
+        Task<Student?> UpdateAsync(Student entity);
         Task<bool> DeleteAsync(int id);
         Task<bool> ExistsAsync(int id);
         Task<bool> UserIdExistsAsync(long userId, int? excludeStudentId = null);

@@ -26,6 +26,8 @@ public partial class AppDbContext : DbContext
 
     public virtual DbSet<Receipt> Receipts { get; set; }
 
+    public virtual DbSet<ReceiptPayment> ReceiptPayments { get; set; }
+
     public virtual DbSet<Role> Roles { get; set; }
 
     public virtual DbSet<SchoolDay> SchoolDays { get; set; }
@@ -247,36 +249,27 @@ public partial class AppDbContext : DbContext
 
         modelBuilder.Entity<Receipt>(entity =>
         {
-            entity.HasKey(e => new { e.StudentId, e.ClassId, e.PromotionId }).HasName("PK__receipt__3FC0F8576FE76B6B");
+            entity.HasKey(e => new { e.StudentId, e.ClassId, e.PromotionId }).HasName("PK__receipt__3FC0F8575E4C67C4");
 
             entity.ToTable("receipt");
 
             entity.Property(e => e.StudentId).HasColumnName("student_id");
             entity.Property(e => e.ClassId).HasColumnName("class_id");
             entity.Property(e => e.PromotionId).HasColumnName("promotion_id");
-            entity.Property(e => e.Amount)
-                .HasColumnType("decimal(12, 3)")
-                .HasColumnName("amount");
             entity.Property(e => e.CreateAt)
                 .HasDefaultValueSql("(sysdatetime())")
                 .HasColumnType("datetime")
                 .HasColumnName("create_at");
-            entity.Property(e => e.NumberOfPayments)
-                .HasDefaultValue(1)
-                .HasColumnName("number_of_payments");
-            entity.Property(e => e.PaymentDate)
-                .HasDefaultValueSql("(CONVERT([date],getdate()))")
-                .HasColumnName("payment_date");
-            entity.Property(e => e.PaymentMethod)
-                .HasMaxLength(30)
-                .IsUnicode(false)
-                .HasDefaultValue("online")
-                .HasColumnName("payment_method");
+            entity.Property(e => e.PaidAmount)
+                .HasColumnType("decimal(12, 3)")
+                .HasColumnName("paid_amount");
             entity.Property(e => e.Status)
-                .HasMaxLength(50)
+                .HasMaxLength(20)
                 .IsUnicode(false)
-                .HasDefaultValue("paid")
                 .HasColumnName("status");
+            entity.Property(e => e.TotalAmount)
+                .HasColumnType("decimal(12, 3)")
+                .HasColumnName("total_amount");
             entity.Property(e => e.UpdateAt)
                 .HasColumnType("datetime")
                 .HasColumnName("update_at");
@@ -284,17 +277,45 @@ public partial class AppDbContext : DbContext
             entity.HasOne(d => d.Class).WithMany(p => p.Receipts)
                 .HasForeignKey(d => d.ClassId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__receipt__class_i__208CD6FA");
+                .HasConstraintName("FK__receipt__class_i__531856C7");
 
             entity.HasOne(d => d.Promotion).WithMany(p => p.Receipts)
                 .HasForeignKey(d => d.PromotionId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__receipt__promoti__2180FB33");
+                .HasConstraintName("FK__receipt__promoti__540C7B00");
 
             entity.HasOne(d => d.Student).WithMany(p => p.Receipts)
                 .HasForeignKey(d => d.StudentId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__receipt__update___1F98B2C1");
+                .HasConstraintName("FK__receipt__update___5224328E");
+        });
+
+        modelBuilder.Entity<ReceiptPayment>(entity =>
+        {
+            entity.HasKey(e => e.PaymentId).HasName("PK__receipt___ED1FC9EA4E2AD91E");
+
+            entity.ToTable("receipt_payment");
+
+            entity.Property(e => e.PaymentId).HasColumnName("payment_id");
+            entity.Property(e => e.ClassId).HasColumnName("class_id");
+            entity.Property(e => e.PayAmount)
+                .HasColumnType("decimal(12, 3)")
+                .HasColumnName("pay_amount");
+            entity.Property(e => e.PaymentDate)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnName("payment_date");
+            entity.Property(e => e.PaymentMethod)
+                .HasMaxLength(20)
+                .IsUnicode(false)
+                .HasDefaultValue("online")
+                .HasColumnName("payment_method");
+            entity.Property(e => e.PromotionId).HasColumnName("promotion_id");
+            entity.Property(e => e.StudentId).HasColumnName("student_id");
+
+            entity.HasOne(d => d.Receipt).WithMany(p => p.ReceiptPayments)
+                .HasForeignKey(d => new { d.StudentId, d.ClassId, d.PromotionId })
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_receipt_payment_receipt");
         });
 
         modelBuilder.Entity<Role>(entity =>

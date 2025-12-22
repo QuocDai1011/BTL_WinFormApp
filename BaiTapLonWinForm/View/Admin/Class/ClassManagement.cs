@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using BaiTapLonWinForm.Services;
 using BaiTapLonWinForm.Utils;
@@ -8,73 +10,194 @@ using Guna.UI2.WinForms;
 
 namespace BaiTapLonWinForm.View.Admin.Class
 {
+    public enum ClassFilterStatus
+    {
+        Upcoming, // Sắp diễn ra (Status = -1)
+        Ongoing,  // Đang diễn ra (Status = 0)
+        Finished  // Đã kết thúc (Status = 1)
+    }
+
     public partial class ClassManagement : UserControl
     {
         private readonly ServiceHub _serviceHub;
         private readonly Image _cachedLogo;
-        private readonly Image _cachedBranchIcon;
+        private readonly Image _cachedUserIcon;
         private readonly Image _cachedStudentIcon;
+        private List<Models.Class> _allClassesCache;
+
+        // 3 TableLayoutPanel riêng biệt cho mỗi tab
+        private TableLayoutPanel _tableUpcoming;
+        private TableLayoutPanel _tableOngoing;
+        private TableLayoutPanel _tableFinished;
 
         public ClassManagement(ServiceHub serviceHub)
         {
             _serviceHub = serviceHub;
+
+            // Pre-load resources
             _cachedLogo = Properties.Resources.logo2019_png_1;
-            _cachedBranchIcon = Properties.Resources.Ảnh_chụp_màn_hình_2025_12_01_204527;
+            _cachedUserIcon = Properties.Resources.user;
             _cachedStudentIcon = Properties.Resources.Ảnh_chụp_màn_hình_2025_12_01_204702;
+
             InitializeComponent();
+            SetupCustomUI();
+
             this.Load += async (s, e) => await LoadClassData();
+        }
+
+        private void SetupCustomUI()
+        {
+            // Tạo 3 TableLayoutPanel cho 3 tab
+            _tableUpcoming = CreateTableLayoutPanel();
+            _tableOngoing = CreateTableLayoutPanel();
+            _tableFinished = CreateTableLayoutPanel();
+
+            // Add vào từng tab page
+            tabPageUpcoming.Controls.Add(_tableUpcoming);
+            tabPageOngoing.Controls.Add(_tableOngoing);
+            tabPageFinished.Controls.Add(_tableFinished);
+
+            // Thiết lập tab mặc định
+            guna2TabControl1.SelectedIndex = 0;
+        }
+
+        private TableLayoutPanel CreateTableLayoutPanel()
+        {
+            var table = new TableLayoutPanel
+            {
+                AutoScroll = true,
+                BackColor = Color.White,
+                Dock = DockStyle.Fill,
+                ColumnCount = 3,
+                RowCount = 1,
+                Margin = new Padding(0),
+                Padding = new Padding(10, 10, SystemInformation.VerticalScrollBarWidth + 10, 10)
+            };
+
+            // Cấu hình 3 cột đều nhau
+            table.ColumnStyles.Clear();
+            float percent = 100f / 3;
+            for (int i = 0; i < 3; i++)
+            {
+                table.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, percent));
+            }
+
+            // Row mặc định
+            table.RowStyles.Add(new RowStyle(SizeType.Absolute, 245F));
+
+            return table;
         }
 
         private async Task LoadClassData()
         {
-            var classes = await _serviceHub.ClassService.GetAllClassesAsync();
+            this.Cursor = Cursors.WaitCursor;
 
-            if (!classes.Success)
+            var result = await _serviceHub.ClassService.GetAllClassesAsync();
+
+
+            this.Cursor = Cursors.Default;
+
+            if (!result.Success)
             {
-                MessageHelper.ShowError("Lỗi: " + classes.Message);
+                MessageHelper.ShowError("Lỗi: " + result.Message);
                 return;
             }
 
-            var data = classes.Data.ToList();
+            // Lưu cache
+            _allClassesCache = result.Data?.ToList() ?? new List<Models.Class>();
 
-            tableLayoutPanel1.SuspendLayout();
 
+            // Render dữ liệu cho cả 3 tab
+            RenderTable(_tableUpcoming, ClassFilterStatus.Upcoming);
+            RenderTable(_tableOngoing, ClassFilterStatus.Ongoing);
+            RenderTable(_tableFinished, ClassFilterStatus.Finished);
+        }
+
+        private List<Models.Class> FilterData(ClassFilterStatus status)
+        {
+            if (_allClassesCache == null) return new List<Models.Class>();
+
+            switch (status)
+            {
+                case ClassFilterStatus.Upcoming:
+                    return _allClassesCache.Where(c => c.Status == -1).ToList();
+                case ClassFilterStatus.Ongoing:
+                    return _allClassesCache.Where(c => c.Status == 0).ToList();
+                case ClassFilterStatus.Finished:
+                    return _allClassesCache.Where(c => c.Status == 1).ToList();
+                default:
+                    return new List<Models.Class>();
+            }
+        }
+
+        private void RenderTable(TableLayoutPanel table, ClassFilterStatus status)
+        {
+            if (table == null) return;
+
+            var filteredList = FilterData(status);
+
+            table.SuspendLayout();
             try
             {
-
-                foreach (Control ctrl in tableLayoutPanel1.Controls)
+                while (table.Controls.Count > 0)
                 {
-                    ctrl.Dispose();
+                    var control = table.Controls[0];
+                    table.Controls.RemoveAt(0);
+                    control.Dispose();
                 }
-                tableLayoutPanel1.Controls.Clear();
-                tableLayoutPanel1.RowStyles.Clear();
+
+                table.RowStyles.Clear();
 
                 int columns = 3;
-                int rows = (int)Math.Ceiling(data.Count / (double)columns);
+                int rows = filteredList.Count > 0
+                    ? (int)Math.Ceiling((double)filteredList.Count / columns)
+                    : 1;
 
-                tableLayoutPanel1.RowCount = rows;
+                table.RowCount = rows;
 
+                float rowHeight = 245F;
                 for (int i = 0; i < rows; i++)
                 {
-                    tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 237F));
+                    table.RowStyles.Add(new RowStyle(SizeType.Absolute, rowHeight));
                 }
 
-                for (int i = 0; i < data.Count; i++)
+                if (filteredList == null || filteredList.Count == 0)
+                {
+                    table.RowCount = 1;
+                    table.RowStyles.Add(new RowStyle(SizeType.Percent, 100F)); 
+                    Guna2HtmlLabel lblEmpty = new Guna2HtmlLabel
+                    {
+                        Text = "<div style='text-align:center; padding-top: 20px; color: gray; font-size: 18px'>" +
+                               "<b style='font-size: 18px'>Không tìm thấy lớp học nào</b><br/>" +
+                               "Hiện tại chưa có lớp học ở trạng thái này." +
+                               "</div>",
+                        AutoSize = false,            
+                        Dock = DockStyle.Fill,       
+                        TextAlignment = ContentAlignment.MiddleCenter,
+                        BackColor = Color.Transparent
+                    };
+
+                    table.Controls.Add(lblEmpty, 0, 0);
+
+                    table.SetColumnSpan(lblEmpty, columns);
+                }
+
+                // Thêm các card
+                for (int i = 0; i < filteredList.Count; i++)
                 {
                     int row = i / columns;
                     int col = i % columns;
 
-                    var classPanel = CreateClassPanel(data[i]);
-                    tableLayoutPanel1.Controls.Add(classPanel, col, row);
+                    var classPanel = CreateClassPanel(filteredList[i]);
+                    table.Controls.Add(classPanel, col, row);
                 }
             }
             finally
             {
-                tableLayoutPanel1.ResumeLayout();
+                table.ResumeLayout(true);
             }
         }
 
-        // Hàm tạo một panel cho mỗi lớp học
         private Guna2ShadowPanel CreateClassPanel(Models.Class classInfo)
         {
             var panel = new Guna2ShadowPanel
@@ -87,19 +210,20 @@ namespace BaiTapLonWinForm.View.Admin.Class
                 ShadowDepth = 50,
                 ShadowShift = 3,
                 Radius = 10,
-                Cursor = Cursors.Hand
+                Cursor = Cursors.Hand,
+                Anchor = AnchorStyles.None
             };
 
-            // Logo Image
+            // Logo
             var logoBox = new Guna2PictureBox
             {
-                Image = Properties.Resources.logo2019_png_1,
+                Image = _cachedLogo,
                 Location = new Point(3, 3),
                 Size = new Size(180, 150),
                 SizeMode = PictureBoxSizeMode.Zoom
             };
 
-            // Class Name Label
+            // Tên lớp
             var lblClassName = new Guna2HtmlLabel
             {
                 Text = classInfo.ClassName,
@@ -111,88 +235,86 @@ namespace BaiTapLonWinForm.View.Admin.Class
                 IsSelectionEnabled = false
             };
 
-            // Start Date Label
+            // Ngày khai giảng
             var lblStartDate = new Guna2HtmlLabel
             {
-                Text = classInfo.StartDate.ToString("dd/MM/yyyy"),
+                Text = "Khai giảng: " + classInfo.StartDate.ToString("dd/MM/yyyy"),
                 Font = new Font("Segoe UI", 10.2F),
                 Location = new Point(195, 110),
                 AutoSize = true,
                 BackColor = Color.Transparent
             };
 
-            // Branch Icon
+            // Icon & Text Chi nhánh
             var branchIcon = new Guna2PictureBox
             {
-                Image = _cachedBranchIcon,
+                Image = _cachedUserIcon,
                 Location = new Point(13, 172),
                 Size = new Size(35, 33),
-                SizeMode = PictureBoxSizeMode.Zoom 
+                SizeMode = PictureBoxSizeMode.Zoom
             };
 
-            // Branch Label
-            var lblBranch = new Guna2HtmlLabel
+            string teacherName = $"{classInfo.Teacher.User.FirstName} {classInfo.Teacher.User.LastName}";
+
+
+            var lblTeacherName = new Guna2HtmlLabel
             {
-                Text = "Trung Tâm Anh Ngữ Tre Xanh",
+                Text = teacherName != null ? $"Giảng viên: {teacherName}": "Chưa phân công",
                 Font = new Font("Segoe UI", 10.2F),
                 Location = new Point(50, 175),
                 AutoSize = true,
                 BackColor = Color.Transparent
             };
 
-            // Student Icon
+            // Icon & Text Số lượng học viên
             var studentIcon = new Guna2PictureBox
             {
                 Image = _cachedStudentIcon,
                 Location = new Point(372, 172),
                 Size = new Size(35, 33),
                 SizeMode = PictureBoxSizeMode.Zoom
-
             };
 
-            // Current Students Label
             var lblStudents = new Guna2HtmlLabel
             {
-                Text = classInfo.CurrentStudent.ToString(),
+                Text = (classInfo.CurrentStudent ?? 0).ToString(),
                 Font = new Font("Segoe UI", 10.2F),
                 Location = new Point(413, 175),
                 AutoSize = true,
                 BackColor = Color.Transparent
             };
 
-            // Thêm controls vào panel
-            panel.Controls.AddRange(new Control[]
-            {
+            // Add controls vào panel
+            panel.Controls.AddRange(new Control[] {
                 logoBox, lblClassName, lblStartDate,
-                branchIcon, lblBranch,
-                studentIcon, lblStudents
+                branchIcon, lblTeacherName, studentIcon, lblStudents
             });
 
-            panel.Click += OnClick;
-            logoBox.Click += OnClick;
-            lblClassName.Click += OnClick;
-
-            // Thêm event click
+            // Sự kiện Click
             void OnClick(object s, EventArgs e) => OnClassPanelClick(classInfo.ClassId);
+
+            panel.Click += OnClick;
+            foreach (Control c in panel.Controls)
+            {
+                c.Click += OnClick;
+            }
 
             return panel;
         }
 
-        // Event handler khi click vào một lớp học
-        private void OnClassPanelClick(int classInfoId)
+        private void OnClassPanelClick(int classId)
         {
             this.Controls.Clear();
-            this.Controls.Add(new ClassDetailControl(_serviceHub, classInfoId)
+            var detailControl = new ClassDetailControl(_serviceHub, classId)
             {
                 Dock = DockStyle.Fill
-            });
+            };
+            this.Controls.Add(detailControl);
         }
 
-        // Hàm refresh dữ liệu (gọi khi có thay đổi)
         public void RefreshData()
         {
-            LoadClassData();
+            _ = LoadClassData();
         }
     }
 }
-

@@ -31,48 +31,70 @@ namespace BaiTapLonWinForm.View.Admin.Students
             _serviceHub = serviceHub;
             _studentId = studentId;
             InitializeComponent();
-            InitializeCamera();
+            this.Load += AddPhoto_Load;
             InitializeTimer();
         }
 
-        private void InitializeCamera()
+        private async void AddPhoto_Load(object? sender, EventArgs e)
         {
+            await InitializeCameraAsync();
+        }
+
+        private async Task InitializeCameraAsync()
+        {
+            cboCamera.Items.Clear();
+            cboCamera.Enabled = false;
+            lblSelectCamera.Text = "Đang tìm camera...";
+            btnStartCamera.Enabled = false;
+
             try
             {
-                // Load available cameras
-                for (int i = 0; i < 5; i++)
+
+                var availableCameras = await Task.Run(() =>
                 {
-                    try
+                    var cameras = new List<string>();
+                    for (int i = 0; i < 3; i++)
                     {
-                        using (VideoCapture testCapture = new VideoCapture(i))
+                        try
                         {
-                            if (testCapture.IsOpened)
+                            using (VideoCapture testCapture = new VideoCapture(i))
                             {
-                                cboCamera.Items.Add($"Camera {i}");
+                                if (testCapture.IsOpened)
+                                {
+                                    cameras.Add($"Camera {i}");
+                                }
                             }
                         }
+                        catch { }
                     }
-                    catch
-                    {
-                        continue;
-                    }
-                }
+                    return cameras;
+                });
 
-                if (cboCamera.Items.Count == 0)
+                if (availableCameras.Count > 0)
                 {
-                    MessageBox.Show("Không tìm thấy camera nào trên thiết bị!", "Lỗi",
-                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    btnStartCamera.Enabled = false;
-                    return;
+                    foreach (var cam in availableCameras)
+                    {
+                        cboCamera.Items.Add(cam);
+                    }
+                    cboCamera.SelectedIndex = 0;
+                    frame = new Mat();
+                    btnStartCamera.Enabled = true;
+                    lblSelectCamera.Text = "Chọn camera:";
                 }
-
-                cboCamera.SelectedIndex = 0;
-                frame = new Mat();
+                else
+                {
+                    lblSelectCamera.Text = "Không tìm thấy camera";
+                    lblSelectCamera.ForeColor = Color.Red;
+                    btnStartCamera.Enabled = false;
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi khởi tạo camera: {ex.Message}", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Lỗi khởi tạo camera: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                cboCamera.Enabled = true;
             }
         }
 
@@ -403,6 +425,16 @@ namespace BaiTapLonWinForm.View.Admin.Students
                 if (!result.success)
                 {
                     MessageHelper.ShowError($"Lỗi lưu ảnh: {result.message}");
+                    // xảy ra lỗi clear toàn bộ ảnh
+                    capturedImages.Clear();
+                    UpdateImageGallery();
+                    UpdateImageStatus();
+
+                    if (picPreview.Image != null)
+                    {
+                        picPreview.Image.Dispose();
+                        picPreview.Image = null;
+                    }
                     return;
                 }
 

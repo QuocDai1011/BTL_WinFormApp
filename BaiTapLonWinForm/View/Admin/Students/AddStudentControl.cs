@@ -17,13 +17,14 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace BaiTapLonWinForm.View.Admin.Students
 {
     public partial class AddStudentControl : UserControl
     {
-        private ServiceHub _serviceHub;
-
+        private readonly ServiceHub _serviceHub;
+        private readonly OtpStorage _otpStorage;
         private VideoCapture capture;
         private Mat frame;
         private bool isCameraRunning = false;
@@ -37,6 +38,7 @@ namespace BaiTapLonWinForm.View.Admin.Students
         public AddStudentControl(ServiceHub serviceHub)
         {
             _serviceHub = serviceHub;
+            _otpStorage = new OtpStorage();
             InitializeComponent();
             this.Load += AddStudentControl_Load;
             InitializeTimer();

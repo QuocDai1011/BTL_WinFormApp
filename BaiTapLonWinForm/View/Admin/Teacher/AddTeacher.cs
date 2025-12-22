@@ -335,10 +335,8 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
                         RoleId = 2
                     }
                 };
-
                 return teacher;
             }
-            return null;
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

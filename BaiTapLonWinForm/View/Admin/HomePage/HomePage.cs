@@ -1,6 +1,9 @@
 ﻿
+using BaiTapLonWinForm.Models;
 using BaiTapLonWinForm.Services;
+using BaiTapLonWinForm.Utils;
 using BaiTapLonWinForm.View.Admin.Class;
+using BaiTapLonWinForm.View.Admin.Course;
 using BaiTapLonWinForm.View.Admin.Students;
 using BaiTapLonWinForm.View.Admin.Teacher;
 using BaiTapLonWinForm.View.Setting;
@@ -22,6 +25,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
         private readonly Color hoverColor = Color.FromArgb(52, 152, 219);
         private readonly Color normalColor = Color.Transparent;
         private readonly Color activeColor = Color.FromArgb(52, 152, 219);
+
         private readonly ServiceHub _serviceHub;
         public HomePage(ServiceHub serviceHub)
         {
@@ -32,7 +36,11 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             // Load dashboard by default
             _serviceHub = serviceHub;
             LoadUserControl(new DashBoard(_serviceHub));
+
+            this.Load += HomePage_Load;
         }
+
+        
 
         #region Menu Item Events Setup
         private void InitializeMenuEvents()
@@ -153,7 +161,25 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
         private void Courses_Click(object sender, EventArgs e)
         {
             SetActiveMenuItem(pnlCourse);
-            LoadUserControl(new CourseManagementControl());
+            var courseManagement = new CourseManagement(_serviceHub);
+            courseManagement.RequestOpenDetail += (s, course) =>
+            {
+                // Tạo Detail Control
+                var detailView = new CourseDetail();
+                detailView.LoadData(course);
+
+                // Xử lý nút Back trong Detail
+                detailView.BackRequested += (s2, e2) =>
+                {
+                    // Load lại danh sách khi bấm Back
+                    Courses_Click(null, null);
+                };
+
+                // Load Detail View đè lên ContentPanel
+                LoadUserControl(detailView);
+            };
+            LoadUserControl(courseManagement);
+
         }
 
         private void Management_Click(object sender, EventArgs e)
@@ -214,7 +240,22 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
         }
         #endregion
 
-
+        #region Load function auto update status in class
+        private async void HomePage_Load(object? sender, EventArgs e)
+        {
+            await updateAutoStatus();
+        }
+        // update status trong class
+        private async Task updateAutoStatus()
+        {
+            int count = await _serviceHub.ClassService.UpdateClassStatusesAutoAsync();
+        
+            if(count > 0)
+            {
+                MessageHelper.ShowError($"Đã cập nhật trạng thái cho {count} lớp học");
+            }
+        }
+        #endregion
     }
 
     #region Sample User Controls (Replace with your actual controls)
