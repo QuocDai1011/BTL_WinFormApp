@@ -330,9 +330,9 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             lblManagement.Location = new Point(81, 21);
             lblManagement.Margin = new Padding(4, 0, 4, 0);
             lblManagement.Name = "lblManagement";
-            lblManagement.Size = new Size(136, 25);
+            lblManagement.Size = new Size(109, 25);
             lblManagement.TabIndex = 1;
-            lblManagement.Text = "Quản lý chung";
+            lblManagement.Text = "Chấm công";
             lblManagement.Click += Management_Click;
             lblManagement.MouseEnter += MenuItem_MouseEnter;
             // 

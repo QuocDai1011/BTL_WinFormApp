@@ -26,12 +26,6 @@ namespace BaiTapLonWinForm.Validate
             result = ValidateDates(classEntity.StartDate, classEntity.EndDate);
             if (!result.IsValid) return result;
 
-            result = ValidateShift(classEntity.Shift);
-            if (!result.IsValid) return result;
-
-            result = ValidateStatus(classEntity.Status);
-            if (!result.IsValid) return result;
-
             result = ValidateOnlineMeetingLink(classEntity.OnlineMeetingLink);
             if (!result.IsValid) return result;
 
@@ -85,22 +79,6 @@ namespace BaiTapLonWinForm.Validate
             return (true, string.Empty);
         }
 
-        public static (bool IsValid, string Message) ValidateShift(byte shift)
-        {
-            // Giả sử shift từ 1-3 (sáng, chiều, tối)
-            if (shift < 1 || shift > 3)
-                return (false, "Ca học phải từ 1 đến 3");
-
-            return (true, string.Empty);
-        }
-
-        public static (bool IsValid, string Message) ValidateStatus(int? status)
-        {
-            if (status.HasValue && (status.Value < 0 || status.Value > 2))
-                return (false, "Trạng thái không hợp lệ (0: Chưa bắt đầu, 1: Đang diễn ra, 2: Đã kết thúc)");
-
-            return (true, string.Empty);
-        }
 
         public static (bool IsValid, string Message) ValidateOnlineMeetingLink(string? link)
         {

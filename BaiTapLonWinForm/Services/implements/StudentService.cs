@@ -102,9 +102,9 @@ namespace BaiTapLonWinForm.Services.implements
                     {
                         var recognizeResult = await _compreFaceApiService.RecognizeFaceAsync(faceImages[i]);
 
-                        if (recognizeResult.success && recognizeResult.studentId.HasValue)
+                        if (recognizeResult.success)
                         {
-                            var existingStudent = await _studentRepository.GetByIdAsync(recognizeResult.studentId.Value);
+                            var existingStudent = await _studentRepository.GetByIdAsync(int.Parse(recognizeResult.subject));
                             string existingName = "Không xác định";
 
                             if (existingStudent != null && existingStudent.User != null)
@@ -246,7 +246,6 @@ namespace BaiTapLonWinForm.Services.implements
                 if (student == null)
                     return (false, "Không tìm thấy học viên");
 
-                // Validate can delete
                 var (canDelete, message) = StudentValidator.CanDeleteStudent(student);
                 if (!canDelete)
                     return (false, message);

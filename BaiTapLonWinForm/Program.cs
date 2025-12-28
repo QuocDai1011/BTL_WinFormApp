@@ -52,6 +52,9 @@ namespace BaiTapLonWinForm
             services.AddScoped<IAttendanceRepository, AttendanceRepository>();
             services.AddScoped<IStudentFaceImageRepository, StudentFaceImageRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ITeacherAttendanceRepository, TeacherAttendanceRepository>();
+            services.AddScoped<ITeacherFaceImageRepository, TeacherFaceImageRepository>();
+
 
             ////Đăng ký các service cho Service ở đây
             services.AddScoped<IStudentService, StudentService>();
@@ -63,6 +66,8 @@ namespace BaiTapLonWinForm
             services.AddScoped<IAttendanceService, AttendanceService>();
             services.AddScoped<ICompreFaceApiService, CompreFaceApiService>();
             services.AddScoped<IStudentFaceService, StudentFaceService>();
+            services.AddScoped<ITeacherAttendanceService, TeacherAttendanceService>();
+            services.AddScoped<ITeacherFaceService, TeacherFaceService>();
 
 
             //Dăng ký ServiceHub

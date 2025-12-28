@@ -43,14 +43,14 @@ namespace BaiTapLonWinForm.Services.implements
                     {
                         var recognizeResult = await _faceApi.RecognizeFaceAsync(faceImages[i]);
 
-                        if (recognizeResult.success && recognizeResult.studentId.HasValue)
+                        if (recognizeResult.success)
                         {
-                            if (recognizeResult.studentId.Value == studentId)
+                            if (int.Parse(recognizeResult.subject) == studentId)
                             {
                                 continue;
                             }
 
-                            var existingStudent = await _studentRepo.GetByIdAsync(recognizeResult.studentId.Value);
+                            var existingStudent = await _studentRepo.GetByIdAsync(int.Parse(recognizeResult.subject));
                             string existingName = "Không xác định";
 
                             if (existingStudent != null && existingStudent.User != null)
@@ -80,7 +80,7 @@ namespace BaiTapLonWinForm.Services.implements
                 {
                     try
                     {
-                        var (success, message) = await _faceApi.AddFaceAsync(studentId, imageBytes);
+                        var (success, message) = await _faceApi.AddFaceAsync(studentId.ToString(), imageBytes);
 
                         if (success)
                         {
@@ -166,7 +166,7 @@ namespace BaiTapLonWinForm.Services.implements
 
                 foreach (var imageBytes in faceImages)
                 {
-                    var (success, message) = await _faceApi.AddFaceAsync(studentId, imageBytes);
+                    var (success, message) = await _faceApi.AddFaceAsync(studentId.ToString(), imageBytes);
 
                     if (success)
                     {

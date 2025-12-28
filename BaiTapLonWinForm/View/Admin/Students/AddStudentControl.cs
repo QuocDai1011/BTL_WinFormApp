@@ -24,7 +24,6 @@ namespace BaiTapLonWinForm.View.Admin.Students
     public partial class AddStudentControl : UserControl
     {
         private readonly ServiceHub _serviceHub;
-        private readonly OtpStorage _otpStorage;
         private VideoCapture capture;
         private Mat frame;
         private bool isCameraRunning = false;
@@ -38,7 +37,6 @@ namespace BaiTapLonWinForm.View.Admin.Students
         public AddStudentControl(ServiceHub serviceHub)
         {
             _serviceHub = serviceHub;
-            _otpStorage = new OtpStorage();
             InitializeComponent();
             this.Load += AddStudentControl_Load;
             InitializeTimer();

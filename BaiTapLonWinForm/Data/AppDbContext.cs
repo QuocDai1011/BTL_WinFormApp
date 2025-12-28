@@ -7,6 +7,10 @@ namespace BaiTapLonWinForm.Data;
 
 public partial class AppDbContext : DbContext
 {
+    public AppDbContext()
+    {
+    }
+
     public AppDbContext(DbContextOptions<AppDbContext> options)
         : base(options)
     {
@@ -39,6 +43,10 @@ public partial class AppDbContext : DbContext
     public virtual DbSet<StudentFaceImage> StudentFaceImages { get; set; }
 
     public virtual DbSet<Teacher> Teachers { get; set; }
+
+    public virtual DbSet<TeacherAttendance> TeacherAttendances { get; set; }
+
+    public virtual DbSet<TeacherFaceImage> TeacherFaceImages { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
 
@@ -430,6 +438,64 @@ public partial class AppDbContext : DbContext
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__teacher__user_id__48CFD27E");
+        });
+
+        modelBuilder.Entity<TeacherAttendance>(entity =>
+        {
+            entity.HasKey(e => e.AttendanceId).HasName("PK__teacher___20D6A9684A673D56");
+
+            entity.ToTable("teacher_attendance");
+
+            entity.HasIndex(e => new { e.TeacherId, e.SessionId }, "idx_teacher_attendance");
+
+            entity.HasIndex(e => new { e.TeacherId, e.SessionId }, "uq_teacher_session").IsUnique();
+
+            entity.Property(e => e.AttendanceId).HasColumnName("attendance_id");
+            entity.Property(e => e.CheckInTime)
+                .HasDefaultValueSql("(sysdatetime())")
+                .HasColumnType("datetime")
+                .HasColumnName("check_in_time");
+            entity.Property(e => e.Note)
+                .HasMaxLength(255)
+                .HasColumnName("note");
+            entity.Property(e => e.SessionId).HasColumnName("session_id");
+            entity.Property(e => e.Status)
+                .HasMaxLength(50)
+                .HasColumnName("status");
+            entity.Property(e => e.TeacherId).HasColumnName("teacher_id");
+
+            entity.HasOne(d => d.Session).WithMany(p => p.TeacherAttendances)
+                .HasForeignKey(d => d.SessionId)
+                .HasConstraintName("FK__teacher_a__sessi__690797E6");
+
+            entity.HasOne(d => d.Teacher).WithMany(p => p.TeacherAttendances)
+                .HasForeignKey(d => d.TeacherId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__teacher_a__teach__681373AD");
+        });
+
+        modelBuilder.Entity<TeacherFaceImage>(entity =>
+        {
+            entity.HasKey(e => e.ImageId).HasName("PK__teacher___DC9AC95524517FA5");
+
+            entity.ToTable("teacher_face_image");
+
+            entity.HasIndex(e => e.TeacherId, "idx_teacher_face");
+
+            entity.Property(e => e.ImageId).HasColumnName("image_id");
+            entity.Property(e => e.ImagePath)
+                .HasMaxLength(500)
+                .IsUnicode(false)
+                .HasColumnName("image_path");
+            entity.Property(e => e.TeacherId).HasColumnName("teacher_id");
+            entity.Property(e => e.UploadedDate)
+                .HasDefaultValueSql("(sysdatetime())")
+                .HasColumnType("datetime")
+                .HasColumnName("uploaded_date");
+
+            entity.HasOne(d => d.Teacher).WithMany(p => p.TeacherFaceImages)
+                .HasForeignKey(d => d.TeacherId)
+                .HasConstraintName("FK__teacher_f__teach__634EBE90");
         });
 
         modelBuilder.Entity<User>(entity =>

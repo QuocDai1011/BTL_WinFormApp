@@ -1,12 +1,13 @@
-﻿using System;
+﻿using BaiTapLonWinForm.Services;
+using BaiTapLonWinForm.Utils;
+using Guna.UI2.WinForms;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using BaiTapLonWinForm.Services;
-using BaiTapLonWinForm.Utils;
-using Guna.UI2.WinForms;
 
 namespace BaiTapLonWinForm.View.Admin.Class
 {
@@ -24,6 +25,17 @@ namespace BaiTapLonWinForm.View.Admin.Class
         private readonly Image _cachedUserIcon;
         private readonly Image _cachedStudentIcon;
         private List<Models.Class> _allClassesCache;
+        private List<Guna.UI2.WinForms.Guna2Button> _dayButtons;
+        private bool _isLoaded = false;
+        private readonly List<(int Id, string Name)> mapShift = new List<(int, string)>()
+        {
+            (1, "Sáng (8:00 - 9:30)"),
+            (2, "Sáng (9:30 - 11:00)"),
+            (3, "Chiều (14:00 - 15:30)"),
+            (4, "Chiều (15:30 - 17:00)"),
+            (5, "Tối (18:00 - 19:30)"),
+            (6, "Tối (19:30 - 21:00)")
+        };
 
         // 3 TableLayoutPanel riêng biệt cho mỗi tab
         private TableLayoutPanel _tableUpcoming;
@@ -43,8 +55,41 @@ namespace BaiTapLonWinForm.View.Admin.Class
             SetupCustomUI();
 
             this.Load += async (s, e) => await LoadClassData();
+
+
+            _dayButtons = new List<Guna.UI2.WinForms.Guna2Button>
+            {
+                btnMon, btnTue, btnWed, btnThu, btnFri, btnSat, btnSun
+            };
+
+            // Database: 2=Thứ 2, ..., 7=Thứ 7, 8=Chủ nhật
+            btnMon.Tag = 2;
+            btnTue.Tag = 3;
+            btnWed.Tag = 4;
+            btnThu.Tag = 5;
+            btnFri.Tag = 6;
+            btnSat.Tag = 7;
+            btnSun.Tag = 8;
+
+            // 3. Gán sự kiện Click (để giới hạn 3 ngày)
+            foreach (var btn in _dayButtons)
+            {
+                btn.Click += OnDayButton_Click;
+            }
+
+            AttachValidationEvents();
         }
 
+        protected override async void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            if (!DesignMode)
+            {
+                _isLoaded = true;
+            }
+        }
+
+        #region setup UI and create layout
         private void SetupCustomUI()
         {
             // Tạo 3 TableLayoutPanel cho 3 tab
@@ -58,7 +103,7 @@ namespace BaiTapLonWinForm.View.Admin.Class
             tabPageFinished.Controls.Add(_tableFinished);
 
             // Thiết lập tab mặc định
-            guna2TabControl1.SelectedIndex = 0;
+            tabControl.SelectedIndex = 0;
         }
 
         private TableLayoutPanel CreateTableLayoutPanel()
@@ -88,6 +133,9 @@ namespace BaiTapLonWinForm.View.Admin.Class
             return table;
         }
 
+        #endregion
+
+        #region load data
         private async Task LoadClassData()
         {
             this.Cursor = Cursors.WaitCursor;
@@ -111,6 +159,11 @@ namespace BaiTapLonWinForm.View.Admin.Class
             RenderTable(_tableUpcoming, ClassFilterStatus.Upcoming);
             RenderTable(_tableOngoing, ClassFilterStatus.Ongoing);
             RenderTable(_tableFinished, ClassFilterStatus.Finished);
+
+            await initCboCourses();
+            await initCboTeachers();
+            initCboShift();
+            initDateTimePicker();
         }
 
         private List<Models.Class> FilterData(ClassFilterStatus status)
@@ -164,15 +217,15 @@ namespace BaiTapLonWinForm.View.Admin.Class
                 if (filteredList == null || filteredList.Count == 0)
                 {
                     table.RowCount = 1;
-                    table.RowStyles.Add(new RowStyle(SizeType.Percent, 100F)); 
+                    table.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
                     Guna2HtmlLabel lblEmpty = new Guna2HtmlLabel
                     {
                         Text = "<div style='text-align:center; padding-top: 20px; color: gray; font-size: 18px'>" +
                                "<b style='font-size: 18px'>Không tìm thấy lớp học nào</b><br/>" +
                                "Hiện tại chưa có lớp học ở trạng thái này." +
                                "</div>",
-                        AutoSize = false,            
-                        Dock = DockStyle.Fill,       
+                        AutoSize = false,
+                        Dock = DockStyle.Fill,
                         TextAlignment = ContentAlignment.MiddleCenter,
                         BackColor = Color.Transparent
                     };
@@ -259,7 +312,7 @@ namespace BaiTapLonWinForm.View.Admin.Class
 
             var lblTeacherName = new Guna2HtmlLabel
             {
-                Text = teacherName != null ? $"Giảng viên: {teacherName}": "Chưa phân công",
+                Text = teacherName != null ? $"Giảng viên: {teacherName}" : "Chưa phân công",
                 Font = new Font("Segoe UI", 10.2F),
                 Location = new Point(50, 175),
                 AutoSize = true,
@@ -302,6 +355,82 @@ namespace BaiTapLonWinForm.View.Admin.Class
             return panel;
         }
 
+        private async Task initCboTeachers()
+        {
+            var result = await _serviceHub.TeacherService.GetAllTeachersAsync();
+            if (!result.Success)
+            {
+                MessageHelper.ShowError("Lỗi tải DS giáo viên: \n" + result.Message);
+                return;
+            }
+
+            var teacherList = result.Data.Select(t => new
+            {
+                Id = t.TeacherId,
+                FullName = $"{t.User.FirstName} {t.User.LastName}"
+            }).ToList();
+
+            cmbTeacher.DataSource = teacherList;
+            cmbTeacher.DisplayMember = "FullName";
+            cmbTeacher.ValueMember = "Id";
+
+
+        }
+
+        private async Task initCboCourses()
+        {
+            var result = await _serviceHub.CourseService.GetAllCoursesAsync();
+            if (!result.Success)
+            {
+                MessageHelper.ShowError("Lỗi tải DS khóa học: \n" + result.Message);
+                return;
+            }
+
+            var courseList = result.Data.Select(c => new
+            {
+                Id = c.CourseId,
+                Name = c.CourseName
+            }).ToList();
+
+            cmbCourse.DataSource = courseList;
+            cmbCourse.DisplayMember = "Name";
+            cmbCourse.ValueMember = "Id";
+
+
+        }
+
+        private void initCboShift()
+        {
+            cmbShift.DataSource = mapShift.Select(x => new { Id = x.Id, Name = x.Name }).ToList();
+            cmbShift.DisplayMember = "Name";
+            cmbShift.ValueMember = "Id";
+
+
+        }
+
+
+        private void initDateTimePicker()
+        {
+            dtpStartDate.Value = DateTime.Now.Date.AddDays(7); // lớp học bắt đầu sau 7 ngày
+            dtpEndDate.Value = dtpStartDate.Value.AddMonths(4); 
+        }
+
+        private void clearData()
+        {
+            txtClassName.Text = string.Empty;
+            txtNote.Text = string.Empty;
+            txtOnlineLink.Text = string.Empty;
+            
+            foreach(var btn in _dayButtons)
+            {
+                btn.Checked = false;
+            }
+        }
+
+        #endregion
+
+        #region handle event click
+
         private void OnClassPanelClick(int classId)
         {
             this.Controls.Clear();
@@ -309,12 +438,232 @@ namespace BaiTapLonWinForm.View.Admin.Class
             {
                 Dock = DockStyle.Fill
             };
+
+            detailControl.OnDataChanged = async () =>
+            {
+                await LoadClassData();
+            };
+
+
             this.Controls.Add(detailControl);
+
+
         }
 
-        public void RefreshData()
+
+        private void OnDayButton_Click(object sender, EventArgs e)
         {
-            _ = LoadClassData();
+            var btn = sender as Guna.UI2.WinForms.Guna2Button;
+            if (btn == null) return;
+
+            int count = _dayButtons.Count(b => b.Checked);
+
+            if (count > 3)
+            {
+                // Revert: Trả lại trạng thái chưa chọn cho nút vừa bấm
+                btn.Checked = false;
+
+                // Hiển thị cảnh báo
+                SetError(lblErrorDayOWeek, "Chỉ được phép chọn tối đa 3 buổi học trong tuần!");
+            }
+            else
+            {
+                ClearError(lblErrorDayOWeek);
+            }
+
         }
+
+        private async void btnAdd_Click(object sender, EventArgs e)
+        {
+            ValidateForm();
+            if (!btnAdd.Enabled) return;
+
+            btnAdd.Enabled = false;
+            btnAdd.Text = "Đang lưu...";
+            this.Cursor = Cursors.WaitCursor;
+
+            try
+            {
+                var selectedDays = new List<Models.SchoolDay>();
+                foreach (var btn in _dayButtons)
+                {
+                    if (btn.Checked)
+                    {
+                        int dayId = Convert.ToInt32(btn.Tag);
+                        selectedDays.Add(new Models.SchoolDay
+                        {
+                            SchoolDayId = (byte)dayId,
+                            DayOfWeek = btn.Text
+                        });
+                    }
+                }
+
+                if (selectedDays.Count == 0)
+                {
+                    MessageHelper.ShowWarning("Vui lòng chọn ít nhất 1 ngày học trong tuần!");
+                    return;
+                }
+
+                var updateModel = new Models.Class
+                {
+                    ClassId = 0,
+                    ClassName = txtClassName.Text.Trim(),
+                    CourseId = cmbCourse.SelectedValue != null && int.TryParse(cmbCourse.SelectedValue.ToString(), out int courseId)
+                    ? courseId
+                    : (int?)null,
+                    TeacherId = Convert.ToInt32(cmbTeacher.SelectedValue),
+
+                    Shift = (byte)Convert.ToInt32(cmbShift.SelectedValue),
+
+                    StartDate = DateOnly.FromDateTime(dtpStartDate.Value),
+                    EndDate = DateOnly.FromDateTime(dtpEndDate.Value),
+                    MaxStudent = (int)numMaxStudent.Value,
+                    OnlineMeetingLink = txtOnlineLink.Text.Trim(),
+                    Note = txtNote.Text.Trim(),
+                    SchoolDays = selectedDays,
+                    Status = -1,
+                    CreateAt = DateTime.Now,
+                    CurrentStudent = 0 // lớp mới nên khởi tạo current student = 0 
+                };
+
+                var (success, message, data) = await _serviceHub.ClassService.CreateClassAsync(updateModel);
+
+                if (success)
+                {
+                    MessageHelper.ShowInfo("Thêm mới lớp học thành công!");
+                    clearData();
+                    tabControl.SelectedTab = tabPageUpcoming;
+                    await LoadClassData();
+                }
+                else
+                {
+                    MessageHelper.ShowError($"Cập nhật thất bại: {message}");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageHelper.ShowError($"Lỗi hệ thống: {ex.Message}");
+            }
+            finally
+            {
+
+                btnAdd.Enabled = true;
+                btnAdd.Text = "💾 Lưu Thay Đổi";
+                this.Cursor = Cursors.Default;
+
+                ValidateForm();
+            }
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            tabControl.SelectedTab = tabPageUpcoming;
+
+        }
+
+        #endregion
+
+
+        #region validate input
+
+        private void AttachValidationEvents()
+        {
+            txtClassName.TextChanged += (s, e) => { if (_isLoaded) ValidateForm(); };
+
+            dtpStartDate.ValueChanged += (s, e) => { if (_isLoaded) ValidateForm(); };
+            dtpEndDate.ValueChanged += (s, e) => { if (_isLoaded) ValidateForm(); };
+        }
+
+        private void ValidateForm()
+        {
+            bool isNameValid = ValidateClassName();
+            bool isDateValid = ValidateDates();
+
+            btnAdd.Enabled = isNameValid && isDateValid;
+        }
+
+        private bool ValidateClassName()
+        {
+            string input = txtClassName.Text.Trim();
+
+            if (string.IsNullOrEmpty(input))
+            {
+                SetError(lblErrorClassName, "Tên lớp không được để trống.");
+                return false;
+            }
+
+
+            string pattern = @"^[\p{L}\p{N}\s_\-\(\)]+$";
+
+            if (!Regex.IsMatch(input, pattern))
+            {
+                SetError(lblErrorClassName, "Tên lớp chứa ký tự đặc biệt không hợp lệ.");
+                return false;
+            }
+
+            ClearError(lblErrorClassName);
+            return true;
+        }
+
+        private bool ValidateDates()
+        {
+            DateTime start = dtpStartDate.Value.Date;
+            DateTime end = dtpEndDate.Value.Date;
+            DateTime today = DateTime.Now.Date;
+            bool isValid = true;
+
+            if (start < today.AddDays(7))
+            {
+                SetError(lblErrorStartDate, "Ngày bắt đầu mới phải sau hôm nay ít nhất 7 ngày.");
+                isValid = false;
+            }
+            else
+            {
+                ClearError(lblErrorStartDate);
+            }
+
+            if (isValid)
+            {
+                if (end <= start)
+                {
+                    SetError(lblErrorEndDate, "Ngày kết thúc phải lớn hơn ngày bắt đầu.");
+                    isValid = false;
+                }
+                else if (end < start.AddMonths(4))
+                {
+                    SetError(lblErrorEndDate, "Thời lượng khóa học phải ít nhất 4 tháng.");
+                    isValid = false;
+                }
+                else
+                {
+                    ClearError(lblErrorEndDate);
+                }
+            }
+
+            return isValid;
+        }
+
+        private void SetError(Label lbl, string msg)
+        {
+            if (lbl != null)
+            {
+                lbl.Text = msg;
+                lbl.Visible = true;
+            }
+        }
+
+        private void ClearError(Label lbl)
+        {
+            if (lbl != null)
+            {
+                lbl.Visible = false;
+                lbl.Text = "";
+            }
+        }
+
+        #endregion
+
+
+       
     }
 }

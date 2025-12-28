@@ -60,6 +60,24 @@ namespace BaiTapLonWinForm.Repositories.implements
                 entity.UpdateAt = DateTime.Now;
                 entity.CurrentStudent ??= 0;
 
+                if (entity.SchoolDays != null)
+                {
+                    var selectedIds = entity.SchoolDays.Select(sc => sc.SchoolDayId).ToList();
+
+                    entity.SchoolDays.Clear();
+
+
+                    foreach (var id in selectedIds)
+                    {
+                        var dayInDb = await _context.SchoolDays.FindAsync(id);
+
+                        if (dayInDb != null)
+                        {
+                            entity.SchoolDays.Add(dayInDb);
+                        }
+                    }
+                }
+
                 await _context.Classes.AddAsync(entity);
                 await _context.SaveChangesAsync();
 
@@ -76,26 +94,62 @@ namespace BaiTapLonWinForm.Repositories.implements
             }
         }
 
-        public async Task<Class> UpdateAsync(Class entity)
+
+        public async Task<Models.Class> UpdateAsync(Models.Class updateModel)
         {
-            try
+
+            var existingClass = await _context.Classes
+                .Include(c => c.SchoolDays)
+                .FirstOrDefaultAsync(c => c.ClassId == updateModel.ClassId);
+
+            if (existingClass == null) return null;
+
+           
+            var oldCurrentStudent = existingClass.CurrentStudent;
+            var oldCreateAt = existingClass.CreateAt;
+            var oldStatus = existingClass.Status;
+            
+            _context.Entry(existingClass).CurrentValues.SetValues(updateModel);
+
+
+            existingClass.CurrentStudent = oldCurrentStudent;
+            existingClass.CreateAt = oldCreateAt;
+             existingClass.Status = oldStatus;
+
+            existingClass.UpdateAt = DateTime.Now; 
+
+            existingClass.SchoolDays.Clear();
+
+            if (updateModel.SchoolDays != null)
             {
-                entity.UpdateAt = DateTime.Now;
+                foreach (var dayFromUI in updateModel.SchoolDays)
+                {
+                    // Tìm ngày trong DB dựa trên ID để tránh lỗi Tracking
+                    var dayInDb = await _context.SchoolDays.FindAsync(dayFromUI.SchoolDayId);
 
-                _context.Classes.Update(entity);
-                await _context.SaveChangesAsync();
-
-                // Reload to get updated navigation properties
-                await _context.Entry(entity)
-                    .Reference(c => c.Teacher)
-                    .LoadAsync();
-
-                return entity;
+                    if (dayInDb != null)
+                    {
+                        existingClass.SchoolDays.Add(dayInDb);
+                    }    
+                }
             }
-            catch (Exception)
-            {
-                throw;
-            }
+
+            // 4. Lưu thay đổi xuống Database
+            await _context.SaveChangesAsync();
+
+            return existingClass;
+        }
+
+        public async Task<bool> UpdateStatusAsync(Class entity)
+        {
+            var rowsAffected = await _context.Classes
+                .Where(c => c.ClassId == entity.ClassId)
+                .ExecuteUpdateAsync(setters => setters
+                    .SetProperty(c => c.Status, entity.Status)
+                    .SetProperty(c => c.UpdateAt, DateTime.Now)
+                );
+
+            return rowsAffected > 0;
         }
 
         public async Task<bool> DeleteAsync(int id)
@@ -242,34 +296,28 @@ namespace BaiTapLonWinForm.Repositories.implements
 
                 _context.StudentClasses.Remove(studentClass);
 
-                var classEntity = await _context.Classes.FindAsync(classId);
-
-                if (classEntity != null)
-                {
-                    int currentCount = classEntity.CurrentStudent ?? 0;
-
-                    if (currentCount > 0)
-                    {
-                        classEntity.CurrentStudent = currentCount - 1;
-                        classEntity.UpdateAt = DateTime.Now; 
-
-                        _context.Classes.Update(classEntity);
-                    }
-                }
-                else
-                {
-                    throw new Exception("Dữ liệu không đồng bộ: Không tìm thấy lớp học.");
-                }
-
                 await _context.SaveChangesAsync();
 
-                await transaction.CommitAsync();
+                var classEntity = await _context.Classes.FindAsync(classId);
+                if (classEntity != null)
+                {
 
+                    int realCount = await _context.StudentClasses
+                                            .CountAsync(sc => sc.ClassId == classId);
+
+                    classEntity.CurrentStudent = realCount;
+                    classEntity.UpdateAt = DateTime.Now;
+
+                    _context.Classes.Update(classEntity);
+                    await _context.SaveChangesAsync(); 
+                }
+
+                await transaction.CommitAsync();
                 return true;
             }
             catch (Exception ex)
             {
-                await transaction.RollbackAsync(); // Hoàn tác nếu lỗi
+                await transaction.RollbackAsync();
                 throw new Exception($"Lỗi khi xóa học viên: {ex.InnerException?.Message ?? ex.Message}");
             }
         }
@@ -289,6 +337,42 @@ namespace BaiTapLonWinForm.Repositories.implements
             {
                 throw;
             }
+        }
+
+        // kiểm tra xem có trùng lịch học không và trả về lớp đã bị trùng 
+        public async Task<bool> CheckTeacherScheduleConflictAsync(int teacherId, byte shift, DateOnly startDate, DateOnly endDate, List<byte> dayIds, int? ignoreClassId = null)
+        {
+            // Bắt đầu truy vấn từ bảng Classes
+            var query = _context.Classes
+                // Include SchoolDays để check các thứ trong tuần
+                .Include(c => c.SchoolDays)
+                .Where(c =>
+                    // 1. Cùng giáo viên
+                    c.TeacherId == teacherId &&
+
+                    // 2. Cùng ca học
+                    c.Shift == shift &&
+
+                    // 3. Khoảng thời gian giao nhau (Logic giao thoa chuẩn)
+                    // (Ngày bắt đầu của A <= Ngày kết thúc của B) VÀ (Ngày kết thúc của A >= Ngày bắt đầu của B)
+                    c.StartDate <= endDate && c.EndDate >= startDate &&
+
+                    // Chỉ check các lớp Đang hoạt động hoặc Sắp mở (Giả sử Status != 2 là Đã kết thúc/Hủy)
+                    // Bạn cần điều chỉnh theo quy ước Status của bạn (ví dụ Status != Cancelled)
+                    c.Status != 2
+                );
+
+            if (ignoreClassId.HasValue)
+            {
+                query = query.Where(c => c.ClassId != ignoreClassId.Value);
+            }
+
+           
+            var conflictingClass = await query
+                .Where(c => c.SchoolDays.Any(sd => dayIds.Contains(sd.SchoolDayId)))
+                .FirstOrDefaultAsync();
+
+            return conflictingClass != null;
         }
     }
 }

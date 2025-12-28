@@ -23,13 +23,13 @@ namespace BaiTapLonWinForm.Services.implements
             _httpClient.Timeout = TimeSpan.FromSeconds(30);
         }
 
-        public async Task<(bool success, string message)> AddFaceAsync(int studentId, byte[] imageBytes)
+        public async Task<(bool success, string message)> AddFaceAsync(string subject, byte[] imageBytes)
         {
             try
             {
                 var content = new MultipartFormDataContent();
                 content.Add(new ByteArrayContent(imageBytes), "file", "face.jpg");
-                content.Add(new StringContent(studentId.ToString()), "subject");
+                content.Add(new StringContent(subject), "subject");
 
                 var response = await _httpClient.PostAsync($"{BASE_URL}/recognition/faces", content);
 
@@ -49,7 +49,7 @@ namespace BaiTapLonWinForm.Services.implements
             }
         }
 
-        public async Task<(bool success, int? studentId, double confidence, string message)> RecognizeFaceAsync(byte[] imageBytes)
+        public async Task<(bool success, string subject, double confidence, string message)> RecognizeFaceAsync(byte[] imageBytes)
         {
             try
             {
@@ -72,8 +72,7 @@ namespace BaiTapLonWinForm.Services.implements
 
                             if (bestMatch.similarity >= 0.75)
                             {
-                                int studentId = int.Parse(bestMatch.subject);
-                                return (true, studentId, bestMatch.similarity, "Nhận diện thành công");
+                                return (true, bestMatch.subject, bestMatch.similarity, "Nhận diện thành công");
                             }
                             else
                             {

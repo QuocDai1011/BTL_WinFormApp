@@ -71,8 +71,16 @@
         // Action Buttons
         private Guna.UI2.WinForms.Guna2Button btnSaveChanges;
         private Guna.UI2.WinForms.Guna2Button btnCancelEdit;
-        private Guna.UI2.WinForms.Guna2Button btnResetForm;
 
+        private System.Windows.Forms.Label lblEditDays;
+        private System.Windows.Forms.FlowLayoutPanel pnlDaysContainer;
+        private Guna.UI2.WinForms.Guna2Button btnMon;
+        private Guna.UI2.WinForms.Guna2Button btnTue;
+        private Guna.UI2.WinForms.Guna2Button btnWed;
+        private Guna.UI2.WinForms.Guna2Button btnThu;
+        private Guna.UI2.WinForms.Guna2Button btnFri;
+        private Guna.UI2.WinForms.Guna2Button btnSat;
+        private Guna.UI2.WinForms.Guna2Button btnSun;
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null)) components.Dispose();
@@ -89,8 +97,8 @@
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges33 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges34 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges45 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges46 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
@@ -117,6 +125,18 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges30 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges31 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges32 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges33 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges34 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges35 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges36 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges37 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges38 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges39 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges40 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges41 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges42 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges43 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges44 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             pnlHeader = new Panel();
             lblClassAndCouse = new Label();
             pnlSidebar = new Panel();
@@ -150,7 +170,7 @@
             lblDaysValue = new Label();
             lblTeacherPhone = new Label();
             pnlMain = new Panel();
-            guna2TabControl1 = new Guna.UI2.WinForms.Guna2TabControl();
+            TabControls = new Guna.UI2.WinForms.Guna2TabControl();
             tabPage1 = new TabPage();
             btnAddStudent = new Guna.UI2.WinForms.Guna2Button();
             btnDelete = new Guna.UI2.WinForms.Guna2Button();
@@ -163,7 +183,10 @@
             label6 = new Label();
             tabPage2 = new TabPage();
             pnlEditContainer = new Guna.UI2.WinForms.Guna2Panel();
-            btnResetForm = new Guna.UI2.WinForms.Guna2Button();
+            lblErrorDayofWeek = new Label();
+            lblErrorEndDate = new Label();
+            lblErrorStartDate = new Label();
+            lblErrorClassName = new Label();
             btnCancelEdit = new Guna.UI2.WinForms.Guna2Button();
             btnSaveChanges = new Guna.UI2.WinForms.Guna2Button();
             txtNote = new Guna.UI2.WinForms.Guna2TextBox();
@@ -186,6 +209,15 @@
             lblEditClassName = new Label();
             pnlEditHeader = new Guna.UI2.WinForms.Guna2Panel();
             lblEditTitle = new Label();
+            lblEditDays = new Label();
+            pnlDaysContainer = new FlowLayoutPanel();
+            btnMon = new Guna.UI2.WinForms.Guna2Button();
+            btnTue = new Guna.UI2.WinForms.Guna2Button();
+            btnWed = new Guna.UI2.WinForms.Guna2Button();
+            btnThu = new Guna.UI2.WinForms.Guna2Button();
+            btnFri = new Guna.UI2.WinForms.Guna2Button();
+            btnSat = new Guna.UI2.WinForms.Guna2Button();
+            btnSun = new Guna.UI2.WinForms.Guna2Button();
             pnlHeader.SuspendLayout();
             pnlSidebar.SuspendLayout();
             grpGeneral.SuspendLayout();
@@ -193,7 +225,7 @@
             grpStats.SuspendLayout();
             pnlProgressBg.SuspendLayout();
             pnlMain.SuspendLayout();
-            guna2TabControl1.SuspendLayout();
+            TabControls.SuspendLayout();
             tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvStudents).BeginInit();
             guna2Panel1.SuspendLayout();
@@ -201,6 +233,7 @@
             pnlEditContainer.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numMaxStudent).BeginInit();
             pnlEditHeader.SuspendLayout();
+            pnlDaysContainer.SuspendLayout();
             SuspendLayout();
             // 
             // pnlHeader
@@ -218,11 +251,11 @@
             // lblClassAndCouse
             // 
             lblClassAndCouse.AutoSize = true;
-            lblClassAndCouse.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point, 163);
+            lblClassAndCouse.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 163);
             lblClassAndCouse.ForeColor = Color.White;
-            lblClassAndCouse.Location = new Point(20, 10);
+            lblClassAndCouse.Location = new Point(25, 16);
             lblClassAndCouse.Name = "lblClassAndCouse";
-            lblClassAndCouse.Size = new Size(191, 41);
+            lblClassAndCouse.Size = new Size(146, 31);
             lblClassAndCouse.TabIndex = 0;
             lblClassAndCouse.Text = "Tên Lớp Học";
             // 
@@ -250,9 +283,9 @@
             grpGeneral.Controls.Add(lblRoomTitle);
             grpGeneral.Controls.Add(lnkOnlineLink);
             grpGeneral.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            grpGeneral.Location = new Point(20, 6);
+            grpGeneral.Location = new Point(23, 10);
             grpGeneral.Name = "grpGeneral";
-            grpGeneral.Size = new Size(360, 285);
+            grpGeneral.Size = new Size(360, 351);
             grpGeneral.TabIndex = 0;
             grpGeneral.TabStop = false;
             grpGeneral.Text = "Thông Tin";
@@ -284,7 +317,7 @@
             lblShift.AutoSize = true;
             lblShift.Font = new Font("Segoe UI", 10F);
             lblShift.ForeColor = Color.Gray;
-            lblShift.Location = new Point(95, 49);
+            lblShift.Location = new Point(96, 199);
             lblShift.Name = "lblShift";
             lblShift.Size = new Size(31, 23);
             lblShift.TabIndex = 5;
@@ -295,7 +328,7 @@
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI", 10F);
             label5.ForeColor = Color.Gray;
-            label5.Location = new Point(13, 49);
+            label5.Location = new Point(14, 199);
             label5.Name = "label5";
             label5.Size = new Size(67, 23);
             label5.TabIndex = 4;
@@ -328,7 +361,7 @@
             lblRoomTitle.AutoSize = true;
             lblRoomTitle.Font = new Font("Segoe UI", 10F);
             lblRoomTitle.ForeColor = Color.Gray;
-            lblRoomTitle.Location = new Point(13, 199);
+            lblRoomTitle.Location = new Point(14, 35);
             lblRoomTitle.Name = "lblRoomTitle";
             lblRoomTitle.Size = new Size(44, 23);
             lblRoomTitle.TabIndex = 0;
@@ -338,7 +371,7 @@
             // 
             lnkOnlineLink.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
             lnkOnlineLink.LinkBehavior = LinkBehavior.HoverUnderline;
-            lnkOnlineLink.Location = new Point(63, 199);
+            lnkOnlineLink.Location = new Point(64, 35);
             lnkOnlineLink.Name = "lnkOnlineLink";
             lnkOnlineLink.Size = new Size(291, 58);
             lnkOnlineLink.TabIndex = 1;
@@ -353,7 +386,7 @@
             grpTeacher.Controls.Add(lblTeacherName);
             grpTeacher.Controls.Add(lblTeacherEmail);
             grpTeacher.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            grpTeacher.Location = new Point(20, 297);
+            grpTeacher.Location = new Point(17, 367);
             grpTeacher.Name = "grpTeacher";
             grpTeacher.Size = new Size(360, 164);
             grpTeacher.TabIndex = 1;
@@ -423,7 +456,7 @@
             grpStats.Controls.Add(pnlProgressBg);
             grpStats.Controls.Add(lblNoteTitle);
             grpStats.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
-            grpStats.Location = new Point(20, 481);
+            grpStats.Location = new Point(17, 546);
             grpStats.Name = "grpStats";
             grpStats.Size = new Size(360, 229);
             grpStats.TabIndex = 2;
@@ -538,7 +571,7 @@
             // pnlMain
             // 
             pnlMain.BackColor = Color.WhiteSmoke;
-            pnlMain.Controls.Add(guna2TabControl1);
+            pnlMain.Controls.Add(TabControls);
             pnlMain.Dock = DockStyle.Fill;
             pnlMain.Location = new Point(400, 61);
             pnlMain.Name = "pnlMain";
@@ -546,37 +579,37 @@
             pnlMain.Size = new Size(1080, 789);
             pnlMain.TabIndex = 0;
             // 
-            // guna2TabControl1
+            // TabControls
             // 
-            guna2TabControl1.Controls.Add(tabPage1);
-            guna2TabControl1.Controls.Add(tabPage2);
-            guna2TabControl1.Dock = DockStyle.Fill;
-            guna2TabControl1.ItemSize = new Size(180, 50);
-            guna2TabControl1.Location = new Point(10, 10);
-            guna2TabControl1.Margin = new Padding(0);
-            guna2TabControl1.Name = "guna2TabControl1";
-            guna2TabControl1.Padding = new Point(0, 0);
-            guna2TabControl1.SelectedIndex = 0;
-            guna2TabControl1.Size = new Size(1060, 769);
-            guna2TabControl1.TabButtonHoverState.BorderColor = Color.Empty;
-            guna2TabControl1.TabButtonHoverState.FillColor = Color.FromArgb(240, 240, 240);
-            guna2TabControl1.TabButtonHoverState.Font = new Font("Segoe UI Semibold", 10F);
-            guna2TabControl1.TabButtonHoverState.ForeColor = Color.Black;
-            guna2TabControl1.TabButtonHoverState.InnerColor = Color.FromArgb(240, 240, 240);
-            guna2TabControl1.TabButtonIdleState.BorderColor = Color.Empty;
-            guna2TabControl1.TabButtonIdleState.FillColor = Color.Transparent;
-            guna2TabControl1.TabButtonIdleState.Font = new Font("Segoe UI Semibold", 10F);
-            guna2TabControl1.TabButtonIdleState.ForeColor = Color.FromArgb(156, 160, 167);
-            guna2TabControl1.TabButtonIdleState.InnerColor = Color.Transparent;
-            guna2TabControl1.TabButtonSelectedState.BorderColor = Color.Empty;
-            guna2TabControl1.TabButtonSelectedState.FillColor = Color.Transparent;
-            guna2TabControl1.TabButtonSelectedState.Font = new Font("Segoe UI Semibold", 10F);
-            guna2TabControl1.TabButtonSelectedState.ForeColor = Color.FromArgb(53, 41, 123);
-            guna2TabControl1.TabButtonSelectedState.InnerColor = Color.FromArgb(76, 132, 255);
-            guna2TabControl1.TabButtonSize = new Size(180, 50);
-            guna2TabControl1.TabIndex = 0;
-            guna2TabControl1.TabMenuBackColor = Color.White;
-            guna2TabControl1.TabMenuOrientation = Guna.UI2.WinForms.TabMenuOrientation.HorizontalTop;
+            TabControls.Controls.Add(tabPage1);
+            TabControls.Controls.Add(tabPage2);
+            TabControls.Dock = DockStyle.Fill;
+            TabControls.ItemSize = new Size(180, 50);
+            TabControls.Location = new Point(10, 10);
+            TabControls.Margin = new Padding(0);
+            TabControls.Name = "TabControls";
+            TabControls.Padding = new Point(0, 0);
+            TabControls.SelectedIndex = 0;
+            TabControls.Size = new Size(1060, 769);
+            TabControls.TabButtonHoverState.BorderColor = Color.Empty;
+            TabControls.TabButtonHoverState.FillColor = Color.FromArgb(240, 240, 240);
+            TabControls.TabButtonHoverState.Font = new Font("Segoe UI Semibold", 10F);
+            TabControls.TabButtonHoverState.ForeColor = Color.Black;
+            TabControls.TabButtonHoverState.InnerColor = Color.FromArgb(240, 240, 240);
+            TabControls.TabButtonIdleState.BorderColor = Color.Empty;
+            TabControls.TabButtonIdleState.FillColor = Color.Transparent;
+            TabControls.TabButtonIdleState.Font = new Font("Segoe UI Semibold", 10F);
+            TabControls.TabButtonIdleState.ForeColor = Color.FromArgb(156, 160, 167);
+            TabControls.TabButtonIdleState.InnerColor = Color.Transparent;
+            TabControls.TabButtonSelectedState.BorderColor = Color.Empty;
+            TabControls.TabButtonSelectedState.FillColor = Color.Transparent;
+            TabControls.TabButtonSelectedState.Font = new Font("Segoe UI Semibold", 10F);
+            TabControls.TabButtonSelectedState.ForeColor = Color.FromArgb(53, 41, 123);
+            TabControls.TabButtonSelectedState.InnerColor = Color.FromArgb(76, 132, 255);
+            TabControls.TabButtonSize = new Size(180, 50);
+            TabControls.TabIndex = 0;
+            TabControls.TabMenuBackColor = Color.White;
+            TabControls.TabMenuOrientation = Guna.UI2.WinForms.TabMenuOrientation.HorizontalTop;
             // 
             // tabPage1
             // 
@@ -652,14 +685,14 @@
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
             dgvStudents.DefaultCellStyle = dataGridViewCellStyle2;
             dgvStudents.Dock = DockStyle.Fill;
-            dgvStudents.Location = new Point(3, 59);
+            dgvStudents.Location = new Point(3, 53);
             dgvStudents.Name = "dgvStudents";
             dgvStudents.ReadOnly = true;
             dgvStudents.RowHeadersVisible = false;
             dgvStudents.RowHeadersWidth = 51;
             dgvStudents.RowTemplate.Height = 40;
             dgvStudents.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvStudents.Size = new Size(1046, 649);
+            dgvStudents.Size = new Size(1046, 655);
             dgvStudents.TabIndex = 2;
             // 
             // colName
@@ -702,7 +735,7 @@
             guna2Panel1.Location = new Point(3, 3);
             guna2Panel1.Name = "guna2Panel1";
             guna2Panel1.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            guna2Panel1.Size = new Size(1046, 56);
+            guna2Panel1.Size = new Size(1046, 50);
             guna2Panel1.TabIndex = 3;
             // 
             // label6
@@ -710,7 +743,7 @@
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
             label6.ForeColor = Color.White;
-            label6.Location = new Point(20, 9);
+            label6.Location = new Point(20, 6);
             label6.Name = "label6";
             label6.Size = new Size(261, 37);
             label6.TabIndex = 0;
@@ -731,7 +764,10 @@
             // 
             pnlEditContainer.AutoScroll = true;
             pnlEditContainer.BackColor = Color.White;
-            pnlEditContainer.Controls.Add(btnResetForm);
+            pnlEditContainer.Controls.Add(lblErrorDayofWeek);
+            pnlEditContainer.Controls.Add(lblErrorEndDate);
+            pnlEditContainer.Controls.Add(lblErrorStartDate);
+            pnlEditContainer.Controls.Add(lblErrorClassName);
             pnlEditContainer.Controls.Add(btnCancelEdit);
             pnlEditContainer.Controls.Add(btnSaveChanges);
             pnlEditContainer.Controls.Add(txtNote);
@@ -753,38 +789,64 @@
             pnlEditContainer.Controls.Add(txtClassName);
             pnlEditContainer.Controls.Add(lblEditClassName);
             pnlEditContainer.Controls.Add(pnlEditHeader);
-            pnlEditContainer.CustomizableEdges = customizableEdges33;
+            pnlEditContainer.Controls.Add(lblEditDays);
+            pnlEditContainer.Controls.Add(pnlDaysContainer);
+            pnlEditContainer.CustomizableEdges = customizableEdges45;
             pnlEditContainer.Dock = DockStyle.Fill;
             pnlEditContainer.Location = new Point(3, 3);
             pnlEditContainer.Name = "pnlEditContainer";
-            pnlEditContainer.ShadowDecoration.CustomizableEdges = customizableEdges34;
+            pnlEditContainer.ShadowDecoration.CustomizableEdges = customizableEdges46;
             pnlEditContainer.Size = new Size(1046, 705);
             pnlEditContainer.TabIndex = 0;
             // 
-            // btnResetForm
+            // lblErrorDayofWeek
             // 
-            btnResetForm.BorderColor = Color.FromArgb(94, 148, 255);
-            btnResetForm.BorderRadius = 8;
-            btnResetForm.BorderThickness = 2;
-            btnResetForm.CustomizableEdges = customizableEdges7;
-            btnResetForm.DisabledState.BorderColor = Color.DarkGray;
-            btnResetForm.DisabledState.CustomBorderColor = Color.DarkGray;
-            btnResetForm.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
-            btnResetForm.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            btnResetForm.FillColor = Color.White;
-            btnResetForm.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            btnResetForm.ForeColor = Color.FromArgb(94, 148, 255);
-            btnResetForm.Location = new Point(540, 630);
-            btnResetForm.Name = "btnResetForm";
-            btnResetForm.ShadowDecoration.CustomizableEdges = customizableEdges8;
-            btnResetForm.Size = new Size(150, 50);
-            btnResetForm.TabIndex = 23;
-            btnResetForm.Text = "🔄 Khôi Phục";
+            lblErrorDayofWeek.AutoSize = true;
+            lblErrorDayofWeek.ForeColor = Color.Red;
+            lblErrorDayofWeek.Location = new Point(537, 589);
+            lblErrorDayofWeek.Name = "lblErrorDayofWeek";
+            lblErrorDayofWeek.Size = new Size(50, 20);
+            lblErrorDayofWeek.TabIndex = 32;
+            lblErrorDayofWeek.Text = "label7";
+            lblErrorDayofWeek.Visible = false;
+            // 
+            // lblErrorEndDate
+            // 
+            lblErrorEndDate.AutoSize = true;
+            lblErrorEndDate.ForeColor = Color.Red;
+            lblErrorEndDate.Location = new Point(530, 358);
+            lblErrorEndDate.Name = "lblErrorEndDate";
+            lblErrorEndDate.Size = new Size(50, 20);
+            lblErrorEndDate.TabIndex = 26;
+            lblErrorEndDate.Text = "label9";
+            lblErrorEndDate.Visible = false;
+            // 
+            // lblErrorStartDate
+            // 
+            lblErrorStartDate.AutoSize = true;
+            lblErrorStartDate.ForeColor = Color.Red;
+            lblErrorStartDate.Location = new Point(40, 351);
+            lblErrorStartDate.Name = "lblErrorStartDate";
+            lblErrorStartDate.Size = new Size(50, 20);
+            lblErrorStartDate.TabIndex = 25;
+            lblErrorStartDate.Text = "label8";
+            lblErrorStartDate.Visible = false;
+            // 
+            // lblErrorClassName
+            // 
+            lblErrorClassName.AutoSize = true;
+            lblErrorClassName.ForeColor = Color.Red;
+            lblErrorClassName.Location = new Point(49, 147);
+            lblErrorClassName.Name = "lblErrorClassName";
+            lblErrorClassName.Size = new Size(50, 20);
+            lblErrorClassName.TabIndex = 24;
+            lblErrorClassName.Text = "label7";
+            lblErrorClassName.Visible = false;
             // 
             // btnCancelEdit
             // 
             btnCancelEdit.BorderRadius = 8;
-            btnCancelEdit.CustomizableEdges = customizableEdges9;
+            btnCancelEdit.CustomizableEdges = customizableEdges7;
             btnCancelEdit.DisabledState.BorderColor = Color.DarkGray;
             btnCancelEdit.DisabledState.CustomBorderColor = Color.DarkGray;
             btnCancelEdit.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -794,7 +856,7 @@
             btnCancelEdit.ForeColor = Color.White;
             btnCancelEdit.Location = new Point(890, 630);
             btnCancelEdit.Name = "btnCancelEdit";
-            btnCancelEdit.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            btnCancelEdit.ShadowDecoration.CustomizableEdges = customizableEdges8;
             btnCancelEdit.Size = new Size(130, 50);
             btnCancelEdit.TabIndex = 22;
             btnCancelEdit.Text = "✖ Hủy";
@@ -802,7 +864,7 @@
             // btnSaveChanges
             // 
             btnSaveChanges.BorderRadius = 8;
-            btnSaveChanges.CustomizableEdges = customizableEdges11;
+            btnSaveChanges.CustomizableEdges = customizableEdges9;
             btnSaveChanges.DisabledState.BorderColor = Color.DarkGray;
             btnSaveChanges.DisabledState.CustomBorderColor = Color.DarkGray;
             btnSaveChanges.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -812,16 +874,17 @@
             btnSaveChanges.ForeColor = Color.White;
             btnSaveChanges.Location = new Point(700, 630);
             btnSaveChanges.Name = "btnSaveChanges";
-            btnSaveChanges.ShadowDecoration.CustomizableEdges = customizableEdges12;
+            btnSaveChanges.ShadowDecoration.CustomizableEdges = customizableEdges10;
             btnSaveChanges.Size = new Size(180, 50);
             btnSaveChanges.TabIndex = 21;
             btnSaveChanges.Text = "💾 Lưu Thay Đổi";
+            btnSaveChanges.Click += btnSaveChanges_Click;
             // 
             // txtNote
             // 
             txtNote.BorderRadius = 8;
             txtNote.Cursor = Cursors.IBeam;
-            txtNote.CustomizableEdges = customizableEdges13;
+            txtNote.CustomizableEdges = customizableEdges11;
             txtNote.DefaultText = "";
             txtNote.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             txtNote.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -831,13 +894,13 @@
             txtNote.Font = new Font("Segoe UI", 10.2F);
             txtNote.ForeColor = Color.Black;
             txtNote.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtNote.Location = new Point(40, 520);
+            txtNote.Location = new Point(41, 519);
             txtNote.Margin = new Padding(3, 4, 3, 4);
             txtNote.Multiline = true;
             txtNote.Name = "txtNote";
             txtNote.PlaceholderText = "Nhập ghi chú về lớp học...";
             txtNote.SelectedText = "";
-            txtNote.ShadowDecoration.CustomizableEdges = customizableEdges14;
+            txtNote.ShadowDecoration.CustomizableEdges = customizableEdges12;
             txtNote.Size = new Size(450, 100);
             txtNote.TabIndex = 18;
             // 
@@ -845,7 +908,7 @@
             // 
             lblEditNote.AutoSize = true;
             lblEditNote.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            lblEditNote.Location = new Point(40, 490);
+            lblEditNote.Location = new Point(41, 489);
             lblEditNote.Name = "lblEditNote";
             lblEditNote.Size = new Size(142, 25);
             lblEditNote.TabIndex = 17;
@@ -855,7 +918,7 @@
             // 
             txtOnlineLink.BorderRadius = 8;
             txtOnlineLink.Cursor = Cursors.IBeam;
-            txtOnlineLink.CustomizableEdges = customizableEdges15;
+            txtOnlineLink.CustomizableEdges = customizableEdges13;
             txtOnlineLink.DefaultText = "";
             txtOnlineLink.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             txtOnlineLink.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -865,12 +928,12 @@
             txtOnlineLink.Font = new Font("Segoe UI", 10.2F);
             txtOnlineLink.ForeColor = Color.Black;
             txtOnlineLink.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtOnlineLink.Location = new Point(530, 420);
+            txtOnlineLink.Location = new Point(530, 419);
             txtOnlineLink.Margin = new Padding(3, 4, 3, 4);
             txtOnlineLink.Name = "txtOnlineLink";
             txtOnlineLink.PlaceholderText = "https://meet.google.com/...";
             txtOnlineLink.SelectedText = "";
-            txtOnlineLink.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            txtOnlineLink.ShadowDecoration.CustomizableEdges = customizableEdges14;
             txtOnlineLink.Size = new Size(450, 45);
             txtOnlineLink.TabIndex = 16;
             // 
@@ -878,7 +941,7 @@
             // 
             lblEditOnlineLink.AutoSize = true;
             lblEditOnlineLink.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            lblEditOnlineLink.Location = new Point(530, 390);
+            lblEditOnlineLink.Location = new Point(530, 389);
             lblEditOnlineLink.Name = "lblEditOnlineLink";
             lblEditOnlineLink.Size = new Size(148, 25);
             lblEditOnlineLink.TabIndex = 15;
@@ -889,14 +952,14 @@
             numMaxStudent.BackColor = Color.Transparent;
             numMaxStudent.BorderRadius = 8;
             numMaxStudent.Cursor = Cursors.IBeam;
-            numMaxStudent.CustomizableEdges = customizableEdges17;
+            numMaxStudent.CustomizableEdges = customizableEdges15;
             numMaxStudent.Font = new Font("Segoe UI", 10.2F);
-            numMaxStudent.Location = new Point(40, 420);
+            numMaxStudent.Location = new Point(40, 419);
             numMaxStudent.Margin = new Padding(3, 4, 3, 4);
             numMaxStudent.Maximum = new decimal(new int[] { 30, 0, 0, 0 });
             numMaxStudent.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             numMaxStudent.Name = "numMaxStudent";
-            numMaxStudent.ShadowDecoration.CustomizableEdges = customizableEdges18;
+            numMaxStudent.ShadowDecoration.CustomizableEdges = customizableEdges16;
             numMaxStudent.Size = new Size(450, 45);
             numMaxStudent.TabIndex = 14;
             numMaxStudent.Value = new decimal(new int[] { 30, 0, 0, 0 });
@@ -905,7 +968,7 @@
             // 
             lblEditMaxStudent.AutoSize = true;
             lblEditMaxStudent.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            lblEditMaxStudent.Location = new Point(40, 390);
+            lblEditMaxStudent.Location = new Point(40, 389);
             lblEditMaxStudent.Name = "lblEditMaxStudent";
             lblEditMaxStudent.Size = new Size(109, 25);
             lblEditMaxStudent.TabIndex = 13;
@@ -915,15 +978,15 @@
             // 
             dtpEndDate.BorderRadius = 8;
             dtpEndDate.Checked = true;
-            dtpEndDate.CustomizableEdges = customizableEdges19;
+            dtpEndDate.CustomizableEdges = customizableEdges17;
             dtpEndDate.FillColor = Color.White;
             dtpEndDate.Font = new Font("Segoe UI", 10F);
             dtpEndDate.Format = DateTimePickerFormat.Short;
-            dtpEndDate.Location = new Point(530, 320);
+            dtpEndDate.Location = new Point(530, 301);
             dtpEndDate.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
             dtpEndDate.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
             dtpEndDate.Name = "dtpEndDate";
-            dtpEndDate.ShadowDecoration.CustomizableEdges = customizableEdges20;
+            dtpEndDate.ShadowDecoration.CustomizableEdges = customizableEdges18;
             dtpEndDate.Size = new Size(450, 45);
             dtpEndDate.TabIndex = 12;
             dtpEndDate.Value = new DateTime(2025, 12, 22, 21, 8, 8, 845);
@@ -932,7 +995,7 @@
             // 
             lblEditEndDate.AutoSize = true;
             lblEditEndDate.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            lblEditEndDate.Location = new Point(530, 290);
+            lblEditEndDate.Location = new Point(530, 271);
             lblEditEndDate.Name = "lblEditEndDate";
             lblEditEndDate.Size = new Size(136, 25);
             lblEditEndDate.TabIndex = 11;
@@ -942,15 +1005,15 @@
             // 
             dtpStartDate.BorderRadius = 8;
             dtpStartDate.Checked = true;
-            dtpStartDate.CustomizableEdges = customizableEdges21;
+            dtpStartDate.CustomizableEdges = customizableEdges19;
             dtpStartDate.FillColor = Color.White;
             dtpStartDate.Font = new Font("Segoe UI", 10F);
             dtpStartDate.Format = DateTimePickerFormat.Short;
-            dtpStartDate.Location = new Point(40, 320);
+            dtpStartDate.Location = new Point(40, 301);
             dtpStartDate.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
             dtpStartDate.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
             dtpStartDate.Name = "dtpStartDate";
-            dtpStartDate.ShadowDecoration.CustomizableEdges = customizableEdges22;
+            dtpStartDate.ShadowDecoration.CustomizableEdges = customizableEdges20;
             dtpStartDate.Size = new Size(450, 45);
             dtpStartDate.TabIndex = 10;
             dtpStartDate.Value = new DateTime(2025, 12, 22, 21, 8, 8, 875);
@@ -959,7 +1022,7 @@
             // 
             lblEditStartDate.AutoSize = true;
             lblEditStartDate.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            lblEditStartDate.Location = new Point(40, 290);
+            lblEditStartDate.Location = new Point(40, 271);
             lblEditStartDate.Name = "lblEditStartDate";
             lblEditStartDate.Size = new Size(132, 25);
             lblEditStartDate.TabIndex = 9;
@@ -969,7 +1032,7 @@
             // 
             cmbShift.BackColor = Color.Transparent;
             cmbShift.BorderRadius = 8;
-            cmbShift.CustomizableEdges = customizableEdges23;
+            cmbShift.CustomizableEdges = customizableEdges21;
             cmbShift.DrawMode = DrawMode.OwnerDrawFixed;
             cmbShift.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbShift.FocusedColor = Color.FromArgb(94, 148, 255);
@@ -977,9 +1040,9 @@
             cmbShift.Font = new Font("Segoe UI", 10.2F);
             cmbShift.ForeColor = Color.Black;
             cmbShift.ItemHeight = 39;
-            cmbShift.Location = new Point(530, 220);
+            cmbShift.Location = new Point(530, 201);
             cmbShift.Name = "cmbShift";
-            cmbShift.ShadowDecoration.CustomizableEdges = customizableEdges24;
+            cmbShift.ShadowDecoration.CustomizableEdges = customizableEdges22;
             cmbShift.Size = new Size(450, 45);
             cmbShift.TabIndex = 8;
             // 
@@ -987,7 +1050,7 @@
             // 
             lblEditShift.AutoSize = true;
             lblEditShift.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            lblEditShift.Location = new Point(530, 190);
+            lblEditShift.Location = new Point(530, 171);
             lblEditShift.Name = "lblEditShift";
             lblEditShift.Size = new Size(71, 25);
             lblEditShift.TabIndex = 7;
@@ -997,7 +1060,7 @@
             // 
             cmbTeacher.BackColor = Color.Transparent;
             cmbTeacher.BorderRadius = 8;
-            cmbTeacher.CustomizableEdges = customizableEdges25;
+            cmbTeacher.CustomizableEdges = customizableEdges23;
             cmbTeacher.DrawMode = DrawMode.OwnerDrawFixed;
             cmbTeacher.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbTeacher.FocusedColor = Color.FromArgb(94, 148, 255);
@@ -1005,9 +1068,9 @@
             cmbTeacher.Font = new Font("Segoe UI", 10.2F);
             cmbTeacher.ForeColor = Color.Black;
             cmbTeacher.ItemHeight = 39;
-            cmbTeacher.Location = new Point(40, 220);
+            cmbTeacher.Location = new Point(40, 201);
             cmbTeacher.Name = "cmbTeacher";
-            cmbTeacher.ShadowDecoration.CustomizableEdges = customizableEdges26;
+            cmbTeacher.ShadowDecoration.CustomizableEdges = customizableEdges24;
             cmbTeacher.Size = new Size(450, 45);
             cmbTeacher.TabIndex = 6;
             // 
@@ -1015,7 +1078,7 @@
             // 
             lblEditTeacher.AutoSize = true;
             lblEditTeacher.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            lblEditTeacher.Location = new Point(40, 190);
+            lblEditTeacher.Location = new Point(40, 171);
             lblEditTeacher.Name = "lblEditTeacher";
             lblEditTeacher.Size = new Size(107, 25);
             lblEditTeacher.TabIndex = 5;
@@ -1025,7 +1088,7 @@
             // 
             cmbCourse.BackColor = Color.Transparent;
             cmbCourse.BorderRadius = 8;
-            cmbCourse.CustomizableEdges = customizableEdges27;
+            cmbCourse.CustomizableEdges = customizableEdges25;
             cmbCourse.DrawMode = DrawMode.OwnerDrawFixed;
             cmbCourse.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbCourse.FocusedColor = Color.FromArgb(94, 148, 255);
@@ -1033,9 +1096,9 @@
             cmbCourse.Font = new Font("Segoe UI", 10.2F);
             cmbCourse.ForeColor = Color.Black;
             cmbCourse.ItemHeight = 39;
-            cmbCourse.Location = new Point(530, 120);
+            cmbCourse.Location = new Point(530, 91);
             cmbCourse.Name = "cmbCourse";
-            cmbCourse.ShadowDecoration.CustomizableEdges = customizableEdges28;
+            cmbCourse.ShadowDecoration.CustomizableEdges = customizableEdges26;
             cmbCourse.Size = new Size(450, 45);
             cmbCourse.TabIndex = 4;
             // 
@@ -1043,7 +1106,7 @@
             // 
             lblEditCourse.AutoSize = true;
             lblEditCourse.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            lblEditCourse.Location = new Point(530, 90);
+            lblEditCourse.Location = new Point(530, 61);
             lblEditCourse.Name = "lblEditCourse";
             lblEditCourse.Size = new Size(94, 25);
             lblEditCourse.TabIndex = 3;
@@ -1053,7 +1116,7 @@
             // 
             txtClassName.BorderRadius = 8;
             txtClassName.Cursor = Cursors.IBeam;
-            txtClassName.CustomizableEdges = customizableEdges29;
+            txtClassName.CustomizableEdges = customizableEdges27;
             txtClassName.DefaultText = "";
             txtClassName.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             txtClassName.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -1063,12 +1126,12 @@
             txtClassName.Font = new Font("Segoe UI", 10.2F);
             txtClassName.ForeColor = Color.Black;
             txtClassName.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
-            txtClassName.Location = new Point(40, 120);
+            txtClassName.Location = new Point(40, 91);
             txtClassName.Margin = new Padding(3, 4, 3, 4);
             txtClassName.Name = "txtClassName";
             txtClassName.PlaceholderText = "Nhập tên lớp học";
             txtClassName.SelectedText = "";
-            txtClassName.ShadowDecoration.CustomizableEdges = customizableEdges30;
+            txtClassName.ShadowDecoration.CustomizableEdges = customizableEdges28;
             txtClassName.Size = new Size(450, 45);
             txtClassName.TabIndex = 2;
             // 
@@ -1076,7 +1139,7 @@
             // 
             lblEditClassName.AutoSize = true;
             lblEditClassName.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            lblEditClassName.Location = new Point(40, 90);
+            lblEditClassName.Location = new Point(40, 61);
             lblEditClassName.Name = "lblEditClassName";
             lblEditClassName.Size = new Size(114, 25);
             lblEditClassName.TabIndex = 1;
@@ -1087,12 +1150,12 @@
             pnlEditHeader.BackColor = Color.FromArgb(94, 148, 255);
             pnlEditHeader.BorderRadius = 8;
             pnlEditHeader.Controls.Add(lblEditTitle);
-            pnlEditHeader.CustomizableEdges = customizableEdges31;
+            pnlEditHeader.CustomizableEdges = customizableEdges29;
             pnlEditHeader.Dock = DockStyle.Top;
             pnlEditHeader.Location = new Point(0, 0);
             pnlEditHeader.Name = "pnlEditHeader";
-            pnlEditHeader.ShadowDecoration.CustomizableEdges = customizableEdges32;
-            pnlEditHeader.Size = new Size(1046, 60);
+            pnlEditHeader.ShadowDecoration.CustomizableEdges = customizableEdges30;
+            pnlEditHeader.Size = new Size(1046, 50);
             pnlEditHeader.TabIndex = 0;
             // 
             // lblEditTitle
@@ -1100,11 +1163,168 @@
             lblEditTitle.AutoSize = true;
             lblEditTitle.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
             lblEditTitle.ForeColor = Color.White;
-            lblEditTitle.Location = new Point(20, 14);
+            lblEditTitle.Location = new Point(20, 7);
             lblEditTitle.Name = "lblEditTitle";
             lblEditTitle.Size = new Size(258, 37);
             lblEditTitle.TabIndex = 0;
             lblEditTitle.Text = "Chỉnh Sửa Lớp Học";
+            // 
+            // lblEditDays
+            // 
+            lblEditDays.AutoSize = true;
+            lblEditDays.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            lblEditDays.Location = new Point(530, 489);
+            lblEditDays.Name = "lblEditDays";
+            lblEditDays.Size = new Size(161, 25);
+            lblEditDays.TabIndex = 30;
+            lblEditDays.Text = "Ngày trong tuần";
+            // 
+            // pnlDaysContainer
+            // 
+            pnlDaysContainer.Controls.Add(btnMon);
+            pnlDaysContainer.Controls.Add(btnTue);
+            pnlDaysContainer.Controls.Add(btnWed);
+            pnlDaysContainer.Controls.Add(btnThu);
+            pnlDaysContainer.Controls.Add(btnFri);
+            pnlDaysContainer.Controls.Add(btnSat);
+            pnlDaysContainer.Controls.Add(btnSun);
+            pnlDaysContainer.Location = new Point(531, 519);
+            pnlDaysContainer.Name = "pnlDaysContainer";
+            pnlDaysContainer.Size = new Size(490, 61);
+            pnlDaysContainer.TabIndex = 31;
+            // 
+            // btnMon
+            // 
+            btnMon.BorderRadius = 15;
+            btnMon.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.ToogleButton;
+            btnMon.CheckedState.FillColor = Color.FromArgb(46, 204, 113);
+            btnMon.CheckedState.ForeColor = Color.White;
+            btnMon.CustomizableEdges = customizableEdges31;
+            btnMon.FillColor = Color.WhiteSmoke;
+            btnMon.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnMon.ForeColor = Color.Black;
+            btnMon.Location = new Point(10, 10);
+            btnMon.Margin = new Padding(10);
+            btnMon.Name = "btnMon";
+            btnMon.ShadowDecoration.CustomizableEdges = customizableEdges32;
+            btnMon.Size = new Size(50, 40);
+            btnMon.TabIndex = 0;
+            btnMon.Tag = "Monday";
+            btnMon.Text = "T2";
+            // 
+            // btnTue
+            // 
+            btnTue.BorderRadius = 15;
+            btnTue.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.ToogleButton;
+            btnTue.CheckedState.FillColor = Color.FromArgb(46, 204, 113);
+            btnTue.CheckedState.ForeColor = Color.White;
+            btnTue.CustomizableEdges = customizableEdges33;
+            btnTue.FillColor = Color.WhiteSmoke;
+            btnTue.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnTue.ForeColor = Color.Black;
+            btnTue.Location = new Point(80, 10);
+            btnTue.Margin = new Padding(10);
+            btnTue.Name = "btnTue";
+            btnTue.ShadowDecoration.CustomizableEdges = customizableEdges34;
+            btnTue.Size = new Size(50, 40);
+            btnTue.TabIndex = 1;
+            btnTue.Tag = "Tuesday";
+            btnTue.Text = "T3";
+            // 
+            // btnWed
+            // 
+            btnWed.BorderRadius = 15;
+            btnWed.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.ToogleButton;
+            btnWed.CheckedState.FillColor = Color.FromArgb(46, 204, 113);
+            btnWed.CheckedState.ForeColor = Color.White;
+            btnWed.CustomizableEdges = customizableEdges35;
+            btnWed.FillColor = Color.WhiteSmoke;
+            btnWed.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnWed.ForeColor = Color.Black;
+            btnWed.Location = new Point(150, 10);
+            btnWed.Margin = new Padding(10);
+            btnWed.Name = "btnWed";
+            btnWed.ShadowDecoration.CustomizableEdges = customizableEdges36;
+            btnWed.Size = new Size(50, 40);
+            btnWed.TabIndex = 2;
+            btnWed.Tag = "Wednesday";
+            btnWed.Text = "T4";
+            // 
+            // btnThu
+            // 
+            btnThu.BorderRadius = 15;
+            btnThu.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.ToogleButton;
+            btnThu.CheckedState.FillColor = Color.FromArgb(46, 204, 113);
+            btnThu.CheckedState.ForeColor = Color.White;
+            btnThu.CustomizableEdges = customizableEdges37;
+            btnThu.FillColor = Color.WhiteSmoke;
+            btnThu.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnThu.ForeColor = Color.Black;
+            btnThu.Location = new Point(220, 10);
+            btnThu.Margin = new Padding(10);
+            btnThu.Name = "btnThu";
+            btnThu.ShadowDecoration.CustomizableEdges = customizableEdges38;
+            btnThu.Size = new Size(50, 40);
+            btnThu.TabIndex = 3;
+            btnThu.Tag = "Thursday";
+            btnThu.Text = "T5";
+            // 
+            // btnFri
+            // 
+            btnFri.BorderRadius = 15;
+            btnFri.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.ToogleButton;
+            btnFri.CheckedState.FillColor = Color.FromArgb(46, 204, 113);
+            btnFri.CheckedState.ForeColor = Color.White;
+            btnFri.CustomizableEdges = customizableEdges39;
+            btnFri.FillColor = Color.WhiteSmoke;
+            btnFri.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnFri.ForeColor = Color.Black;
+            btnFri.Location = new Point(290, 10);
+            btnFri.Margin = new Padding(10);
+            btnFri.Name = "btnFri";
+            btnFri.ShadowDecoration.CustomizableEdges = customizableEdges40;
+            btnFri.Size = new Size(50, 40);
+            btnFri.TabIndex = 4;
+            btnFri.Tag = "Friday";
+            btnFri.Text = "T6";
+            // 
+            // btnSat
+            // 
+            btnSat.BorderRadius = 15;
+            btnSat.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.ToogleButton;
+            btnSat.CheckedState.FillColor = Color.FromArgb(46, 204, 113);
+            btnSat.CheckedState.ForeColor = Color.White;
+            btnSat.CustomizableEdges = customizableEdges41;
+            btnSat.FillColor = Color.WhiteSmoke;
+            btnSat.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnSat.ForeColor = Color.Black;
+            btnSat.Location = new Point(360, 10);
+            btnSat.Margin = new Padding(10);
+            btnSat.Name = "btnSat";
+            btnSat.ShadowDecoration.CustomizableEdges = customizableEdges42;
+            btnSat.Size = new Size(50, 40);
+            btnSat.TabIndex = 5;
+            btnSat.Tag = "Saturday";
+            btnSat.Text = "T7";
+            // 
+            // btnSun
+            // 
+            btnSun.BorderRadius = 15;
+            btnSun.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.ToogleButton;
+            btnSun.CheckedState.FillColor = Color.FromArgb(46, 204, 113);
+            btnSun.CheckedState.ForeColor = Color.White;
+            btnSun.CustomizableEdges = customizableEdges43;
+            btnSun.FillColor = Color.WhiteSmoke;
+            btnSun.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnSun.ForeColor = Color.Black;
+            btnSun.Location = new Point(430, 10);
+            btnSun.Margin = new Padding(10);
+            btnSun.Name = "btnSun";
+            btnSun.ShadowDecoration.CustomizableEdges = customizableEdges44;
+            btnSun.Size = new Size(50, 40);
+            btnSun.TabIndex = 6;
+            btnSun.Tag = "Sunday";
+            btnSun.Text = "CN";
             // 
             // ClassDetailControl
             // 
@@ -1125,7 +1345,7 @@
             grpStats.PerformLayout();
             pnlProgressBg.ResumeLayout(false);
             pnlMain.ResumeLayout(false);
-            guna2TabControl1.ResumeLayout(false);
+            TabControls.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvStudents).EndInit();
             guna2Panel1.ResumeLayout(false);
@@ -1136,6 +1356,7 @@
             ((System.ComponentModel.ISupportInitialize)numMaxStudent).EndInit();
             pnlEditHeader.ResumeLayout(false);
             pnlEditHeader.PerformLayout();
+            pnlDaysContainer.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -1176,8 +1397,12 @@
         private Guna.UI2.WinForms.Guna2Button btnAddStudent;
         private Guna.UI2.WinForms.Guna2Panel guna2Panel1;
         private Label label6;
-        private Guna.UI2.WinForms.Guna2TabControl guna2TabControl1;
+        private Guna.UI2.WinForms.Guna2TabControl TabControls;
         private TabPage tabPage1;
         private TabPage tabPage2;
+        private Label lblErrorEndDate;
+        private Label lblErrorStartDate;
+        private Label lblErrorClassName;
+        private Label lblErrorDayofWeek;
     }
 }

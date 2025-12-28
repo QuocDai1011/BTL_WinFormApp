@@ -62,6 +62,19 @@ namespace BaiTapLonWinForm.Services.implements
                 if (!isValid)
                     return (false, message, null);
 
+                var dayIds = classEntity.SchoolDays.Select(d => d.SchoolDayId).ToList();
+
+                bool isConflict = await _classRepository.CheckTeacherScheduleConflictAsync(
+                        classEntity.TeacherId,
+                        classEntity.Shift,
+                        classEntity.StartDate,
+                        classEntity.EndDate,
+                        dayIds,
+                        null // Add mới nên không cần loại trừ ai cả
+                    );
+
+                if (isConflict) return (false, "Trùng lịch giáo viên!", null);
+
                 var createdClass = await _classRepository.CreateAsync(classEntity);
                 return (true, "Tạo lớp học thành công", createdClass);
             }
@@ -87,6 +100,23 @@ namespace BaiTapLonWinForm.Services.implements
                 // Check exists
                 if (!await _classRepository.ExistsAsync(classEntity.ClassId))
                     return (false, "Không tìm thấy lớp học", null);
+
+                var dayIds = classEntity.SchoolDays.Select(d => d.SchoolDayId).ToList();
+
+                // 2. Gọi Repository kiểm tra
+                bool isConflict = await _classRepository.CheckTeacherScheduleConflictAsync(
+                    classEntity.TeacherId,
+                    classEntity.Shift,
+                    classEntity.StartDate,
+                    classEntity.EndDate,
+                    dayIds,
+                    classEntity.ClassId // Truyền ID để loại trừ chính nó (vì đang Update)
+                );
+
+                if (isConflict)
+                {
+                    return (false, "Giáo viên này đã có lịch dạy trùng với Ca, Thứ và Khoảng thời gian bạn chọn!", null);
+                }
 
                 var updatedClass = await _classRepository.UpdateAsync(classEntity);
 
@@ -205,39 +235,7 @@ namespace BaiTapLonWinForm.Services.implements
             {
                 return (false, $"Lỗi: {ex.Message}");
             }
-        }
-
-        public async Task<(bool Success, string Message)> UpdateStudentCountAsync(int classId, int count)
-        {
-            try
-            {
-                if (classId <= 0)
-                    return (false, "ID lớp học không hợp lệ");
-
-                var classEntity = await _classRepository.GetByIdAsync(classId);
-                if (classEntity == null)
-                    return (false, "Không tìm thấy lớp học");
-
-                var newCount = (classEntity.CurrentStudent ?? 0) + count;
-                classEntity.CurrentStudent = newCount;
-
-                // Validate student capacity
-                var (isValid, errorMessage) = ClassValidator.ValidateStudentCapacity(
-                    classEntity.CurrentStudent,
-                    classEntity.MaxStudent);
-
-                if (!isValid)
-                    return (false, errorMessage);
-
-                await _classRepository.UpdateAsync(classEntity);
-
-                return (true, $"Cập nhật số lượng học sinh thành công. Số học sinh hiện tại: {newCount}");
-            }
-            catch (Exception ex)
-            {
-                return (false, $"Lỗi: {ex.Message}");
-            }
-        }
+        }      
 
         public async Task<(bool Success, string Message)> AddStudentsToClassAsync(int classId, List<int> studentIds)
         {
@@ -384,7 +382,7 @@ namespace BaiTapLonWinForm.Services.implements
                     {
                         classEntity.Status = newStatus;
                         classEntity.UpdateAt = DateTime.Now; 
-                        await _classRepository.UpdateAsync(classEntity);
+                        await _classRepository.UpdateStatusAsync(classEntity);
                         updatedCount++;
                     }
                 }

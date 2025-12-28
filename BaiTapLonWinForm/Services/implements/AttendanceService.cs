@@ -44,19 +44,31 @@ namespace BaiTapLonWinForm.Services.implements
             try
             {
                 Console.WriteLine("[DEBUG STEP 1] Đang gửi ảnh lên AI Server...");
-                var (isRecognized, studentId, confidence, msg) = await _faceApi.RecognizeFaceAsync(capturedImage);
+                var (isRecognized, subject, confidence, msg) = await _faceApi.RecognizeFaceAsync(capturedImage);
 
-                if (!isRecognized || !studentId.HasValue)
+                if (!isRecognized || string.IsNullOrEmpty(subject))
                 {
                     result.Success = false;
                     result.Message = "Không nhận diện được khuôn mặt.";
                     return result;
                 }
-                Console.WriteLine($"[DEBUG SUCCESS] ID: {studentId} (Confidence: {confidence:P0})");
+                Console.WriteLine($"[DEBUG SUCCESS] ID: {subject} (Confidence: {confidence:P0})");
                 
                 result.confidence = confidence;
-                
-                var student = await _studentRepo.GetByIdAsync(studentId.Value);
+
+                if (!int.TryParse(subject, out int studentId))
+                {
+                    result.Success = false;
+                    // Nếu là Teacher check-in nhầm máy Student thì báo lỗi nhẹ nhàng
+                    if (subject.StartsWith("TEA_"))
+                        result.Message = "Máy này chỉ dành cho Học viên (Phát hiện Giáo viên).";
+                    else
+                        result.Message = $"Mã nhận diện không hợp lệ: {subject}";
+
+                    return result;
+                }
+
+                var student = await _studentRepo.GetByIdAsync(int.Parse(subject));
                 if (student == null || student.StudentClasses == null)
                 {
                     result.Success = false;
@@ -116,7 +128,7 @@ namespace BaiTapLonWinForm.Services.implements
 
                 // =========================================================
 
-                var existing = await _attendanceRepo.GetByStudentAndSessionAsync(studentId.Value, todaySession.SessionId);
+                var existing = await _attendanceRepo.GetByStudentAndSessionAsync(int.Parse(subject), todaySession.SessionId);
 
                 if (existing != null)
                 {
@@ -128,7 +140,7 @@ namespace BaiTapLonWinForm.Services.implements
                 {
                     var newAtt = new Attendance
                     {
-                        StudentId = studentId.Value,
+                        StudentId = int.Parse(subject),
                         SessionId = todaySession.SessionId,
                         IsPresent = true,
                         CheckInTime = DateTime.Now,

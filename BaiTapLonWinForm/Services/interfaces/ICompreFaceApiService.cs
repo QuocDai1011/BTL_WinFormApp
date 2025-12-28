@@ -8,8 +8,8 @@ namespace BaiTapLonWinForm.Services.interfaces
 {
     public interface ICompreFaceApiService
     {
-        Task<(bool success, string message)> AddFaceAsync(int studentId, byte[] imageBytes);
-        Task<(bool success, int? studentId, double confidence, string message)> RecognizeFaceAsync(byte[] imageBytes);
+        Task<(bool success, string message)> AddFaceAsync(string subject, byte[] imageBytes);
+        Task<(bool success, string subject, double confidence, string message)> RecognizeFaceAsync(byte[] imageBytes);
 
         Task<byte[]> FindBestAvatarAsync(List<byte[]> images);
     }

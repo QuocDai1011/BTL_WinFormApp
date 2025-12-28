@@ -1,10 +1,12 @@
-﻿using BaiTapLonWinForm.Services;
+﻿using BaiTapLonWinForm.Models; 
+using BaiTapLonWinForm.Services;
 using BaiTapLonWinForm.Utils;
-using Guna.UI2.WinForms;
+using Guna.UI2.WinForms; 
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -14,9 +16,14 @@ namespace BaiTapLonWinForm.View.Admin.Class
     {
         private readonly ServiceHub _serviceHub;
         private readonly int _classId;
-        private bool _isAddFeature;
-        // Danh sách ca học cố định (Hardcoded helper)
-        private readonly List<(int, string)> mapShift = new List<(int, string)>()
+        public Func<Task> OnDataChanged;
+        private bool _isLoaded = false;
+        private DateTime _originalStartDate;
+        private int? _currentStatus;
+
+
+        private List<Guna.UI2.WinForms.Guna2Button> _dayButtons;
+        private readonly List<(int Id, string Name)> mapShift = new List<(int, string)>()
         {
             (1, "Sáng (8:00 - 9:30)"),
             (2, "Sáng (9:30 - 11:00)"),
@@ -28,15 +35,47 @@ namespace BaiTapLonWinForm.View.Admin.Class
 
         public ClassDetailControl(ServiceHub serviceHub, int classId)
         {
+            InitializeComponent();
             _serviceHub = serviceHub;
             _classId = classId;
-            InitializeComponent();
-            initialDetailClass();
 
+            _dayButtons = new List<Guna.UI2.WinForms.Guna2Button>
+    {
+        btnMon, btnTue, btnWed, btnThu, btnFri, btnSat, btnSun
+    };
+
+            // Database: 2=Thứ 2, ..., 7=Thứ 7, 8=Chủ nhật
+            btnMon.Tag = 2;
+            btnTue.Tag = 3;
+            btnWed.Tag = 4;
+            btnThu.Tag = 5;
+            btnFri.Tag = 6;
+            btnSat.Tag = 7;
+            btnSun.Tag = 8; 
+
+            // 3. Gán sự kiện Click (để giới hạn 3 ngày)
+            foreach (var btn in _dayButtons)
+            {
+                btn.Click += OnDayButton_Click;
+            }
+
+            AttachValidationEvents();
         }
 
+        protected override async void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            if (!DesignMode)
+            {
+                await initialDetailClass();
+                _isLoaded = true;
+            }
+        }
+
+
+
         #region Init data 
-        private async void initialDetailClass()
+        private async Task initialDetailClass()
         {
             try
             {
@@ -48,21 +87,20 @@ namespace BaiTapLonWinForm.View.Admin.Class
                     MessageHelper.ShowError(message);
                     return;
                 }
-                // thông tin chung của lớp học
+
                 initGeneralInformation(data);
-
-                // load dữ liệu vào dataGridView
                 initDataGridView(data);
-
-                // load dữ liệu cho tab chỉnh sửa
-                initDataForTabUpdate(data);
-
-                // load dữ liệu cho ca học
                 initCboShift(data);
+
+                await initDataForTabUpdate(data);
             }
             catch (Exception ex)
             {
                 MessageHelper.ShowError($"Lỗi khi tải dữ liệu lớp học: {ex.Message}");
+            }
+            finally
+            {
+                this.Cursor = Cursors.Default;
             }
         }
 
@@ -70,8 +108,7 @@ namespace BaiTapLonWinForm.View.Admin.Class
         {
             lblClassAndCouse.Text = $" {data.ClassName} -  {data.Course?.CourseName}";
 
-
-            if (data.Teacher != null && data.Teacher.User != null)
+            if (data.Teacher?.User != null)
             {
                 lblTeacherName.Text = $"{data.Teacher.User.FirstName} {data.Teacher.User.LastName}";
                 lblPhoneNumber.Text = data.Teacher.User.PhoneNumber;
@@ -87,7 +124,6 @@ namespace BaiTapLonWinForm.View.Admin.Class
             lnkOnlineLink.Text = !string.IsNullOrEmpty(data.OnlineMeetingLink) ? data.OnlineMeetingLink : "---";
             lblNote.Text = !string.IsNullOrEmpty(data.Note) ? data.Note : "Không có ghi chú";
 
-            // --- Sĩ số lớp ---
             int current = data.CurrentStudent ?? 0;
             int max = data.MaxStudent ?? 0;
             lblStudentCount.Text = $"{current}/{max} Học viên";
@@ -105,26 +141,18 @@ namespace BaiTapLonWinForm.View.Admin.Class
                 pnlProgressVal.Width = 0;
             }
 
-            var shiftItem = mapShift.FirstOrDefault(s => s.Item1 == data.Shift);
-            string shiftDesc = shiftItem.Item2 ?? "Chưa xếp lịch"; 
+            var shiftItem = mapShift.FirstOrDefault(s => s.Id == data.Shift);
+            string shiftDesc = shiftItem.Name ?? "Chưa xếp lịch";
 
+            string shiftInfo = (data.SchoolDays != null && data.SchoolDays.Any())
+                ? string.Join("\n", data.SchoolDays.Select(sd => $"{sd.DayOfWeek}: {shiftDesc}"))
+                : "Chưa có lịch học";
 
-            string shiftInfo = string.Join("\n", data.SchoolDays.Select(sd => $"{sd.DayOfWeek}: {shiftDesc}"));
-
- 
-            lblShift.Text = string.IsNullOrEmpty(shiftInfo) ? "Chưa có lịch học" : shiftInfo;
+            lblShift.Text = shiftInfo;
 
             lblStartDate.Text = data.StartDate.ToString("dd/MM/yyyy");
             lblEndDate.Text = data.EndDate.ToString("dd/MM/yyyy");
-
-            string courseName = "Chưa gán khóa học";
-
-            if (data.Course != null)
-            {
-                courseName = data.Course.CourseName;
-            }
         }
-
 
         private void initDataGridView(Models.Class data)
         {
@@ -134,39 +162,55 @@ namespace BaiTapLonWinForm.View.Admin.Class
             {
                 foreach (var sc in data.StudentClasses)
                 {
-                    // Kiểm tra null an toàn
-                    if (sc.Student != null && sc.Student.User != null)
+                    if (sc.Student?.User != null)
                     {
                         var user = sc.Student.User;
-
-                        // Thêm dòng mới vào bảng
                         int rowIndex = dgvStudents.Rows.Add(
                             $"{user.FirstName} {user.LastName}",
                             user.DateOfBirth.ToString("dd/MM/yyyy") ?? "N/A",
                             user.PhoneNumber,
                             user.Email
-                            );
-
+                        );
                         dgvStudents.Rows[rowIndex].Tag = sc.Student.StudentId;
                     }
                 }
             }
         }
 
-        private async void initDataForTabUpdate(Models.Class data)
+        private async Task initDataForTabUpdate(Models.Class data)
         {
+            _originalStartDate = data.StartDate.ToDateTime(TimeOnly.MinValue).Date;
+            _currentStatus = data.Status;
+
             txtClassName.Text = data.ClassName;
             txtNote.Text = data.Note ?? "Không có ghi chú";
             txtOnlineLink.Text = data.OnlineMeetingLink ?? "";
-            dtpStartDate.Text = data.StartDate.ToString("dd/MM/yyyy");
-            dtpEndDate.Text = data.EndDate.ToString("dd/MM/yyyy");
-            numMaxStudent.Value = data.MaxStudent != null ? (int)data.MaxStudent : 30;
+            dtpStartDate.Value = data.StartDate.ToDateTime(TimeOnly.MinValue);
+            dtpEndDate.Value = data.EndDate.ToDateTime(TimeOnly.MinValue);
+            numMaxStudent.Value = data.MaxStudent ?? 30;
 
-            // load dữ liệu cho combobox
+
             await initCboTeachers(data);
-
-            // load dữ liệu cho combobox
             await initCboCourses(data);
+
+            foreach (var btn in _dayButtons) btn.Checked = false;
+
+            if (data.SchoolDays != null)
+            {
+                foreach (var schoolDay in data.SchoolDays)
+                {
+
+                    var targetBtn = _dayButtons.FirstOrDefault(b =>
+                                    b.Tag != null &&
+                                    Convert.ToInt32(b.Tag) == schoolDay.SchoolDayId
+                                );
+                    // Nếu tìm thấy thì bật nút đó lên
+                    if (targetBtn != null)
+                    {
+                        targetBtn.Checked = true;
+                    }
+                }
+            }
         }
 
         private async Task initCboTeachers(Models.Class data)
@@ -174,7 +218,7 @@ namespace BaiTapLonWinForm.View.Admin.Class
             var result = await _serviceHub.TeacherService.GetAllTeachersAsync();
             if (!result.Success)
             {
-                MessageHelper.ShowError("Đã xảy ra lỗi khi khởi tạo combobox teacher: \n" + result.Message);
+                MessageHelper.ShowError("Lỗi tải DS giáo viên: \n" + result.Message);
                 return;
             }
 
@@ -184,10 +228,9 @@ namespace BaiTapLonWinForm.View.Admin.Class
                 FullName = $"{t.User.FirstName} {t.User.LastName}"
             }).ToList();
 
-            cmbTeacher.DisplayMember = "FullName"; 
-            cmbTeacher.ValueMember = "Id";         
-
             cmbTeacher.DataSource = teacherList;
+            cmbTeacher.DisplayMember = "FullName";
+            cmbTeacher.ValueMember = "Id";
 
             if (data != null && data.TeacherId > 0)
             {
@@ -195,13 +238,12 @@ namespace BaiTapLonWinForm.View.Admin.Class
             }
         }
 
-
         private async Task initCboCourses(Models.Class data)
         {
             var result = await _serviceHub.CourseService.GetAllCoursesAsync();
             if (!result.Success)
             {
-                MessageHelper.ShowError("Đã xảy ra lỗi khi khởi tạo combobox courses: \n" + result.Message);
+                MessageHelper.ShowError("Lỗi tải DS khóa học: \n" + result.Message);
                 return;
             }
 
@@ -211,10 +253,9 @@ namespace BaiTapLonWinForm.View.Admin.Class
                 Name = c.CourseName
             }).ToList();
 
+            cmbCourse.DataSource = courseList;
             cmbCourse.DisplayMember = "Name";
             cmbCourse.ValueMember = "Id";
-
-            cmbCourse.DataSource = courseList;
 
             if (data != null && data.CourseId.HasValue)
             {
@@ -224,26 +265,19 @@ namespace BaiTapLonWinForm.View.Admin.Class
 
         private void initCboShift(Models.Class data)
         {
-            var shiftDataSource = mapShift.Select(x => new
-            {
-                Id = x.Item1,     
-                Name = x.Item2     
-            }).ToList();
-
-            cmbShift.DataSource = shiftDataSource;
+            cmbShift.DataSource = mapShift.Select(x => new { Id = x.Id, Name = x.Name }).ToList();
             cmbShift.DisplayMember = "Name";
-            cmbShift.ValueMember = "Id";     
+            cmbShift.ValueMember = "Id";
 
             if (data != null)
             {
                 cmbShift.SelectedValue = (int)data.Shift;
             }
-
         }
 
         #endregion
 
-        #region handle button envent 
+        #region handle button event 
 
         private void btnAddStudent_Click(object sender, EventArgs e)
         {
@@ -253,80 +287,287 @@ namespace BaiTapLonWinForm.View.Admin.Class
                 Dock = DockStyle.Fill
             };
 
-            _isAddFeature = true;
 
-            // Khi đóng form thêm, tải lại danh sách
-            addView.OnCloseRequired += (s, args) =>
+            addView.OnCloseRequired += async (s, args) =>
             {
-                _isAddFeature = false;
-                ShowStudentList();
+                await ShowStudentList();
             };
 
-            // Khi thêm thành công, tải lại danh sách
-            addView.OnStudentsAdded += (s, args) =>
+            addView.OnStudentsAdded += async (s, args) =>
             {
-                _isAddFeature = false;
-                ShowStudentList();
+                await ShowStudentList();
+
+                OnDataChanged?.Invoke();
+
             };
 
             pnlMain.Controls.Add(addView);
         }
 
-
-
         private async void btnDelete_Click(object sender, EventArgs e)
         {
-            if (_isAddFeature)
-            {
-                MessageHelper.ShowWarning("Bạn đang thêm học viên nên không thể thực hiện chức năng này! \n" +
-                    "Vui lòng thêm học viên");
-                return;
-            }
 
             if (dgvStudents.SelectedRows.Count <= 0)
             {
                 MessageHelper.ShowInfo("Vui lòng chọn 1 học viên để xóa!");
                 return;
             }
-            var selectedRow = dgvStudents.SelectedRows[0];
-            if (selectedRow.Tag == null)
-            {
-                MessageHelper.ShowError("Không tìm thấy thông tin học viên!");
-                return;
-            }
 
             if (!MessageHelper.ShowConfirmation("Bạn có chắc muốn xóa học viên này khỏi lớp học không?"))
-            {
                 return;
-            }
 
-            int studentId = (int)selectedRow.Tag;
-
-            var (success, message) = await _serviceHub.ClassService.RemoveStudentFromClassAsync(_classId, studentId);
-
-            if (success)
+            if (dgvStudents.SelectedRows[0].Tag is int studentId)
             {
-                MessageHelper.ShowInfo("Xóa học viên khỏi lớp học thành công!");
-                initialDetailClass();
+                var (success, message) = await _serviceHub.ClassService.RemoveStudentFromClassAsync(_classId, studentId);
+
+                if (success)
+                {
+                    MessageHelper.ShowInfo("Xóa học viên thành công!");
+                    await initialDetailClass();
+                    OnDataChanged?.Invoke();
+                }
+                else
+                {
+                    MessageHelper.ShowError($"Xóa thất bại: {message}");
+                }
+            }
+        }
+
+        private async void btnSaveChanges_Click(object sender, EventArgs e)
+        {
+            ValidateForm();
+            if (!btnSaveChanges.Enabled) return;
+
+            btnSaveChanges.Enabled = false;
+            btnSaveChanges.Text = "Đang lưu...";
+            this.Cursor = Cursors.WaitCursor;
+
+            try
+            {
+                var selectedDays = new List<Models.SchoolDay>();
+                foreach (var btn in _dayButtons)
+                {
+                    if (btn.Checked)
+                    {
+                        int dayId = Convert.ToInt32(btn.Tag);
+                        selectedDays.Add(new Models.SchoolDay
+                        {
+                            SchoolDayId = (byte)dayId, 
+                            DayOfWeek = btn.Text
+                        });
+                    }
+                }
+
+                if (selectedDays.Count == 0)
+                {
+                    MessageHelper.ShowWarning("Vui lòng chọn ít nhất 1 ngày học trong tuần!");
+                    return; 
+                }
+
+                var updateModel = new Models.Class
+                {
+                    ClassId = _classId,
+                    ClassName = txtClassName.Text.Trim(),
+
+                    //CourseId = cmbCourse.SelectedValue != null ? Convert.ToInt32(cmbCourse.SelectedValue) : null,
+                    CourseId = cmbCourse.SelectedValue != null && int.TryParse(cmbCourse.SelectedValue.ToString(), out int courseId)
+                    ? courseId
+                    : (int?)null,
+                    TeacherId = Convert.ToInt32(cmbTeacher.SelectedValue),
+
+                    Shift = (byte)Convert.ToInt32(cmbShift.SelectedValue),
+
+                    StartDate = DateOnly.FromDateTime(dtpStartDate.Value),
+                    EndDate = DateOnly.FromDateTime(dtpEndDate.Value),
+                    MaxStudent = (int)numMaxStudent.Value,
+                    OnlineMeetingLink = txtOnlineLink.Text.Trim(),
+                    Note = txtNote.Text.Trim(),
+
+                    SchoolDays = selectedDays,
+                    Status = _currentStatus
+                };
+
+                // 4. Gọi Service Update
+                var (success, message, data) = await _serviceHub.ClassService.UpdateClassAsync(updateModel);
+
+                if (success)
+                {
+                    MessageHelper.ShowInfo("Cập nhật thông tin lớp học thành công!");
+
+                    if (OnDataChanged != null)
+                    {
+                        await OnDataChanged.Invoke();
+                    }
+
+                    // 2. Sau khi Form cha xong (trả kết nối DB về), Form con mới được phép chạy
+                    await initialDetailClass();
+                }
+                else
+                {
+                    MessageHelper.ShowError($"Cập nhật thất bại: {message}");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageHelper.ShowError($"Lỗi hệ thống: {ex.Message}");
+            }
+            finally
+            {
+                // --- [MỞ LẠI NÚT] ---
+                // Dù thành công hay thất bại cũng phải mở lại nút cho người dùng
+                btnSaveChanges.Enabled = true;
+                btnSaveChanges.Text = "💾 Lưu Thay Đổi";
+                this.Cursor = Cursors.Default;
+
+                // Validate lại lần nữa để đảm bảo trạng thái nút đúng với dữ liệu
+                ValidateForm();
+            }
+        }
+
+        private void OnDayButton_Click(object sender, EventArgs e)
+        {
+            var btn = sender as Guna.UI2.WinForms.Guna2Button;
+            if (btn == null) return;
+
+            int count = _dayButtons.Count(b => b.Checked);
+
+            if (count > 3)
+            {
+                // Revert: Trả lại trạng thái chưa chọn cho nút vừa bấm
+                btn.Checked = false;
+
+                // Hiển thị cảnh báo
+                SetError(lblErrorDayofWeek, "Chỉ được phép chọn tối đa 3 buổi học trong tuần!");
             }
             else
             {
-                MessageHelper.ShowError($"Xóa học viên thất bại! Lỗi: {message}");
+                ClearError(lblErrorDayofWeek);
             }
 
         }
 
+        #endregion
+
+
+        #region validate input
+
+        private void AttachValidationEvents()
+        {
+            txtClassName.TextChanged += (s, e) => { if (_isLoaded) ValidateForm(); };
+
+            dtpStartDate.ValueChanged += (s, e) => { if (_isLoaded) ValidateForm(); };
+            dtpEndDate.ValueChanged += (s, e) => { if (_isLoaded) ValidateForm(); };
+        }
+
+        private void ValidateForm()
+        {
+            bool isNameValid = ValidateClassName();
+            bool isDateValid = ValidateDates();
+
+            btnSaveChanges.Enabled = isNameValid && isDateValid;
+        }
+
+        private bool ValidateClassName()
+        {
+            string input = txtClassName.Text.Trim();
+
+            if (string.IsNullOrEmpty(input))
+            {
+                SetError(lblErrorClassName, "Tên lớp không được để trống.");
+                return false;
+            }
+
+
+            string pattern = @"^[\p{L}\p{N}\s_\-\(\)]+$";
+
+            if (!Regex.IsMatch(input, pattern))
+            {
+                SetError(lblErrorClassName, "Tên lớp chứa ký tự đặc biệt không hợp lệ.");
+                return false;
+            }
+
+            ClearError(lblErrorClassName);
+            return true;
+        }
+
+        private bool ValidateDates()
+        {
+            DateTime start = dtpStartDate.Value.Date;
+            DateTime end = dtpEndDate.Value.Date;
+            DateTime today = DateTime.Now.Date;
+            bool isValid = true;
+
+            if (start != _originalStartDate)
+            {
+                if (_currentStatus == 0)
+                {
+                    SetError(lblErrorStartDate, "Lớp đang diễn ra, không thể thay đổi ngày bắt đầu!");
+                    isValid = false;
+                    start = _originalStartDate;
+                }
+                else if (start < today.AddDays(7))
+                {
+                    SetError(lblErrorStartDate, "Ngày bắt đầu mới phải sau hôm nay ít nhất 7 ngày.");
+                    isValid = false;
+                }
+                else
+                {
+                    ClearError(lblErrorStartDate);
+                }
+            }
+            else
+            {
+                ClearError(lblErrorStartDate);
+            }
+
+            if (isValid) 
+            {
+                if (end <= start)
+                {
+                    SetError(lblErrorEndDate, "Ngày kết thúc phải lớn hơn ngày bắt đầu.");
+                    isValid = false;
+                }
+                else if (end < start.AddMonths(4))
+                {
+                    SetError(lblErrorEndDate, "Thời lượng khóa học phải ít nhất 4 tháng.");
+                    isValid = false;
+                }
+                else
+                {
+                    ClearError(lblErrorEndDate);
+                }
+            }
+
+            return isValid;
+        }
+
+        private void SetError(Label lbl, string msg)
+        {
+            if (lbl != null)
+            {
+                lbl.Text = msg;
+                lbl.Visible = true;
+            }
+        }
+
+        private void ClearError(Label lbl)
+        {
+            if (lbl != null)
+            {
+                lbl.Visible = false;
+                lbl.Text = "";
+            }
+        }
 
         #endregion
 
-        private void ShowStudentList()
+
+        private async Task ShowStudentList()
         {
             pnlMain.Controls.Clear();
-            pnlMain.Controls.Add(this.dgvStudents);
-
-            this.initialDetailClass();
+            pnlMain.Controls.Add(this.TabControls);
+            await initialDetailClass();
         }
 
-        
     }
 }

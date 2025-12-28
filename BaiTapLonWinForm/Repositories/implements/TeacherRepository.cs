@@ -26,6 +26,7 @@ namespace BaiTapLonWinForm.Repositories.implements
                 return await _context.Teachers
                     .Include(t => t.User)
                     .Include(t => t.Classes)
+                    .Include(f => f.TeacherFaceImages)
                     .AsNoTracking()
                     .OrderByDescending(t => t.TeacherId)
                     .ToListAsync();

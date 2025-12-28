@@ -164,7 +164,6 @@ namespace BaiTapLonWinForm.View.Admin.Class
                     MessageHelper.ShowInfo($"Đã thêm thành công {selectedIds.Count} học viên vào lớp!");
                     await LoadDataAsync();
                     OnStudentsAdded?.Invoke(this, EventArgs.Empty); // Báo form cha reload lại danh sách
-                    OnCloseRequired?.Invoke(this, EventArgs.Empty); // Đóng form
                 }
                 else
                 {
@@ -179,7 +178,6 @@ namespace BaiTapLonWinForm.View.Admin.Class
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
-            OnStudentsAdded?.Invoke(this, EventArgs.Empty);
             OnCloseRequired?.Invoke(this, EventArgs.Empty);
         }
     }

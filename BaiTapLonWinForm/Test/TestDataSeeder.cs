@@ -128,7 +128,7 @@ namespace BaiTapLonWinForm.Test // Hoặc namespace Test tùy bạn chọn
 
                     // A. GỌI API COMPREFACE (BẮT BUỘC)
                     // Nếu không gọi cái này, AI sẽ không nhận diện được dù DB có dữ liệu
-                    var apiResult = await _serviceHub.CompreFaceApiService.AddFaceAsync(studentId, imageBytes);
+                    var apiResult = await _serviceHub.CompreFaceApiService.AddFaceAsync(studentId.ToString(), imageBytes);
 
                     if (apiResult.success)
                     {

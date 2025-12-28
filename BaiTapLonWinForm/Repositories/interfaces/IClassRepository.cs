@@ -13,6 +13,7 @@ namespace BaiTapLonWinForm.Repositories.interfaces
         Task<Class?> GetByIdAsync(int id);
         Task<Class> CreateAsync(Class entity);
         Task<Class> UpdateAsync(Class entity);
+        Task<bool> UpdateStatusAsync(Class entity);
         Task<bool> DeleteAsync(int id);
         Task<bool> ExistsAsync(int id);
         Task<IEnumerable<Class>> GetByTeacherIdAsync(int teacherId);
@@ -24,5 +25,10 @@ namespace BaiTapLonWinForm.Repositories.interfaces
         Task<bool> AddStudentToClass(StudentClass studentClass);
 
         Task<bool> RemoveStudentFromClassAsync(int classId, int studentId);
+
+        // kiểm tra trùng lịch học 
+        Task<bool> CheckTeacherScheduleConflictAsync(int teacherId, byte shift, DateOnly startDate,
+            DateOnly endDate, List<byte> dayIds, int? ignoreClassId = null);
+
     }
 }

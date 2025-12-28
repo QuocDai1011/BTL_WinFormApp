@@ -185,7 +185,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
         private void Management_Click(object sender, EventArgs e)
         {
             SetActiveMenuItem(pnlManagement);
-            LoadUserControl(new GeneralManagementControl());
+            LoadUserControl(new TeacherAttendanceControl(_serviceHub));
         }
 
         private void Settings_Click(object sender, EventArgs e)
