@@ -14,10 +14,11 @@ namespace BaiTapLonWinForm.Services.implements
     public class ClassService : IClassService
     {
         private readonly IClassRepository _classRepository;
-
-        public ClassService(IClassRepository classRepository)
+        private readonly IClassSessionService _classSessionService;
+        public ClassService(IClassRepository classRepository, IClassSessionService classSessionService)
         {
             _classRepository = classRepository;
+            _classSessionService = classSessionService;
         }
 
         public async Task<(bool Success, string Message, IEnumerable<Class>? Data)> GetAllClassesAsync()
@@ -76,6 +77,9 @@ namespace BaiTapLonWinForm.Services.implements
                 if (isConflict) return (false, "Trùng lịch giáo viên!", null);
 
                 var createdClass = await _classRepository.CreateAsync(classEntity);
+
+                
+
                 return (true, "Tạo lớp học thành công", createdClass);
             }
             catch (DbUpdateException ex)
@@ -123,7 +127,9 @@ namespace BaiTapLonWinForm.Services.implements
                 if (updatedClass == null)
                     return (false, "Không thể cập nhật lớp học", null);
 
-                return (true, "Cập nhật lớp học thành công", updatedClass);
+                
+
+                return (true, $"Cập nhật lớp học thành công", updatedClass);
             }
             catch (DbUpdateException ex)
             {
@@ -393,6 +399,59 @@ namespace BaiTapLonWinForm.Services.implements
             {
                 Console.WriteLine($"Lỗi cập nhật trạng thái tự động: {ex.Message}");
                 return 0;
+            }
+        }
+
+        public async Task<List<ClassSession>> GetScheduleForWeekFromClassAsync(DateOnly weekStart, DateOnly weekEnd)
+        {
+            var activeClasses = await _classRepository.GetClassesActiveInRangeAsync(weekStart, weekEnd);
+
+            List<ClassSession> virtualSessions = new List<ClassSession>();
+
+            DateTime currentDt = weekStart.ToDateTime(TimeOnly.MinValue);
+            DateTime endDt = weekEnd.ToDateTime(TimeOnly.MinValue);
+
+            while (currentDt <= endDt)
+            {
+                DateOnly currentDate = DateOnly.FromDateTime(currentDt);
+
+                byte dayId = MapDayOfWeekToSchoolDayId(currentDt.DayOfWeek);
+
+                foreach (var cls in activeClasses)
+                {
+                    if (currentDate >= cls.StartDate &&
+                        currentDate <= cls.EndDate &&
+                        cls.SchoolDays.Any(sd => sd.SchoolDayId == dayId))
+                    {
+                        var vSession = new ClassSession
+                        {
+                            SessionDate = currentDate,
+                            ClassId = cls.ClassId,
+                            Class = cls, 
+                                        
+                        };
+                        virtualSessions.Add(vSession);
+                    }
+                }
+
+                currentDt = currentDt.AddDays(1);
+            }
+
+            return virtualSessions.OrderBy(s => s.SessionDate).ThenBy(s => s.Class.Shift).ToList();
+        }
+
+        private byte MapDayOfWeekToSchoolDayId(DayOfWeek day)
+        {
+            switch (day)
+            {
+                case DayOfWeek.Monday: return 2;
+                case DayOfWeek.Tuesday: return 3;
+                case DayOfWeek.Wednesday: return 4;
+                case DayOfWeek.Thursday: return 5;
+                case DayOfWeek.Friday: return 6;
+                case DayOfWeek.Saturday: return 7;
+                case DayOfWeek.Sunday: return 8;
+                default: return 0;
             }
         }
     }

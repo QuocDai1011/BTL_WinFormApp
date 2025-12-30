@@ -25,6 +25,7 @@ namespace BaiTapLonWinForm.View.Admin.Students
             initStudent();
         }
 
+        #region initialize 
         private async void initStudent()
         {
             var student = await _serviceHub.StudentService.GetStudentByUserIdAsync(_userId);
@@ -48,6 +49,9 @@ namespace BaiTapLonWinForm.View.Admin.Students
             }
         }
 
+        #endregion
+
+        #region validation input
         private void SetupValidationEvents()
         {
             // Khi text thay đổi -> Gọi hàm check tương ứng ngay lập tức
@@ -119,7 +123,9 @@ namespace BaiTapLonWinForm.View.Admin.Students
             return true;
         }
 
+        #endregion
 
+        #region handle events
         private async void btnSave_Click(object sender, EventArgs e)
         {
             bool isFirstNameValid = CheckFirstName();
@@ -181,5 +187,6 @@ namespace BaiTapLonWinForm.View.Admin.Students
         {
             CloseRequested?.Invoke(this, EventArgs.Empty);
         }
+        #endregion
     }
 }

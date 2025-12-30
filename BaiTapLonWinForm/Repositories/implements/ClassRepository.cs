@@ -374,5 +374,20 @@ namespace BaiTapLonWinForm.Repositories.implements
 
             return conflictingClass != null;
         }
+
+        public async Task<List<Class>> GetClassesActiveInRangeAsync(DateOnly startDate, DateOnly endDate)
+        {
+            return await _context.Classes
+                .AsNoTracking() 
+                .Include(c => c.Teacher).ThenInclude(t => t.User) 
+                .Include(c => c.Course)                           
+                .Include(c => c.SchoolDays)                     
+                .Where(c =>
+                    (c.Status == 0 || c.Status == -1) &&              
+                    c.StartDate <= endDate &&     
+                    c.EndDate >= startDate        
+                )
+                .ToListAsync();
+        }
     }
 }

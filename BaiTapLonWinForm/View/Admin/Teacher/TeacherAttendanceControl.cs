@@ -44,212 +44,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             await InitializeCameraAsync();
         }
 
-        // --- 1. SỬA LỖI: THÊM LOGIC CHECKBOX TỰ ĐỘNG ---
-        private void ChkAutoRecognize_CheckedChanged(object sender, EventArgs e)
-        {
-            if (chkAutoRecognize.Checked)
-            {
-                lblRecognitionStatus.Text = "🔄 Chế độ tự động đang chạy...";
-                lblRecognitionStatus.ForeColor = Color.Blue;
-                btnRecognize.Enabled = false; // Tắt nút thủ công
-            }
-            else
-            {
-                lblRecognitionStatus.Text = "⏸️ Chế độ thủ công";
-                lblRecognitionStatus.ForeColor = Color.Black;
-                btnRecognize.Enabled = true; // Bật nút thủ công
-            }
-        }
-
-        // --- 2. BỔ SUNG: DỌN DẸP CAMERA KHI TẮT FORM ---
-        protected override void OnHandleDestroyed(EventArgs e)
-        {
-            base.OnHandleDestroyed(e);
-            StopCamera(); // Tắt camera giải phóng tài nguyên
-            if (frame != null) frame.Dispose();
-        }
-
-        private async void BtnRecognize_Click(object sender, EventArgs e)
-        {
-            await RecognizeFaceAsync();
-        }
-
-        private async Task RecognizeFaceAsync()
-        {
-            if (isRecognizing || picCamera.Image == null) return;
-
-            isRecognizing = true;
-
-            // Chỉ cập nhật text nếu đang không phải auto (để tránh nháy text liên tục)
-            if (!chkAutoRecognize.Checked)
-            {
-                lblRecognitionStatus.Text = "🔍 Đang nhận diện...";
-                lblRecognitionStatus.ForeColor = Color.Orange;
-            }
-
-            try
-            {
-                Bitmap currentFrame = new Bitmap(picCamera.Image);
-                byte[] imageBytes = BitmapToByteArray(currentFrame);
-
-                // Gọi Service chấm công Teacher
-                var result = await _serviceHub.TeacherAttendanceService.CheckInAsync(imageBytes);
-
-                ProcessCheckInResult(result);
-            }
-            catch (Exception ex)
-            {
-                ShowNotification("Lỗi hệ thống", ex.Message, false);
-            }
-            finally
-            {
-                // Delay: Auto thì chậm lại chút (2s), Thủ công thì nhanh (0.5s)
-                if (chkAutoRecognize.Checked) await Task.Delay(2000);
-                else await Task.Delay(500);
-
-                isRecognizing = false;
-            }
-        }
-
-        private void ProcessCheckInResult(TeacherCheckInResult result)
-        {
-            // Hiển thị trạng thái bên dưới camera
-            lblRecognitionStatus.Text = result.Success ? "✅ " + result.Message : "❌ " + result.Message;
-            lblRecognitionStatus.ForeColor = result.Success ? Color.Green : Color.Red;
-
-            ShowNotification(
-                result.Success ? "Thành công" : "Thất bại",
-                result.Message,
-                result.Success
-            );
-
-            if (result.Success)
-            {
-                // Chống spam: Nếu vừa check-in trong 15 giây thì không add thêm dòng vào bảng
-                if (_checkedInCache.ContainsKey(result.teacherId))
-                {
-                    var lastTime = _checkedInCache[result.teacherId];
-                    if ((DateTime.Now - lastTime).TotalSeconds < 15) return;
-                }
-
-                _checkedInCache[result.teacherId] = DateTime.Now;
-                AddRecordToListView(result);
-
-                lblTotalPresent.Text = _checkedInCache.Count.ToString();
-            }
-        }
-
-        // --- 3. SỬA LỖI: CẬP NHẬT LOGIC LISTVIEW CHO KHỚP CỘT ---
-        private void AddRecordToListView(TeacherCheckInResult result)
-        {
-            // Cấu trúc cột đã khai báo:
-            // Col 0: Thời gian
-            // Col 1: Họ và tên
-            // Col 2: Lớp học - Ca
-            // Col 3: Trạng thái (Có mặt)
-            // Col 4: Ghi chú (Đi muộn...)
-
-            ListViewItem item = new ListViewItem(result.CheckInTime?.ToString("HH:mm:ss") ?? DateTime.Now.ToString("HH:mm:ss"));
-            item.SubItems.Add(result.teacherName);
-            item.SubItems.Add($"{result.ClassName} ({result.ShiftName})");
-            item.SubItems.Add("Có mặt");
-
-            // Xử lý cột Ghi chú
-            if (result.isLate)
-            {
-                item.SubItems.Add("Đi muộn");
-                item.ForeColor = Color.OrangeRed; // Highlight màu cam nếu đi muộn
-            }
-            else
-            {
-                item.SubItems.Add(""); // Ghi chú rỗng
-                item.ForeColor = Color.DarkGreen;
-            }
-
-            item.Font = new Font(lvAttendance.Font, FontStyle.Bold);
-            lvAttendance.Items.Insert(0, item); // Thêm lên đầu danh sách
-        }
-
-        // ... CÁC HÀM CƠ BẢN GIỮ NGUYÊN ...
-
-        private void ShowNotification(string title, string message, bool success)
-        {
-            panelNotification.Visible = true;
-            panelNotification.BackColor = success ? Color.FromArgb(220, 255, 220) : Color.FromArgb(255, 220, 220);
-            lblNotificationTitle.Text = title;
-            lblNotificationTitle.ForeColor = success ? Color.Green : Color.Red;
-            lblNotificationMessage.Text = message;
-            lblNotificationMessage.ForeColor = Color.Black;
-
-            Timer t = new Timer();
-            t.Interval = 3000;
-            t.Tick += (s, e) => {
-                panelNotification.Visible = false;
-                t.Stop();
-                t.Dispose();
-            };
-            t.Start();
-        }
-
-        private byte[] BitmapToByteArray(Bitmap bitmap)
-        {
-            using (MemoryStream ms = new MemoryStream())
-            {
-                bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-                return ms.ToArray();
-            }
-        }
-
-        private void BtnStartCamera_Click(object sender, EventArgs e)
-        {
-            if (!isCameraRunning) StartCamera();
-            else StopCamera();
-        }
-
-        private void StartCamera()
-        {
-            if (cboCamera.SelectedIndex == -1) return;
-
-            try
-            {
-                capture = new VideoCapture(cboCamera.SelectedIndex);
-                capture.Set(Emgu.CV.CvEnum.CapProp.FrameWidth, 640);
-                capture.Set(Emgu.CV.CvEnum.CapProp.FrameHeight, 480);
-
-                frameTimer.Start();
-                isCameraRunning = true;
-
-                btnStartCamera.Text = "🛑 Dừng Camera";
-                btnStartCamera.BackColor = Color.IndianRed;
-                btnRecognize.Enabled = true;
-                chkAutoRecognize.Enabled = true;
-                lblCameraStatus.Text = "🟢 Camera đang chạy";
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Không thể bật camera: {ex.Message}");
-            }
-        }
-
-        private void StopCamera()
-        {
-            frameTimer.Stop();
-            if (capture != null)
-            {
-                capture.Dispose();
-                capture = null;
-            }
-
-            isCameraRunning = false;
-            btnStartCamera.Text = "▶ Bật Camera";
-            btnStartCamera.BackColor = Color.SeaGreen;
-            btnRecognize.Enabled = false;
-            chkAutoRecognize.Enabled = false;
-            chkAutoRecognize.Checked = false;
-            lblCameraStatus.Text = "⚫ Camera đã tắt";
-            picCamera.Image = null;
-        }
-
+        #region Initialize
         private async Task InitializeCameraAsync()
         {
             cboCamera.Items.Clear();
@@ -308,6 +103,54 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             frameTimer.Tick += FrameTimer_Tick;
         }
 
+
+
+        private void InitializeListView()
+        {
+            lvAttendance.View = System.Windows.Forms.View.Details;
+            lvAttendance.GridLines = true;
+            lvAttendance.FullRowSelect = true;
+
+            lvAttendance.Columns.Clear();
+            lvAttendance.Columns.Add("Thời gian", 100);
+            lvAttendance.Columns.Add("Họ và tên", 200);
+            lvAttendance.Columns.Add("Lớp học - Ca", 250);
+            lvAttendance.Columns.Add("Trạng thái", 150);
+            lvAttendance.Columns.Add("Ghi chú", 100);
+        }
+
+        #endregion
+
+        #region handle event
+        private void ChkAutoRecognize_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkAutoRecognize.Checked)
+            {
+                lblRecognitionStatus.Text = "🔄 Chế độ tự động đang chạy...";
+                lblRecognitionStatus.ForeColor = Color.Blue;
+                btnRecognize.Enabled = false; // Tắt nút thủ công
+            }
+            else
+            {
+                lblRecognitionStatus.Text = "⏸️ Chế độ thủ công";
+                lblRecognitionStatus.ForeColor = Color.Black;
+                btnRecognize.Enabled = true; // Bật nút thủ công
+            }
+        }
+
+
+        private async void BtnRecognize_Click(object sender, EventArgs e)
+        {
+            await RecognizeFaceAsync();
+        }
+
+
+        private void BtnStartCamera_Click(object sender, EventArgs e)
+        {
+            if (!isCameraRunning) StartCamera();
+            else StopCamera();
+        }
+
         private async void FrameTimer_Tick(object sender, EventArgs e)
         {
             if (capture != null && capture.IsOpened)
@@ -333,18 +176,184 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             }
         }
 
-        private void InitializeListView()
-        {
-            lvAttendance.View = System.Windows.Forms.View.Details;
-            lvAttendance.GridLines = true;
-            lvAttendance.FullRowSelect = true;
+        #endregion
 
-            lvAttendance.Columns.Clear();
-            lvAttendance.Columns.Add("Thời gian", 100);
-            lvAttendance.Columns.Add("Họ và tên", 200);
-            lvAttendance.Columns.Add("Lớp học - Ca", 250);
-            lvAttendance.Columns.Add("Trạng thái", 150);
-            lvAttendance.Columns.Add("Ghi chú", 100);
+        #region recognize face and result
+        private async Task RecognizeFaceAsync()
+        {
+            if (isRecognizing || picCamera.Image == null) return;
+
+            isRecognizing = true;
+
+            if (!chkAutoRecognize.Checked)
+            {
+                lblRecognitionStatus.Text = "🔍 Đang nhận diện...";
+                lblRecognitionStatus.ForeColor = Color.Orange;
+            }
+
+            try
+            {
+                Bitmap currentFrame = new Bitmap(picCamera.Image);
+                byte[] imageBytes = BitmapToByteArray(currentFrame);
+
+                // Gọi Service chấm công Teacher
+                var result = await _serviceHub.TeacherAttendanceService.CheckInAsync(imageBytes);
+
+                ProcessCheckInResult(result);
+            }
+            catch (Exception ex)
+            {
+                ShowNotification("Lỗi hệ thống", ex.Message, false);
+            }
+            finally
+            {
+                // Delay: Auto thì chậm lại chút (2s), Thủ công thì nhanh (0.5s)
+                if (chkAutoRecognize.Checked) await Task.Delay(2000);
+                else await Task.Delay(500);
+
+                isRecognizing = false;
+            }
+        }
+
+        private void ProcessCheckInResult(TeacherCheckInResult result)
+        {
+            // Hiển thị trạng thái bên dưới camera
+            lblRecognitionStatus.Text = result.Success ? "✅ " + result.Message : "❌ " + result.Message;
+            lblRecognitionStatus.ForeColor = result.Success ? Color.Green : Color.Red;
+
+            ShowNotification(
+                result.Success ? "Thành công" : "Thất bại",
+                result.Message,
+                result.Success
+            );
+
+            if (result.Success)
+            {
+                // Chống spam: Nếu vừa check-in trong 15 giây thì không add thêm dòng vào bảng
+                if (_checkedInCache.ContainsKey(result.teacherId))
+                {
+                    var lastTime = _checkedInCache[result.teacherId];
+                    if ((DateTime.Now - lastTime).TotalSeconds < 15) return;
+                }
+
+                _checkedInCache[result.teacherId] = DateTime.Now;
+                AddRecordToListView(result);
+
+                lblTotalPresent.Text = _checkedInCache.Count.ToString();
+            }
+        }
+
+        private void AddRecordToListView(TeacherCheckInResult result)
+        {
+
+
+            ListViewItem item = new ListViewItem(result.CheckInTime?.ToString("HH:mm:ss") ?? DateTime.Now.ToString("HH:mm:ss"));
+            item.SubItems.Add(result.teacherName);
+            item.SubItems.Add($"{result.ClassName} ({result.ShiftName})");
+            item.SubItems.Add("Có mặt");
+
+            // Xử lý cột Ghi chú
+            if (result.isLate)
+            {
+                item.SubItems.Add("Đi muộn");
+                item.ForeColor = Color.OrangeRed;
+            }
+            else
+            {
+                item.SubItems.Add(""); 
+                item.ForeColor = Color.DarkGreen;
+            }
+
+            item.Font = new Font(lvAttendance.Font, FontStyle.Bold);
+            lvAttendance.Items.Insert(0, item); 
+        }
+
+
+        private void ShowNotification(string title, string message, bool success)
+        {
+            panelNotification.Visible = true;
+            panelNotification.BackColor = success ? Color.FromArgb(220, 255, 220) : Color.FromArgb(255, 220, 220);
+            lblNotificationTitle.Text = title;
+            lblNotificationTitle.ForeColor = success ? Color.Green : Color.Red;
+            lblNotificationMessage.Text = message;
+            lblNotificationMessage.ForeColor = Color.Black;
+
+            Timer t = new Timer();
+            t.Interval = 3000;
+            t.Tick += (s, e) => {
+                panelNotification.Visible = false;
+                t.Stop();
+                t.Dispose();
+            };
+            t.Start();
+        }
+
+        #endregion
+
+        #region helper method
+        private byte[] BitmapToByteArray(Bitmap bitmap)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                return ms.ToArray();
+            }
+        }
+
+       
+        private void StartCamera()
+        {
+            if (cboCamera.SelectedIndex == -1) return;
+
+            try
+            {
+                capture = new VideoCapture(cboCamera.SelectedIndex);
+                capture.Set(Emgu.CV.CvEnum.CapProp.FrameWidth, 640);
+                capture.Set(Emgu.CV.CvEnum.CapProp.FrameHeight, 480);
+
+                frameTimer.Start();
+                isCameraRunning = true;
+
+                btnStartCamera.Text = "🛑 Dừng Camera";
+                btnStartCamera.BackColor = Color.IndianRed;
+                btnRecognize.Enabled = true;
+                chkAutoRecognize.Enabled = true;
+                lblCameraStatus.Text = "🟢 Camera đang chạy";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Không thể bật camera: {ex.Message}");
+            }
+        }
+
+        private void StopCamera()
+        {
+            frameTimer.Stop();
+            if (capture != null)
+            {
+                capture.Dispose();
+                capture = null;
+            }
+
+            isCameraRunning = false;
+            btnStartCamera.Text = "▶ Bật Camera";
+            btnStartCamera.BackColor = Color.SeaGreen;
+            btnRecognize.Enabled = false;
+            chkAutoRecognize.Enabled = false;
+            chkAutoRecognize.Checked = false;
+            lblCameraStatus.Text = "⚫ Camera đã tắt";
+            picCamera.Image = null;
+        }
+
+        #endregion
+
+        
+
+        protected override void OnHandleDestroyed(EventArgs e)
+        {
+            base.OnHandleDestroyed(e);
+            StopCamera();
+            if (frame != null) frame.Dispose();
         }
     }
 }

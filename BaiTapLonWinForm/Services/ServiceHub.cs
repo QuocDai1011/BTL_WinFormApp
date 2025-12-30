@@ -23,7 +23,8 @@ namespace BaiTapLonWinForm.Services
 
         public ITeacherFaceService TeacherFaceService { get; }
 
-        public IStudentFaceService StudentFaceService { get; set; }
+        public IStudentFaceService StudentFaceService { get; }
+
         public ServiceHub(
                 IClassService classService,
                 IUserService userService,

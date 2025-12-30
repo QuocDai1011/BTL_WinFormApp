@@ -49,6 +49,7 @@ namespace BaiTapLonWinForm.View.Admin.Students
 
         }
 
+        #region validation input
         private void SetupValidationEvents()
         {
             // Validate ngay khi gõ phím
@@ -122,6 +123,9 @@ namespace BaiTapLonWinForm.View.Admin.Students
             return true;
         }
 
+        #endregion
+
+        #region initialize
         private async Task InitializeCameraAsync()
         {
             cboCamera.Items.Clear();
@@ -187,6 +191,9 @@ namespace BaiTapLonWinForm.View.Admin.Students
             frameTimer.Tick += FrameTimer_Tick;
         }
 
+        #endregion
+
+        #region handle envents
         private void FrameTimer_Tick(object sender, EventArgs e)
         {
             if (capture != null && capture.IsOpened)
@@ -224,73 +231,6 @@ namespace BaiTapLonWinForm.View.Admin.Students
             {
                 StopCamera();
             }
-        }
-
-        private void StartCamera()
-        {
-            if (cboCamera.SelectedIndex == -1)
-            {
-                MessageBox.Show("Vui lòng chọn camera!", "Thông báo",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            try
-            {
-                int cameraIndex = cboCamera.SelectedIndex;
-                capture = new VideoCapture(cameraIndex);
-
-                if (!capture.IsOpened)
-                {
-                    MessageBox.Show("Không thể mở camera!", "Lỗi",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                // Set camera properties for better quality
-                capture.Set(Emgu.CV.CvEnum.CapProp.FrameWidth, 640);
-                capture.Set(Emgu.CV.CvEnum.CapProp.FrameHeight, 480);
-
-                frameTimer.Start();
-                isCameraRunning = true;
-
-                btnStartCamera.Text = "⏸️ Dừng Camera";
-                btnStartCamera.BackColor = Color.FromArgb(231, 76, 60);
-                btnCapture.Enabled = true;
-                btnAutoCapture.Enabled = true;
-                lblCameraStatus.Text = "📹 Camera đang hoạt động";
-                lblCameraStatus.ForeColor = Color.FromArgb(46, 204, 113);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Không thể khởi động camera: {ex.Message}", "Lỗi",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void StopCamera()
-        {
-            frameTimer.Stop();
-
-            if (capture != null)
-            {
-                capture.Dispose();
-                capture = null;
-            }
-
-            if (picCamera.Image != null)
-            {
-                picCamera.Image.Dispose();
-                picCamera.Image = null;
-            }
-
-            isCameraRunning = false;
-            btnStartCamera.Text = "📷 Bật Camera";
-            btnStartCamera.BackColor = Color.FromArgb(52, 152, 219);
-            btnCapture.Enabled = false;
-            btnAutoCapture.Enabled = false;
-            lblCameraStatus.Text = "⏹️ Camera đã dừng";
-            lblCameraStatus.ForeColor = Color.FromArgb(149, 165, 166);
         }
 
         private void BtnCapture_Click(object sender, EventArgs e)
@@ -396,33 +336,6 @@ namespace BaiTapLonWinForm.View.Admin.Students
             }
         }
 
-        private void UpdateImageGallery()
-        {
-            flowLayoutImages.Controls.Clear();
-
-            for (int i = 0; i < capturedImages.Count; i++)
-            {
-                PictureBox pb = new PictureBox
-                {
-                    Width = 80,
-                    Height = 80,
-                    SizeMode = PictureBoxSizeMode.Zoom,
-                    BorderStyle = BorderStyle.FixedSingle,
-                    Margin = new Padding(5),
-                    Cursor = Cursors.Hand,
-                    Tag = i
-                };
-
-                using (MemoryStream ms = new MemoryStream(capturedImages[i]))
-                {
-                    pb.Image = Image.FromStream(ms);
-                }
-
-                pb.Click += ImageThumbnail_Click;
-                flowLayoutImages.Controls.Add(pb);
-            }
-        }
-
         private void ImageThumbnail_Click(object sender, EventArgs e)
         {
             PictureBox pb = sender as PictureBox;
@@ -434,31 +347,6 @@ namespace BaiTapLonWinForm.View.Admin.Students
             using (MemoryStream ms = new MemoryStream(capturedImages[index]))
             {
                 picPreview.Image = Image.FromStream(ms);
-            }
-        }
-
-        private void UpdateImageStatus()
-        {
-            int count = capturedImages.Count;
-
-            if (count >= 10)
-            {
-                lblImageStatus.Text = $"✅ Đã có {count} ảnh (Đủ điều kiện)";
-                lblImageStatus.ForeColor = Color.FromArgb(46, 204, 113);
-            }
-            else
-            {
-                lblImageStatus.Text = $"⚠️ Đã có {count}/10 ảnh (Tối thiểu 10 ảnh)";
-                lblImageStatus.ForeColor = Color.FromArgb(243, 156, 18);
-            }
-        }
-
-        private byte[] BitmapToByteArray(Bitmap bitmap)
-        {
-            using (MemoryStream ms = new MemoryStream())
-            {
-                bitmap.Save(ms, ImageFormat.Jpeg);
-                return ms.ToArray();
             }
         }
 
@@ -603,6 +491,130 @@ namespace BaiTapLonWinForm.View.Admin.Students
         {
             CloseRequested?.Invoke(this, EventArgs.Empty);
         }
+        #endregion
+
+        #region helper method
+        private void StartCamera()
+        {
+            if (cboCamera.SelectedIndex == -1)
+            {
+                MessageBox.Show("Vui lòng chọn camera!", "Thông báo",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                int cameraIndex = cboCamera.SelectedIndex;
+                capture = new VideoCapture(cameraIndex);
+
+                if (!capture.IsOpened)
+                {
+                    MessageBox.Show("Không thể mở camera!", "Lỗi",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Set camera properties for better quality
+                capture.Set(Emgu.CV.CvEnum.CapProp.FrameWidth, 640);
+                capture.Set(Emgu.CV.CvEnum.CapProp.FrameHeight, 480);
+
+                frameTimer.Start();
+                isCameraRunning = true;
+
+                btnStartCamera.Text = "⏸️ Dừng Camera";
+                btnStartCamera.BackColor = Color.FromArgb(231, 76, 60);
+                btnCapture.Enabled = true;
+                btnAutoCapture.Enabled = true;
+                lblCameraStatus.Text = "📹 Camera đang hoạt động";
+                lblCameraStatus.ForeColor = Color.FromArgb(46, 204, 113);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Không thể khởi động camera: {ex.Message}", "Lỗi",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void StopCamera()
+        {
+            frameTimer.Stop();
+
+            if (capture != null)
+            {
+                capture.Dispose();
+                capture = null;
+            }
+
+            if (picCamera.Image != null)
+            {
+                picCamera.Image.Dispose();
+                picCamera.Image = null;
+            }
+
+            isCameraRunning = false;
+            btnStartCamera.Text = "📷 Bật Camera";
+            btnStartCamera.BackColor = Color.FromArgb(52, 152, 219);
+            btnCapture.Enabled = false;
+            btnAutoCapture.Enabled = false;
+            lblCameraStatus.Text = "⏹️ Camera đã dừng";
+            lblCameraStatus.ForeColor = Color.FromArgb(149, 165, 166);
+        }
+
+        private void UpdateImageGallery()
+        {
+            flowLayoutImages.Controls.Clear();
+
+            for (int i = 0; i < capturedImages.Count; i++)
+            {
+                PictureBox pb = new PictureBox
+                {
+                    Width = 80,
+                    Height = 80,
+                    SizeMode = PictureBoxSizeMode.Zoom,
+                    BorderStyle = BorderStyle.FixedSingle,
+                    Margin = new Padding(5),
+                    Cursor = Cursors.Hand,
+                    Tag = i
+                };
+
+                using (MemoryStream ms = new MemoryStream(capturedImages[i]))
+                {
+                    pb.Image = Image.FromStream(ms);
+                }
+
+                pb.Click += ImageThumbnail_Click;
+                flowLayoutImages.Controls.Add(pb);
+            }
+        }
+
+
+
+        private void UpdateImageStatus()
+        {
+            int count = capturedImages.Count;
+
+            if (count >= 10)
+            {
+                lblImageStatus.Text = $"✅ Đã có {count} ảnh (Đủ điều kiện)";
+                lblImageStatus.ForeColor = Color.FromArgb(46, 204, 113);
+            }
+            else
+            {
+                lblImageStatus.Text = $"⚠️ Đã có {count}/10 ảnh (Tối thiểu 10 ảnh)";
+                lblImageStatus.ForeColor = Color.FromArgb(243, 156, 18);
+            }
+        }
+
+        private byte[] BitmapToByteArray(Bitmap bitmap)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                bitmap.Save(ms, ImageFormat.Jpeg);
+                return ms.ToArray();
+            }
+        }
+        #endregion
 
         protected override void OnHandleDestroyed(EventArgs e)
         {

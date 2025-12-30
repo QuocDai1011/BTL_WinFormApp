@@ -4,6 +4,7 @@ using BaiTapLonWinForm.Services;
 using BaiTapLonWinForm.Utils;
 using BaiTapLonWinForm.View.Admin.Class;
 using BaiTapLonWinForm.View.Admin.Course;
+using BaiTapLonWinForm.View.Admin.Schedule;
 using BaiTapLonWinForm.View.Admin.Students;
 using BaiTapLonWinForm.View.Admin.Teacher;
 using BaiTapLonWinForm.View.Setting;
@@ -68,6 +69,8 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
 
             // Logout
             SetupMenuItem(pnlLogout, picLogout, lblLogout);
+            SetupMenuItem(pnlSchedule, pbSchedule, lblSchedule);
+
         }
 
         private void SetupMenuItem(Panel panel, PictureBox picture, Label label)
@@ -164,11 +167,9 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             var courseManagement = new CourseManagement(_serviceHub);
             courseManagement.RequestOpenDetail += (s, course) =>
             {
-                // Tạo Detail Control
                 var detailView = new CourseDetail();
                 detailView.LoadData(course);
 
-                // Xử lý nút Back trong Detail
                 detailView.BackRequested += (s2, e2) =>
                 {
                     // Load lại danh sách khi bấm Back
@@ -200,6 +201,13 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             LoadUserControl(new FaceAttendance(_serviceHub));
         }
 
+        private void Schedule_Click(object sender, EventArgs e)
+        {
+            SetActiveMenuItem(pnlSchedule);
+            LoadUserControl(new WeeklySchedule(_serviceHub));
+        }
+
+
         private void Logout_Click(object sender, EventArgs e)
         {
             var result = MessageBox.Show(
@@ -210,7 +218,6 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
 
             if (result == DialogResult.Yes)
             {
-                //Perform logout
                 this.Hide();
                 //LoginForm loginForm = new LoginForm();
                 //loginForm.ShowDialog();
@@ -257,110 +264,5 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
         }
         #endregion
     }
-
-    #region Sample User Controls (Replace with your actual controls)
-
-    public class ClassManagementControl : UserControl
-    {
-        public ClassManagementControl()
-        {
-            var label = new Label
-            {
-                Text = "QUẢN LÝ LỚP HỌC",
-                Font = new Font("Segoe UI", 24, FontStyle.Bold),
-                ForeColor = Color.FromArgb(52, 73, 94),
-                Dock = DockStyle.Fill,
-                TextAlign = ContentAlignment.MiddleCenter
-            };
-            Controls.Add(label);
-            BackColor = Color.White;
-        }
-    }
-
-    public class StudentManagementControl : UserControl
-    {
-        public StudentManagementControl()
-        {
-            var label = new Label
-            {
-                Text = "QUẢN LÝ HỌC SINH",
-                Font = new Font("Segoe UI", 24, FontStyle.Bold),
-                ForeColor = Color.FromArgb(52, 73, 94),
-                Dock = DockStyle.Fill,
-                TextAlign = ContentAlignment.MiddleCenter
-            };
-            Controls.Add(label);
-            BackColor = Color.White;
-        }
-    }
-
-    public class TeacherManagementControl : UserControl
-    {
-        public TeacherManagementControl()
-        {
-            var label = new Label
-            {
-                Text = "QUẢN LÝ GIÁO VIÊN",
-                Font = new Font("Segoe UI", 24, FontStyle.Bold),
-                ForeColor = Color.FromArgb(52, 73, 94),
-                Dock = DockStyle.Fill,
-                TextAlign = ContentAlignment.MiddleCenter
-            };
-            Controls.Add(label);
-            BackColor = Color.White;
-        }
-    }
-
-    public class CourseManagementControl : UserControl
-    {
-        public CourseManagementControl()
-        {
-            var label = new Label
-            {
-                Text = "QUẢN LÝ KHÓA HỌC",
-                Font = new Font("Segoe UI", 24, FontStyle.Bold),
-                ForeColor = Color.FromArgb(52, 73, 94),
-                Dock = DockStyle.Fill,
-                TextAlign = ContentAlignment.MiddleCenter
-            };
-            Controls.Add(label);
-            BackColor = Color.White;
-        }
-    }
-
-    public class GeneralManagementControl : UserControl
-    {
-        public GeneralManagementControl()
-        {
-            var label = new Label
-            {
-                Text = "QUẢN LÝ CHUNG",
-                Font = new Font("Segoe UI", 24, FontStyle.Bold),
-                ForeColor = Color.FromArgb(52, 73, 94),
-                Dock = DockStyle.Fill,
-                TextAlign = ContentAlignment.MiddleCenter
-            };
-            Controls.Add(label);
-            BackColor = Color.White;
-        }
-    }
-
-    public class SettingsControl : UserControl
-    {
-        public SettingsControl()
-        {
-            var label = new Label
-            {
-                Text = "CÀI ĐẶT HỆ THỐNG",
-                Font = new Font("Segoe UI", 24, FontStyle.Bold),
-                ForeColor = Color.FromArgb(52, 73, 94),
-                Dock = DockStyle.Fill,
-                TextAlign = ContentAlignment.MiddleCenter
-            };
-            Controls.Add(label);
-            BackColor = Color.White;
-        }
-    }
-
-    #endregion
+    
 }

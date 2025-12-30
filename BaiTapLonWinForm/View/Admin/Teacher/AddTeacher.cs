@@ -47,7 +47,6 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             await InitializeCameraAsync();
         }
 
-
         #region validate input
         private void InitializeValidationEvents()
         {
@@ -568,7 +567,6 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
 
         #endregion
 
-
         #region initial camera
         private async Task InitializeCameraAsync()
         {
@@ -731,7 +729,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
         }
         #endregion
 
-        #region function utils
+        #region helper method
 
         private void UpdateImageGallery()
         {

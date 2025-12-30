@@ -13,7 +13,6 @@ namespace BaiTapLonWinForm.View.Admin.Course
         public event EventHandler<Models.Course> OnCardClicked;
         private Models.Course course;
 
-        // Lưu màu chủ đạo để dùng cho hiệu ứng hover
         private Color _themeColor = Color.FromArgb(46, 204, 113);
         private Color _hoverBackColor;
 
@@ -23,6 +22,7 @@ namespace BaiTapLonWinForm.View.Admin.Course
             InitializeEvents();
         }
 
+        #region initialize 
         private void InitializeEvents()
         {
             btnEdit.Click += (s, e) => EditClicked?.Invoke(this, EventArgs.Empty);
@@ -30,11 +30,8 @@ namespace BaiTapLonWinForm.View.Admin.Course
 
             this.Click += (s, e) => InvokeCardClick();
 
-            // Gán cho Panel chính (quan trọng nhất)
             cardPanel.Click += (s, e) => InvokeCardClick();
 
-            // Gán sự kiện Hover cho Main Panel và các control con (trừ buttons)
-            // Để đảm bảo khi di chuột vào label/panel con thì card vẫn giữ trạng thái hover
             this.AttachHoverEvents(this);
             this.AttachHoverEvents(cardPanel);
             foreach (Control c in cardPanel.Controls)
@@ -47,7 +44,6 @@ namespace BaiTapLonWinForm.View.Admin.Course
 
         private void InvokeCardClick()
         {
-            // Kiểm tra xem course có null không và bắn sự kiện ra ngoài
             if (course != null)
             {
                 OnCardClicked?.Invoke(this, course);
@@ -60,22 +56,22 @@ namespace BaiTapLonWinForm.View.Admin.Course
             control.MouseLeave += (s, e) => OnHoverLeave();
         }
 
+        #endregion
+
+        #region helper method
         private void OnHoverEnter()
         {
-            // HIỆU ỨNG MỀM DẺO: 
-            // 1. Đổi màu nền sang màu nhạt của theme (Tint)
+
             cardPanel.FillColor = _hoverBackColor;
 
-            // 2. Đổi màu bóng đổ sang màu theme nhưng trong suốt hơn
             cardPanel.ShadowColor = Color.FromArgb(100, _themeColor);
-            cardPanel.ShadowDepth = 80; // Tăng độ sâu bóng một chút
+            cardPanel.ShadowDepth = 80; 
 
             this.Cursor = Cursors.Hand;
         }
 
         private void OnHoverLeave()
         {
-            // Trả về mặc định
             cardPanel.FillColor = Color.White;
             cardPanel.ShadowColor = Color.Black;
             cardPanel.ShadowDepth = 40;
@@ -87,13 +83,11 @@ namespace BaiTapLonWinForm.View.Admin.Course
         {
             course = courseData;
 
-            // Bind Data
             lblCourseCode.Text = $"#{course.CourseCode}";
             lblCourseName.Text = course.CourseName;
             lblSessions.Text = $"{course.NumberSessions} buổi";
             lblPrice.Text = $"{course.Tuition:N0} đ";
 
-            // Setup Color Theme
             ConfigureLevelStyle(course.Level);
         }
 
@@ -108,21 +102,21 @@ namespace BaiTapLonWinForm.View.Admin.Course
                 case "beginner":
                 case "a1":
                 case "starters":
-                    _themeColor = Color.FromArgb(46, 204, 113); // Green
+                    _themeColor = Color.FromArgb(46, 204, 113);
                     break;
 
                 case "intermediate":
                 case "a2":
                 case "movers":
                 case "flyers":
-                    _themeColor = Color.FromArgb(52, 152, 219); // Blue
+                    _themeColor = Color.FromArgb(52, 152, 219); 
                     break;
 
                 case "advanced":
                 case "b1":
                 case "b2":
                 case "ielts":
-                    _themeColor = Color.FromArgb(231, 76, 60); // Red
+                    _themeColor = Color.FromArgb(231, 76, 60); 
                     break;
 
                 default:
@@ -130,21 +124,17 @@ namespace BaiTapLonWinForm.View.Admin.Course
                     break;
             }
 
-            // Tính toán màu nền nhạt (Tint 90%) cho hiệu ứng Hover
             _hoverBackColor = ControlPaint.Light(_themeColor, 1.8f);
-            // Lưu ý: Nếu màu quá sáng, ControlPaint.Light có thể trả về trắng, nên dùng công thức pha màu thủ công nếu cần.
-            // Ở đây dùng Color.FromArgb(15, _themeColor) đè lên trắng là đẹp nhất, nhưng set FillColor trực tiếp an toàn hơn.
-            _hoverBackColor = Color.FromArgb(245, 250, 255); // Mặc định màu xanh nhạt rất nhẹ
-            if (_themeColor.R > 200) _hoverBackColor = Color.FromArgb(255, 245, 245); // Nếu theme đỏ -> nền hồng nhạt
+            
+            _hoverBackColor = Color.FromArgb(245, 250, 255); 
+            if (_themeColor.R > 200) _hoverBackColor = Color.FromArgb(255, 245, 245); 
 
-            // Apply màu
-
-            // Apply màu cho Giá tiền
             lblPrice.ForeColor = _themeColor;
 
-            // Apply màu cho Badge Level
-            badgeLevel.FillColor = Color.FromArgb(30, _themeColor); // Nền badge trong suốt 30%
+            badgeLevel.FillColor = Color.FromArgb(30, _themeColor);
             badgeLevel.ForeColor = _themeColor;
         }
+
+        #endregion
     }
 }

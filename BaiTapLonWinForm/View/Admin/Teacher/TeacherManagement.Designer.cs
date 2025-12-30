@@ -53,6 +53,8 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges20 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges21 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges22 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges23 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges24 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             panelGrid = new Panel();
             guna2Panel3 = new Guna.UI2.WinForms.Guna2Panel();
             guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
@@ -76,11 +78,12 @@
             ColUserId = new DataGridViewTextBoxColumn();
             colPicture = new DataGridViewTextBoxColumn();
             panelButtons = new Panel();
+            btnAddImages = new Guna.UI2.WinForms.Guna2Button();
             btnRestore = new Guna.UI2.WinForms.Guna2Button();
             label1 = new Label();
             cboFilter = new Guna.UI2.WinForms.Guna2ComboBox();
             btnAdd = new Guna.UI2.WinForms.Guna2Button();
-            guna2Button3 = new Guna.UI2.WinForms.Guna2Button();
+            btnUpdate = new Guna.UI2.WinForms.Guna2Button();
             btnDelete = new Guna.UI2.WinForms.Guna2Button();
             panelGrid.SuspendLayout();
             guna2Panel3.SuspendLayout();
@@ -380,11 +383,12 @@
             // 
             // panelButtons
             // 
+            panelButtons.Controls.Add(btnAddImages);
             panelButtons.Controls.Add(btnRestore);
             panelButtons.Controls.Add(label1);
             panelButtons.Controls.Add(cboFilter);
             panelButtons.Controls.Add(btnAdd);
-            panelButtons.Controls.Add(guna2Button3);
+            panelButtons.Controls.Add(btnUpdate);
             panelButtons.Controls.Add(btnDelete);
             panelButtons.Dock = DockStyle.Bottom;
             panelButtons.Location = new Point(20, 762);
@@ -392,12 +396,39 @@
             panelButtons.Size = new Size(1430, 68);
             panelButtons.TabIndex = 2;
             // 
+            // btnAddImages
+            // 
+            btnAddImages.Animated = true;
+            btnAddImages.BackColor = Color.Transparent;
+            btnAddImages.BorderRadius = 10;
+            btnAddImages.CustomizableEdges = customizableEdges13;
+            btnAddImages.DisabledState.BorderColor = Color.DarkGray;
+            btnAddImages.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnAddImages.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnAddImages.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnAddImages.FillColor = Color.SlateBlue;
+            btnAddImages.Font = new Font("Segoe UI", 11.5F, FontStyle.Bold);
+            btnAddImages.ForeColor = Color.White;
+            btnAddImages.HoverState.FillColor = Color.DarkSlateBlue;
+            btnAddImages.Location = new Point(432, 11);
+            btnAddImages.Name = "btnAddImages";
+            btnAddImages.ShadowDecoration.BorderRadius = 10;
+            btnAddImages.ShadowDecoration.Color = Color.MediumSlateBlue;
+            btnAddImages.ShadowDecoration.CustomizableEdges = customizableEdges14;
+            btnAddImages.ShadowDecoration.Depth = 10;
+            btnAddImages.ShadowDecoration.Enabled = true;
+            btnAddImages.ShadowDecoration.Shadow = new Padding(0, 4, 8, 8);
+            btnAddImages.Size = new Size(164, 45);
+            btnAddImages.TabIndex = 34;
+            btnAddImages.Text = "Thêm ảnh";
+            btnAddImages.Click += btnAddImages_Click;
+            // 
             // btnRestore
             // 
             btnRestore.Animated = true;
             btnRestore.BackColor = Color.Transparent;
             btnRestore.BorderRadius = 10;
-            btnRestore.CustomizableEdges = customizableEdges13;
+            btnRestore.CustomizableEdges = customizableEdges15;
             btnRestore.DisabledState.BorderColor = Color.DarkGray;
             btnRestore.DisabledState.CustomBorderColor = Color.DarkGray;
             btnRestore.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -406,13 +437,15 @@
             btnRestore.Font = new Font("Segoe UI", 11.5F, FontStyle.Bold);
             btnRestore.ForeColor = Color.White;
             btnRestore.HoverState.FillColor = Color.Navy;
-            btnRestore.Location = new Point(561, 3);
+            btnRestore.Location = new Point(612, 10);
             btnRestore.Name = "btnRestore";
+            btnRestore.ShadowDecoration.BorderRadius = 10;
             btnRestore.ShadowDecoration.Color = Color.DarkBlue;
-            btnRestore.ShadowDecoration.CustomizableEdges = customizableEdges14;
+            btnRestore.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            btnRestore.ShadowDecoration.Depth = 10;
             btnRestore.ShadowDecoration.Enabled = true;
             btnRestore.ShadowDecoration.Shadow = new Padding(0, 4, 8, 8);
-            btnRestore.Size = new Size(220, 58);
+            btnRestore.Size = new Size(164, 45);
             btnRestore.TabIndex = 33;
             btnRestore.Text = "Khôi phục";
             btnRestore.Visible = false;
@@ -434,7 +467,7 @@
             cboFilter.BorderColor = Color.FromArgb(220, 224, 230);
             cboFilter.BorderRadius = 10;
             cboFilter.BorderThickness = 2;
-            cboFilter.CustomizableEdges = customizableEdges15;
+            cboFilter.CustomizableEdges = customizableEdges17;
             cboFilter.DrawMode = DrawMode.OwnerDrawFixed;
             cboFilter.DropDownStyle = ComboBoxStyle.DropDownList;
             cboFilter.FocusedColor = Color.FromArgb(94, 148, 255);
@@ -445,7 +478,7 @@
             cboFilter.Items.AddRange(new object[] { "Tất cả", "Nam", "Nữ", "Ngừng hoạt động", "Đang hoạt động", "Có ảnh", "Chưa có ảnh" });
             cboFilter.Location = new Point(86, 11);
             cboFilter.Name = "cboFilter";
-            cboFilter.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            cboFilter.ShadowDecoration.CustomizableEdges = customizableEdges18;
             cboFilter.Size = new Size(282, 50);
             cboFilter.TabIndex = 31;
             cboFilter.SelectedIndexChanged += CboGender_SelectedIndexChanged;
@@ -455,7 +488,7 @@
             btnAdd.Animated = true;
             btnAdd.BackColor = Color.Transparent;
             btnAdd.BorderRadius = 10;
-            btnAdd.CustomizableEdges = customizableEdges17;
+            btnAdd.CustomizableEdges = customizableEdges19;
             btnAdd.DisabledState.BorderColor = Color.DarkGray;
             btnAdd.DisabledState.CustomBorderColor = Color.DarkGray;
             btnAdd.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -464,48 +497,52 @@
             btnAdd.Font = new Font("Segoe UI", 11.5F, FontStyle.Bold);
             btnAdd.ForeColor = Color.White;
             btnAdd.HoverState.FillColor = Color.FromArgb(39, 174, 96);
-            btnAdd.Location = new Point(1196, 3);
+            btnAdd.Location = new Point(1196, 10);
             btnAdd.Name = "btnAdd";
+            btnAdd.ShadowDecoration.BorderRadius = 10;
             btnAdd.ShadowDecoration.Color = Color.FromArgb(100, 46, 204, 113);
-            btnAdd.ShadowDecoration.CustomizableEdges = customizableEdges18;
+            btnAdd.ShadowDecoration.CustomizableEdges = customizableEdges20;
+            btnAdd.ShadowDecoration.Depth = 10;
             btnAdd.ShadowDecoration.Enabled = true;
             btnAdd.ShadowDecoration.Shadow = new Padding(0, 4, 8, 8);
-            btnAdd.Size = new Size(220, 58);
+            btnAdd.Size = new Size(220, 45);
             btnAdd.TabIndex = 25;
-            btnAdd.Text = "✓ Thêm Giảng Viên";
+            btnAdd.Text = "+ Thêm Giảng Viên";
             btnAdd.Click += btnAdd_Click;
             // 
-            // guna2Button3
+            // btnUpdate
             // 
-            guna2Button3.Animated = true;
-            guna2Button3.BackColor = Color.Transparent;
-            guna2Button3.BorderRadius = 10;
-            guna2Button3.CustomizableEdges = customizableEdges19;
-            guna2Button3.DisabledState.BorderColor = Color.DarkGray;
-            guna2Button3.DisabledState.CustomBorderColor = Color.DarkGray;
-            guna2Button3.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
-            guna2Button3.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            guna2Button3.FillColor = Color.Orange;
-            guna2Button3.Font = new Font("Segoe UI", 11.5F, FontStyle.Bold);
-            guna2Button3.ForeColor = Color.White;
-            guna2Button3.HoverState.FillColor = Color.DarkOrange;
-            guna2Button3.Location = new Point(998, 3);
-            guna2Button3.Name = "guna2Button3";
-            guna2Button3.ShadowDecoration.Color = Color.DarkOrange;
-            guna2Button3.ShadowDecoration.CustomizableEdges = customizableEdges20;
-            guna2Button3.ShadowDecoration.Enabled = true;
-            guna2Button3.ShadowDecoration.Shadow = new Padding(0, 4, 8, 8);
-            guna2Button3.Size = new Size(180, 58);
-            guna2Button3.TabIndex = 24;
-            guna2Button3.Text = "✏️ Cập Nhật";
-            guna2Button3.Click += btnUpdate_Click;
+            btnUpdate.Animated = true;
+            btnUpdate.BackColor = Color.Transparent;
+            btnUpdate.BorderRadius = 10;
+            btnUpdate.CustomizableEdges = customizableEdges21;
+            btnUpdate.DisabledState.BorderColor = Color.DarkGray;
+            btnUpdate.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnUpdate.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnUpdate.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnUpdate.FillColor = Color.Orange;
+            btnUpdate.Font = new Font("Segoe UI", 11.5F, FontStyle.Bold);
+            btnUpdate.ForeColor = Color.White;
+            btnUpdate.HoverState.FillColor = Color.DarkOrange;
+            btnUpdate.Location = new Point(998, 10);
+            btnUpdate.Name = "btnUpdate";
+            btnUpdate.ShadowDecoration.BorderRadius = 10;
+            btnUpdate.ShadowDecoration.Color = Color.DarkOrange;
+            btnUpdate.ShadowDecoration.CustomizableEdges = customizableEdges22;
+            btnUpdate.ShadowDecoration.Depth = 10;
+            btnUpdate.ShadowDecoration.Enabled = true;
+            btnUpdate.ShadowDecoration.Shadow = new Padding(0, 4, 8, 8);
+            btnUpdate.Size = new Size(180, 45);
+            btnUpdate.TabIndex = 24;
+            btnUpdate.Text = "✏️ Cập Nhật";
+            btnUpdate.Click += btnUpdate_Click;
             // 
             // btnDelete
             // 
             btnDelete.Animated = true;
             btnDelete.BackColor = Color.Transparent;
             btnDelete.BorderRadius = 10;
-            btnDelete.CustomizableEdges = customizableEdges21;
+            btnDelete.CustomizableEdges = customizableEdges23;
             btnDelete.DisabledState.BorderColor = Color.DarkGray;
             btnDelete.DisabledState.CustomBorderColor = Color.DarkGray;
             btnDelete.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -514,13 +551,15 @@
             btnDelete.Font = new Font("Segoe UI", 11.5F, FontStyle.Bold);
             btnDelete.ForeColor = Color.White;
             btnDelete.HoverState.FillColor = Color.FromArgb(192, 57, 43);
-            btnDelete.Location = new Point(797, 3);
+            btnDelete.Location = new Point(797, 10);
             btnDelete.Name = "btnDelete";
+            btnDelete.ShadowDecoration.BorderRadius = 10;
             btnDelete.ShadowDecoration.Color = Color.FromArgb(100, 231, 76, 60);
-            btnDelete.ShadowDecoration.CustomizableEdges = customizableEdges22;
+            btnDelete.ShadowDecoration.CustomizableEdges = customizableEdges24;
+            btnDelete.ShadowDecoration.Depth = 10;
             btnDelete.ShadowDecoration.Enabled = true;
             btnDelete.ShadowDecoration.Shadow = new Padding(0, 4, 8, 8);
-            btnDelete.Size = new Size(180, 58);
+            btnDelete.Size = new Size(180, 45);
             btnDelete.TabIndex = 23;
             btnDelete.Text = "🗑️ Xóa";
             btnDelete.Click += btnDelete_Click;
@@ -570,12 +609,13 @@
         private Guna.UI2.WinForms.Guna2TextBox txtSearch;
         private Guna.UI2.WinForms.Guna2Button btnRefresh;
         private Guna.UI2.WinForms.Guna2Button btnSearch;
-        private Guna.UI2.WinForms.Guna2Button guna2Button3;
+        private Guna.UI2.WinForms.Guna2Button btnUpdate;
         private Guna.UI2.WinForms.Guna2Button btnDelete;
         private Guna.UI2.WinForms.Guna2Button btnAdd;
         private Label label1;
         private Guna.UI2.WinForms.Guna2ComboBox cboFilter;
         private DataGridViewTextBoxColumn colPicture;
         private Guna.UI2.WinForms.Guna2Button btnRestore;
+        private Guna.UI2.WinForms.Guna2Button btnAddImages;
     }
 }

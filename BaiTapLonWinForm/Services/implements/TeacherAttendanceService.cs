@@ -39,7 +39,7 @@ namespace BaiTapLonWinForm.Services.implements
             var result = new TeacherCheckInResult();
             try
             {
-                // 1. Nhận diện khuôn mặt qua API
+                // Nhận diện khuôn mặt qua API
                 var recognition = await _faceApi.RecognizeFaceAsync(capturedImage);
 
                 if (!recognition.success || string.IsNullOrEmpty(recognition.subject))
@@ -49,7 +49,7 @@ namespace BaiTapLonWinForm.Services.implements
                     return result;
                 }
 
-                // 2. Kiểm tra tiền tố TEA_ (Bắt buộc cho giảng viên)
+                // Kiểm tra tiền tố TEA_ (Bắt buộc cho giảng viên)
                 if (!recognition.subject.StartsWith("TEA_"))
                 {
                     result.Success = false;
@@ -57,7 +57,7 @@ namespace BaiTapLonWinForm.Services.implements
                     return result;
                 }
 
-                // 3. Tách lấy ID (Ví dụ: TEA_10 => 10)
+                // Tách lấy ID (Ví dụ: TEA_10 => 10)
                 if (!int.TryParse(recognition.subject.Replace("TEA_", ""), out int teacherId))
                 {
                     result.Success = false;
@@ -74,7 +74,7 @@ namespace BaiTapLonWinForm.Services.implements
                 }
 
                 result.teacherId = teacher.TeacherId;
-                result.teacherName = $"{teacher.User?.LastName} {teacher.User?.FirstName}";
+                result.teacherName = $"{teacher.User?.FirstName} {teacher.User?.LastName}";
 
                 // 4. Tìm ca dạy hiện tại (Dựa vào giờ hệ thống)
                 var activeClass = await FindActiveTeachingClass(teacherId, DateTime.Now);
@@ -89,7 +89,7 @@ namespace BaiTapLonWinForm.Services.implements
                 result.ClassName = activeClass.ClassName;
                 result.ShiftName = GetShiftName(activeClass.Shift);
 
-                // 5. Tìm buổi học (Session) hôm nay trong DB
+                // Tìm buổi học (Session) hôm nay trong DB
                 var sessions = await _sessionRepo.GetByClassIdAsync(activeClass.ClassId);
                 var todayDate = DateOnly.FromDateTime(DateTime.Now);
                 var todaySession = sessions.FirstOrDefault(s => s.SessionDate == todayDate);
@@ -101,7 +101,7 @@ namespace BaiTapLonWinForm.Services.implements
                     return result;
                 }
 
-                // 6. Kiểm tra đi muộn (LATE)
+                // Kiểm tra đi muộn (LATE)
                 var (shiftStart, _) = GetShiftTimes(activeClass.Shift);
                 var lateTimeLimit = shiftStart.Add(TimeSpan.FromMinutes(LATE_THRESHOLD_MINUTES));
                 bool isLate = DateTime.Now.TimeOfDay > lateTimeLimit;
@@ -110,7 +110,7 @@ namespace BaiTapLonWinForm.Services.implements
                 string statusText = isLate ? "Late" : "OnTime";
                 string noteText = isLate ? "Đi muộn" : "";
 
-                // 7. Lưu Check-in hoặc cập nhật nếu đã có
+                // Lưu Check-in hoặc cập nhật nếu đã có
                 var existing = await _attRepo.GetByTeacherAndSessionAsync(teacherId, todaySession.SessionId);
 
                 if (existing != null)
@@ -149,21 +149,17 @@ namespace BaiTapLonWinForm.Services.implements
 
         public async Task<Class?> FindActiveTeachingClass(int teacherId, DateTime time)
         {
-            // Lấy danh sách lớp giáo viên này dạy
             var classes = await _classRepo.GetByTeacherIdAsync(teacherId);
 
-            // Chuyển đổi thứ sang tiếng Việt để so sánh với SchoolDay trong DB
             string currentDayVi = ConvertToVietnameseDay(time.DayOfWeek);
 
             foreach (var cls in classes)
             {
-                // Chỉ xét lớp đang hoạt động (Status = 1)
-                if (cls.Status != 1) continue;
+                // Chỉ xét lớp đang diễn ra
+                if (cls.Status != 0) continue;
 
-                // Load SchoolDays nếu repo chưa include (kiểm tra null safe)
                 if (cls.SchoolDays == null || !cls.SchoolDays.Any()) continue;
 
-                // 1. Kiểm tra ngày học
                 bool isDayMatch = cls.SchoolDays.Any(d =>
                     (d.DayOfWeek ?? "").Trim().Equals(currentDayVi, StringComparison.OrdinalIgnoreCase) ||
                     (time.DayOfWeek == DayOfWeek.Sunday &&
@@ -173,7 +169,6 @@ namespace BaiTapLonWinForm.Services.implements
 
                 if (!isDayMatch) continue;
 
-                // 2. Kiểm tra khung giờ (Shift)
                 if (IsTimeInBookingWindow(time, cls.Shift))
                 {
                     return cls;
@@ -182,19 +177,14 @@ namespace BaiTapLonWinForm.Services.implements
             return null;
         }
 
-        // =========================================================================
-        // CÁC HÀM TIỆN ÍCH (HELPER METHODS) - Copy từ AttendanceService
-        // =========================================================================
 
         private bool IsTimeInBookingWindow(DateTime time, byte shift)
         {
             TimeSpan now = time.TimeOfDay;
             var (start, end) = GetShiftTimes(shift);
 
-            // Mở điểm danh trước giờ học 30 phút
             var windowOpen = start.Subtract(TimeSpan.FromMinutes(WINDOW_OPEN_MINUTES_BEFORE));
             
-            // Đóng điểm danh đúng giờ kết thúc ca
             var windowClose = end;
 
             return now >= windowOpen && now <= windowClose;
@@ -202,7 +192,6 @@ namespace BaiTapLonWinForm.Services.implements
 
         private (TimeSpan start, TimeSpan end) GetShiftTimes(byte shift)
         {
-            // Định nghĩa giờ các ca học (Cần đồng bộ với quy định của trung tâm)
             return shift switch
             {
                 1 => (new TimeSpan(7, 0, 0), new TimeSpan(9, 0, 0)),

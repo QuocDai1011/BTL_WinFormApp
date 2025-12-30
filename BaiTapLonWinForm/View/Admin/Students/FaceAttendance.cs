@@ -39,6 +39,8 @@ namespace BaiTapLonWinForm.View.Admin.Students
             await InitializeCameraAsync();
         }
 
+        #region initialize 
+
         private void InitializeListView()
         {
             lvAttendance.View = System.Windows.Forms.View.Details;
@@ -111,86 +113,9 @@ namespace BaiTapLonWinForm.View.Admin.Students
             frameTimer.Interval = 33; // ~30 FPS
             frameTimer.Tick += FrameTimer_Tick;
         }
+        #endregion
 
-        private async void FrameTimer_Tick(object sender, EventArgs e)
-        {
-            if (capture != null && capture.IsOpened)
-            {
-                try
-                {
-                    capture.Read(frame);
-                    if (!frame.IsEmpty)
-                    {
-                        Bitmap bitmap = frame.ToImage<Bgr, byte>().ToBitmap();
-
-                        var oldImg = picCamera.Image;
-                        picCamera.Image = bitmap;
-                        if (oldImg != null) oldImg.Dispose();
-
-                        if (chkAutoRecognize.Checked && !isRecognizing)
-                        {
-                            await RecognizeFaceAsync();
-                        }
-                    }
-                }
-                catch { }
-            }
-        }
-
-        private void BtnStartCamera_Click(object sender, EventArgs e)
-        {
-            if (!isCameraRunning) StartCamera();
-            else StopCamera();
-        }
-
-        private void StartCamera()
-        {
-            if (cboCamera.SelectedIndex == -1) return;
-
-            try
-            {
-                capture = new VideoCapture(cboCamera.SelectedIndex);
-                capture.Set(Emgu.CV.CvEnum.CapProp.FrameWidth, 640);
-                capture.Set(Emgu.CV.CvEnum.CapProp.FrameHeight, 480);
-
-                frameTimer.Start();
-                isCameraRunning = true;
-
-                btnStartCamera.Text = "🛑 Dừng Camera";
-                btnStartCamera.BackColor = Color.IndianRed;
-                btnRecognize.Enabled = true;
-                chkAutoRecognize.Enabled = true;
-                lblCameraStatus.Text = "🟢 Camera đang chạy";
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Không thể bật camera: {ex.Message}");
-            }
-        }
-
-        private void StopCamera()
-        {
-            frameTimer.Stop();
-            if (capture != null)
-            {
-                capture.Dispose();
-                capture = null;
-            }
-
-            isCameraRunning = false;
-            btnStartCamera.Text = "▶ Bật Camera";
-            btnStartCamera.BackColor = Color.SeaGreen;
-            btnRecognize.Enabled = false;
-            chkAutoRecognize.Enabled = false;
-            chkAutoRecognize.Checked = false;
-            lblCameraStatus.Text = "⚫ Camera đã tắt";
-            picCamera.Image = null;
-        }
-
-        private async void BtnRecognize_Click(object sender, EventArgs e)
-        {
-            await RecognizeFaceAsync();
-        }
+        #region recognize face and result
 
         private async Task RecognizeFaceAsync()
         {
@@ -295,6 +220,104 @@ namespace BaiTapLonWinForm.View.Admin.Students
             t.Start();
         }
 
+        #endregion
+
+        #region handle events
+        private async void FrameTimer_Tick(object sender, EventArgs e)
+        {
+            if (capture != null && capture.IsOpened)
+            {
+                try
+                {
+                    capture.Read(frame);
+                    if (!frame.IsEmpty)
+                    {
+                        Bitmap bitmap = frame.ToImage<Bgr, byte>().ToBitmap();
+
+                        var oldImg = picCamera.Image;
+                        picCamera.Image = bitmap;
+                        if (oldImg != null) oldImg.Dispose();
+
+                        if (chkAutoRecognize.Checked && !isRecognizing)
+                        {
+                            await RecognizeFaceAsync();
+                        }
+                    }
+                }
+                catch { }
+            }
+        }
+
+        private void BtnStartCamera_Click(object sender, EventArgs e)
+        {
+            if (!isCameraRunning) StartCamera();
+            else StopCamera();
+        }
+
+        private async void BtnRecognize_Click(object sender, EventArgs e)
+        {
+            await RecognizeFaceAsync();
+        }
+
+        private void ChkAutoRecognize_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkAutoRecognize.Checked)
+            {
+                lblRecognitionStatus.Text = "🔄 Chế độ tự động đang chạy...";
+                btnRecognize.Enabled = false;
+            }
+            else
+            {
+                lblRecognitionStatus.Text = "⏸️ Chế độ thủ công";
+                btnRecognize.Enabled = true;
+            }
+        }
+        #endregion
+
+        #region helper method
+        private void StartCamera()
+        {
+            if (cboCamera.SelectedIndex == -1) return;
+
+            try
+            {
+                capture = new VideoCapture(cboCamera.SelectedIndex);
+                capture.Set(Emgu.CV.CvEnum.CapProp.FrameWidth, 640);
+                capture.Set(Emgu.CV.CvEnum.CapProp.FrameHeight, 480);
+
+                frameTimer.Start();
+                isCameraRunning = true;
+
+                btnStartCamera.Text = "🛑 Dừng Camera";
+                btnStartCamera.BackColor = Color.IndianRed;
+                btnRecognize.Enabled = true;
+                chkAutoRecognize.Enabled = true;
+                lblCameraStatus.Text = "🟢 Camera đang chạy";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Không thể bật camera: {ex.Message}");
+            }
+        }
+
+        private void StopCamera()
+        {
+            frameTimer.Stop();
+            if (capture != null)
+            {
+                capture.Dispose();
+                capture = null;
+            }
+
+            isCameraRunning = false;
+            btnStartCamera.Text = "▶ Bật Camera";
+            btnStartCamera.BackColor = Color.SeaGreen;
+            btnRecognize.Enabled = false;
+            chkAutoRecognize.Enabled = false;
+            chkAutoRecognize.Checked = false;
+            lblCameraStatus.Text = "⚫ Camera đã tắt";
+            picCamera.Image = null;
+        }
         private byte[] BitmapToByteArray(Bitmap bitmap)
         {
             using (MemoryStream ms = new MemoryStream())
@@ -303,20 +326,7 @@ namespace BaiTapLonWinForm.View.Admin.Students
                 return ms.ToArray();
             }
         }
-
-        private void ChkAutoRecognize_CheckedChanged(object sender, EventArgs e)
-        {
-            if (chkAutoRecognize.Checked)
-            {
-                lblRecognitionStatus.Text = "🔄 Chế độ tự động đang chạy...";
-                btnRecognize.Enabled = false; 
-            }
-            else
-            {
-                lblRecognitionStatus.Text = "⏸️ Chế độ thủ công";
-                btnRecognize.Enabled = true;
-            }
-        }
+        #endregion
 
         protected override void OnHandleDestroyed(EventArgs e)
         {

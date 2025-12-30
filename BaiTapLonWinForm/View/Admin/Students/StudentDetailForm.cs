@@ -39,20 +39,15 @@ namespace BaiTapLonWinForm.View.Admin.Students
 
             this.Load += StudentDetailForm_Load;
         }
+        
 
-        private void MakeCircular(PictureBox box)
-        {
-            System.Drawing.Drawing2D.GraphicsPath gp = new System.Drawing.Drawing2D.GraphicsPath();
-            gp.AddEllipse(0, 0, box.Width, box.Height);
-            Region rg = new Region(gp);
-            box.Region = rg;
-        }
-
+        #region load data
         private async void StudentDetailForm_Load(object sender, EventArgs e)
         {
             await LoadData();
             await LoadBestAvatarAsync();
         }
+
 
         private async Task LoadData()
         {
@@ -164,11 +159,6 @@ namespace BaiTapLonWinForm.View.Admin.Students
             flowLayoutPanelClasses.Controls.Add(pnlCard);
         }
 
-        private void btnClose_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         private async Task LoadBestAvatarAsync()
         {
             try
@@ -241,5 +231,21 @@ namespace BaiTapLonWinForm.View.Admin.Students
                 Console.WriteLine(ex.Message);
             }
         }
+        #endregion
+
+        private void btnClose_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+        #region helper method
+        private void MakeCircular(PictureBox box)
+        {
+            System.Drawing.Drawing2D.GraphicsPath gp = new System.Drawing.Drawing2D.GraphicsPath();
+            gp.AddEllipse(0, 0, box.Width, box.Height);
+            Region rg = new Region(gp);
+            box.Region = rg;
+        }
+        #endregion
+
     }
 }

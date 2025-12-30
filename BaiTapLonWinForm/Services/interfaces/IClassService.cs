@@ -27,5 +27,8 @@ namespace BaiTapLonWinForm.Services.interfaces
 
         // chạy trong program, tự động chạy khi run app để cập nhật status theo ngày hiện tại
         Task<int> UpdateClassStatusesAutoAsync();
+
+        // hàm dùng để lấy lịch giảng dạy của giảng viên theo khoảng thời gian
+        Task<List<ClassSession>> GetScheduleForWeekFromClassAsync(DateOnly weekStart, DateOnly weekEnd);
     }
 }

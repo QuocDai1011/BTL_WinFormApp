@@ -12,7 +12,10 @@ namespace BaiTapLonWinForm.Repositories.interfaces
         Task<ClassSession> AddAsync(ClassSession session);
         Task<ClassSession> GetByIdAsync(int sessionId);
         Task<List<ClassSession>> GetByClassIdAsync(int classId);
-        Task<int> CreateSessionsForClassAsync(int classId);
-        Task<bool> UpdateAsync(ClassSession session);
+
+        Task DeleteByClassIdAsync(int classId);
+
+        Task AddRangeAsync(List<ClassSession> sessions);
+
     }
 }

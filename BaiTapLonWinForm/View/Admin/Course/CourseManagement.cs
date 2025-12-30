@@ -42,6 +42,7 @@ namespace BaiTapLonWinForm.View.Admin.Course
             btnAddCourse.Click += BtnAddCourse_Click;
         }
 
+        #region load data and display
         public void LoadCourses(List<Models.Course> courseList)
         {
             courses = courseList;
@@ -72,7 +73,9 @@ namespace BaiTapLonWinForm.View.Admin.Course
                 flowLayoutPanelCourses.Controls.Add(cardItem);
             }
         }
+        #endregion
 
+        #region handle envents
         private void TxtSearch_TextChanged(object sender, EventArgs e)
         {
             string searchText = txtSearch.Text.ToLower().Trim();
@@ -122,8 +125,6 @@ namespace BaiTapLonWinForm.View.Admin.Course
                 MessageBox.Show("Đã xóa khóa học thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-
-
-
+        #endregion
     }
 }

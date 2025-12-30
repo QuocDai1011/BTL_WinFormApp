@@ -62,18 +62,6 @@ namespace BaiTapLonWinForm.View.Admin.Class
             AttachValidationEvents();
         }
 
-        protected override async void OnLoad(EventArgs e)
-        {
-            base.OnLoad(e);
-            if (!DesignMode)
-            {
-                await initialDetailClass();
-                _isLoaded = true;
-            }
-        }
-
-
-
         #region Init data 
         private async Task initialDetailClass()
         {
@@ -369,7 +357,6 @@ namespace BaiTapLonWinForm.View.Admin.Class
                     ClassId = _classId,
                     ClassName = txtClassName.Text.Trim(),
 
-                    //CourseId = cmbCourse.SelectedValue != null ? Convert.ToInt32(cmbCourse.SelectedValue) : null,
                     CourseId = cmbCourse.SelectedValue != null && int.TryParse(cmbCourse.SelectedValue.ToString(), out int courseId)
                     ? courseId
                     : (int?)null,
@@ -399,7 +386,6 @@ namespace BaiTapLonWinForm.View.Admin.Class
                         await OnDataChanged.Invoke();
                     }
 
-                    // 2. Sau khi Form cha xong (trả kết nối DB về), Form con mới được phép chạy
                     await initialDetailClass();
                 }
                 else
@@ -413,13 +399,11 @@ namespace BaiTapLonWinForm.View.Admin.Class
             }
             finally
             {
-                // --- [MỞ LẠI NÚT] ---
-                // Dù thành công hay thất bại cũng phải mở lại nút cho người dùng
+
                 btnSaveChanges.Enabled = true;
                 btnSaveChanges.Text = "💾 Lưu Thay Đổi";
                 this.Cursor = Cursors.Default;
 
-                // Validate lại lần nữa để đảm bảo trạng thái nút đúng với dữ liệu
                 ValidateForm();
             }
         }
@@ -433,10 +417,8 @@ namespace BaiTapLonWinForm.View.Admin.Class
 
             if (count > 3)
             {
-                // Revert: Trả lại trạng thái chưa chọn cho nút vừa bấm
                 btn.Checked = false;
 
-                // Hiển thị cảnh báo
                 SetError(lblErrorDayofWeek, "Chỉ được phép chọn tối đa 3 buổi học trong tuần!");
             }
             else
@@ -447,7 +429,6 @@ namespace BaiTapLonWinForm.View.Admin.Class
         }
 
         #endregion
-
 
         #region validate input
 
@@ -560,14 +541,23 @@ namespace BaiTapLonWinForm.View.Admin.Class
         }
 
         #endregion
-
-
+        
+        #region helper method
         private async Task ShowStudentList()
         {
             pnlMain.Controls.Clear();
             pnlMain.Controls.Add(this.TabControls);
             await initialDetailClass();
         }
-
+        #endregion
+        protected override async void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            if (!DesignMode)
+            {
+                await initialDetailClass();
+                _isLoaded = true;
+            }
+        }
     }
 }

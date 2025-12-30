@@ -30,5 +30,6 @@ namespace BaiTapLonWinForm.Repositories.interfaces
         Task<bool> CheckTeacherScheduleConflictAsync(int teacherId, byte shift, DateOnly startDate,
             DateOnly endDate, List<byte> dayIds, int? ignoreClassId = null);
 
+        Task<List<Class>> GetClassesActiveInRangeAsync(DateOnly startDate, DateOnly endDate);
     }
 }

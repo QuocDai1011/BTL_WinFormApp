@@ -35,11 +35,13 @@ namespace BaiTapLonWinForm.View.Admin.Class
             await LoadDataAsync();
 
         }
+
+        #region load data 
         private async Task LoadDataAsync()
         {
             try
             {
-                // 1. Lấy tất cả sinh viên
+                // Lấy tất cả sinh viên
                 var resultAll = await _serviceHub.StudentService.GetAllStudentsAsync();
                 if (!resultAll.Success)
                 {
@@ -47,7 +49,6 @@ namespace BaiTapLonWinForm.View.Admin.Class
                     return;
                 }
 
-                // 2. Lấy sinh viên ĐÃ ở trong lớp này (để loại trừ)
                 var resultInClass = await _serviceHub.StudentService.GetStudentsByClassIdAsync(_classId);
                 var existingStudentIds = new HashSet<int>();
 
@@ -56,13 +57,11 @@ namespace BaiTapLonWinForm.View.Admin.Class
                     existingStudentIds = resultInClass.Data.Select(s => s.StudentId).ToHashSet();
                 }
 
-                // 3. Lọc: Chỉ lấy sinh viên CHƯA có trong lớp
                 _allStudents = resultAll.Data
                     .Where(s => !existingStudentIds.Contains(s.StudentId))
-                    .OrderBy(s => s.User.LastName) // Sắp xếp theo tên
+                    .OrderBy(s => s.User.LastName) 
                     .ToList();
 
-                // 4. Hiển thị lên Grid
                 BindGrid(_allStudents);
             }
             catch (Exception ex)
@@ -91,6 +90,9 @@ namespace BaiTapLonWinForm.View.Admin.Class
             UpdateSelectionCount();
         }
 
+        #endregion
+
+        #region handle events
         private void TxtSearch_TextChanged(object sender, EventArgs e)
         {
             string keyword = txtSearch.Text.ToLower().Trim();
@@ -120,22 +122,8 @@ namespace BaiTapLonWinForm.View.Admin.Class
             }
         }
 
-        private void UpdateSelectionCount()
-        {
-            int count = 0;
-            foreach (DataGridViewRow row in dgvAvailableStudents.Rows)
-            {
-                if (Convert.ToBoolean(row.Cells[colSelect.Index].Value) == true)
-                {
-                    count++;
-                }
-            }
-            lblSelectedCount.Text = $"Đã chọn: {count}";
-        }
-
         private async void BtnSave_Click(object sender, EventArgs e)
         {
-            // 1. Thu thập ID các sinh viên được chọn
             List<int> selectedIds = new List<int>();
             foreach (DataGridViewRow row in dgvAvailableStudents.Rows)
             {
@@ -163,7 +151,7 @@ namespace BaiTapLonWinForm.View.Admin.Class
                 {
                     MessageHelper.ShowInfo($"Đã thêm thành công {selectedIds.Count} học viên vào lớp!");
                     await LoadDataAsync();
-                    OnStudentsAdded?.Invoke(this, EventArgs.Empty); // Báo form cha reload lại danh sách
+                    OnStudentsAdded?.Invoke(this, EventArgs.Empty); 
                 }
                 else
                 {
@@ -180,5 +168,24 @@ namespace BaiTapLonWinForm.View.Admin.Class
         {
             OnCloseRequired?.Invoke(this, EventArgs.Empty);
         }
+
+        #endregion
+
+        #region helper method
+
+        private void UpdateSelectionCount()
+        {
+            int count = 0;
+            foreach (DataGridViewRow row in dgvAvailableStudents.Rows)
+            {
+                if (Convert.ToBoolean(row.Cells[colSelect.Index].Value) == true)
+                {
+                    count++;
+                }
+            }
+            lblSelectedCount.Text = $"Đã chọn: {count}";
+        }
+
+        #endregion
     }
 }

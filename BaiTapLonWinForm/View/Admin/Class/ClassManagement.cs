@@ -62,7 +62,6 @@ namespace BaiTapLonWinForm.View.Admin.Class
                 btnMon, btnTue, btnWed, btnThu, btnFri, btnSat, btnSun
             };
 
-            // Database: 2=Thứ 2, ..., 7=Thứ 7, 8=Chủ nhật
             btnMon.Tag = 2;
             btnTue.Tag = 3;
             btnWed.Tag = 4;
@@ -71,22 +70,12 @@ namespace BaiTapLonWinForm.View.Admin.Class
             btnSat.Tag = 7;
             btnSun.Tag = 8;
 
-            // 3. Gán sự kiện Click (để giới hạn 3 ngày)
             foreach (var btn in _dayButtons)
             {
                 btn.Click += OnDayButton_Click;
             }
 
             AttachValidationEvents();
-        }
-
-        protected override async void OnLoad(EventArgs e)
-        {
-            base.OnLoad(e);
-            if (!DesignMode)
-            {
-                _isLoaded = true;
-            }
         }
 
         #region setup UI and create layout
@@ -523,7 +512,7 @@ namespace BaiTapLonWinForm.View.Admin.Class
                     SchoolDays = selectedDays,
                     Status = -1,
                     CreateAt = DateTime.Now,
-                    CurrentStudent = 0 // lớp mới nên khởi tạo current student = 0 
+                    CurrentStudent = 0 
                 };
 
                 var (success, message, data) = await _serviceHub.ClassService.CreateClassAsync(updateModel);
@@ -562,7 +551,6 @@ namespace BaiTapLonWinForm.View.Admin.Class
         }
 
         #endregion
-
 
         #region validate input
 
@@ -662,8 +650,14 @@ namespace BaiTapLonWinForm.View.Admin.Class
         }
 
         #endregion
+        protected override async void OnLoad(EventArgs e)
+        {
+            base.OnLoad(e);
+            if (!DesignMode)
+            {
+                _isLoaded = true;
+            }
+        }
 
-
-       
     }
 }

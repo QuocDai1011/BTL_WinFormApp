@@ -41,18 +41,29 @@ namespace BaiTapLonWinForm.Repositories.implements
                 .ToListAsync();
         }
 
-        public async Task<int> CreateSessionsForClassAsync(int classId)
+
+        
+
+        public async Task DeleteByClassIdAsync(int classId)
         {
-            await _context.Database.ExecuteSqlRawAsync(
-                "EXEC sp_create_class_sessions @p0", classId);
-            return await _context.ClassSessions.CountAsync(cs => cs.ClassId == classId);
+            var oldSessions = await _context.ClassSessions
+                .Where(cs => cs.ClassId == classId)
+                .ToListAsync();
+
+            if (oldSessions.Any())
+            {
+                _context.ClassSessions.RemoveRange(oldSessions);
+                await _context.SaveChangesAsync();
+            }
         }
 
-        public async Task<bool> UpdateAsync(ClassSession session)
+        public async Task AddRangeAsync(List<ClassSession> sessions)
         {
-            _context.ClassSessions.Update(session);
-            await _context.SaveChangesAsync();
-            return true;
+            if (sessions != null && sessions.Any())
+            {
+                await _context.ClassSessions.AddRangeAsync(sessions);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 

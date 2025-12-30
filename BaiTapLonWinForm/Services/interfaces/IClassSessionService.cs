@@ -10,7 +10,6 @@ namespace BaiTapLonWinForm.Services.interfaces
     public interface IClassSessionService
     {
         Task<(bool success, int sessionCount, string message)> CreateSessionsAsync(int classId);
-        Task<ClassSession> GetSessionAsync(int sessionId);
-        Task<List<ClassSession>> GetSessionsByClassAsync(int classId);
+        
     }
 }

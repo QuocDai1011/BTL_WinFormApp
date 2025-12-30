@@ -30,6 +30,8 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
 
         }
 
+        #region filter and load data
+
         private void ApplyCurrentFilter()
         {
             if (teachers == null || !teachers.Any()) return;
@@ -128,6 +130,9 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
 
         }
 
+        #endregion
+
+        #region handle events
         private void CboGender_SelectedIndexChanged(object sender, EventArgs e)
         {
             ApplyCurrentFilter();
@@ -165,29 +170,6 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             }
             MessageHelper.ShowSuccess(deleteResult.Message);
             refreshDataGridView();
-        }
-
-
-        private void OpenAddTeacherControl(Models.Teacher teacher)
-        {
-            panelGrid.Visible = false;
-
-            var addView = new AddTeacher(_serviceHub, teacher)
-            {
-                Dock = DockStyle.Fill
-            };
-
-            addView.CloseRequested += (s, args) =>
-            {
-                this.Controls.Remove(addView);
-
-                panelGrid.Visible = true;
-
-                refreshDataGridView();
-            };
-
-            this.Controls.Add(addView);
-            addView.BringToFront();
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -255,5 +237,57 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             MessageHelper.ShowSuccess("Đã khôi phục người dùng thành công");
             refreshDataGridView();
         }
+
+        private void btnAddImages_Click(object sender, EventArgs e)
+        {
+            if (dgvTeachers.SelectedRows.Count == 0)
+            {
+                MessageHelper.ShowWarning("Vui lòng chọn sinh viên cần thêm ảnh!");
+                return;
+            }
+
+            int studentId = Convert.ToInt32(dgvTeachers.SelectedRows[0].Cells["ColTeacherId"].Value);
+
+            panelGrid.Visible = false;
+            var addPhotoControl = new AddPhoto(_serviceHub, studentId) { Dock = DockStyle.Fill };
+
+            addPhotoControl.CloseRequested += (s, args) =>
+            {
+                this.Controls.Remove(addPhotoControl);
+
+                panelGrid.Visible = true;
+
+                refreshDataGridView();
+            };
+
+            this.Controls.Add(addPhotoControl);
+            addPhotoControl.BringToFront();
+        }
+
+        #endregion
+
+        #region helper method
+        private void OpenAddTeacherControl(Models.Teacher teacher)
+        {
+            panelGrid.Visible = false;
+
+            var addView = new AddTeacher(_serviceHub, teacher)
+            {
+                Dock = DockStyle.Fill
+            };
+
+            addView.CloseRequested += (s, args) =>
+            {
+                this.Controls.Remove(addView);
+
+                panelGrid.Visible = true;
+
+                refreshDataGridView();
+            };
+
+            this.Controls.Add(addView);
+            addView.BringToFront();
+        }
+        #endregion
     }
 }

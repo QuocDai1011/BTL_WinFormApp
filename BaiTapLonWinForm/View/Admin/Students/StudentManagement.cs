@@ -34,7 +34,7 @@ namespace BaiTapLonWinForm.View.Admin.Students
             _typingTimer.Tick += TypingTimer_Tick;
         }
 
-
+        #region initialize data and set up UI
         private void SetupModernUI()
         {
             // Bo tròn các panel và button
@@ -52,20 +52,7 @@ namespace BaiTapLonWinForm.View.Admin.Students
             ApplyRoundedCorners(btnSearch, 8);
         }
 
-        private void ApplyRoundedCorners(Control control, int radius)
-        {
-            GraphicsPath path = new GraphicsPath();
-            Rectangle rect = new Rectangle(0, 0, control.Width, control.Height);
-            int diameter = radius * 2;
-
-            path.AddArc(rect.X, rect.Y, diameter, diameter, 180, 90);
-            path.AddArc(rect.Right - diameter, rect.Y, diameter, diameter, 270, 90);
-            path.AddArc(rect.Right - diameter, rect.Bottom - diameter, diameter, diameter, 0, 90);
-            path.AddArc(rect.X, rect.Bottom - diameter, diameter, diameter, 90, 90);
-            path.CloseFigure();
-
-            control.Region = new Region(path);
-        }
+        
 
         private async void StudentManagement_Load(object sender, EventArgs e)
         {
@@ -220,7 +207,8 @@ namespace BaiTapLonWinForm.View.Admin.Students
             }
         }
 
-
+        #endregion
+        #region handle events
         private void CboGender_SelectedIndexChanged(object sender, EventArgs e)
         {
             ApplyCurrentFilter();
@@ -412,7 +400,6 @@ namespace BaiTapLonWinForm.View.Admin.Students
             }
         }
 
-        // --- EXPORT EXCEL ---
         private void BtnExport_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog
@@ -567,6 +554,9 @@ namespace BaiTapLonWinForm.View.Admin.Students
             }
         }
 
+        #endregion
+
+        #region helper method
         private void EnableDoubleBuffered(DataGridView dgv)
         {
             typeof(DataGridView).InvokeMember("DoubleBuffered",
@@ -575,5 +565,21 @@ namespace BaiTapLonWinForm.View.Admin.Students
                 System.Reflection.BindingFlags.SetProperty,
                 null, dgv, new object[] { true });
         }
+
+        private void ApplyRoundedCorners(Control control, int radius)
+        {
+            GraphicsPath path = new GraphicsPath();
+            Rectangle rect = new Rectangle(0, 0, control.Width, control.Height);
+            int diameter = radius * 2;
+
+            path.AddArc(rect.X, rect.Y, diameter, diameter, 180, 90);
+            path.AddArc(rect.Right - diameter, rect.Y, diameter, diameter, 270, 90);
+            path.AddArc(rect.Right - diameter, rect.Bottom - diameter, diameter, diameter, 0, 90);
+            path.AddArc(rect.X, rect.Bottom - diameter, diameter, diameter, 90, 90);
+            path.CloseFigure();
+
+            control.Region = new Region(path);
+        }
+        #endregion
     }
 }

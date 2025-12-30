@@ -13,12 +13,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace BaiTapLonWinForm.View.Admin.Students
+namespace BaiTapLonWinForm.View.Admin.Teacher
 {
     public partial class AddPhoto : UserControl
     {
         private readonly ServiceHub _serviceHub;
-        private readonly int _studentId;
+        private readonly int _teacherId;
         private List<byte[]> capturedImages = new List<byte[]>();
         private VideoCapture capture;
         private Mat frame;
@@ -26,10 +26,10 @@ namespace BaiTapLonWinForm.View.Admin.Students
         private System.Windows.Forms.Timer frameTimer;
 
         public EventHandler CloseRequested { get; set; }
-        public AddPhoto(ServiceHub serviceHub, int studentId)
+        public AddPhoto(ServiceHub serviceHub, int teacherId)
         {
             _serviceHub = serviceHub;
-            _studentId = studentId;
+            _teacherId = teacherId;
             InitializeComponent();
             this.Load += AddPhoto_Load;
             InitializeTimer();
@@ -40,13 +40,13 @@ namespace BaiTapLonWinForm.View.Admin.Students
             await InitializeCameraAsync();
         }
 
-        #region initialize
 
+        #region initialize 
         private async Task InitializeCameraAsync()
         {
             cboCamera.Items.Clear();
             cboCamera.Enabled = false;
-            lblSelectCamera.Text = "Đang tìm camera...";
+            lblStatusCamera.Text = "Đang tìm camera...";
             btnStartCamera.Enabled = false;
 
             try
@@ -81,11 +81,10 @@ namespace BaiTapLonWinForm.View.Admin.Students
                     cboCamera.SelectedIndex = 0;
                     frame = new Mat();
                     btnStartCamera.Enabled = true;
-                    lblSelectCamera.Text = "Chọn camera:";
                 }
                 else
                 {
-                    lblSelectCamera.Text = "Không tìm thấy camera";
+                    lblStatusCamera.Text = "Không tìm thấy camera";
                     lblSelectCamera.ForeColor = Color.Red;
                     btnStartCamera.Enabled = false;
                 }
@@ -97,6 +96,7 @@ namespace BaiTapLonWinForm.View.Admin.Students
             finally
             {
                 cboCamera.Enabled = true;
+                lblStatusCamera.Visible = false;
             }
         }
 
@@ -106,11 +106,9 @@ namespace BaiTapLonWinForm.View.Admin.Students
             frameTimer.Interval = 33; // ~30 FPS
             frameTimer.Tick += FrameTimer_Tick;
         }
-
         #endregion
 
         #region handle events
-
         private void FrameTimer_Tick(object sender, EventArgs e)
         {
             if (capture != null && capture.IsOpened)
@@ -266,7 +264,6 @@ namespace BaiTapLonWinForm.View.Admin.Students
                 picPreview.Image = Image.FromStream(ms);
             }
         }
-
         private void BtnClearAll_Click(object sender, EventArgs e)
         {
             if (capturedImages.Count == 0)
@@ -301,14 +298,14 @@ namespace BaiTapLonWinForm.View.Admin.Students
                 return;
             }
 
-            Console.WriteLine($"Stundent Id: {_studentId}");
+            Console.WriteLine($"Teacher Id: {_teacherId}");
 
             this.Enabled = false;
             btnSave.Text = "Đang lưu...";
             btnSave.Enabled = false;
             try
             {
-                var result = await _serviceHub.StudentFaceService.SaveFaceImagesAsync(_studentId, capturedImages);
+                var result = await _serviceHub.TeacherFaceService.SaveFaceImagesAsync(_teacherId, capturedImages);
 
                 if (!result.success)
                 {
@@ -423,6 +420,8 @@ namespace BaiTapLonWinForm.View.Admin.Students
             lblCameraStatus.ForeColor = Color.FromArgb(149, 165, 166);
         }
 
+        
+
         private void UpdateImageGallery()
         {
             flowLayoutImages.Controls.Clear();
@@ -450,7 +449,7 @@ namespace BaiTapLonWinForm.View.Admin.Students
             }
         }
 
-
+        
 
         private void UpdateImageStatus()
         {
@@ -477,10 +476,5 @@ namespace BaiTapLonWinForm.View.Admin.Students
             }
         }
         #endregion
-
-
-
-
-        
     }
 }

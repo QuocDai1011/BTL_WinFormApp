@@ -66,6 +66,9 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
         private void InitializeComponent()
         {
             sidebarPanel = new Panel();
+            pnlSchedule = new Panel();
+            pbSchedule = new PictureBox();
+            lblSchedule = new Label();
             pnAttendance = new Panel();
             pbAttendance = new PictureBox();
             lblAttendance = new Label();
@@ -103,6 +106,8 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             logoBox = new PictureBox();
             contentPanel = new Panel();
             sidebarPanel.SuspendLayout();
+            pnlSchedule.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbSchedule).BeginInit();
             pnAttendance.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbAttendance).BeginInit();
             pnlSidebarFooter.SuspendLayout();
@@ -131,6 +136,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             // sidebarPanel
             // 
             sidebarPanel.BackColor = Color.FromArgb(41, 128, 185);
+            sidebarPanel.Controls.Add(pnlSchedule);
             sidebarPanel.Controls.Add(pnAttendance);
             sidebarPanel.Controls.Add(pnlSidebarFooter);
             sidebarPanel.Controls.Add(pnlLogout);
@@ -147,6 +153,44 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             sidebarPanel.Name = "sidebarPanel";
             sidebarPanel.Size = new Size(350, 903);
             sidebarPanel.TabIndex = 0;
+            // 
+            // pnlSchedule
+            // 
+            pnlSchedule.BackColor = Color.Transparent;
+            pnlSchedule.Controls.Add(pbSchedule);
+            pnlSchedule.Controls.Add(lblSchedule);
+            pnlSchedule.Cursor = Cursors.Hand;
+            pnlSchedule.Location = new Point(13, 619);
+            pnlSchedule.Margin = new Padding(4);
+            pnlSchedule.Name = "pnlSchedule";
+            pnlSchedule.Size = new Size(312, 69);
+            pnlSchedule.TabIndex = 10;
+            pnlSchedule.Click += Schedule_Click;
+            // 
+            // pbSchedule
+            // 
+            pbSchedule.Image = BaiTapLonWinForm.Properties.Resources.logo2019_png_1;
+            pbSchedule.Location = new Point(25, 15);
+            pbSchedule.Margin = new Padding(4);
+            pbSchedule.Name = "pbSchedule";
+            pbSchedule.Size = new Size(40, 40);
+            pbSchedule.SizeMode = PictureBoxSizeMode.Zoom;
+            pbSchedule.TabIndex = 0;
+            pbSchedule.TabStop = false;
+            pbSchedule.Click += Schedule_Click;
+            // 
+            // lblSchedule
+            // 
+            lblSchedule.AutoSize = true;
+            lblSchedule.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
+            lblSchedule.ForeColor = Color.White;
+            lblSchedule.Location = new Point(81, 21);
+            lblSchedule.Margin = new Padding(4, 0, 4, 0);
+            lblSchedule.Name = "lblSchedule";
+            lblSchedule.Size = new Size(139, 25);
+            lblSchedule.TabIndex = 1;
+            lblSchedule.Text = "Thời khóa biểu";
+            lblSchedule.Click += Schedule_Click;
             // 
             // pnAttendance
             // 
@@ -643,6 +687,9 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Trung Tâm Anh Ngữ Tre Xanh - Quản Lý";
             sidebarPanel.ResumeLayout(false);
+            pnlSchedule.ResumeLayout(false);
+            pnlSchedule.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbSchedule).EndInit();
             pnAttendance.ResumeLayout(false);
             pnAttendance.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbAttendance).EndInit();
@@ -683,5 +730,8 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
         private Panel pnAttendance;
         private PictureBox pbAttendance;
         private Label lblAttendance;
+        private Panel pnlSchedule;
+        private PictureBox pbSchedule;
+        private Label lblSchedule;
     }
 }

@@ -8,7 +8,6 @@ namespace BaiTapLonWinForm.View.Admin.Course
 {
     public partial class CourseDetail : UserControl
     {
-        // Sự kiện để báo cho Parent (HomePage) biết cần quay lại
         public event EventHandler BackRequested;
         private Models.Course _course;
 
@@ -19,24 +18,21 @@ namespace BaiTapLonWinForm.View.Admin.Course
             btnAddClass.Click += BtnAddClass_Click;
         }
 
+        #region load data
         public void LoadData(Models.Course course)
         {
             _course = course;
 
-            // 1. Bind Header Info
             lblCourseName.Text = course.CourseName;
             lblCourseCode.Text = $"#{course.CourseCode} | Level: {course.Level}";
 
-            // 2. Bind Stats (Giả lập tính toán từ List Class)
             int classCount = course.Classes?.Count ?? 0;
-            // Tính tổng học viên từ các lớp (cần include Classes khi query course)
             int totalStudents = course.Classes?.Sum(c => c.CurrentStudent ?? 0) ?? 0;
 
             UpdateStatCard(cardClasses, classCount.ToString("00"));
             UpdateStatCard(cardStudents, totalStudents.ToString());
             UpdateStatCard(cardTuition, $"{course.Tuition:N0} đ");
 
-            // 3. Bind GridView (Danh sách lớp học)
             LoadClassGrid();
         }
 
@@ -44,7 +40,7 @@ namespace BaiTapLonWinForm.View.Admin.Course
         {
             foreach (Control c in card.Controls)
             {
-                if (c is Label lbl && c.Font.Size > 12) // Tìm cái label to
+                if (c is Label lbl && c.Font.Size > 12) 
                 {
                     lbl.Text = value;
                 }
@@ -53,7 +49,6 @@ namespace BaiTapLonWinForm.View.Admin.Course
 
         private void LoadClassGrid()
         {
-            // Setup Columns (nếu chưa có)
             if (dgvClasses.Columns.Count == 0)
             {
                 dgvClasses.Columns.Add("ClassName", "Tên lớp");
@@ -62,7 +57,6 @@ namespace BaiTapLonWinForm.View.Admin.Course
                 dgvClasses.Columns.Add("Students", "Sĩ số");
                 dgvClasses.Columns.Add("Status", "Trạng thái");
 
-                // Add Button Column: Xem chi tiết lớp
                 var btnCol = new DataGridViewButtonColumn();
                 btnCol.HeaderText = "";
                 btnCol.Text = "Xem lớp";
@@ -89,11 +83,14 @@ namespace BaiTapLonWinForm.View.Admin.Course
                 }
             }
         }
+        #endregion
+
+        #region handle events
 
         private void BtnAddClass_Click(object sender, EventArgs e)
         {
-            // Logic mở form thêm lớp học mới cho khóa này
             MessageBox.Show($"Thêm lớp học mới cho khóa {_course.CourseCode}");
         }
+        #endregion
     }
 }
