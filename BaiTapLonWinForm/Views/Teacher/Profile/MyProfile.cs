@@ -2,187 +2,228 @@
 using BaiTapLonWinForm.Services;
 using BaiTapLonWinForm.Utils;
 using BaiTapLonWinForm.Views.SystemAcess.Pages.ForgetForm;
-using ServiceStack.Text;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace BaiTapLonWinForm.Views.Teacher.Profile
 {
+    /// <summary>
+    /// MyProfile - Quản lý thông tin cá nhân giáo viên
+    /// </summary>
     public partial class MyProfile : UserControl
     {
         private readonly int _teacherId;
         private readonly ServiceHub _serviceHub;
+        private bool _isLoading = false;
+
         public MyProfile(int teacherId, ServiceHub serviceHub)
         {
             InitializeComponent();
             _teacherId = teacherId;
             _serviceHub = serviceHub;
         }
+
+        #region Load Profile
         private async void MyProfile_LoadAsync(object sender, EventArgs e)
         {
-            var teacher = await _serviceHub.TeacherService.GetTeacherByIdAsync(_teacherId);
-            if (teacher.Success)
+            await LoadProfileAsync();
+        }
+
+        private async Task LoadProfileAsync()
+        {
+            if (_isLoading) return;
+            _isLoading = true;
+
+            try
             {
-                updateUserToUI(teacher.Data.User);
-                lblExperienceYear.Text = teacher.Data.ExperienceYear.ToString();
-                lblClassCount.Text = teacher.Data.Classes.Count().ToString();
+                var result = await _serviceHub.TeacherService.GetTeacherByIdAsync(_teacherId);
+                
+                if (!result.Success || result.Data == null)
+                {
+                    MessageHelper.ShowError($"Không tải được thông tin giáo viên! {result.Message}");
+                    return;
+                }
+
+                UpdateUI(result.Data.User);
+                lblExperienceYear.Text = result.Data.ExperienceYear.ToString();
+                lblClassCount.Text = (result.Data.Classes?.Count() ?? 0).ToString();
             }
-            else
+            finally
             {
-                MessageHelper.ShowError("Không tải được thông tin giáo viên! " + teacher.Message);
+                _isLoading = false;
             }
         }
-        private bool checkInfoInput()
+        #endregion
+
+        #region Update Profile
+        private async void btnSaveInfo_ClickAsync(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txbFirstName.Text)){
+            if (!ValidateInput()) return;
+            if (_isLoading) return;
+            
+            _isLoading = true;
+
+            try
+            {
+                var teacherResult = await _serviceHub.TeacherService.GetTeacherByIdAsync(_teacherId);
+                if (!teacherResult.Success || teacherResult.Data == null)
+                {
+                    MessageHelper.ShowError("Không tìm thấy thông tin giáo viên!");
+                    return;
+                }
+
+                var updatedUser = BuildUserFromInput(teacherResult.Data.User);
+                var updateResult = await _serviceHub.UserService.UpdateAsync(updatedUser);
+
+                if (updateResult.Success)
+                {
+                    MessageHelper.ShowSuccess("Cập nhật thông tin thành công!");
+                    
+                    // Reload profile
+                    await LoadProfileAsync();
+                }
+                else
+                {
+                    MessageHelper.ShowError($"Cập nhật thất bại! {updateResult.Message}");
+                }
+            }
+            finally
+            {
+                _isLoading = false;
+            }
+        }
+        #endregion
+
+        #region Validation
+        private bool ValidateInput()
+        {
+            if (string.IsNullOrWhiteSpace(txbFirstName.Text))
+            {
                 MessageHelper.ShowWarning("Vui lòng điền họ đầy đủ");
                 txbFirstName.Focus();
                 return false;
             }
-            else if (string.IsNullOrWhiteSpace(txbLastName.Text))
+
+            if (string.IsNullOrWhiteSpace(txbLastName.Text))
             {
                 MessageHelper.ShowWarning("Vui lòng điền tên đầy đủ");
                 txbLastName.Focus();
                 return false;
             }
-            else if (string.IsNullOrWhiteSpace(txbGmail.Text))
+
+            if (string.IsNullOrWhiteSpace(txbGmail.Text))
             {
                 MessageHelper.ShowWarning("Vui lòng điền email đầy đủ");
                 txbGmail.Focus();
                 return false;
             }
-            else if (Validator.IsValidEmail(txbGmail.Text) == false)
+
+            if (!Validator.IsValidEmail(txbGmail.Text))
             {
-                MessageHelper.ShowValidationErrors("Email không hợp lệ, phải đúng định dạng example@domain.com!");
+                MessageHelper.ShowValidationErrors("Email không hợp lệ!");
+                txbGmail.Focus();
                 return false;
             }
-            else if (string.IsNullOrWhiteSpace(txbPhoneNumber.Text))
+
+            if (string.IsNullOrWhiteSpace(txbPhoneNumber.Text))
             {
-                MessageHelper.ShowWarning("Vui lòng điền số điện thoại đầy đủ");
+                MessageHelper.ShowWarning("Vui lòng điền số điện thoại");
                 txbPhoneNumber.Focus();
                 return false;
             }
-            else if (Validator.IsValidPhone(txbPhoneNumber.Text) == false)
+
+            if (!Validator.IsValidPhone(txbPhoneNumber.Text))
             {
-                MessageHelper.ShowValidationErrors("Số điện thoại không hợp lệ! Vui lòng nhập đúng định dạng số điện thoại Việt Nam.");
+                MessageHelper.ShowValidationErrors("Số điện thoại không hợp lệ!");
+                txbPhoneNumber.Focus();
                 return false;
             }
-            else if (string.IsNullOrWhiteSpace(cbxGender.Text))
+
+            if (string.IsNullOrWhiteSpace(cbxGender.Text))
             {
                 MessageHelper.ShowWarning("Vui lòng chọn giới tính");
                 cbxGender.Focus();
                 return false;
             }
-            else if (string.IsNullOrWhiteSpace(txbAddress.Text)) {
-                MessageHelper.ShowWarning("Vui lòng điền địa chỉ đầy đủ");
+
+            if (string.IsNullOrWhiteSpace(txbAddress.Text))
+            {
+                MessageHelper.ShowWarning("Vui lòng điền địa chỉ");
                 txbAddress.Focus();
                 return false;
             }
-            //int age = DateOnly.FromDateTime(DateTime.Now).Year - dtpkBirthday.Value.Year;
-            else if (Validator.IsValidAgeForTeacher(DateOnly.FromDateTime(DateTime.Now).Year - dtpkBirthday.Value.Year) == false)
+
+            int age = DateTime.Now.Year - dtpkBirthday.Value.Year;
+            if (!Validator.IsValidAgeForTeacher(age))
             {
-                int age = DateOnly.FromDateTime(DateTime.Now).Year - dtpkBirthday.Value.Year;
                 MessageHelper.ShowValidationErrors("Giáo viên phải từ 18 tuổi!");
+                dtpkBirthday.Focus();
                 return false;
             }
+
             return true;
         }
-      
-        private User generateUserFromUI(User existUser)
+        #endregion
+
+        #region Helper Methods
+        private User BuildUserFromInput(User existingUser)
         {
-            User user = new User();
-            user.UserId = existUser.UserId;
-            user.Email = txbGmail.Text.Trim();
-            user.FirstName = txbFirstName.Text.Trim();
-            user.LastName = txbLastName.Text.Trim();
-            user.Address = txbAddress.Text.Trim();
-            user.DateOfBirth = DateOnly.FromDateTime(dtpkBirthday.Value);
-            if (cbxGender.Text.Trim() == "Nam") user.Gender = true;
-            else user.Gender = false;
-            user.PhoneNumber = txbPhoneNumber.Text.Trim();
-            user.RoleId = existUser.RoleId;
-            user.PasswordHashing = existUser.PasswordHashing;
-            user.IsActive = existUser.IsActive;
-            return user;
-        }
-        private void clearInputFields()
-        {
-            txbFirstName.Text = "";
-            txbLastName.Text = "";
-            txbGmail.Text = "";
-            txbPhoneNumber.Text = "";
-            txbAddress.Text = "";
-            cbxGender.SelectedIndex = -1;
-            dtpkBirthday.Value = DateTime.Now;
-        }
-        private void updateUserToUI(User existUser)
-        {
-            lblAddress.Text = existUser.Address;
-            lblBirthday.Text = existUser.DateOfBirth.Value.ToString();
-            lblEmail.Text = existUser.Email;
-            lblFixEmail.Text = existUser.Email;
-            lblFixName.Text = existUser.FirstName + " " + existUser.LastName;
-            lblCurrentName.Text = existUser.FirstName + " " + existUser.LastName;
-            txbAddress.Text = existUser.Address;
-            txbFirstName.Text = existUser.FirstName;
-            txbLastName.Text = existUser.LastName;
-            txbGmail.Text = existUser.Email;
-            txbPhoneNumber.Text = existUser.PhoneNumber;
-            dtpkBirthday.Value = existUser.DateOfBirth.HasValue ? existUser.DateOfBirth.Value.ToDateTime(new TimeOnly(0, 0)) : DateTime.Now;
-            cbxGender.Text = existUser.Gender == true ? "Nam" : "Nữ";
-        }
-        private async void btnSaveInfo_ClickAsync(object sender, EventArgs e)
-        {
-            //viết hàm kiểm tra các trường thông tin rỗng => bắt buộc nhập
-            //check điều kiện nhập hợp lệ
-            if(checkInfoInput() != false)
+            return new User
             {
-                //Lấy userId từ biến toàn cục _teacherId
-                var teacher = await _serviceHub.TeacherService.GetTeacherByIdAsync(_teacherId);
-                //lấy thông tin từ các textbox
-                User updateUser = generateUserFromUI(teacher.Data.User);
-                //Lưu thông tin vào database
-                if (updateUser != null)
-                {
-                    var result =  await _serviceHub.UserService.UpdateAsync(updateUser);
-                    if (result.Success)
-                    {
-                        MessageHelper.ShowSuccess("Cập nhật thông tin thành công!");
-                    }
-                    else
-                    {
-                        MessageHelper.ShowError("Cập nhật thông tin thất bại! " + result.Message);
-                    }
-                }
-                //Lấy lại thông tin user mới nhất từ database
-                var updatedTeacher = await _serviceHub.TeacherService.GetTeacherByIdAsync(_teacherId);
-                //Tạo hàm cập nhật lên giao diện chính
-                clearInputFields();
-                updateUserToUI(updatedTeacher.Data.User);
-            }
-            return;
+                UserId = existingUser.UserId,
+                Email = txbGmail.Text.Trim(),
+                FirstName = txbFirstName.Text.Trim(),
+                LastName = txbLastName.Text.Trim(),
+                Address = txbAddress.Text.Trim(),
+                DateOfBirth = DateOnly.FromDateTime(dtpkBirthday.Value),
+                Gender = cbxGender.Text.Trim() == "Nam",
+                PhoneNumber = txbPhoneNumber.Text.Trim(),
+                RoleId = existingUser.RoleId,
+                PasswordHashing = existingUser.PasswordHashing,
+                IsActive = existingUser.IsActive
+            };
         }
 
+        private void UpdateUI(User user)
+        {
+            if (user == null) return;
+
+            // Display labels
+            lblAddress.Text = user.Address ?? "";
+            lblBirthday.Text = user.DateOfBirth?.ToString() ?? "";
+            lblEmail.Text = user.Email ?? "";
+            lblFixEmail.Text = user.Email ?? "";
+            lblFixName.Text = $"{user.FirstName} {user.LastName}";
+            lblCurrentName.Text = $"{user.FirstName} {user.LastName}";
+
+            // Input fields
+            txbAddress.Text = user.Address ?? "";
+            txbFirstName.Text = user.FirstName ?? "";
+            txbLastName.Text = user.LastName ?? "";
+            txbGmail.Text = user.Email ?? "";
+            txbPhoneNumber.Text = user.PhoneNumber ?? "";
+            dtpkBirthday.Value = user.DateOfBirth?.ToDateTime(TimeOnly.MinValue) ?? DateTime.Now;
+            cbxGender.Text = (user.Gender ?? false) ? "Nam" : "Nữ";
+        }
+        #endregion
+
+        #region Change Password
         private void btnChangePass_Click(object sender, EventArgs e)
         {
-            //Gọi lại Form ForgetPassword để đổi mật khẩu
             try
             {
-                var forgetForm = new ForgetForm(_serviceHub);
-                forgetForm.ShowDialog();
+                using (var forgetForm = new ForgetForm(_serviceHub))
+                {
+                    forgetForm.ShowDialog();
+                }
             }
             catch (Exception ex)
             {
-                MessageHelper.ShowError("Đã xảy ra lỗi khi mở form quên mật khẩu: ");
+                MessageHelper.ShowError($"Lỗi khi mở form đổi mật khẩu: {ex.Message}");
             }
         }
+        #endregion
     }
 }

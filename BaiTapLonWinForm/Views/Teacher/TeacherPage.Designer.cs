@@ -11,14 +11,7 @@
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing && (components != null))
-            {
-                components.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        // Dispose is handled in TeacherPage.cs
 
         #region Windows Form Designer generated code
 
@@ -33,6 +26,10 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges24 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges25 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
@@ -50,18 +47,16 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges20 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges21 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges19 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             pnHeaderTeacher = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
+            pnFlowTitle = new FlowLayoutPanel();
+            lblMainTitle = new Guna.UI2.WinForms.Guna2HtmlLabel();
             ptbxIconMap = new FontAwesome.Sharp.IconPictureBox();
-            guna2HtmlLabel2 = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             iconPictureBox1 = new FontAwesome.Sharp.IconPictureBox();
             ptbxToggleMode = new FontAwesome.Sharp.IconPictureBox();
             iconPictureBox3 = new FontAwesome.Sharp.IconPictureBox();
             pnBorderMain = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
+            pnParentPanelMain = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
+            pnMain = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
             pnSideBar = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
             pnMenuPage = new Guna.UI2.WinForms.Guna2Panel();
             fpnBtnMenu = new FlowLayoutPanel();
@@ -74,28 +69,26 @@
             lblMenuUserName = new Label();
             guna2CirclePictureBox1 = new Guna.UI2.WinForms.Guna2CirclePictureBox();
             guna2AnimateWindow1 = new Guna.UI2.WinForms.Guna2AnimateWindow(components);
-            guna2CustomGradientPanel1 = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
-            pnMain = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
             pnHeaderTeacher.SuspendLayout();
+            pnFlowTitle.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)ptbxIconMap).BeginInit();
             ((System.ComponentModel.ISupportInitialize)iconPictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)ptbxToggleMode).BeginInit();
             ((System.ComponentModel.ISupportInitialize)iconPictureBox3).BeginInit();
             pnBorderMain.SuspendLayout();
+            pnParentPanelMain.SuspendLayout();
             pnSideBar.SuspendLayout();
             pnMenuPage.SuspendLayout();
             fpnBtnMenu.SuspendLayout();
             guna2Panel1.SuspendLayout();
             pnProfileTeacher.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)guna2CirclePictureBox1).BeginInit();
-            guna2CustomGradientPanel1.SuspendLayout();
             SuspendLayout();
             // 
             // pnHeaderTeacher
             // 
+            pnHeaderTeacher.Controls.Add(pnFlowTitle);
             pnHeaderTeacher.Controls.Add(ptbxIconMap);
-            pnHeaderTeacher.Controls.Add(guna2HtmlLabel2);
-            pnHeaderTeacher.Controls.Add(guna2HtmlLabel1);
             pnHeaderTeacher.Controls.Add(iconPictureBox1);
             pnHeaderTeacher.Controls.Add(ptbxToggleMode);
             pnHeaderTeacher.Controls.Add(iconPictureBox3);
@@ -106,6 +99,26 @@
             pnHeaderTeacher.ShadowDecoration.CustomizableEdges = customizableEdges2;
             pnHeaderTeacher.Size = new Size(1570, 60);
             pnHeaderTeacher.TabIndex = 1;
+            // 
+            // pnFlowTitle
+            // 
+            pnFlowTitle.BackColor = Color.Transparent;
+            pnFlowTitle.Controls.Add(lblMainTitle);
+            pnFlowTitle.Location = new Point(57, 9);
+            pnFlowTitle.Name = "pnFlowTitle";
+            pnFlowTitle.Size = new Size(753, 42);
+            pnFlowTitle.TabIndex = 6;
+            // 
+            // lblMainTitle
+            // 
+            lblMainTitle.BackColor = Color.Transparent;
+            lblMainTitle.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblMainTitle.Location = new Point(3, 3);
+            lblMainTitle.Name = "lblMainTitle";
+            lblMainTitle.Size = new Size(171, 34);
+            lblMainTitle.TabIndex = 5;
+            lblMainTitle.Text = "Lớp học của tôi";
+            lblMainTitle.Click += lblMainTitle_Click;
             // 
             // ptbxIconMap
             // 
@@ -120,27 +133,6 @@
             ptbxIconMap.TabIndex = 5;
             ptbxIconMap.TabStop = false;
             ptbxIconMap.Click += iconPictureBox4_Click;
-            // 
-            // guna2HtmlLabel2
-            // 
-            guna2HtmlLabel2.BackColor = Color.Transparent;
-            guna2HtmlLabel2.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            guna2HtmlLabel2.ForeColor = Color.FromArgb(72, 181, 183);
-            guna2HtmlLabel2.Location = new Point(234, 20);
-            guna2HtmlLabel2.Name = "guna2HtmlLabel2";
-            guna2HtmlLabel2.Size = new Size(52, 23);
-            guna2HtmlLabel2.TabIndex = 4;
-            guna2HtmlLabel2.Text = "/ Lớp 1";
-            // 
-            // guna2HtmlLabel1
-            // 
-            guna2HtmlLabel1.BackColor = Color.Transparent;
-            guna2HtmlLabel1.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            guna2HtmlLabel1.Location = new Point(57, 12);
-            guna2HtmlLabel1.Name = "guna2HtmlLabel1";
-            guna2HtmlLabel1.Size = new Size(171, 34);
-            guna2HtmlLabel1.TabIndex = 3;
-            guna2HtmlLabel1.Text = "Lớp học của tôi";
             // 
             // iconPictureBox1
             // 
@@ -186,7 +178,7 @@
             // pnBorderMain
             // 
             pnBorderMain.BackColor = Color.FromArgb(213, 245, 232);
-            pnBorderMain.Controls.Add(guna2CustomGradientPanel1);
+            pnBorderMain.Controls.Add(pnParentPanelMain);
             pnBorderMain.CustomizableEdges = customizableEdges7;
             pnBorderMain.Dock = DockStyle.Fill;
             pnBorderMain.FillColor = Color.FromArgb(213, 245, 232);
@@ -198,6 +190,30 @@
             pnBorderMain.ShadowDecoration.CustomizableEdges = customizableEdges8;
             pnBorderMain.Size = new Size(1570, 951);
             pnBorderMain.TabIndex = 2;
+            // 
+            // pnParentPanelMain
+            // 
+            pnParentPanelMain.Controls.Add(pnMain);
+            pnParentPanelMain.CustomizableEdges = customizableEdges5;
+            pnParentPanelMain.Location = new Point(14, 14);
+            pnParentPanelMain.Name = "pnParentPanelMain";
+            pnParentPanelMain.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            pnParentPanelMain.Size = new Size(1544, 923);
+            pnParentPanelMain.TabIndex = 0;
+            // 
+            // pnMain
+            // 
+            pnMain.BackColor = Color.Transparent;
+            pnMain.CustomizableEdges = customizableEdges3;
+            pnMain.FillColor = Color.Transparent;
+            pnMain.FillColor2 = Color.Transparent;
+            pnMain.FillColor3 = Color.Transparent;
+            pnMain.FillColor4 = Color.Transparent;
+            pnMain.Location = new Point(43, 37);
+            pnMain.Name = "pnMain";
+            pnMain.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            pnMain.Size = new Size(1459, 849);
+            pnMain.TabIndex = 1;
             // 
             // pnSideBar
             // 
@@ -404,34 +420,6 @@
             guna2CirclePictureBox1.TabIndex = 4;
             guna2CirclePictureBox1.TabStop = false;
             // 
-            // guna2CustomGradientPanel1
-            // 
-            guna2CustomGradientPanel1.Controls.Add(pnMain);
-            guna2CustomGradientPanel1.CustomizableEdges = customizableEdges5;
-            guna2CustomGradientPanel1.FillColor = Color.FromArgb(4, 59, 59);
-            guna2CustomGradientPanel1.FillColor2 = Color.Black;
-            guna2CustomGradientPanel1.FillColor3 = Color.Black;
-            guna2CustomGradientPanel1.FillColor4 = Color.FromArgb(0, 27, 51);
-            guna2CustomGradientPanel1.Location = new Point(14, 14);
-            guna2CustomGradientPanel1.Name = "guna2CustomGradientPanel1";
-            guna2CustomGradientPanel1.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            guna2CustomGradientPanel1.Size = new Size(1544, 923);
-            guna2CustomGradientPanel1.TabIndex = 0;
-            // 
-            // pnMain
-            // 
-            pnMain.BackColor = Color.Transparent;
-            pnMain.CustomizableEdges = customizableEdges3;
-            pnMain.FillColor = Color.Transparent;
-            pnMain.FillColor2 = Color.Transparent;
-            pnMain.FillColor3 = Color.Transparent;
-            pnMain.FillColor4 = Color.Transparent;
-            pnMain.Location = new Point(43, 37);
-            pnMain.Name = "pnMain";
-            pnMain.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            pnMain.Size = new Size(1459, 849);
-            pnMain.TabIndex = 1;
-            // 
             // TeacherPage
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -443,12 +431,14 @@
             Name = "TeacherPage";
             Text = "TeacherPage";
             pnHeaderTeacher.ResumeLayout(false);
-            pnHeaderTeacher.PerformLayout();
+            pnFlowTitle.ResumeLayout(false);
+            pnFlowTitle.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)ptbxIconMap).EndInit();
             ((System.ComponentModel.ISupportInitialize)iconPictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)ptbxToggleMode).EndInit();
             ((System.ComponentModel.ISupportInitialize)iconPictureBox3).EndInit();
             pnBorderMain.ResumeLayout(false);
+            pnParentPanelMain.ResumeLayout(false);
             pnSideBar.ResumeLayout(false);
             pnMenuPage.ResumeLayout(false);
             fpnBtnMenu.ResumeLayout(false);
@@ -456,7 +446,6 @@
             pnProfileTeacher.ResumeLayout(false);
             pnProfileTeacher.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)guna2CirclePictureBox1).EndInit();
-            guna2CustomGradientPanel1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -474,15 +463,15 @@
         private FontAwesome.Sharp.IconPictureBox iconPictureBox1;
         private FontAwesome.Sharp.IconPictureBox ptbxToggleMode;
         private FontAwesome.Sharp.IconPictureBox iconPictureBox3;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel2;
-        private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel1;
         private FontAwesome.Sharp.IconPictureBox ptbxIconMap;
         private FlowLayoutPanel fpnBtnMenu;
         private Guna.UI2.WinForms.Guna2GradientButton guna2GradientButton1;
         private Guna.UI2.WinForms.Guna2GradientButton guna2GradientButton2;
         private Guna.UI2.WinForms.Guna2GradientButton guna2GradientButton3;
         private Guna.UI2.WinForms.Guna2GradientButton guna2GradientButton4;
-        private Guna.UI2.WinForms.Guna2CustomGradientPanel guna2CustomGradientPanel1;
+        private Guna.UI2.WinForms.Guna2CustomGradientPanel pnParentPanelMain;
         private Guna.UI2.WinForms.Guna2CustomGradientPanel pnMain;
+        private FlowLayoutPanel pnFlowTitle;
+        private Guna.UI2.WinForms.Guna2HtmlLabel lblMainTitle;
     }
 }

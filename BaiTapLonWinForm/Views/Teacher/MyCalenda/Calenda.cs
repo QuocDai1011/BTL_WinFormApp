@@ -1,14 +1,11 @@
 ﻿using BaiTapLonWinForm.Models;
 using BaiTapLonWinForm.Services;
 using Guna.UI2.WinForms;
-
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -22,26 +19,48 @@ namespace BaiTapLonWinForm.Views.Teacher.MyCalenda
         private DateTime _currentWeek;
         private bool _isLoaded = false;
         private Dictionary<DayOfWeek, FlowLayoutPanel> dayMap;
-
         private List<FlowLayoutPanel> dayColumns = new List<FlowLayoutPanel>();
+        private bool _isLoading = false;
+        private List<Class> _cachedClasses;
+
+        // Cache schedule items per day to avoid recreation
+        private Dictionary<DayOfWeek, List<Control>> _cachedScheduleItems = new Dictionary<DayOfWeek, List<Control>>();
+
         public Calenda(ServiceHub serviceHub, long teacherId)
         {
             InitializeComponent();
             _serviceHub = serviceHub;
             _teacherId = teacherId;
+
+            // Enable double buffering
+            EnableDoubleBuffering();
         }
+
+        private void EnableDoubleBuffering()
+        {
+            typeof(Control).InvokeMember("DoubleBuffered",
+                BindingFlags.SetProperty |
+                BindingFlags.Instance |
+                BindingFlags.NonPublic,
+                null, this, new object[] { true });
+
+            // Enable for all day containers
+            foreach (var day in new[] { pnMonContainer, pnTueContainer, pnWedContainer, pnThuContainer, pnFriContainer, pnSatContainer, pnSunContainer })
+            {
+                typeof(Control).InvokeMember("DoubleBuffered",
+                    BindingFlags.SetProperty |
+                    BindingFlags.Instance |
+                    BindingFlags.NonPublic,
+                    null, day, new object[] { true });
+            }
+        }
+
         private void Calenda_Load(object sender, EventArgs e)
         {
             LoadClassCombo();
             dayColumns = new FlowLayoutPanel[]
             {
-                pnMon,
-                pnTue,
-                pnWed,
-                pnThu,
-                pnFri,
-                pnSat,
-                pnSun
+                pnMon, pnTue, pnWed, pnThu, pnFri, pnSat, pnSun
             }.ToList();
             dayMap = new Dictionary<DayOfWeek, FlowLayoutPanel>()
             {
@@ -56,57 +75,58 @@ namespace BaiTapLonWinForm.Views.Teacher.MyCalenda
             _isLoaded = true;
             _currentWeek = DateTime.Now;
             LoadWeek(DateTime.Now);
-            LoadSchedule();
+            _ = LoadScheduleAsync();
         }
+
         private string timeStartClass(int shift)
         {
-            switch (shift)
+            return shift switch
             {
-                case 1:
-                    return "8:00 - 9:30";
-                    break;
-                case 2:
-                    return "9:30 - 11:00";
-                    break;
-                case 3:
-                    return "14:00 - 15:30";
-                    break;
-                case 4:
-                    return "15:30 - 17:00";
-                    break;
-                case 5:
-                    return "17:30 - 19:00";
-                    break;
-                case 6:
-                    return "19:30 - 21:00";
-                    break;
-                default:
-                    return "Không tìm thấy ca học";
-                    break;
+                1 => "8:00 - 9:30",
+                2 => "9:30 - 11:00",
+                3 => "14:00 - 15:30",
+                4 => "15:30 - 17:00",
+                5 => "17:30 - 19:00",
+                6 => "19:30 - 21:00",
+                _ => "Không tìm thấy ca học"
+            };
+        }
+
+        private async Task LoadScheduleAsync()
+        {
+            if (_isLoading) return;
+            _isLoading = true;
+
+            try
+            {
+                long selectedClassId = Convert.ToInt64(cbbClassList.SelectedValue);
+
+                var classes = await Task.Run(() => _serviceHub.ClassService.GetAllClass(_teacherId));
+                _cachedClasses = classes;
+
+                if (selectedClassId != 0)
+                {
+                    classes = classes.Where(c => c.ClassId == selectedClassId).ToList();
+                }
+
+                var scheduleData = await Task.Run(() => PrepareScheduleData(classes));
+                UpdateScheduleUI(scheduleData);
+            }
+            finally
+            {
+                _isLoading = false;
             }
         }
-        private void LoadSchedule()
+
+        private Dictionary<DayOfWeek, List<(Class cls, string timeText)>> PrepareScheduleData(List<Class> classes)
         {
-            foreach (var col in dayMap.Values)
-                col.Controls.Clear();
-
-            long selectedClassId = Convert.ToInt64(cbbClassList.SelectedValue);
-
-            var classes = _serviceHub.ClassService.GetAllClass(_teacherId);
-
-            if (selectedClassId != 0)
-            {
-                classes = classes
-                    .Where(c => c.ClassId == selectedClassId)
-                    .ToList();
-            }
+            var result = new Dictionary<DayOfWeek, List<(Class, string)>>();
 
             for (int i = 0; i < 7; i++)
             {
                 DateTime date = _startOfWeek.AddDays(i);
                 DayOfWeek dow = date.DayOfWeek;
 
-                // 🔥 LẤY DANH SÁCH LỚP HỌC CỦA NGÀY NÀY
                 var classesOfDay = classes
                     .Where(cls =>
                         date >= cls.StartDate.ToDateTime(TimeOnly.MinValue) &&
@@ -115,15 +135,50 @@ namespace BaiTapLonWinForm.Views.Teacher.MyCalenda
                             .GetListSchoolDaysByClassId(cls.ClassId)
                             .Any(day => MatchDayOfWeek(day) == dow)
                     )
-                    // 🔥 SORT THEO GIỜ BẮT ĐẦU
                     .OrderBy(cls => cls.Shift)
+                    .Select(cls => (cls, timeStartClass(cls.Shift)))
                     .ToList();
 
-                foreach (var cls in classesOfDay)
+                result[dow] = classesOfDay;
+            }
+
+            return result;
+        }
+
+        private void UpdateScheduleUI(Dictionary<DayOfWeek, List<(Class cls, string timeText)>> scheduleData)
+        {
+            // Suspend all layouts at once
+            foreach (var col in dayMap.Values)
+            {
+                col.SuspendLayout();
+            }
+
+            // Clear only if data changed
+            foreach (var col in dayMap.Values)
+            {
+                col.Controls.Clear();
+            }
+
+            // Add schedule items
+            foreach (var kvp in scheduleData)
+            {
+                foreach (var (cls, timeText) in kvp.Value)
                 {
-                    var item = CreateScheduleItem(cls);
-                    dayMap[dow].Controls.Add(item);
+                    var item = CreateScheduleItem(cls, timeText);
+                    dayMap[kvp.Key].Controls.Add(item);
                 }
+            }
+
+            // Resume all layouts at once
+            foreach (var col in dayMap.Values)
+            {
+                col.ResumeLayout(false);
+            }
+
+            // Single layout pass
+            foreach (var col in dayMap.Values)
+            {
+                col.PerformLayout();
             }
         }
 
@@ -141,6 +196,7 @@ namespace BaiTapLonWinForm.Views.Teacher.MyCalenda
                 _ => DayOfWeek.Monday
             };
         }
+
         private readonly Color[] BaseBlueGreenColors =
         {
             Color.Teal,
@@ -151,12 +207,14 @@ namespace BaiTapLonWinForm.Views.Teacher.MyCalenda
             Color.FromArgb(173, 216, 230),
             Color.FromArgb(175, 238, 238)
         };
+
         private Color GetColorByClassId(long classId)
         {
             int index = (int)(classId % BaseBlueGreenColors.Length);
             return BaseBlueGreenColors[index];
         }
-        private Control CreateScheduleItem(Class cls)
+
+        private Control CreateScheduleItem(Class cls, string timeText)
         {
             Panel p = new Panel
             {
@@ -168,7 +226,7 @@ namespace BaiTapLonWinForm.Views.Teacher.MyCalenda
 
             Label lb = new Label
             {
-                Text = $"{timeStartClass(cls.Shift)} - {cls.ClassName}",
+                Text = $"{timeText} - {cls.ClassName}",
                 Font = new Font("Segoe UI Semibold", 11F),
                 AutoSize = true,
                 MaximumSize = new Size(200, 0)
@@ -178,11 +236,7 @@ namespace BaiTapLonWinForm.Views.Teacher.MyCalenda
 
             void Layout()
             {
-                lb.Location = new Point(
-                    (p.Width - lb.PreferredWidth) / 2,
-                    p.Padding.Top
-                );
-
+                lb.Location = new Point((p.Width - lb.PreferredWidth) / 2, p.Padding.Top);
                 p.Height = lb.PreferredHeight + p.Padding.Vertical;
             }
 
@@ -193,42 +247,18 @@ namespace BaiTapLonWinForm.Views.Teacher.MyCalenda
             return p;
         }
 
-
         private DateTime GetStartOfWeek(DateTime date)
         {
-            int diff = date.DayOfWeek == DayOfWeek.Sunday
-                ? 6
-                : ((int)date.DayOfWeek - 1);
-
+            int diff = date.DayOfWeek == DayOfWeek.Sunday ? 6 : ((int)date.DayOfWeek - 1);
             return date.AddDays(-diff).Date;
         }
+
         private void LoadWeek(DateTime date)
         {
             _startOfWeek = GetStartOfWeek(date);
 
-            // Gom label ngày vào mảng
-            Guna2HtmlLabel[] dateLabels =
-            {
-                lblDateOfMon,
-                lblDateOfTue,
-                lblDateOfWed,
-                lblDateOfThu,
-                lblDateOfFri,
-                lblDateOfSat,
-                lblDateOfSun
-            };
-
-            // Gom panel header vào mảng (Guna2Panel)
-            Guna.UI2.WinForms.Guna2CustomGradientPanel[] headerPanels =
-            {
-                pnLabelMon,
-                pnLabelTue,
-                pnLabelWed,
-                pnLabelThu,
-                pnLabelFri,
-                pnLabelSat,
-                pnLabelSun
-            };
+            Guna2HtmlLabel[] dateLabels = { lblDateOfMon, lblDateOfTue, lblDateOfWed, lblDateOfThu, lblDateOfFri, lblDateOfSat, lblDateOfSun };
+            Guna2CustomGradientPanel[] headerPanels = { pnLabelMon, pnLabelTue, pnLabelWed, pnLabelThu, pnLabelFri, pnLabelSat, pnLabelSun };
 
             DateTime today = DateTime.Today;
 
@@ -246,30 +276,26 @@ namespace BaiTapLonWinForm.Views.Teacher.MyCalenda
                 headerPanels[i].FillColor4 = isToday ? Color.Teal : Color.White;
             }
             lblWeekRange.Text = $"{_startOfWeek:dd/MM/yyyy} - {_startOfWeek.AddDays(6):dd/MM/yyyy}";
-
         }
+
         private void iptbPre_Click(object sender, EventArgs e)
         {
             _currentWeek = _currentWeek.AddDays(-7);
             LoadWeek(_currentWeek);
-            LoadSchedule();
+            _ = LoadScheduleAsync();
         }
 
         private void iptbNext_Click(object sender, EventArgs e)
         {
             _currentWeek = _currentWeek.AddDays(7);
             LoadWeek(_currentWeek);
-            LoadSchedule();
-
+            _ = LoadScheduleAsync();
         }
+
         private void LoadClassCombo()
         {
             var classes = _serviceHub.ClassService.GetAllClass(_teacherId);
-            classes.Insert(0, new Class
-            {
-                ClassId = 0,
-                ClassName = "Tất cả lớp học"
-            });
+            classes.Insert(0, new Class { ClassId = 0, ClassName = "Tất cả lớp học" });
 
             cbbClassList.DataSource = classes;
             cbbClassList.DisplayMember = "ClassName";
@@ -279,11 +305,17 @@ namespace BaiTapLonWinForm.Views.Teacher.MyCalenda
 
         private void cbbClassList_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (!_isLoaded) return;
-            if (cbbClassList.SelectedIndex < 0)
-                return;
+            if (!_isLoaded || cbbClassList.SelectedIndex < 0) return;
+            _ = LoadScheduleAsync();
+        }
 
-            LoadSchedule();
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _cachedScheduleItems.Clear();
+            }
+            base.Dispose(disposing);
         }
     }
 }

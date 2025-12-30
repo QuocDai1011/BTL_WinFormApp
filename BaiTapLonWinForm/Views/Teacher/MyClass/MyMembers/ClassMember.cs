@@ -2,119 +2,200 @@
 using BaiTapLonWinForm.Services;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace BaiTapLonWinForm.Views.Teacher.MyClass
 {
+    /// <summary>
+    /// ClassMember - Hiển thị danh sách members với search local và control caching
+    /// </summary>
     public partial class ClassMember : UserControl
     {
         private readonly long _classId;
         private readonly ServiceHub _serviceHub;
-        private System.Windows.Forms.Timer searchTimer;
-        private List<User> currentStudentMembers = new List<User>();
-        private Models.User currentTeacherMember = new User();
-        //private List<Student> Search(string keyword);
+        
+        // Data cache
+        private List<User> _allStudents = new List<User>();
+        private User _teacher;
+        
+        // Control cache
+        private readonly Dictionary<long, MemberItem> _memberItemCache = new Dictionary<long, MemberItem>();
+        
+        // Search
+        private System.Windows.Forms.Timer _searchDebounce;
+        private bool _isLoading = false;
+
         public ClassMember(long classId, ServiceHub serviceHub)
         {
             InitializeComponent();
             _classId = classId;
             _serviceHub = serviceHub;
+            
+            // Enable double buffering
+            EnableDoubleBuffering(flpnClassStudentMenber);
+            EnableDoubleBuffering(flpnClassTeacherMenber);
+            EnableDoubleBuffering(this);
+            
+            InitializeSearchTimer();
         }
+
+        private void EnableDoubleBuffering(Control control)
+        {
+            if (control == null) return;
+
+            typeof(Control).InvokeMember("DoubleBuffered",
+                BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
+                null, control, new object[] { true });
+        }
+
         private void InitializeSearchTimer()
         {
-            searchTimer = new System.Windows.Forms.Timer();
-            searchTimer.Interval = 300; // Thời gian chờ 300ms
-            searchTimer.Tick += searchTimer_Tick;
+            _searchDebounce = new System.Windows.Forms.Timer { Interval = 300 };
+            _searchDebounce.Tick += OnSearchDebounce;
         }
-        //Tải dữ liệu thành viên lớp học
+
+        #region Load Data
         private void ClassMember_Load(object sender, EventArgs e)
         {
-            InitializeSearchTimer();   // <<< QUAN TRỌNG
-            LoadClassMembers();
+            _ = LoadClassMembersAsync();
         }
-        private void LoadClassMembers()
+
+        private async Task LoadClassMembersAsync()
         {
-            LoadStudentMembers();
-            LoadTeacherMembers();
-        }
-        private void LoadStudentMembers()
-        {
-            //Lấy danh sách thành viên là sinh viên từ ServiceHub
-            var studentMembers = _serviceHub.StudentService.getAllStudentByClassId(_classId);
-            if (studentMembers == null || studentMembers.Count == 0)
+            if (_isLoading) return;
+            _isLoading = true;
+
+            try
             {
-                return;
-            }
-            else
-            {
-                //Tạo vòng lặp để thêm thành viên vào giao diện 
-                foreach (var member in studentMembers)
+                // Load data off UI thread
+                var (students, teacher) = await Task.Run(() =>
                 {
-                    var currentUser = _serviceHub.UserService.GetUserByUserId(member.UserId);
-                    var memberItem = new MemberItem(currentUser);
-                    flpnClassStudentMenber.Controls.Add(memberItem);
-                    if(currentUser != null)
-                    currentStudentMembers.Add(currentUser);
-                }
+                    var studentMembers = _serviceHub.StudentService.getAllStudentByClassId(_classId);
+                    var teacherMember = _serviceHub.TeacherService.getAllTeacherByClassId(_classId);
+
+                    var studentUsers = new List<User>();
+                    if (studentMembers != null)
+                    {
+                        foreach (var member in studentMembers)
+                        {
+                            var user = _serviceHub.UserService.GetUserByUserId(member.UserId);
+                            if (user != null)
+                                studentUsers.Add(user);
+                        }
+                    }
+
+                    User teacherUser = null;
+                    if (teacherMember != null)
+                    {
+                        teacherUser = _serviceHub.UserService.GetUserByUserId(teacherMember.UserId);
+                    }
+
+                    return (studentUsers, teacherUser);
+                });
+
+                // Cache data
+                _allStudents = students;
+                _teacher = teacher;
+
+                // Render UI
+                RenderTeacher(_teacher);
+                RenderStudents(_allStudents);
+            }
+            finally
+            {
+                _isLoading = false;
             }
         }
-        private void GenerateStudentMemberItems(List<User> students)
+        #endregion
+
+        #region Render UI
+        private void RenderTeacher(User teacher)
         {
+            if (teacher == null) return;
+
+            flpnClassTeacherMenber.SuspendLayout();
+            flpnClassTeacherMenber.Controls.Clear();
+
+            var item = GetOrCreateMemberItem(teacher);
+            flpnClassTeacherMenber.Controls.Add(item);
+
+            flpnClassTeacherMenber.ResumeLayout(false);
+            flpnClassTeacherMenber.PerformLayout();
+        }
+
+        private void RenderStudents(List<User> students)
+        {
+            flpnClassStudentMenber.SuspendLayout();
             flpnClassStudentMenber.Controls.Clear();
+
             foreach (var student in students)
             {
-                var memberItem = new MemberItem(student);
-                flpnClassStudentMenber.Controls.Add(memberItem);
+                var item = GetOrCreateMemberItem(student);
+                flpnClassStudentMenber.Controls.Add(item);
             }
+
+            flpnClassStudentMenber.ResumeLayout(false);
+            flpnClassStudentMenber.PerformLayout();
         }
-        private void LoadTeacherMembers()
+
+        private MemberItem GetOrCreateMemberItem(User user)
         {
-            //Lấy giảng viên từ classId
-            var teacherMember = _serviceHub.TeacherService.getAllTeacherByClassId(_classId);
-            if (teacherMember == null)
-            {
-                return;
-            }
-            else
-            {
-                var currentUser = _serviceHub.UserService.GetUserByUserId(teacherMember.UserId);
-                var memberItem = new MemberItem(currentUser);
-                flpnClassTeacherMenber.Controls.Add(memberItem);
-                currentTeacherMember = currentUser;
-            }
+            // Return cached item
+            if (_memberItemCache.TryGetValue(user.UserId, out var cached))
+                return cached;
+
+            // Create new item
+            var item = new MemberItem(user);
+            _memberItemCache[user.UserId] = item;
+            return item;
         }
+        #endregion
+
+        #region Search
         private void txbSearch_TextChanged(object sender, EventArgs e)
         {
-            searchTimer.Stop();
-            searchTimer.Start();   // reset timer mỗi lần gõ
+            _searchDebounce.Stop();
+            _searchDebounce.Start();
         }
-        private void searchTimer_Tick(object sender, EventArgs e)
+
+        private void OnSearchDebounce(object? sender, EventArgs e)
         {
-            searchTimer.Stop();    // tránh lặp vô hạn
-            LoadDataStudentMember(txbSearchStudent.Text.Trim());
+            _searchDebounce.Stop();
+            
+            string keyword = txbSearchStudent.Text.Trim().ToLower();
+            var filtered = FilterStudents(keyword);
+            
+            RenderStudents(filtered);
         }
-        private void LoadDataStudentMember(string keyword)
-        {
-            var data = SearchLocal(keyword);
-            flpnClassStudentMenber.Controls.Clear();
-            GenerateStudentMemberItems(data);
-        }
-        private List<User> SearchLocal(string keyword)
+
+        private List<User> FilterStudents(string keyword)
         {
             if (string.IsNullOrWhiteSpace(keyword))
-                return currentStudentMembers;
+                return _allStudents;
 
-            keyword = keyword.ToLower();
+            return _allStudents.Where(s =>
+                s.FirstName.ToLower().Contains(keyword) ||
+                s.LastName.ToLower().Contains(keyword) ||
+                s.Email.ToLower().Contains(keyword)
+            ).ToList();
+        }
+        #endregion
 
-            return currentStudentMembers
-                .Where(s => s.FirstName.ToLower().Contains(keyword) || s.LastName.ToLower().Contains(keyword))
-                .ToList();
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _searchDebounce?.Dispose();
+                
+                foreach (var item in _memberItemCache.Values)
+                    item?.Dispose();
+                
+                _memberItemCache.Clear();
+            }
+            base.Dispose(disposing);
         }
     }
 }
