@@ -24,6 +24,7 @@
             components = new System.ComponentModel.Container();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TeacherPage));
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
@@ -63,7 +64,7 @@
             guna2GradientButton1 = new Guna.UI2.WinForms.Guna2GradientButton();
             guna2GradientButton2 = new Guna.UI2.WinForms.Guna2GradientButton();
             guna2GradientButton3 = new Guna.UI2.WinForms.Guna2GradientButton();
-            guna2GradientButton4 = new Guna.UI2.WinForms.Guna2GradientButton();
+            btnStoredClass = new Guna.UI2.WinForms.Guna2GradientButton();
             guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
             pnProfileTeacher = new Guna.UI2.WinForms.Guna2Panel();
             lblMenuUserName = new Label();
@@ -93,31 +94,22 @@
             pnHeaderTeacher.Controls.Add(ptbxToggleMode);
             pnHeaderTeacher.Controls.Add(iconPictureBox3);
             pnHeaderTeacher.CustomizableEdges = customizableEdges1;
-            pnHeaderTeacher.Dock = DockStyle.Top;
-            pnHeaderTeacher.Location = new Point(314, 0);
+            resources.ApplyResources(pnHeaderTeacher, "pnHeaderTeacher");
             pnHeaderTeacher.Name = "pnHeaderTeacher";
             pnHeaderTeacher.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            pnHeaderTeacher.Size = new Size(1570, 60);
-            pnHeaderTeacher.TabIndex = 1;
             // 
             // pnFlowTitle
             // 
             pnFlowTitle.BackColor = Color.Transparent;
             pnFlowTitle.Controls.Add(lblMainTitle);
-            pnFlowTitle.Location = new Point(57, 9);
+            resources.ApplyResources(pnFlowTitle, "pnFlowTitle");
             pnFlowTitle.Name = "pnFlowTitle";
-            pnFlowTitle.Size = new Size(753, 42);
-            pnFlowTitle.TabIndex = 6;
             // 
             // lblMainTitle
             // 
             lblMainTitle.BackColor = Color.Transparent;
-            lblMainTitle.Font = new Font("Segoe UI Semibold", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblMainTitle.Location = new Point(3, 3);
+            resources.ApplyResources(lblMainTitle, "lblMainTitle");
             lblMainTitle.Name = "lblMainTitle";
-            lblMainTitle.Size = new Size(171, 34);
-            lblMainTitle.TabIndex = 5;
-            lblMainTitle.Text = "Lớp học của tôi";
             lblMainTitle.Click += lblMainTitle_Click;
             // 
             // ptbxIconMap
@@ -127,10 +119,8 @@
             ptbxIconMap.IconChar = FontAwesome.Sharp.IconChar.LocationArrow;
             ptbxIconMap.IconColor = Color.FromArgb(72, 181, 183);
             ptbxIconMap.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            ptbxIconMap.Location = new Point(1325, 19);
+            resources.ApplyResources(ptbxIconMap, "ptbxIconMap");
             ptbxIconMap.Name = "ptbxIconMap";
-            ptbxIconMap.Size = new Size(41, 32);
-            ptbxIconMap.TabIndex = 5;
             ptbxIconMap.TabStop = false;
             ptbxIconMap.Click += iconPictureBox4_Click;
             // 
@@ -141,10 +131,8 @@
             iconPictureBox1.IconChar = FontAwesome.Sharp.IconChar.Bell;
             iconPictureBox1.IconColor = Color.FromArgb(72, 181, 183);
             iconPictureBox1.IconFont = FontAwesome.Sharp.IconFont.Solid;
-            iconPictureBox1.Location = new Point(1448, 19);
+            resources.ApplyResources(iconPictureBox1, "iconPictureBox1");
             iconPictureBox1.Name = "iconPictureBox1";
-            iconPictureBox1.Size = new Size(37, 32);
-            iconPictureBox1.TabIndex = 1;
             iconPictureBox1.TabStop = false;
             // 
             // ptbxToggleMode
@@ -154,10 +142,8 @@
             ptbxToggleMode.IconChar = FontAwesome.Sharp.IconChar.Palette;
             ptbxToggleMode.IconColor = Color.FromArgb(72, 181, 183);
             ptbxToggleMode.IconFont = FontAwesome.Sharp.IconFont.Auto;
-            ptbxToggleMode.Location = new Point(1385, 20);
+            resources.ApplyResources(ptbxToggleMode, "ptbxToggleMode");
             ptbxToggleMode.Name = "ptbxToggleMode";
-            ptbxToggleMode.Size = new Size(41, 32);
-            ptbxToggleMode.TabIndex = 1;
             ptbxToggleMode.TabStop = false;
             ptbxToggleMode.Click += ptbxToggleMode_Click;
             // 
@@ -169,10 +155,8 @@
             iconPictureBox3.IconColor = SystemColors.ActiveCaptionText;
             iconPictureBox3.IconFont = FontAwesome.Sharp.IconFont.Solid;
             iconPictureBox3.IconSize = 25;
-            iconPictureBox3.Location = new Point(1510, 19);
+            resources.ApplyResources(iconPictureBox3, "iconPictureBox3");
             iconPictureBox3.Name = "iconPictureBox3";
-            iconPictureBox3.Size = new Size(32, 25);
-            iconPictureBox3.TabIndex = 2;
             iconPictureBox3.TabStop = false;
             // 
             // pnBorderMain
@@ -180,26 +164,21 @@
             pnBorderMain.BackColor = Color.FromArgb(213, 245, 232);
             pnBorderMain.Controls.Add(pnParentPanelMain);
             pnBorderMain.CustomizableEdges = customizableEdges7;
-            pnBorderMain.Dock = DockStyle.Fill;
+            resources.ApplyResources(pnBorderMain, "pnBorderMain");
             pnBorderMain.FillColor = Color.FromArgb(213, 245, 232);
             pnBorderMain.FillColor2 = Color.FromArgb(213, 245, 232);
             pnBorderMain.FillColor3 = Color.FromArgb(213, 245, 232);
             pnBorderMain.FillColor4 = Color.FromArgb(213, 245, 232);
-            pnBorderMain.Location = new Point(314, 60);
             pnBorderMain.Name = "pnBorderMain";
             pnBorderMain.ShadowDecoration.CustomizableEdges = customizableEdges8;
-            pnBorderMain.Size = new Size(1570, 951);
-            pnBorderMain.TabIndex = 2;
             // 
             // pnParentPanelMain
             // 
             pnParentPanelMain.Controls.Add(pnMain);
             pnParentPanelMain.CustomizableEdges = customizableEdges5;
-            pnParentPanelMain.Location = new Point(14, 14);
+            resources.ApplyResources(pnParentPanelMain, "pnParentPanelMain");
             pnParentPanelMain.Name = "pnParentPanelMain";
             pnParentPanelMain.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            pnParentPanelMain.Size = new Size(1544, 923);
-            pnParentPanelMain.TabIndex = 0;
             // 
             // pnMain
             // 
@@ -209,26 +188,21 @@
             pnMain.FillColor2 = Color.Transparent;
             pnMain.FillColor3 = Color.Transparent;
             pnMain.FillColor4 = Color.Transparent;
-            pnMain.Location = new Point(43, 37);
+            resources.ApplyResources(pnMain, "pnMain");
             pnMain.Name = "pnMain";
             pnMain.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            pnMain.Size = new Size(1459, 849);
-            pnMain.TabIndex = 1;
             // 
             // pnSideBar
             // 
             pnSideBar.Controls.Add(pnMenuPage);
             pnSideBar.Controls.Add(guna2Panel1);
             pnSideBar.CustomizableEdges = customizableEdges24;
-            pnSideBar.Dock = DockStyle.Left;
+            resources.ApplyResources(pnSideBar, "pnSideBar");
             pnSideBar.FillColor = Color.FromArgb(72, 181, 183);
             pnSideBar.FillColor3 = Color.MediumSpringGreen;
             pnSideBar.FillColor4 = Color.FromArgb(61, 104, 201);
-            pnSideBar.Location = new Point(0, 0);
             pnSideBar.Name = "pnSideBar";
             pnSideBar.ShadowDecoration.CustomizableEdges = customizableEdges25;
-            pnSideBar.Size = new Size(314, 1011);
-            pnSideBar.TabIndex = 0;
             // 
             // pnMenuPage
             // 
@@ -237,26 +211,18 @@
             pnMenuPage.BorderRadius = 16;
             pnMenuPage.Controls.Add(fpnBtnMenu);
             pnMenuPage.CustomizableEdges = customizableEdges17;
-            pnMenuPage.Dock = DockStyle.Fill;
-            pnMenuPage.Location = new Point(0, 60);
+            resources.ApplyResources(pnMenuPage, "pnMenuPage");
             pnMenuPage.Name = "pnMenuPage";
-            pnMenuPage.Padding = new Padding(0, 16, 0, 0);
             pnMenuPage.ShadowDecoration.CustomizableEdges = customizableEdges18;
-            pnMenuPage.Size = new Size(314, 951);
-            pnMenuPage.TabIndex = 1;
             // 
             // fpnBtnMenu
             // 
             fpnBtnMenu.Controls.Add(guna2GradientButton1);
             fpnBtnMenu.Controls.Add(guna2GradientButton2);
             fpnBtnMenu.Controls.Add(guna2GradientButton3);
-            fpnBtnMenu.Controls.Add(guna2GradientButton4);
-            fpnBtnMenu.Location = new Point(3, 14);
-            fpnBtnMenu.Margin = new Padding(0);
+            fpnBtnMenu.Controls.Add(btnStoredClass);
+            resources.ApplyResources(fpnBtnMenu, "fpnBtnMenu");
             fpnBtnMenu.Name = "fpnBtnMenu";
-            fpnBtnMenu.Padding = new Padding(8, 0, 8, 0);
-            fpnBtnMenu.Size = new Size(308, 886);
-            fpnBtnMenu.TabIndex = 0;
             // 
             // guna2GradientButton1
             // 
@@ -273,17 +239,11 @@
             guna2GradientButton1.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             guna2GradientButton1.FillColor = Color.Transparent;
             guna2GradientButton1.FillColor2 = Color.Transparent;
-            guna2GradientButton1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            resources.ApplyResources(guna2GradientButton1, "guna2GradientButton1");
             guna2GradientButton1.ForeColor = Color.Black;
             guna2GradientButton1.HoverState.FillColor = Color.White;
-            guna2GradientButton1.Location = new Point(8, 0);
-            guna2GradientButton1.Margin = new Padding(0);
             guna2GradientButton1.Name = "guna2GradientButton1";
-            guna2GradientButton1.Padding = new Padding(56, 0, 0, 0);
             guna2GradientButton1.ShadowDecoration.CustomizableEdges = customizableEdges10;
-            guna2GradientButton1.Size = new Size(293, 51);
-            guna2GradientButton1.TabIndex = 0;
-            guna2GradientButton1.Text = "Lớp học của tôi";
             guna2GradientButton1.TextAlign = HorizontalAlignment.Left;
             guna2GradientButton1.Click += MenuClass_Click;
             // 
@@ -291,7 +251,7 @@
             // 
             guna2GradientButton2.BorderRadius = 24;
             guna2GradientButton2.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
-            guna2GradientButton2.CheckedState.FillColor = Color.FromArgb(61, 104, 201);
+            guna2GradientButton2.CheckedState.FillColor = Color.White;
             guna2GradientButton2.CheckedState.FillColor2 = Color.White;
             guna2GradientButton2.CustomizableEdges = customizableEdges11;
             guna2GradientButton2.DisabledState.BorderColor = Color.DarkGray;
@@ -301,24 +261,18 @@
             guna2GradientButton2.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             guna2GradientButton2.FillColor = Color.Transparent;
             guna2GradientButton2.FillColor2 = Color.Transparent;
-            guna2GradientButton2.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            resources.ApplyResources(guna2GradientButton2, "guna2GradientButton2");
             guna2GradientButton2.ForeColor = Color.Black;
             guna2GradientButton2.HoverState.FillColor = Color.White;
-            guna2GradientButton2.Location = new Point(8, 51);
-            guna2GradientButton2.Margin = new Padding(0);
             guna2GradientButton2.Name = "guna2GradientButton2";
-            guna2GradientButton2.Padding = new Padding(56, 0, 0, 0);
             guna2GradientButton2.ShadowDecoration.CustomizableEdges = customizableEdges12;
-            guna2GradientButton2.Size = new Size(293, 51);
-            guna2GradientButton2.TabIndex = 1;
-            guna2GradientButton2.Text = "Nhiệm vụ";
             guna2GradientButton2.TextAlign = HorizontalAlignment.Left;
             // 
             // guna2GradientButton3
             // 
             guna2GradientButton3.BorderRadius = 24;
             guna2GradientButton3.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
-            guna2GradientButton3.CheckedState.FillColor = Color.FromArgb(61, 104, 201);
+            guna2GradientButton3.CheckedState.FillColor = Color.White;
             guna2GradientButton3.CheckedState.FillColor2 = Color.White;
             guna2GradientButton3.CustomizableEdges = customizableEdges13;
             guna2GradientButton3.DisabledState.BorderColor = Color.DarkGray;
@@ -328,58 +282,44 @@
             guna2GradientButton3.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             guna2GradientButton3.FillColor = Color.Transparent;
             guna2GradientButton3.FillColor2 = Color.Transparent;
-            guna2GradientButton3.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            resources.ApplyResources(guna2GradientButton3, "guna2GradientButton3");
             guna2GradientButton3.ForeColor = Color.Black;
             guna2GradientButton3.HoverState.FillColor = Color.White;
-            guna2GradientButton3.Location = new Point(8, 102);
-            guna2GradientButton3.Margin = new Padding(0);
             guna2GradientButton3.Name = "guna2GradientButton3";
-            guna2GradientButton3.Padding = new Padding(56, 0, 0, 0);
             guna2GradientButton3.ShadowDecoration.CustomizableEdges = customizableEdges14;
-            guna2GradientButton3.Size = new Size(293, 51);
-            guna2GradientButton3.TabIndex = 2;
-            guna2GradientButton3.Text = "Lịch làm việc";
             guna2GradientButton3.TextAlign = HorizontalAlignment.Left;
             guna2GradientButton3.Click += MenuCalenda_Click;
             // 
-            // guna2GradientButton4
+            // btnStoredClass
             // 
-            guna2GradientButton4.BorderRadius = 24;
-            guna2GradientButton4.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
-            guna2GradientButton4.CheckedState.FillColor = Color.FromArgb(61, 104, 201);
-            guna2GradientButton4.CheckedState.FillColor2 = Color.White;
-            guna2GradientButton4.CustomizableEdges = customizableEdges15;
-            guna2GradientButton4.DisabledState.BorderColor = Color.DarkGray;
-            guna2GradientButton4.DisabledState.CustomBorderColor = Color.DarkGray;
-            guna2GradientButton4.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
-            guna2GradientButton4.DisabledState.FillColor2 = Color.FromArgb(169, 169, 169);
-            guna2GradientButton4.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
-            guna2GradientButton4.FillColor = Color.Transparent;
-            guna2GradientButton4.FillColor2 = Color.Transparent;
-            guna2GradientButton4.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            guna2GradientButton4.ForeColor = Color.Black;
-            guna2GradientButton4.HoverState.FillColor = Color.White;
-            guna2GradientButton4.Location = new Point(8, 153);
-            guna2GradientButton4.Margin = new Padding(0);
-            guna2GradientButton4.Name = "guna2GradientButton4";
-            guna2GradientButton4.Padding = new Padding(56, 0, 0, 0);
-            guna2GradientButton4.ShadowDecoration.CustomizableEdges = customizableEdges16;
-            guna2GradientButton4.Size = new Size(293, 51);
-            guna2GradientButton4.TabIndex = 3;
-            guna2GradientButton4.Text = "Lớp học lưu trữ";
-            guna2GradientButton4.TextAlign = HorizontalAlignment.Left;
+            btnStoredClass.BorderRadius = 24;
+            btnStoredClass.ButtonMode = Guna.UI2.WinForms.Enums.ButtonMode.RadioButton;
+            btnStoredClass.CheckedState.FillColor = Color.White;
+            btnStoredClass.CheckedState.FillColor2 = Color.White;
+            btnStoredClass.CustomizableEdges = customizableEdges15;
+            btnStoredClass.DisabledState.BorderColor = Color.DarkGray;
+            btnStoredClass.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnStoredClass.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnStoredClass.DisabledState.FillColor2 = Color.FromArgb(169, 169, 169);
+            btnStoredClass.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnStoredClass.FillColor = Color.Transparent;
+            btnStoredClass.FillColor2 = Color.Transparent;
+            resources.ApplyResources(btnStoredClass, "btnStoredClass");
+            btnStoredClass.ForeColor = Color.Black;
+            btnStoredClass.HoverState.FillColor = Color.White;
+            btnStoredClass.Name = "btnStoredClass";
+            btnStoredClass.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            btnStoredClass.TextAlign = HorizontalAlignment.Left;
+            btnStoredClass.Click += btnStoredClass_Click;
             // 
             // guna2Panel1
             // 
             guna2Panel1.BackColor = Color.Transparent;
             guna2Panel1.Controls.Add(pnProfileTeacher);
             guna2Panel1.CustomizableEdges = customizableEdges22;
-            guna2Panel1.Dock = DockStyle.Top;
-            guna2Panel1.Location = new Point(0, 0);
+            resources.ApplyResources(guna2Panel1, "guna2Panel1");
             guna2Panel1.Name = "guna2Panel1";
             guna2Panel1.ShadowDecoration.CustomizableEdges = customizableEdges23;
-            guna2Panel1.Size = new Size(314, 60);
-            guna2Panel1.TabIndex = 0;
             // 
             // pnProfileTeacher
             // 
@@ -389,47 +329,35 @@
             pnProfileTeacher.CustomBorderColor = Color.DarkGreen;
             pnProfileTeacher.CustomBorderThickness = new Padding(0, 0, 0, 1);
             pnProfileTeacher.CustomizableEdges = customizableEdges20;
-            pnProfileTeacher.Dock = DockStyle.Fill;
-            pnProfileTeacher.Location = new Point(0, 0);
+            resources.ApplyResources(pnProfileTeacher, "pnProfileTeacher");
             pnProfileTeacher.Name = "pnProfileTeacher";
             pnProfileTeacher.ShadowDecoration.CustomizableEdges = customizableEdges21;
-            pnProfileTeacher.Size = new Size(314, 60);
-            pnProfileTeacher.TabIndex = 0;
             pnProfileTeacher.Click += pnProfileTeacher_Click;
             // 
             // lblMenuUserName
             // 
-            lblMenuUserName.AutoSize = true;
-            lblMenuUserName.Font = new Font("Segoe UI Semibold", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblMenuUserName.Location = new Point(75, 20);
+            resources.ApplyResources(lblMenuUserName, "lblMenuUserName");
             lblMenuUserName.Name = "lblMenuUserName";
-            lblMenuUserName.Size = new Size(134, 25);
-            lblMenuUserName.TabIndex = 5;
-            lblMenuUserName.Text = "Teacher Name";
             // 
             // guna2CirclePictureBox1
             // 
             guna2CirclePictureBox1.Image = Properties.Resources.default_user;
             guna2CirclePictureBox1.ImageRotate = 0F;
-            guna2CirclePictureBox1.Location = new Point(19, 9);
+            resources.ApplyResources(guna2CirclePictureBox1, "guna2CirclePictureBox1");
             guna2CirclePictureBox1.Name = "guna2CirclePictureBox1";
             guna2CirclePictureBox1.ShadowDecoration.CustomizableEdges = customizableEdges19;
             guna2CirclePictureBox1.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
-            guna2CirclePictureBox1.Size = new Size(43, 43);
-            guna2CirclePictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            guna2CirclePictureBox1.TabIndex = 4;
             guna2CirclePictureBox1.TabStop = false;
             // 
             // TeacherPage
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            resources.ApplyResources(this, "$this");
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1884, 1011);
             Controls.Add(pnBorderMain);
             Controls.Add(pnHeaderTeacher);
             Controls.Add(pnSideBar);
             Name = "TeacherPage";
-            Text = "TeacherPage";
+            Load += TeacherPage_Load;
             pnHeaderTeacher.ResumeLayout(false);
             pnFlowTitle.ResumeLayout(false);
             pnFlowTitle.PerformLayout();
@@ -468,7 +396,7 @@
         private Guna.UI2.WinForms.Guna2GradientButton guna2GradientButton1;
         private Guna.UI2.WinForms.Guna2GradientButton guna2GradientButton2;
         private Guna.UI2.WinForms.Guna2GradientButton guna2GradientButton3;
-        private Guna.UI2.WinForms.Guna2GradientButton guna2GradientButton4;
+        private Guna.UI2.WinForms.Guna2GradientButton btnStoredClass;
         private Guna.UI2.WinForms.Guna2CustomGradientPanel pnParentPanelMain;
         private Guna.UI2.WinForms.Guna2CustomGradientPanel pnMain;
         private FlowLayoutPanel pnFlowTitle;

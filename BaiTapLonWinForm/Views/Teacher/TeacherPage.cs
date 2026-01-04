@@ -12,20 +12,18 @@ using System.Windows.Forms;
 
 namespace BaiTapLonWinForm.Views.Teacher
 {
-    /// <summary>
-    /// TeacherPage - Main form với control caching để tránh reload không cần thiết
-    /// </summary>
     public partial class TeacherPage : Form
     {
         private readonly int _teacherId;
         private readonly ServiceHub _serviceHub;
-        
-        // Cache controls để tránh tạo lại
+
         private ClassList _classList;
         private Calenda _calenda;
         private MyProfile _profile;
-        
+        private Guna2Panel loadingOverlay;
+        private Guna2WinProgressIndicator progressLoader;
         private bool isDarkMode = false;
+        private bool isInitialized = false;
 
         public TeacherPage(ServiceHub serviceHub, int teacherId)
         {
@@ -33,19 +31,21 @@ namespace BaiTapLonWinForm.Views.Teacher
             _serviceHub = serviceHub;
             _teacherId = teacherId;
 
-            // Enable double buffering
             this.SetStyle(
-                ControlStyles.OptimizedDoubleBuffer | 
-                ControlStyles.AllPaintingInWmPaint | 
-                ControlStyles.UserPaint, 
+                ControlStyles.OptimizedDoubleBuffer |
+                ControlStyles.AllPaintingInWmPaint |
+                ControlStyles.UserPaint,
                 true
             );
             this.UpdateStyles();
-
             LoadLabelName();
-            LoadClassList();
+            isInitialized = true;
         }
 
+        private void TeacherPage_Load(object sender, EventArgs e)
+        {
+            MenuClass_Click(null, null);
+        }
         private void LoadLabelName()
         {
             var teacher = _serviceHub.UserService.GetUserByTeacherId(_teacherId);
@@ -53,30 +53,6 @@ namespace BaiTapLonWinForm.Views.Teacher
         }
 
         #region Class List Management
-        private void LoadClassList()
-        {
-            // Cache ClassList - chỉ tạo MỘT LẦN
-            if (_classList == null)
-            {
-                _classList = new ClassList(_teacherId, _serviceHub)
-                {
-                    Dock = DockStyle.Fill
-                };
-                _classList.OnOpenClassDetail += OpenClassDetail;
-            }
-
-            // Chỉ add nếu chưa có trong panel
-            if (!pnMain.Controls.Contains(_classList))
-            {
-                pnMain.SuspendLayout();
-                pnMain.Controls.Clear();
-                pnMain.Controls.Add(_classList);
-                pnMain.ResumeLayout(false);
-
-                // Async load data
-                _ = _classList.LoadClassesAsync();
-            }
-        }
 
         public void RefreshClassList()
         {
@@ -85,7 +61,6 @@ namespace BaiTapLonWinForm.Views.Teacher
 
         public void ClearClassListCache()
         {
-            // ClassList will handle its own cache disposal
             if (_classList != null)
             {
                 _classList = null;
@@ -94,111 +69,68 @@ namespace BaiTapLonWinForm.Views.Teacher
         #endregion
 
         #region Navigation
-        private void MenuClass_Click(object sender, EventArgs e)
-        {
-            string title = (sender as Guna2GradientButton)?.Text ?? "Lớp học của tôi";
-            UpdateMainTitleAndClearMenuLabels(title);
-
-            // Skip nếu đã hiển thị
-            if (pnMain.Controls.Count > 0 && pnMain.Controls[0] == _classList)
-                return;
-
-            LoadClassList();
-        }
-
-        private void MenuCalenda_Click(object sender, EventArgs e)
-        {
-            string title = (sender as Guna2GradientButton)?.Text ?? "Lịch làm việc";
-            UpdateMainTitleAndClearMenuLabels(title);
-
-            // Cache calendar
-            if (_calenda == null)
-            {
-                _calenda = new Calenda(_serviceHub, _teacherId)
-                {
-                    Dock = DockStyle.Fill
-                };
-            }
-
-            // Skip nếu đã hiển thị
-            if (pnMain.Controls.Count > 0 && pnMain.Controls[0] == _calenda)
-                return;
-
-            pnMain.SuspendLayout();
-            pnMain.Controls.Clear();
-            pnMain.Controls.Add(_calenda);
-            pnMain.ResumeLayout(false);
-        }
-
-        private void pnProfileTeacher_Click(object sender, EventArgs e)
-        {
-            UpdateMainTitleAndClearMenuLabels("Hồ sơ cá nhân");
-
-            // Cache profile
-            if (_profile == null)
-            {
-                _profile = new MyProfile(_teacherId, _serviceHub);
-            }
-
-            // Skip nếu đã hiển thị
-            if (pnMain.Controls.Count > 0 && pnMain.Controls[0] == _profile)
-                return;
-
-            pnMain.SuspendLayout();
-            pnMain.Controls.Clear();
-            pnMain.AutoScroll = true;
-            pnMain.Controls.Add(_profile);
-            pnMain.ResumeLayout(false);
-        }
-
         private void OpenClassDetail(long classId)
         {
+            pnMain.Visible = false;
+            SuspendDrawing();
             pnMain.SuspendLayout();
-            pnMain.Controls.Clear();
 
-            // Add breadcrumb label
             try
             {
+                for (int i = pnMain.Controls.Count - 1; i >= 0; i--)
+                {
+                    var ctrl = pnMain.Controls[i];
+                    if (ctrl == _classList || ctrl == _calenda || ctrl == _profile)
+                        pnMain.Controls.Remove(ctrl);
+                    else
+                        ctrl.Dispose();
+                }
+                pnMain.Controls.Clear();
+
                 var cls = _serviceHub.ClassService.GetClassById(classId);
                 string className = cls?.ClassName ?? "Lớp học";
 
                 var target = this.Controls.Find("pnMainMenuTitle", true).FirstOrDefault() as FlowLayoutPanel
-                    ?? this.Controls.Find("pnFlowTitle", true).FirstOrDefault() as FlowLayoutPanel;
+                            ?? this.Controls.Find("pnFlowTitle", true).FirstOrDefault() as FlowLayoutPanel;
 
                 if (target != null)
                 {
-                    // Remove existing breadcrumb
-                    var existing = target.Controls.Cast<Control>()
-                        .OfType<Guna2HtmlLabel>()
-                        .FirstOrDefault(c => c.Text.StartsWith("/ "));
-                    
-                    if (existing != null)
-                        target.Controls.Remove(existing);
+                    var oldLabels = target.Controls.OfType<Guna2HtmlLabel>()
+                                          .Where(c => c.Text.StartsWith("/ "))
+                                          .ToList();
+                    foreach (var old in oldLabels)
+                    {
+                        target.Controls.Remove(old);
+                        old.Dispose();
+                    }
 
                     var lbl = new Guna2HtmlLabel
                     {
                         BackColor = Color.Transparent,
                         Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold),
-                        ForeColor = Color.Teal,
+                        ForeColor = isDarkMode ? Color.FromArgb(72, 181, 183) : Color.Teal,
                         AutoSize = false,
                         Size = new Size(500, 34),
                         TextAlignment = ContentAlignment.MiddleLeft,
                         Text = $"/ {className}",
                         Margin = new Padding(8, 6, 8, 6)
                     };
-
                     target.Controls.Add(lbl);
                 }
+
+                var classDetail = new ClassDetail(classId, _serviceHub) { Dock = DockStyle.Fill };
+                pnMain.Controls.Add(classDetail);
             }
-            catch { }
-
-            var classDetail = new ClassDetail(classId, _serviceHub)
+            catch (Exception ex)
             {
-                Dock = DockStyle.Fill
-            };
-
-            pnMain.Controls.Add(classDetail);
-            pnMain.ResumeLayout(false);
+                Console.WriteLine(@"Error opening class detail: " + ex.Message);
+            }
+            finally
+            {
+                pnMain.ResumeLayout(true);
+                ResumeDrawing();
+                pnMain.Visible = true;
+            }
         }
         #endregion
 
@@ -209,21 +141,222 @@ namespace BaiTapLonWinForm.Views.Teacher
                 lblMainTitle.Text = newTitle;
 
             var target = this.Controls.Find("pnMainMenuTitle", true).FirstOrDefault() as FlowLayoutPanel
-                ?? this.Controls.Find("pnFlowTitle", true).FirstOrDefault() as FlowLayoutPanel;
+                        ?? this.Controls.Find("pnFlowTitle", true).FirstOrDefault() as FlowLayoutPanel;
 
             if (target == null) return;
 
-            var toRemove = target.Controls.Cast<Control>()
-                .Where(c => c != lblMainTitle && (c is Label || c.GetType().Name.Contains("HtmlLabel")))
-                .ToList();
-
-            foreach (var c in toRemove)
+            for (int i = target.Controls.Count - 1; i >= 0; i--)
             {
-                target.Controls.Remove(c);
-                c.Dispose();
+                var ctrl = target.Controls[i];
+                if (ctrl is Guna2HtmlLabel lbl && lbl != lblMainTitle && lbl.Text.StartsWith("/ "))
+                {
+                    target.Controls.Remove(lbl);
+                    lbl.Dispose();
+                }
+            }
+        }
+        #endregion
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        private static extern int SendMessage(IntPtr hWnd, Int32 wMsg, bool wParam, Int32 lParam);
+        private const int WM_SETREDRAW = 11;
+
+        public void SuspendDrawing() => SendMessage(this.Handle, WM_SETREDRAW, false, 0);
+
+        public void ResumeDrawing()
+        {
+            SendMessage(this.Handle, WM_SETREDRAW, true, 0);
+            this.Refresh();
+        }
+
+        #region Theme Management
+        private void ApplyDarkMode()
+        {
+            pnMain.Visible = false;
+            pnMain.Refresh();
+            Color darkBg = Color.FromArgb(0, 27, 51);
+            Color darkAccent = Color.FromArgb(4, 59, 59);
+
+            SetPanelGradient(pnSideBar, darkBg, Color.Black, darkBg, darkAccent);
+            SetPanelGradient(pnHeaderTeacher, darkAccent, Color.Black, darkBg, darkBg);
+
+            lblMenuUserName.ForeColor = Color.White;
+            SetPanelGradient(pnParentPanelMain, darkAccent, Color.Black, Color.Black, darkBg);
+
+            foreach (var btn in fpnBtnMenu.Controls.OfType<Guna2GradientButton>())
+            {
+                btn.CheckedState.FillColor = Color.FromArgb(61, 104, 201);
+                btn.CheckedState.FillColor2 = Color.FromArgb(72, 181, 183);
+                btn.ForeColor = Color.White;
             }
         }
 
+        private void SetPanelGradient(Guna2CustomGradientPanel p, Color c1, Color c2, Color c3, Color c4)
+        {
+            p.FillColor = c1;
+            p.FillColor2 = c2;
+            p.FillColor3 = c3;
+            p.FillColor4 = c4;
+        }
+
+        private void ApplyLightMode()
+        {
+            pnMain.Visible = false;
+            pnMain.Refresh();
+
+            pnSideBar.FillColor = Color.FromArgb(72, 181, 183);
+            pnSideBar.FillColor2 = Color.White;
+            pnSideBar.FillColor3 = Color.MediumSpringGreen;
+            pnSideBar.FillColor4 = Color.FromArgb(61, 104, 201);
+
+            lblMenuUserName.ForeColor = Color.Black;
+            pnHeaderTeacher.FillColor = Color.White;
+            pnHeaderTeacher.FillColor2 = Color.White;
+            pnHeaderTeacher.FillColor3 = Color.White;
+            pnHeaderTeacher.FillColor4 = Color.White;
+
+            foreach (Control label in pnHeaderTeacher.Controls)
+            {
+                if (label is Guna2HtmlLabel)
+                    label.ForeColor = Color.Black;
+            }
+
+            pnBorderMain.FillColor = Color.FromArgb(213, 245, 232);
+            pnBorderMain.FillColor2 = Color.FromArgb(213, 245, 232);
+            pnBorderMain.FillColor3 = Color.FromArgb(213, 245, 232);
+            pnBorderMain.FillColor4 = Color.FromArgb(213, 245, 232);
+
+            pnParentPanelMain.FillColor = Color.White;
+            pnParentPanelMain.FillColor2 = Color.White;
+            pnParentPanelMain.FillColor3 = Color.White;
+            pnParentPanelMain.FillColor4 = Color.White;
+
+            foreach (Control ctrl in fpnBtnMenu.Controls)
+            {
+                if (ctrl is Guna2GradientButton btn)
+                {
+                    btn.CheckedState.FillColor = Color.White;
+                    btn.CheckedState.FillColor2 = Color.White;
+                    btn.ForeColor = Color.Black;
+                }
+            }
+            
+            _classList?.ApplyThemeToAllItems(false);
+        }
+        #endregion
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _classList?.Dispose();
+                _calenda?.Dispose();
+                _profile?.Dispose();
+
+                if (components != null)
+                {
+                    components.Dispose();
+                }
+            }
+            base.Dispose(disposing);
+        }
+        private async void MenuClass_Click(object sender, EventArgs e)
+        {
+            string title = (sender as Guna2GradientButton)?.Text ?? "Lớp học của tôi";
+            UpdateMainTitleAndClearMenuLabels(title);
+
+            if (_classList == null)
+            {
+                _classList = new ClassList(_teacherId, _serviceHub) { Dock = DockStyle.Fill };
+                _classList.OnOpenClassDetail += OpenClassDetail;
+            }
+            if (pnMain.Controls.Count > 0 && pnMain.Controls[0] == _classList)
+            {
+                pnMain.Visible = false;
+                await _classList.LoadClassesAsync();
+                pnMain.Visible = true;
+                return;
+            }
+
+            pnMain.Visible = false;
+            pnMain.SuspendLayout();
+
+            for (int i = pnMain.Controls.Count - 1; i >= 0; i--)
+            {
+                var ctrl = pnMain.Controls[i];
+                if (ctrl == _classList || ctrl == _calenda || ctrl == _profile)
+                    pnMain.Controls.Remove(ctrl);
+                else
+                    ctrl.Dispose();
+            }
+            pnMain.Controls.Clear();
+
+            pnMain.Controls.Add(_classList);
+            pnMain.ResumeLayout(false);
+            await _classList.LoadClassesAsync();
+            pnMain.Visible = true;
+        }
+
+        private void MenuCalenda_Click(object sender, EventArgs e)
+        {
+            string title = (sender as Guna2GradientButton)?.Text ?? "Lịch làm việc";
+            UpdateMainTitleAndClearMenuLabels(title);
+
+            if (_calenda == null)
+            {
+                _calenda = new Calenda(_serviceHub, _teacherId)
+                {
+                    Dock = DockStyle.Fill
+                };
+            }
+            if (pnMain.Controls.Count > 0 && pnMain.Controls[0] == _calenda)
+                return;
+
+            pnMain.Visible = false;
+            pnMain.SuspendLayout();
+            for (int i = pnMain.Controls.Count - 1; i >= 0; i--)
+            {
+                var ctrl = pnMain.Controls[i];
+                if (ctrl == _classList || ctrl == _calenda || ctrl == _profile)
+                    pnMain.Controls.Remove(ctrl);
+                else
+                    ctrl.Dispose();
+            }
+            pnMain.Controls.Clear();
+            
+            pnMain.Controls.Add(_calenda);
+            pnMain.ResumeLayout(false);
+            pnMain.Visible = true;
+        }
+
+        private void pnProfileTeacher_Click(object sender, EventArgs e)
+        {
+            UpdateMainTitleAndClearMenuLabels("Hồ sơ cá nhân");
+
+            if (_profile == null)
+            {
+                _profile = new MyProfile(_teacherId, _serviceHub) { Dock = DockStyle.Fill };
+            }
+            if (pnMain.Controls.Count > 0 && pnMain.Controls[0] == _profile)
+                return;
+
+            pnMain.Visible = false;
+            pnMain.SuspendLayout();
+            for (int i = pnMain.Controls.Count - 1; i >= 0; i--)
+            {
+                var ctrl = pnMain.Controls[i];
+                if (ctrl == _classList || ctrl == _calenda || ctrl == _profile)
+                    pnMain.Controls.Remove(ctrl);
+                else
+                    ctrl.Dispose();
+            }
+            pnMain.Controls.Clear();
+            
+            pnMain.AutoScroll = true;
+            pnMain.Controls.Add(_profile);
+            pnMain.ResumeLayout(false);
+            pnMain.Visible = true;
+        }
+        
         private void lblMainTitle_Click(object sender, EventArgs e)
         {
             if (lblMainTitle.Text == "Lớp học của tôi")
@@ -235,7 +368,6 @@ namespace BaiTapLonWinForm.Views.Teacher
                 MenuCalenda_Click(sender, e);
             }
         }
-        #endregion
 
         #region Map Navigation
         private void iconPictureBox4_Click(object sender, EventArgs e)
@@ -267,121 +399,64 @@ namespace BaiTapLonWinForm.Views.Teacher
             }
         }
         #endregion
-
-        #region Dark/Light Mode
-        private void ptbxToggleMode_Click(object sender, EventArgs e)
+        private async void ptbxToggleMode_Click(object sender, EventArgs e)
         {
-            isDarkMode = !isDarkMode;
+            await Task.Delay(100);
 
-            if (isDarkMode)
-                ApplyDarkMode();
-            else
-                ApplyLightMode();
-        }
+            SuspendDrawing();
+            this.SuspendLayout();
 
-        private void ApplyDarkMode()
-        {
-            // SideBar
-            pnSideBar.FillColor = Color.FromArgb(0, 27, 51);
-            pnSideBar.FillColor2 = Color.FromArgb(0, 0, 0);
-            pnSideBar.FillColor3 = Color.FromArgb(0, 27, 51);
-            pnSideBar.FillColor4 = Color.FromArgb(4, 59, 59);
-
-            // Header
-            lblMenuUserName.ForeColor = Color.White;
-            pnHeaderTeacher.FillColor = Color.FromArgb(4, 59, 59);
-            pnHeaderTeacher.FillColor2 = Color.Black;
-            pnHeaderTeacher.FillColor3 = Color.FromArgb(0, 27, 51);
-            pnHeaderTeacher.FillColor4 = Color.FromArgb(0, 27, 51);
-
-            foreach (Control label in pnHeaderTeacher.Controls)
+            try
             {
-                if (label is Guna2HtmlLabel)
-                    label.ForeColor = Color.White;
-            }
-
-            // Border & Main Panel
-            pnBorderMain.FillColor = Color.FromArgb(72, 181, 183);
-            pnBorderMain.FillColor2 = Color.FromArgb(61, 104, 201);
-            pnBorderMain.FillColor3 = Color.FromArgb(72, 181, 183);
-            pnBorderMain.FillColor4 = Color.FromArgb(61, 104, 201);
-
-            pnParentPanelMain.FillColor = Color.FromArgb(4, 59, 59);
-            pnParentPanelMain.FillColor2 = Color.Black;
-            pnParentPanelMain.FillColor3 = Color.Black;
-            pnParentPanelMain.FillColor4 = Color.FromArgb(0, 27, 51);
-
-            // Menu buttons
-            foreach (Control ctrl in fpnBtnMenu.Controls)
-            {
-                if (ctrl is Guna2GradientButton btn)
+                isDarkMode = !isDarkMode;
+                if (isDarkMode) 
                 {
-                    btn.CheckedState.FillColor = Color.FromArgb(61, 104, 201);
-                    btn.CheckedState.FillColor2 = Color.FromArgb(72, 181, 183);
-                    btn.ForeColor = Color.White;
+                    ApplyDarkMode();
+                    _classList?.ApplyThemeToAllItems(true);
                 }
+                else 
+                {
+                    ApplyLightMode();
+                    _classList?.ApplyThemeToAllItems(false);
+                }
+
+                await Task.Yield();
+            }
+            finally
+            {
+                this.ResumeLayout(true);
+                ResumeDrawing();
+                pnMain.Visible = true;
+                pnMain.Refresh();
             }
         }
 
-        private void ApplyLightMode()
+        private async void btnStoredClass_Click(object sender, EventArgs e)
         {
-            // SideBar
-            pnSideBar.FillColor = Color.FromArgb(72, 181, 183);
-            pnSideBar.FillColor2 = Color.White;
-            pnSideBar.FillColor3 = Color.MediumSpringGreen;
-            pnSideBar.FillColor4 = Color.FromArgb(61, 104, 201);
-
-            // Header
-            lblMenuUserName.ForeColor = Color.Black;
-            pnHeaderTeacher.FillColor = Color.White;
-            pnHeaderTeacher.FillColor2 = Color.White;
-            pnHeaderTeacher.FillColor3 = Color.White;
-            pnHeaderTeacher.FillColor4 = Color.White;
-
-            foreach (Control label in pnHeaderTeacher.Controls)
+            UpdateMainTitleAndClearMenuLabels("Lớp học lưu trữ");
+            pnMain.Visible = false;
+            pnMain.SuspendLayout();
+            for (int i = pnMain.Controls.Count - 1; i >= 0; i--)
             {
-                if (label is Guna2HtmlLabel)
-                    label.ForeColor = Color.Black;
+                var ctrl = pnMain.Controls[i];
+                if (ctrl == _classList || ctrl == _calenda || ctrl == _profile)
+                    pnMain.Controls.Remove(ctrl);
+                else
+                    ctrl.Dispose();
             }
+            pnMain.Controls.Clear();
 
-            // Border & Main Panel
-            pnBorderMain.FillColor = Color.FromArgb(213, 245, 232);
-            pnBorderMain.FillColor2 = Color.FromArgb(213, 245, 232);
-            pnBorderMain.FillColor3 = Color.FromArgb(213, 245, 232);
-            pnBorderMain.FillColor4 = Color.FromArgb(213, 245, 232);
-
-            pnParentPanelMain.FillColor = Color.White;
-            pnParentPanelMain.FillColor2 = Color.White;
-            pnParentPanelMain.FillColor3 = Color.White;
-            pnParentPanelMain.FillColor4 = Color.White;
-
-            // Menu buttons
-            foreach (Control ctrl in fpnBtnMenu.Controls)
+            _classList = new ClassList(_teacherId, _serviceHub)
             {
-                if (ctrl is Guna2GradientButton btn)
-                {
-                    btn.CheckedState.FillColor = Color.White;
-                    btn.CheckedState.FillColor2 = Color.White;
-                    btn.ForeColor = Color.Black;
-                }
-            }
-        }
-        #endregion
+                Dock = DockStyle.Fill
+            };
+            _classList.OnOpenClassDetail += OpenClassDetail;
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _classList?.Dispose();
-                _calenda?.Dispose();
-                _profile?.Dispose();
-                
-                if (components != null)
-                {
-                    components.Dispose();
-                }
-            }
-            base.Dispose(disposing);
+            pnMain.Controls.Add(_classList);
+            pnMain.ResumeLayout(false);
+            
+            await _classList.LoadClassesAsync();
+            pnMain.Visible = true;
         }
     }
 }

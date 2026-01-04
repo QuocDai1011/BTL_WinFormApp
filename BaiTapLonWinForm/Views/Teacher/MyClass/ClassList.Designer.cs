@@ -28,32 +28,58 @@
         /// </summary>
         private void InitializeComponent()
         {
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             panel1 = new Panel();
+            flowMain = new Guna.UI2.WinForms.Guna2GradientPanel();
+            tfpClassList = new TableLayoutPanel();
             pnTextBox = new Guna.UI2.WinForms.Guna2Panel();
             guna2TextBox1 = new Guna.UI2.WinForms.Guna2TextBox();
             iconCustom1 = new IconCustom();
-            flowMain = new Guna.UI2.WinForms.Guna2GradientPanel();
-            tfpClassList = new TableLayoutPanel();
             panel1.SuspendLayout();
-            pnTextBox.SuspendLayout();
             flowMain.SuspendLayout();
+            pnTextBox.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
             // 
-            panel1.BackColor = Color.Transparent;
+            panel1.BackColor = Color.White;
             panel1.Controls.Add(flowMain);
             panel1.Controls.Add(pnTextBox);
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
             panel1.Size = new Size(1459, 849);
             panel1.TabIndex = 7;
+            // 
+            // flowMain
+            // 
+            flowMain.Controls.Add(tfpClassList);
+            flowMain.CustomizableEdges = customizableEdges1;
+            flowMain.Location = new Point(3, 73);
+            flowMain.Margin = new Padding(0);
+            flowMain.Name = "flowMain";
+            flowMain.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            flowMain.Size = new Size(1453, 773);
+            flowMain.TabIndex = 13;
+            // 
+            // tfpClassList
+            // 
+            tfpClassList.ColumnCount = 4;
+            tfpClassList.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 350F));
+            tfpClassList.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 350F));
+            tfpClassList.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 350F));
+            tfpClassList.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 350F));
+            tfpClassList.Location = new Point(3, 3);
+            tfpClassList.Name = "tfpClassList";
+            tfpClassList.RowCount = 2;
+            tfpClassList.RowStyles.Add(new RowStyle(SizeType.Absolute, 278F));
+            tfpClassList.RowStyles.Add(new RowStyle(SizeType.Absolute, 278F));
+            tfpClassList.Size = new Size(1422, 552);
+            tfpClassList.TabIndex = 13;
             // 
             // pnTextBox
             // 
@@ -109,32 +135,6 @@
             iconCustom1.Size = new Size(38, 43);
             iconCustom1.TabIndex = 10;
             // 
-            // flowMain
-            // 
-            flowMain.Controls.Add(tfpClassList);
-            flowMain.CustomizableEdges = customizableEdges1;
-            flowMain.Location = new Point(3, 73);
-            flowMain.Margin = new Padding(0);
-            flowMain.Name = "flowMain";
-            flowMain.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            flowMain.Size = new Size(1453, 773);
-            flowMain.TabIndex = 13;
-            // 
-            // tfpClassList
-            // 
-            tfpClassList.ColumnCount = 4;
-            tfpClassList.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 350F));
-            tfpClassList.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 350F));
-            tfpClassList.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 350F));
-            tfpClassList.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 350F));
-            tfpClassList.Location = new Point(3, 3);
-            tfpClassList.Name = "tfpClassList";
-            tfpClassList.RowCount = 2;
-            tfpClassList.RowStyles.Add(new RowStyle(SizeType.Absolute, 278F));
-            tfpClassList.RowStyles.Add(new RowStyle(SizeType.Absolute, 278F));
-            tfpClassList.Size = new Size(1422, 552);
-            tfpClassList.TabIndex = 13;
-            // 
             // ClassList
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -145,8 +145,8 @@
             Name = "ClassList";
             Size = new Size(1459, 849);
             panel1.ResumeLayout(false);
-            pnTextBox.ResumeLayout(false);
             flowMain.ResumeLayout(false);
+            pnTextBox.ResumeLayout(false);
             ResumeLayout(false);
         }
 

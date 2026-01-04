@@ -52,6 +52,7 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
             guna2CustomGradientPanel2 = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
             lblSchoolDay = new Guna.UI2.WinForms.Guna2HtmlLabel();
             lblShift = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            addNew1 = new BaiTapLonWinForm.Views.Teacher.MyClass.MyNews.AddNew();
             guna2CustomGradientPanel1.SuspendLayout();
             guna2Panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)guna2CirclePictureBox1).BeginInit();
@@ -226,11 +227,20 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
             lblShift.TabIndex = 13;
             lblShift.Text = "19:00 ";
             // 
+            // addNew1
+            // 
+            addNew1.BackColor = Color.White;
+            addNew1.Location = new Point(226, 52);
+            addNew1.Name = "addNew1";
+            addNew1.Size = new Size(8, 8);
+            addNew1.TabIndex = 13;
+            // 
             // ClassItem
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.Transparent;
+            BackColor = Color.White;
+            Controls.Add(addNew1);
             Controls.Add(guna2CustomGradientPanel2);
             Controls.Add(guna2Panel1);
             Controls.Add(guna2CustomGradientPanel1);
@@ -264,5 +274,6 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
         private Guna.UI2.WinForms.Guna2CustomGradientPanel guna2CustomGradientPanel2;
         private Guna.UI2.WinForms.Guna2HtmlLabel lblSchoolDay;
         private Guna.UI2.WinForms.Guna2HtmlLabel lblShift;
+        private MyClass.MyNews.AddNew addNew1;
     }
 }

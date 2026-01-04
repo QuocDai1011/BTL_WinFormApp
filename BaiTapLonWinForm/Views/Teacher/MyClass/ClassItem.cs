@@ -116,6 +116,42 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
 
         }
 
+        // Phương thức để thay đổi theme màu sắc
+        public void ApplyTheme(bool isDarkMode)
+        {
+            if (isDarkMode)
+            {
+                // Dark mode colors
+                lblClassName.ForeColor = Color.White;
+                lblNote.ForeColor = Color.FromArgb(200, 200, 200);
+                label4.ForeColor = Color.FromArgb(200, 200, 200);
+                lblTeacherName.ForeColor = Color.White;
+                lblSchoolDay.ForeColor = Color.FromArgb(72, 181, 183);
+                lblShift.ForeColor = Color.FromArgb(72, 181, 183);
+                
+                // Keep course label and button colors as is (they look good in both modes)
+                btnClassDetail.ForeColor = Color.FromArgb(72, 181, 183);
+                btnClassDetail.BorderColor = Color.FromArgb(72, 181, 183);
+                btnClassDetail.HoverState.FillColor = Color.FromArgb(72, 181, 183);
+                btnClassDetail.HoverState.FillColor2 = Color.FromArgb(72, 181, 183);
+            }
+            else
+            {
+                // Light mode colors (original colors)
+                lblClassName.ForeColor = Color.Black;
+                lblNote.ForeColor = Color.Black;
+                label4.ForeColor = Color.Black;
+                lblTeacherName.ForeColor = Color.Black;
+                lblSchoolDay.ForeColor = Color.SeaGreen;
+                lblShift.ForeColor = Color.SeaGreen;
+                
+                btnClassDetail.ForeColor = Color.Teal;
+                btnClassDetail.BorderColor = Color.Teal;
+                btnClassDetail.HoverState.FillColor = Color.Teal;
+                btnClassDetail.HoverState.FillColor2 = Color.Teal;
+            }
+        }
+
         private void btnClassDetail_Click(object sender, EventArgs e)
         {
             //Chuyển đến trang chi tiết lớp học
