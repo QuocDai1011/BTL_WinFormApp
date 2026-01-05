@@ -136,7 +136,7 @@ namespace BaiTapLonWinForm.Services.implements
                     result.CheckInTime = newAtt.CheckInTime;
                     result.Message = isLate ? "Điểm danh thành công (Đi muộn)." : "Điểm danh thành công!";
                 }
-
+                result.confidence = recognition.confidence;
                 return result;
             }
             catch (Exception ex)

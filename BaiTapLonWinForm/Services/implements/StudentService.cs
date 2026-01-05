@@ -119,21 +119,21 @@ namespace BaiTapLonWinForm.Services.implements
                     }
                 }
 
-                _unitOfWork.BeginTransaction();
 
-                // 2. Validate & Tạo User
                 if (await _userRepository.EmailExistsAsync(user.Email))
                 {
-                    // Chưa làm gì DB -> Không cần rollback -> Return luôn
                     return (false, "Email đã tồn tại.");
                 }
 
+                if (!_unitOfWork.HasActiveTransaction)
+                {
+                    _unitOfWork.BeginTransaction();
+                }
                 var createdUser = await _userRepository.CreateAsync(user);
 
-                // Lưu tạm để Database viên ra UserId (nhưng chưa Commit Transaction)
+                // Lưu tạm để Database viên ra UserId 
                 await _unitOfWork.SaveChangesAsync();
 
-                // 3. Tạo Student
                 student.UserId = createdUser.UserId; // Lấy ID từ user vừa tạo
                 var createdStudent = await _studentRepository.CreateAsync(student);
 
@@ -142,7 +142,6 @@ namespace BaiTapLonWinForm.Services.implements
 
                 if(faceImages != null)
                 {
-                    // 4. Lưu ảnh (Logic file hệ thống + DB)
                     var faceResult = await _faceService.SaveFaceImagesAndGetPathsAsync(createdStudent.StudentId, faceImages);
 
                     // Ghi nhận các file đã tạo để xóa nếu lỗi
@@ -154,8 +153,7 @@ namespace BaiTapLonWinForm.Services.implements
                     }
                 }
 
-                // 5. MỌI THỨ OK -> COMMIT (CHỐT SỔ)
-                // Lúc này dữ liệu mới chính thức được lưu vĩnh viễn vào DB
+                // dữ liệu mới chính thức được lưu vĩnh viễn vào DB
                 await _unitOfWork.CommitAsync();
 
                 return (true, "Thêm viên viên thành công!");

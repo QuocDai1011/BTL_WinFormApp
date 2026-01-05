@@ -410,7 +410,7 @@
             btnAddImages.Font = new Font("Segoe UI", 11.5F, FontStyle.Bold);
             btnAddImages.ForeColor = Color.White;
             btnAddImages.HoverState.FillColor = Color.DarkSlateBlue;
-            btnAddImages.Location = new Point(432, 11);
+            btnAddImages.Location = new Point(617, 10);
             btnAddImages.Name = "btnAddImages";
             btnAddImages.ShadowDecoration.BorderRadius = 10;
             btnAddImages.ShadowDecoration.Color = Color.MediumSlateBlue;
@@ -437,7 +437,7 @@
             btnRestore.Font = new Font("Segoe UI", 11.5F, FontStyle.Bold);
             btnRestore.ForeColor = Color.White;
             btnRestore.HoverState.FillColor = Color.Navy;
-            btnRestore.Location = new Point(612, 10);
+            btnRestore.Location = new Point(433, 10);
             btnRestore.Name = "btnRestore";
             btnRestore.ShadowDecoration.BorderRadius = 10;
             btnRestore.ShadowDecoration.Color = Color.DarkBlue;

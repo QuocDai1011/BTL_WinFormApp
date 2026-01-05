@@ -16,6 +16,7 @@ namespace BaiTapLonWinForm.View.Admin.Schedule
 
         public class ScheduleData
         {
+            public int ClassId { get; set; }
             public string ClassName { get; set; }
             public string Teacher { get; set; }
             public string Course { get; set; }
@@ -370,8 +371,9 @@ namespace BaiTapLonWinForm.View.Admin.Schedule
                 return;
             }
 
-            ScheduleItem item = new ScheduleItem();
+            ScheduleItem item = new ScheduleItem(_serviceHub);
             item.SetData(
+                data.ClassId,
                 data.ClassName,
                 data.Teacher,
                 data.Course,
@@ -430,6 +432,7 @@ namespace BaiTapLonWinForm.View.Admin.Schedule
                     // Thêm vào danh sách
                     allSchedules.Add(new ScheduleData
                     {
+                        ClassId = session.Class.ClassId,
                         ClassName = session.Class.ClassName,
                         Teacher = teacherName,
                         Course = session.Class.Course?.CourseName ?? "N/A",
@@ -531,6 +534,11 @@ namespace BaiTapLonWinForm.View.Admin.Schedule
             return palette[Math.Abs(courseId) % palette.Length];
         }
 
+        #endregion
+
+        #region handler event 
+        
+        
         #endregion
     }
 }

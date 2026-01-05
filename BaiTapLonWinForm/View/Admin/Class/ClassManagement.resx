@@ -117,4 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="lblInfoContent.Text" xml:space="preserve">
+    <value>• Vui lòng điền đầy đủ thông tin bắt buộc (*)
+• Kiểm tra lịch học tránh trùng ca
+• Mỗi lớp chỉ tối đa 30 học viên 
+• Lớp học mới phải có ít nhất 07 ngày chuẩn bị và luôn bắt đầu vào Thứ Hai đầu tuần 
+• Ngày kết thúc được hệ thống tính toán tự động để đảm bảo khóa học hoàn tất trọn vẹn vào Chủ Nhật của tuần cuối cùng</value>
+  </data>
 </root>

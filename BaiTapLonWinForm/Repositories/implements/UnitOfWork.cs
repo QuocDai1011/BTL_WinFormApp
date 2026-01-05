@@ -14,7 +14,8 @@ namespace BaiTapLonWinForm.Repositories.implements
         private readonly AppDbContext _context;
         private IDbContextTransaction _transaction;
 
-        // Constructor nhận DbContext từ DI Container
+        public bool HasActiveTransaction => _transaction != null;
+
         public UnitOfWork(AppDbContext context)
         {
             _context = context;
@@ -22,7 +23,7 @@ namespace BaiTapLonWinForm.Repositories.implements
 
         public void BeginTransaction()
         {
-            // Mở transaction từ EF Core
+            if (_transaction != null) return; 
             _transaction = _context.Database.BeginTransaction();
         }
 
@@ -30,10 +31,8 @@ namespace BaiTapLonWinForm.Repositories.implements
         {
             try
             {
-                // 1. Lưu các thay đổi xuống DB
                 await _context.SaveChangesAsync();
 
-                // 2. Nếu đang trong transaction thì Commit
                 if (_transaction != null)
                 {
                     await _transaction.CommitAsync();
@@ -77,7 +76,6 @@ namespace BaiTapLonWinForm.Repositories.implements
         public void Dispose()
         {
             DisposeTransaction();
-            // Không dispose _context ở đây vì DI Container sẽ tự quản lý vòng đời của nó
         }
     }
 }

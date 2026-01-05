@@ -18,6 +18,12 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
 
         private void InitializeComponent()
         {
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
             panelTop = new Panel();
             lblTitle = new Label();
             panelLeft = new Panel();
@@ -42,13 +48,13 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             lblNotificationMessage = new Label();
             lblNotificationTitle = new Label();
             groupBoxAttendance = new GroupBox();
-            lvAttendance = new ListView();
-            colTime = new ColumnHeader();
-            colTeacherId = new ColumnHeader();
-            colTeacherName = new ColumnHeader();
-            colEmail = new ColumnHeader();
-            colConfidence = new ColumnHeader();
-            colStatus = new ColumnHeader();
+            dgvAttendance = new Guna.UI2.WinForms.Guna2DataGridView();
+            colTime = new DataGridViewTextBoxColumn();
+            colTeacherId = new DataGridViewTextBoxColumn();
+            colTeacherName = new DataGridViewTextBoxColumn();
+            colEmail = new DataGridViewTextBoxColumn();
+            colConfidence = new DataGridViewTextBoxColumn();
+            colStatus = new DataGridViewTextBoxColumn();
             panelBottom = new Panel();
             btnExport = new Button();
             panelTop.SuspendLayout();
@@ -60,6 +66,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             panelRight.SuspendLayout();
             panelNotification.SuspendLayout();
             groupBoxAttendance.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvAttendance).BeginInit();
             panelBottom.SuspendLayout();
             SuspendLayout();
             // 
@@ -342,7 +349,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             // 
             // groupBoxAttendance
             // 
-            groupBoxAttendance.Controls.Add(lvAttendance);
+            groupBoxAttendance.Controls.Add(dgvAttendance);
             groupBoxAttendance.Dock = DockStyle.Fill;
             groupBoxAttendance.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             groupBoxAttendance.ForeColor = Color.FromArgb(52, 73, 94);
@@ -354,54 +361,111 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             groupBoxAttendance.TabStop = false;
             groupBoxAttendance.Text = "📋 Danh sách chấm công";
             // 
-            // lvAttendance
+            // dgvAttendance
             // 
-            lvAttendance.Columns.AddRange(new ColumnHeader[] { colTime, colTeacherId, colTeacherName, colEmail, colConfidence, colStatus });
-            lvAttendance.Dock = DockStyle.Fill;
-            lvAttendance.Font = new Font("Segoe UI", 9.5F);
-            lvAttendance.FullRowSelect = true;
-            lvAttendance.GridLines = true;
-            lvAttendance.Location = new Point(10, 35);
-            lvAttendance.Name = "lvAttendance";
-            lvAttendance.Size = new Size(800, 595);
-            lvAttendance.TabIndex = 0;
-            lvAttendance.UseCompatibleStateImageBehavior = false;
-            lvAttendance.View = System.Windows.Forms.View.Details;
+            dgvAttendance.AllowUserToAddRows = false;
+            dgvAttendance.AllowUserToDeleteRows = false;
+            dataGridViewCellStyle1.BackColor = Color.White;
+            dgvAttendance.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dgvAttendance.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.FromArgb(41, 128, 185);
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 9.5F);
+            dataGridViewCellStyle2.ForeColor = Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgvAttendance.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dgvAttendance.ColumnHeadersHeight = 40;
+            dgvAttendance.Columns.AddRange(new DataGridViewColumn[] { colTime, colTeacherId, colTeacherName, colEmail, colConfidence, colStatus });
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = Color.White;
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9.5F);
+            dataGridViewCellStyle6.ForeColor = Color.FromArgb(52, 73, 94);
+            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(231, 229, 255);
+            dataGridViewCellStyle6.SelectionForeColor = Color.FromArgb(71, 69, 94);
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
+            dgvAttendance.DefaultCellStyle = dataGridViewCellStyle6;
+            dgvAttendance.Dock = DockStyle.Fill;
+            dgvAttendance.Font = new Font("Segoe UI", 9.5F);
+            dgvAttendance.GridColor = Color.FromArgb(231, 229, 255);
+            dgvAttendance.Location = new Point(10, 35);
+            dgvAttendance.Name = "dgvAttendance";
+            dgvAttendance.ReadOnly = true;
+            dgvAttendance.RowHeadersVisible = false;
+            dgvAttendance.RowHeadersWidth = 51;
+            dgvAttendance.RowTemplate.Height = 40;
+            dgvAttendance.Size = new Size(800, 595);
+            dgvAttendance.TabIndex = 0;
+            dgvAttendance.ThemeStyle.AlternatingRowsStyle.BackColor = Color.White;
+            dgvAttendance.ThemeStyle.AlternatingRowsStyle.Font = null;
+            dgvAttendance.ThemeStyle.AlternatingRowsStyle.ForeColor = Color.Empty;
+            dgvAttendance.ThemeStyle.AlternatingRowsStyle.SelectionBackColor = Color.Empty;
+            dgvAttendance.ThemeStyle.AlternatingRowsStyle.SelectionForeColor = Color.Empty;
+            dgvAttendance.ThemeStyle.BackColor = Color.White;
+            dgvAttendance.ThemeStyle.GridColor = Color.FromArgb(231, 229, 255);
+            dgvAttendance.ThemeStyle.HeaderStyle.BackColor = Color.FromArgb(100, 88, 255);
+            dgvAttendance.ThemeStyle.HeaderStyle.BorderStyle = DataGridViewHeaderBorderStyle.None;
+            dgvAttendance.ThemeStyle.HeaderStyle.Font = new Font("Segoe UI", 9.5F);
+            dgvAttendance.ThemeStyle.HeaderStyle.ForeColor = Color.White;
+            dgvAttendance.ThemeStyle.HeaderStyle.HeaightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgvAttendance.ThemeStyle.HeaderStyle.Height = 40;
+            dgvAttendance.ThemeStyle.ReadOnly = true;
+            dgvAttendance.ThemeStyle.RowsStyle.BackColor = Color.White;
+            dgvAttendance.ThemeStyle.RowsStyle.BorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dgvAttendance.ThemeStyle.RowsStyle.Font = new Font("Segoe UI", 9.5F);
+            dgvAttendance.ThemeStyle.RowsStyle.ForeColor = Color.FromArgb(71, 69, 94);
+            dgvAttendance.ThemeStyle.RowsStyle.Height = 40;
+            dgvAttendance.ThemeStyle.RowsStyle.SelectionBackColor = Color.FromArgb(231, 229, 255);
+            dgvAttendance.ThemeStyle.RowsStyle.SelectionForeColor = Color.FromArgb(71, 69, 94);
             // 
             // colTime
             // 
-            colTime.Text = "Thời gian";
-            colTime.Width = 100;
+            colTime.HeaderText = "Thời gian";
+            colTime.MinimumWidth = 6;
+            colTime.Name = "colTime";
+            colTime.ReadOnly = true;
             // 
             // colTeacherId
             // 
-            colTeacherId.Text = "Mã giảng viên";
-            colTeacherId.TextAlign = HorizontalAlignment.Center;
-            colTeacherId.Width = 120;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colTeacherId.DefaultCellStyle = dataGridViewCellStyle3;
+            colTeacherId.HeaderText = "Mã giảng viên";
+            colTeacherId.MinimumWidth = 6;
+            colTeacherId.Name = "colTeacherId";
+            colTeacherId.ReadOnly = true;
             // 
             // colTeacherName
             // 
-            colTeacherName.Text = "Họ và tên";
-            colTeacherName.TextAlign = HorizontalAlignment.Center;
-            colTeacherName.Width = 200;
+            colTeacherName.HeaderText = "Họ và tên";
+            colTeacherName.MinimumWidth = 6;
+            colTeacherName.Name = "colTeacherName";
+            colTeacherName.ReadOnly = true;
             // 
             // colEmail
             // 
-            colEmail.Text = "Email";
-            colEmail.TextAlign = HorizontalAlignment.Center;
-            colEmail.Width = 200;
+            colEmail.HeaderText = "Email";
+            colEmail.MinimumWidth = 6;
+            colEmail.Name = "colEmail";
+            colEmail.ReadOnly = true;
             // 
             // colConfidence
             // 
-            colConfidence.Text = "Độ tin cậy";
-            colConfidence.TextAlign = HorizontalAlignment.Center;
-            colConfidence.Width = 100;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colConfidence.DefaultCellStyle = dataGridViewCellStyle4;
+            colConfidence.HeaderText = "Độ tin cậy";
+            colConfidence.MinimumWidth = 6;
+            colConfidence.Name = "colConfidence";
+            colConfidence.ReadOnly = true;
             // 
             // colStatus
             // 
-            colStatus.Text = "Trạng thái";
-            colStatus.TextAlign = HorizontalAlignment.Center;
-            colStatus.Width = 100;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleCenter;
+            colStatus.DefaultCellStyle = dataGridViewCellStyle5;
+            colStatus.HeaderText = "Trạng thái";
+            colStatus.MinimumWidth = 6;
+            colStatus.Name = "colStatus";
+            colStatus.ReadOnly = true;
             // 
             // panelBottom
             // 
@@ -428,7 +492,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             btnExport.Text = "📄 Xuất Excel";
             btnExport.UseVisualStyleBackColor = false;
             // 
-            // TeacherAttendance
+            // TeacherAttendanceControl
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -436,7 +500,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             Controls.Add(panelLeft);
             Controls.Add(panelBottom);
             Controls.Add(panelTop);
-            Name = "TeacherAttendance";
+            Name = "TeacherAttendanceControl";
             Size = new Size(1400, 830);
             panelTop.ResumeLayout(false);
             panelTop.PerformLayout();
@@ -451,6 +515,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             panelNotification.ResumeLayout(false);
             panelNotification.PerformLayout();
             groupBoxAttendance.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvAttendance).EndInit();
             panelBottom.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -480,13 +545,13 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
         private Label lblTotalPresentTitle;
         private Panel panelRight;
         private GroupBox groupBoxAttendance;
-        private ListView lvAttendance;
-        private ColumnHeader colTime;
-        private ColumnHeader colTeacherId;
-        private ColumnHeader colTeacherName;
-        private ColumnHeader colEmail;
-        private ColumnHeader colConfidence;
-        private ColumnHeader colStatus;
+        private Guna.UI2.WinForms.Guna2DataGridView dgvAttendance; 
+        private DataGridViewTextBoxColumn colTime;
+        private DataGridViewTextBoxColumn colTeacherId;
+        private DataGridViewTextBoxColumn colTeacherName;
+        private DataGridViewTextBoxColumn colEmail;
+        private DataGridViewTextBoxColumn colConfidence;
+        private DataGridViewTextBoxColumn colStatus;
         private Panel panelBottom;
         private Button btnExport;
         private Panel panelNotification;

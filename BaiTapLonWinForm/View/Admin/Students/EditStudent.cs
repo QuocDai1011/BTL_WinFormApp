@@ -45,7 +45,6 @@ namespace BaiTapLonWinForm.View.Admin.Students
                 txtAddress.Text = data.User.Address;
                 txtPhone.Text = data.User.PhoneNumber;
                 cboGender.Text = data.User.Gender == true ? "Nam" : "Nữ";
-                cbActive.Visible = data.User.IsActive == true ? false : true;
             }
         }
 
@@ -159,7 +158,6 @@ namespace BaiTapLonWinForm.View.Admin.Students
                 DateOfBirth = DateOnly.FromDateTime(dtpDateOfBirth.Value),
                 Address = txtAddress.Text.Trim(),
                 Gender = cboGender.SelectedItem?.ToString() == "Nam",
-                IsActive = cbActive.Checked
             };
 
             Student updateStudent = new Student

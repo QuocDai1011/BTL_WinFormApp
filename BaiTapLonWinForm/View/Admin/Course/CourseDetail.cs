@@ -1,8 +1,9 @@
 ﻿using BaiTapLonWinForm.Models;
+using BaiTapLonWinForm.View.Admin.Helper;
 using System;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using System.Drawing;
 
 namespace BaiTapLonWinForm.View.Admin.Course
 {
@@ -29,9 +30,9 @@ namespace BaiTapLonWinForm.View.Admin.Course
             int classCount = course.Classes?.Count ?? 0;
             int totalStudents = course.Classes?.Sum(c => c.CurrentStudent ?? 0) ?? 0;
 
-            UpdateStatCard(cardClasses, classCount.ToString("00"));
-            UpdateStatCard(cardStudents, totalStudents.ToString());
-            UpdateStatCard(cardTuition, $"{course.Tuition:N0} đ");
+            //UpdateStatCard(cardClasses, classCount.ToString("00"));
+            //UpdateStatCard(cardStudents, totalStudents.ToString());
+            //UpdateStatCard(cardTuition, $"{course.Tuition:N0} đ");
 
             LoadClassGrid();
         }
@@ -51,21 +52,24 @@ namespace BaiTapLonWinForm.View.Admin.Course
         {
             if (dgvClasses.Columns.Count == 0)
             {
+                dgvClasses.Columns.Add("ClassId", "Mã lớp");
                 dgvClasses.Columns.Add("ClassName", "Tên lớp");
                 dgvClasses.Columns.Add("Teacher", "Giảng viên");
                 dgvClasses.Columns.Add("Schedule", "Lịch học");
                 dgvClasses.Columns.Add("Students", "Sĩ số");
                 dgvClasses.Columns.Add("Status", "Trạng thái");
 
+                dgvClasses.Columns["ClassId"].Visible = false;
                 var btnCol = new DataGridViewButtonColumn();
                 btnCol.HeaderText = "";
                 btnCol.Text = "Xem lớp";
+                btnCol.Name = "btnViewClass"; // Đặt tên để kiểm tra trong sự kiện Click
                 btnCol.UseColumnTextForButtonValue = true;
                 dgvClasses.Columns.Add(btnCol);
             }
 
             dgvClasses.Rows.Clear();
-
+            dgvClasses.CellContentClick += dgvClasses_CellContentClick;
             if (_course.Classes != null)
             {
                 foreach (var c in _course.Classes)
@@ -74,6 +78,7 @@ namespace BaiTapLonWinForm.View.Admin.Course
                     string status = c.Status == 1 ? "Đang mở" : "Đóng";
 
                     dgvClasses.Rows.Add(
+                        c.ClassId,
                         c.ClassName,
                         teacherName,
                         $"{c.StartDate:dd/MM} - {c.EndDate:dd/MM}",
@@ -90,6 +95,35 @@ namespace BaiTapLonWinForm.View.Admin.Course
         private void BtnAddClass_Click(object sender, EventArgs e)
         {
             MessageBox.Show($"Thêm lớp học mới cho khóa {_course.CourseCode}");
+        }
+
+        private void dgvClasses_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+            if (e.RowIndex < 0) return;
+
+            // 2. Kiểm tra nếu click đúng vào cột "btnViewClass"
+            if (dgvClasses.Columns[e.ColumnIndex].Name == "btnViewClass")
+            {
+                try
+                {
+                    var cellValue = dgvClasses.Rows[e.RowIndex].Cells["ClassId"].Value;
+
+                    if (cellValue != null && int.TryParse(cellValue.ToString(), out int classId))
+                    {
+                        var handler = this.FindForm() as INavigationHandler;
+
+                        if (handler != null)
+                        {
+                            handler.NavigateToClassDetail(classId);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Lỗi điều hướng: {ex.Message}", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
         #endregion
     }

@@ -21,574 +21,685 @@ namespace BaiTapLonWinForm.View.Setting
 
         private void InitializeComponent()
         {
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges19 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges20 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges27 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges28 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges21 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges22 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges23 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges24 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges25 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges26 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges37 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges38 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges29 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges30 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges31 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges32 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges33 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges34 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges35 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges36 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges39 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges40 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             panelMain = new Panel();
             tableLayoutPanel = new TableLayoutPanel();
             panelLeft = new Panel();
             grpProfile = new Guna2GroupBox();
             txtUsername = new Guna2TextBox();
-            txtLastName = new Guna2TextBox();
             txtFirstName = new Guna2TextBox();
-            txtEmail = new Guna2TextBox();
+            txtLastName = new Guna2TextBox();
             txtPhone = new Guna2TextBox();
-            txtAddress = new Guna2TextBox();
+            txtEmail = new Guna2TextBox();
             labelBirthDate = new Label();
             dtpBirthDate = new Guna2DateTimePicker();
+            txtAddress = new Guna2TextBox();
             labelGender = new Label();
             cboGender = new Guna2ComboBox();
             btnUpdateProfile = new Guna2Button();
             panelRight = new Panel();
+            grpSecurity = new Guna2GroupBox();
+            txtOldPass = new Guna2TextBox();
+            txtNewPass = new Guna2TextBox();
+            txtConfirmPass = new Guna2TextBox();
+            btnChangePassword = new Guna2Button();
             grpSystem = new Guna2GroupBox();
             labelLanguage = new Label();
             cboLanguage = new Guna2ComboBox();
             labelTheme = new Label();
             cboTheme = new Guna2ComboBox();
             btnSaveSystem = new Guna2Button();
-            grpSecurity = new Guna2GroupBox();
-            txtOldPass = new Guna2TextBox();
-            txtNewPass = new Guna2TextBox();
-            txtConfirmPass = new Guna2TextBox();
-            btnChangePassword = new Guna2Button();
+            grpLogout = new Guna2GroupBox();
+            lblLogoutDesc = new Label();
+            btnLogout = new Guna2Button();
             panelHeader = new Guna2Panel();
+            lblSubtitle = new Label();
             lblTitle = new Label();
+            picHeaderIcon = new PictureBox();
             panelMain.SuspendLayout();
             tableLayoutPanel.SuspendLayout();
             panelLeft.SuspendLayout();
             grpProfile.SuspendLayout();
             panelRight.SuspendLayout();
-            grpSystem.SuspendLayout();
             grpSecurity.SuspendLayout();
+            grpSystem.SuspendLayout();
+            grpLogout.SuspendLayout();
             panelHeader.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)picHeaderIcon).BeginInit();
             SuspendLayout();
             // 
             // panelMain
             // 
-            panelMain.BackColor = Color.FromArgb(245, 247, 250);
+            panelMain.BackColor = Color.White;
             panelMain.Controls.Add(tableLayoutPanel);
             panelMain.Controls.Add(panelHeader);
             panelMain.Dock = DockStyle.Fill;
             panelMain.Location = new Point(0, 0);
-            panelMain.Margin = new Padding(4, 5, 4, 5);
             panelMain.Name = "panelMain";
-            panelMain.Size = new Size(1450, 850);
+            panelMain.Size = new Size(1450, 900);
             panelMain.TabIndex = 0;
             // 
             // tableLayoutPanel
             // 
             tableLayoutPanel.ColumnCount = 2;
-            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50.8596F));
-            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 49.1404F));
+            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 52F));
+            tableLayoutPanel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 48F));
             tableLayoutPanel.Controls.Add(panelLeft, 0, 0);
             tableLayoutPanel.Controls.Add(panelRight, 1, 0);
             tableLayoutPanel.Dock = DockStyle.Fill;
-            tableLayoutPanel.Location = new Point(0, 123);
-            tableLayoutPanel.Margin = new Padding(4, 5, 4, 5);
+            tableLayoutPanel.Location = new Point(0, 140);
             tableLayoutPanel.Name = "tableLayoutPanel";
-            tableLayoutPanel.Padding = new Padding(27, 31, 27, 31);
+            tableLayoutPanel.Padding = new Padding(25, 10, 25, 30);
             tableLayoutPanel.RowCount = 1;
             tableLayoutPanel.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel.Size = new Size(1450, 727);
+            tableLayoutPanel.Size = new Size(1450, 760);
             tableLayoutPanel.TabIndex = 1;
             // 
             // panelLeft
             // 
             panelLeft.Controls.Add(grpProfile);
-            panelLeft.Location = new Point(31, 36);
-            panelLeft.Margin = new Padding(4, 5, 4, 5);
+            panelLeft.Dock = DockStyle.Fill;
+            panelLeft.Location = new Point(28, 13);
             panelLeft.Name = "panelLeft";
-            panelLeft.Padding = new Padding(0, 0, 27, 0);
-            panelLeft.Size = new Size(702, 655);
+            panelLeft.Padding = new Padding(0, 0, 15, 0);
+            panelLeft.Size = new Size(722, 714);
             panelLeft.TabIndex = 0;
             // 
             // grpProfile
             // 
             grpProfile.BackColor = Color.Transparent;
             grpProfile.BorderColor = Color.Transparent;
-            grpProfile.BorderRadius = 15;
+            grpProfile.BorderRadius = 20;
             grpProfile.Controls.Add(txtUsername);
-            grpProfile.Controls.Add(txtLastName);
             grpProfile.Controls.Add(txtFirstName);
-            grpProfile.Controls.Add(txtEmail);
+            grpProfile.Controls.Add(txtLastName);
             grpProfile.Controls.Add(txtPhone);
-            grpProfile.Controls.Add(txtAddress);
+            grpProfile.Controls.Add(txtEmail);
             grpProfile.Controls.Add(labelBirthDate);
             grpProfile.Controls.Add(dtpBirthDate);
+            grpProfile.Controls.Add(txtAddress);
             grpProfile.Controls.Add(labelGender);
             grpProfile.Controls.Add(cboGender);
             grpProfile.Controls.Add(btnUpdateProfile);
-            grpProfile.CustomBorderColor = Color.White;
-            grpProfile.CustomizableEdges = customizableEdges19;
+            grpProfile.CustomBorderColor = Color.FromArgb(41, 128, 185);
+            grpProfile.CustomizableEdges = customizableEdges3;
             grpProfile.Dock = DockStyle.Fill;
-            grpProfile.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            grpProfile.ForeColor = Color.FromArgb(64, 64, 64);
+            grpProfile.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
+            grpProfile.ForeColor = Color.White;
             grpProfile.Location = new Point(0, 0);
-            grpProfile.Margin = new Padding(4, 5, 4, 5);
             grpProfile.Name = "grpProfile";
-            grpProfile.ShadowDecoration.Color = Color.Silver;
-            grpProfile.ShadowDecoration.CustomizableEdges = customizableEdges20;
+            grpProfile.Padding = new Padding(0, 60, 0, 20);
+            grpProfile.ShadowDecoration.BorderRadius = 20;
+            grpProfile.ShadowDecoration.Color = Color.FromArgb(200, 200, 200);
+            grpProfile.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            grpProfile.ShadowDecoration.Depth = 15;
             grpProfile.ShadowDecoration.Enabled = true;
-            grpProfile.ShadowDecoration.Shadow = new Padding(0, 0, 8, 8);
-            grpProfile.Size = new Size(675, 655);
+            grpProfile.Size = new Size(707, 714);
             grpProfile.TabIndex = 0;
             grpProfile.Text = "THÔNG TIN CÁ NHÂN";
-            grpProfile.TextOffset = new Point(10, 10);
+            grpProfile.TextOffset = new Point(0, 5);
             // 
             // txtUsername
             // 
-            txtUsername.BorderRadius = 8;
+            txtUsername.BorderRadius = 10;
             txtUsername.CustomizableEdges = customizableEdges1;
             txtUsername.DefaultText = "";
             txtUsername.Enabled = false;
             txtUsername.FillColor = Color.FromArgb(245, 245, 245);
             txtUsername.Font = new Font("Segoe UI", 10F);
-            txtUsername.Location = new Point(20, 61);
+            txtUsername.ForeColor = Color.FromArgb(52, 73, 94);
+            txtUsername.Location = new Point(30, 80);
             txtUsername.Margin = new Padding(4, 6, 4, 6);
             txtUsername.Name = "txtUsername";
+            txtUsername.PlaceholderForeColor = Color.FromArgb(149, 165, 166);
             txtUsername.PlaceholderText = "Tên đăng nhập (Chỉ đọc)";
             txtUsername.SelectedText = "";
             txtUsername.ShadowDecoration.CustomizableEdges = customizableEdges2;
             txtUsername.Size = new Size(300, 50);
             txtUsername.TabIndex = 0;
             // 
-            // txtLastName
-            // 
-            txtLastName.BorderRadius = 8;
-            txtLastName.CustomizableEdges = customizableEdges3;
-            txtLastName.DefaultText = "";
-            txtLastName.Font = new Font("Segoe UI", 10F);
-            txtLastName.Location = new Point(20, 169);
-            txtLastName.Margin = new Padding(4, 6, 4, 6);
-            txtLastName.Name = "txtLastName";
-            txtLastName.PlaceholderText = "Họ đệm";
-            txtLastName.SelectedText = "";
-            txtLastName.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            txtLastName.Size = new Size(300, 50);
-            txtLastName.TabIndex = 1;
-            // 
             // txtFirstName
             // 
-            txtFirstName.BorderRadius = 8;
-            txtFirstName.CustomizableEdges = customizableEdges5;
+            txtFirstName.BorderRadius = 10;
+            txtFirstName.CustomizableEdges = customizableEdges1;
             txtFirstName.DefaultText = "";
             txtFirstName.Font = new Font("Segoe UI", 10F);
-            txtFirstName.Location = new Point(351, 61);
+            txtFirstName.ForeColor = Color.FromArgb(52, 73, 94);
+            txtFirstName.Location = new Point(370, 80);
             txtFirstName.Margin = new Padding(4, 6, 4, 6);
             txtFirstName.Name = "txtFirstName";
+            txtFirstName.PlaceholderForeColor = Color.FromArgb(149, 165, 166);
             txtFirstName.PlaceholderText = "Tên";
             txtFirstName.SelectedText = "";
-            txtFirstName.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            txtFirstName.ShadowDecoration.CustomizableEdges = customizableEdges2;
             txtFirstName.Size = new Size(300, 50);
-            txtFirstName.TabIndex = 2;
+            txtFirstName.TabIndex = 1;
             // 
-            // txtEmail
+            // txtLastName
             // 
-            txtEmail.BorderRadius = 8;
-            txtEmail.CustomizableEdges = customizableEdges7;
-            txtEmail.DefaultText = "";
-            txtEmail.Font = new Font("Segoe UI", 10F);
-            txtEmail.Location = new Point(20, 276);
-            txtEmail.Margin = new Padding(4, 6, 4, 6);
-            txtEmail.Name = "txtEmail";
-            txtEmail.PlaceholderText = "Email";
-            txtEmail.SelectedText = "";
-            txtEmail.ShadowDecoration.CustomizableEdges = customizableEdges8;
-            txtEmail.Size = new Size(300, 50);
-            txtEmail.TabIndex = 3;
+            txtLastName.BorderRadius = 10;
+            txtLastName.CustomizableEdges = customizableEdges1;
+            txtLastName.DefaultText = "";
+            txtLastName.Font = new Font("Segoe UI", 10F);
+            txtLastName.ForeColor = Color.FromArgb(52, 73, 94);
+            txtLastName.Location = new Point(30, 160);
+            txtLastName.Margin = new Padding(4, 6, 4, 6);
+            txtLastName.Name = "txtLastName";
+            txtLastName.PlaceholderForeColor = Color.FromArgb(149, 165, 166);
+            txtLastName.PlaceholderText = "Họ đệm";
+            txtLastName.SelectedText = "";
+            txtLastName.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            txtLastName.Size = new Size(300, 50);
+            txtLastName.TabIndex = 2;
             // 
             // txtPhone
             // 
-            txtPhone.BorderRadius = 8;
-            txtPhone.CustomizableEdges = customizableEdges9;
+            txtPhone.BorderRadius = 10;
+            txtPhone.CustomizableEdges = customizableEdges1;
             txtPhone.DefaultText = "";
             txtPhone.Font = new Font("Segoe UI", 10F);
-            txtPhone.Location = new Point(351, 168);
+            txtPhone.ForeColor = Color.FromArgb(52, 73, 94);
+            txtPhone.Location = new Point(370, 160);
             txtPhone.Margin = new Padding(4, 6, 4, 6);
             txtPhone.Name = "txtPhone";
+            txtPhone.PlaceholderForeColor = Color.FromArgb(149, 165, 166);
             txtPhone.PlaceholderText = "Số điện thoại";
             txtPhone.SelectedText = "";
-            txtPhone.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            txtPhone.ShadowDecoration.CustomizableEdges = customizableEdges2;
             txtPhone.Size = new Size(300, 50);
-            txtPhone.TabIndex = 4;
+            txtPhone.TabIndex = 3;
             // 
-            // txtAddress
+            // txtEmail
             // 
-            txtAddress.BorderRadius = 8;
-            txtAddress.CustomizableEdges = customizableEdges11;
-            txtAddress.DefaultText = "";
-            txtAddress.Font = new Font("Segoe UI", 10F);
-            txtAddress.Location = new Point(20, 384);
-            txtAddress.Margin = new Padding(4, 6, 4, 6);
-            txtAddress.Name = "txtAddress";
-            txtAddress.PlaceholderText = "Địa chỉ liên hệ";
-            txtAddress.SelectedText = "";
-            txtAddress.ShadowDecoration.CustomizableEdges = customizableEdges12;
-            txtAddress.Size = new Size(300, 50);
-            txtAddress.TabIndex = 5;
+            txtEmail.BorderRadius = 10;
+            txtEmail.CustomizableEdges = customizableEdges1;
+            txtEmail.DefaultText = "";
+            txtEmail.Font = new Font("Segoe UI", 10F);
+            txtEmail.ForeColor = Color.FromArgb(52, 73, 94);
+            txtEmail.Location = new Point(30, 240);
+            txtEmail.Margin = new Padding(4, 6, 4, 6);
+            txtEmail.Name = "txtEmail";
+            txtEmail.PlaceholderForeColor = Color.FromArgb(149, 165, 166);
+            txtEmail.PlaceholderText = "Email";
+            txtEmail.SelectedText = "";
+            txtEmail.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            txtEmail.Size = new Size(640, 50);
+            txtEmail.TabIndex = 4;
             // 
             // labelBirthDate
             // 
             labelBirthDate.AutoSize = true;
-            labelBirthDate.Font = new Font("Segoe UI", 9F);
-            labelBirthDate.ForeColor = Color.Gray;
-            labelBirthDate.Location = new Point(351, 239);
-            labelBirthDate.Margin = new Padding(4, 0, 4, 0);
+            labelBirthDate.BackColor = Color.White;
+            labelBirthDate.Font = new Font("Segoe UI Semibold", 9.5F, FontStyle.Bold);
+            labelBirthDate.ForeColor = Color.FromArgb(52, 73, 94);
+            labelBirthDate.Location = new Point(30, 395);
             labelBirthDate.Name = "labelBirthDate";
-            labelBirthDate.Size = new Size(74, 20);
+            labelBirthDate.Size = new Size(81, 21);
             labelBirthDate.TabIndex = 6;
             labelBirthDate.Text = "Ngày sinh";
             // 
             // dtpBirthDate
             // 
-            dtpBirthDate.BorderRadius = 8;
+            dtpBirthDate.BackColor = Color.White;
+            dtpBirthDate.BorderRadius = 10;
             dtpBirthDate.Checked = true;
-            dtpBirthDate.CustomizableEdges = customizableEdges13;
+            dtpBirthDate.CustomizableEdges = customizableEdges1;
             dtpBirthDate.FillColor = Color.White;
             dtpBirthDate.Font = new Font("Segoe UI", 10F);
             dtpBirthDate.Format = DateTimePickerFormat.Short;
-            dtpBirthDate.Location = new Point(351, 276);
-            dtpBirthDate.Margin = new Padding(4, 5, 4, 5);
+            dtpBirthDate.Location = new Point(30, 425);
             dtpBirthDate.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
             dtpBirthDate.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
             dtpBirthDate.Name = "dtpBirthDate";
-            dtpBirthDate.ShadowDecoration.CustomizableEdges = customizableEdges14;
+            dtpBirthDate.ShadowDecoration.CustomizableEdges = customizableEdges2;
             dtpBirthDate.Size = new Size(300, 50);
             dtpBirthDate.TabIndex = 7;
-            dtpBirthDate.Value = new DateTime(2025, 12, 21, 18, 8, 28, 300);
+            dtpBirthDate.Value = new DateTime(2025, 1, 5, 0, 0, 0, 0);
+            // 
+            // txtAddress
+            // 
+            txtAddress.BorderRadius = 10;
+            txtAddress.CustomizableEdges = customizableEdges1;
+            txtAddress.DefaultText = "";
+            txtAddress.Font = new Font("Segoe UI", 10F);
+            txtAddress.ForeColor = Color.FromArgb(52, 73, 94);
+            txtAddress.Location = new Point(30, 320);
+            txtAddress.Margin = new Padding(4, 6, 4, 6);
+            txtAddress.Name = "txtAddress";
+            txtAddress.PlaceholderForeColor = Color.FromArgb(149, 165, 166);
+            txtAddress.PlaceholderText = "Địa chỉ liên hệ";
+            txtAddress.SelectedText = "";
+            txtAddress.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            txtAddress.Size = new Size(640, 50);
+            txtAddress.TabIndex = 5;
             // 
             // labelGender
             // 
             labelGender.AutoSize = true;
-            labelGender.Font = new Font("Segoe UI", 9F);
-            labelGender.ForeColor = Color.Gray;
-            labelGender.Location = new Point(351, 360);
-            labelGender.Margin = new Padding(4, 0, 4, 0);
+            labelGender.BackColor = Color.White;
+            labelGender.Font = new Font("Segoe UI Semibold", 9.5F, FontStyle.Bold);
+            labelGender.ForeColor = Color.FromArgb(52, 73, 94);
+            labelGender.Location = new Point(370, 395);
             labelGender.Name = "labelGender";
-            labelGender.Size = new Size(65, 20);
+            labelGender.Size = new Size(71, 21);
             labelGender.TabIndex = 8;
             labelGender.Text = "Giới tính";
             // 
             // cboGender
             // 
             cboGender.BackColor = Color.Transparent;
-            cboGender.BorderRadius = 8;
-            cboGender.CustomizableEdges = customizableEdges15;
+            cboGender.BorderRadius = 10;
+            cboGender.CustomizableEdges = customizableEdges1;
             cboGender.DrawMode = DrawMode.OwnerDrawFixed;
             cboGender.DropDownStyle = ComboBoxStyle.DropDownList;
-            cboGender.FocusedColor = Color.Empty;
+            cboGender.FocusedColor = Color.FromArgb(41, 128, 185);
+            cboGender.FocusedState.BorderColor = Color.FromArgb(41, 128, 185);
             cboGender.Font = new Font("Segoe UI", 10F);
             cboGender.ForeColor = Color.FromArgb(68, 88, 112);
             cboGender.ItemHeight = 30;
             cboGender.Items.AddRange(new object[] { "Nam", "Nữ", "Khác" });
-            cboGender.Location = new Point(351, 398);
-            cboGender.Margin = new Padding(4, 5, 4, 5);
+            cboGender.Location = new Point(370, 425);
             cboGender.Name = "cboGender";
-            cboGender.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            cboGender.ShadowDecoration.CustomizableEdges = customizableEdges2;
             cboGender.Size = new Size(300, 36);
             cboGender.TabIndex = 9;
             // 
             // btnUpdateProfile
             // 
-            btnUpdateProfile.BorderRadius = 10;
-            btnUpdateProfile.CustomizableEdges = customizableEdges17;
+            btnUpdateProfile.Animated = true;
+            btnUpdateProfile.BackColor = Color.Transparent;
+            btnUpdateProfile.BorderRadius = 12;
+            btnUpdateProfile.CustomizableEdges = customizableEdges1;
+            btnUpdateProfile.DisabledState.BorderColor = Color.DarkGray;
+            btnUpdateProfile.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnUpdateProfile.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnUpdateProfile.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
             btnUpdateProfile.FillColor = Color.FromArgb(39, 174, 96);
-            btnUpdateProfile.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            btnUpdateProfile.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             btnUpdateProfile.ForeColor = Color.White;
-            btnUpdateProfile.Location = new Point(129, 517);
-            btnUpdateProfile.Margin = new Padding(4, 5, 4, 5);
+            btnUpdateProfile.HoverState.FillColor = Color.FromArgb(46, 204, 113);
+            btnUpdateProfile.Location = new Point(180, 540);
             btnUpdateProfile.Name = "btnUpdateProfile";
-            btnUpdateProfile.ShadowDecoration.CustomizableEdges = customizableEdges18;
-            btnUpdateProfile.Size = new Size(400, 60);
+            btnUpdateProfile.ShadowDecoration.BorderRadius = 12;
+            btnUpdateProfile.ShadowDecoration.Color = Color.FromArgb(39, 174, 96);
+            btnUpdateProfile.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            btnUpdateProfile.ShadowDecoration.Depth = 10;
+            btnUpdateProfile.ShadowDecoration.Enabled = true;
+            btnUpdateProfile.Size = new Size(350, 58);
             btnUpdateProfile.TabIndex = 10;
-            btnUpdateProfile.Text = "CẬP NHẬT HỒ SƠ";
+            btnUpdateProfile.Text = "💾  CẬP NHẬT HỒ SƠ";
             // 
             // panelRight
             // 
-            panelRight.Controls.Add(grpSystem);
             panelRight.Controls.Add(grpSecurity);
+            panelRight.Controls.Add(grpSystem);
+            panelRight.Controls.Add(grpLogout);
             panelRight.Dock = DockStyle.Fill;
-            panelRight.Location = new Point(741, 36);
-            panelRight.Margin = new Padding(4, 5, 4, 5);
+            panelRight.Location = new Point(756, 13);
             panelRight.Name = "panelRight";
-            panelRight.Size = new Size(678, 655);
+            panelRight.Padding = new Padding(15, 0, 0, 0);
+            panelRight.Size = new Size(666, 714);
             panelRight.TabIndex = 1;
+            // 
+            // grpSecurity
+            // 
+            grpSecurity.BackColor = Color.Transparent;
+            grpSecurity.BorderColor = Color.Transparent;
+            grpSecurity.BorderRadius = 20;
+            grpSecurity.Controls.Add(txtOldPass);
+            grpSecurity.Controls.Add(txtNewPass);
+            grpSecurity.Controls.Add(txtConfirmPass);
+            grpSecurity.Controls.Add(btnChangePassword);
+            grpSecurity.CustomBorderColor = Color.FromArgb(52, 152, 219);
+            grpSecurity.CustomizableEdges = customizableEdges1;
+            grpSecurity.Dock = DockStyle.Top;
+            grpSecurity.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
+            grpSecurity.ForeColor = Color.White;
+            grpSecurity.Location = new Point(15, 160);
+            grpSecurity.Margin = new Padding(3, 3, 3, 20);
+            grpSecurity.Name = "grpSecurity";
+            grpSecurity.Padding = new Padding(0, 60, 0, 15);
+            grpSecurity.ShadowDecoration.BorderRadius = 20;
+            grpSecurity.ShadowDecoration.Color = Color.FromArgb(200, 200, 200);
+            grpSecurity.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            grpSecurity.ShadowDecoration.Depth = 15;
+            grpSecurity.ShadowDecoration.Enabled = true;
+            grpSecurity.Size = new Size(651, 315);
+            grpSecurity.TabIndex = 0;
+            grpSecurity.Text = "BẢO MẬT";
+            grpSecurity.TextOffset = new Point(0, 5);
+            // 
+            // txtOldPass
+            // 
+            txtOldPass.BorderRadius = 10;
+            txtOldPass.CustomizableEdges = customizableEdges1;
+            txtOldPass.DefaultText = "";
+            txtOldPass.Font = new Font("Segoe UI", 10F);
+            txtOldPass.ForeColor = Color.FromArgb(52, 73, 94);
+            txtOldPass.Location = new Point(30, 63);
+            txtOldPass.Margin = new Padding(4, 6, 4, 6);
+            txtOldPass.Name = "txtOldPass";
+            txtOldPass.PasswordChar = '●';
+            txtOldPass.PlaceholderForeColor = Color.FromArgb(149, 165, 166);
+            txtOldPass.PlaceholderText = "Mật khẩu hiện tại";
+            txtOldPass.SelectedText = "";
+            txtOldPass.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            txtOldPass.Size = new Size(585, 50);
+            txtOldPass.TabIndex = 0;
+            txtOldPass.UseSystemPasswordChar = true;
+            // 
+            // txtNewPass
+            // 
+            txtNewPass.BorderRadius = 10;
+            txtNewPass.CustomizableEdges = customizableEdges1;
+            txtNewPass.DefaultText = "";
+            txtNewPass.Font = new Font("Segoe UI", 10F);
+            txtNewPass.ForeColor = Color.FromArgb(52, 73, 94);
+            txtNewPass.Location = new Point(30, 143);
+            txtNewPass.Margin = new Padding(4, 6, 4, 6);
+            txtNewPass.Name = "txtNewPass";
+            txtNewPass.PasswordChar = '●';
+            txtNewPass.PlaceholderForeColor = Color.FromArgb(149, 165, 166);
+            txtNewPass.PlaceholderText = "Mật khẩu mới";
+            txtNewPass.SelectedText = "";
+            txtNewPass.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            txtNewPass.Size = new Size(280, 50);
+            txtNewPass.TabIndex = 1;
+            txtNewPass.UseSystemPasswordChar = true;
+            // 
+            // txtConfirmPass
+            // 
+            txtConfirmPass.BorderRadius = 10;
+            txtConfirmPass.CustomizableEdges = customizableEdges1;
+            txtConfirmPass.DefaultText = "";
+            txtConfirmPass.Font = new Font("Segoe UI", 10F);
+            txtConfirmPass.ForeColor = Color.FromArgb(52, 73, 94);
+            txtConfirmPass.Location = new Point(335, 143);
+            txtConfirmPass.Margin = new Padding(4, 6, 4, 6);
+            txtConfirmPass.Name = "txtConfirmPass";
+            txtConfirmPass.PasswordChar = '●';
+            txtConfirmPass.PlaceholderForeColor = Color.FromArgb(149, 165, 166);
+            txtConfirmPass.PlaceholderText = "Xác nhận mật khẩu mới";
+            txtConfirmPass.SelectedText = "";
+            txtConfirmPass.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            txtConfirmPass.Size = new Size(280, 50);
+            txtConfirmPass.TabIndex = 2;
+            txtConfirmPass.UseSystemPasswordChar = true;
+            // 
+            // btnChangePassword
+            // 
+            btnChangePassword.Animated = true;
+            btnChangePassword.BackColor = Color.Transparent;
+            btnChangePassword.BorderRadius = 12;
+            btnChangePassword.CustomizableEdges = customizableEdges1;
+            btnChangePassword.FillColor = Color.FromArgb(52, 152, 219);
+            btnChangePassword.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            btnChangePassword.ForeColor = Color.White;
+            btnChangePassword.HoverState.FillColor = Color.FromArgb(41, 128, 185);
+            btnChangePassword.Location = new Point(142, 222);
+            btnChangePassword.Name = "btnChangePassword";
+            btnChangePassword.ShadowDecoration.BorderRadius = 12;
+            btnChangePassword.ShadowDecoration.Color = Color.FromArgb(52, 152, 219);
+            btnChangePassword.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            btnChangePassword.ShadowDecoration.Depth = 10;
+            btnChangePassword.ShadowDecoration.Enabled = true;
+            btnChangePassword.Size = new Size(365, 58);
+            btnChangePassword.TabIndex = 3;
+            btnChangePassword.Text = "🔒  ĐỔI MẬT KHẨU";
             // 
             // grpSystem
             // 
             grpSystem.BackColor = Color.Transparent;
-            grpSystem.BorderRadius = 15;
+            grpSystem.BorderColor = Color.Transparent;
+            grpSystem.BorderRadius = 20;
             grpSystem.Controls.Add(labelLanguage);
             grpSystem.Controls.Add(cboLanguage);
             grpSystem.Controls.Add(labelTheme);
             grpSystem.Controls.Add(cboTheme);
             grpSystem.Controls.Add(btnSaveSystem);
-            grpSystem.CustomBorderColor = Color.White;
-            grpSystem.CustomizableEdges = customizableEdges27;
-            grpSystem.Dock = DockStyle.Bottom;
-            grpSystem.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            grpSystem.ForeColor = Color.FromArgb(64, 64, 64);
-            grpSystem.Location = new Point(0, 336);
-            grpSystem.Margin = new Padding(4, 5, 4, 5);
+            grpSystem.CustomBorderColor = Color.FromArgb(155, 89, 182);
+            grpSystem.CustomizableEdges = customizableEdges1;
+            grpSystem.Dock = DockStyle.Top;
+            grpSystem.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
+            grpSystem.ForeColor = Color.White;
+            grpSystem.Location = new Point(15, 0);
+            grpSystem.Margin = new Padding(0, 15, 0, 0);
             grpSystem.Name = "grpSystem";
-            grpSystem.ShadowDecoration.Color = Color.Silver;
-            grpSystem.ShadowDecoration.CustomizableEdges = customizableEdges28;
+            grpSystem.Padding = new Padding(0, 60, 0, 15);
+            grpSystem.ShadowDecoration.BorderRadius = 20;
+            grpSystem.ShadowDecoration.Color = Color.FromArgb(200, 200, 200);
+            grpSystem.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            grpSystem.ShadowDecoration.Depth = 15;
             grpSystem.ShadowDecoration.Enabled = true;
-            grpSystem.Size = new Size(678, 319);
+            grpSystem.Size = new Size(651, 160);
             grpSystem.TabIndex = 1;
             grpSystem.Text = "CÀI ĐẶT HỆ THỐNG";
-            grpSystem.TextOffset = new Point(10, 10);
+            grpSystem.TextOffset = new Point(0, 5);
             // 
             // labelLanguage
             // 
             labelLanguage.AutoSize = true;
-            labelLanguage.Font = new Font("Segoe UI", 9F);
-            labelLanguage.ForeColor = Color.Gray;
-            labelLanguage.Location = new Point(40, 108);
-            labelLanguage.Margin = new Padding(4, 0, 4, 0);
+            labelLanguage.BackColor = Color.White;
+            labelLanguage.Font = new Font("Segoe UI Semibold", 9.5F, FontStyle.Bold);
+            labelLanguage.ForeColor = Color.FromArgb(52, 73, 94);
+            labelLanguage.Location = new Point(30, 68);
             labelLanguage.Name = "labelLanguage";
-            labelLanguage.Size = new Size(76, 20);
+            labelLanguage.Size = new Size(84, 21);
             labelLanguage.TabIndex = 0;
             labelLanguage.Text = "Ngôn ngữ";
             // 
             // cboLanguage
             // 
             cboLanguage.BackColor = Color.Transparent;
-            cboLanguage.BorderRadius = 8;
-            cboLanguage.CustomizableEdges = customizableEdges21;
+            cboLanguage.BorderRadius = 10;
+            cboLanguage.CustomizableEdges = customizableEdges1;
             cboLanguage.DrawMode = DrawMode.OwnerDrawFixed;
             cboLanguage.DropDownStyle = ComboBoxStyle.DropDownList;
-            cboLanguage.FocusedColor = Color.Empty;
+            cboLanguage.FocusedColor = Color.FromArgb(155, 89, 182);
+            cboLanguage.FocusedState.BorderColor = Color.FromArgb(155, 89, 182);
             cboLanguage.Font = new Font("Segoe UI", 10F);
             cboLanguage.ForeColor = Color.FromArgb(68, 88, 112);
             cboLanguage.ItemHeight = 30;
             cboLanguage.Items.AddRange(new object[] { "Tiếng Việt", "English" });
-            cboLanguage.Location = new Point(40, 146);
-            cboLanguage.Margin = new Padding(4, 5, 4, 5);
+            cboLanguage.Location = new Point(30, 95);
             cboLanguage.Name = "cboLanguage";
-            cboLanguage.ShadowDecoration.CustomizableEdges = customizableEdges22;
-            cboLanguage.Size = new Size(300, 36);
+            cboLanguage.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            cboLanguage.Size = new Size(200, 36);
             cboLanguage.TabIndex = 1;
             // 
             // labelTheme
             // 
             labelTheme.AutoSize = true;
-            labelTheme.Font = new Font("Segoe UI", 9F);
-            labelTheme.ForeColor = Color.Gray;
-            labelTheme.Location = new Point(358, 108);
-            labelTheme.Margin = new Padding(4, 0, 4, 0);
+            labelTheme.BackColor = Color.White;
+            labelTheme.Font = new Font("Segoe UI Semibold", 9.5F, FontStyle.Bold);
+            labelTheme.ForeColor = Color.FromArgb(52, 73, 94);
+            labelTheme.Location = new Point(260, 68);
             labelTheme.Name = "labelTheme";
-            labelTheme.Size = new Size(73, 20);
+            labelTheme.Size = new Size(79, 21);
             labelTheme.TabIndex = 2;
             labelTheme.Text = "Giao diện";
             // 
             // cboTheme
             // 
             cboTheme.BackColor = Color.Transparent;
-            cboTheme.BorderRadius = 8;
-            cboTheme.CustomizableEdges = customizableEdges23;
+            cboTheme.BorderRadius = 10;
+            cboTheme.CustomizableEdges = customizableEdges1;
             cboTheme.DrawMode = DrawMode.OwnerDrawFixed;
             cboTheme.DropDownStyle = ComboBoxStyle.DropDownList;
-            cboTheme.FocusedColor = Color.Empty;
+            cboTheme.FocusedColor = Color.FromArgb(155, 89, 182);
+            cboTheme.FocusedState.BorderColor = Color.FromArgb(155, 89, 182);
             cboTheme.Font = new Font("Segoe UI", 10F);
             cboTheme.ForeColor = Color.FromArgb(68, 88, 112);
             cboTheme.ItemHeight = 30;
             cboTheme.Items.AddRange(new object[] { "Sáng (Light)", "Xanh (Tre Xanh)", "Tối (Dark)" });
-            cboTheme.Location = new Point(358, 146);
-            cboTheme.Margin = new Padding(4, 5, 4, 5);
+            cboTheme.Location = new Point(260, 95);
             cboTheme.Name = "cboTheme";
-            cboTheme.ShadowDecoration.CustomizableEdges = customizableEdges24;
-            cboTheme.Size = new Size(300, 36);
+            cboTheme.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            cboTheme.Size = new Size(200, 36);
             cboTheme.TabIndex = 3;
             // 
             // btnSaveSystem
             // 
+            btnSaveSystem.Animated = true;
+            btnSaveSystem.BackColor = Color.Transparent;
             btnSaveSystem.BorderRadius = 10;
-            btnSaveSystem.CustomizableEdges = customizableEdges25;
+            btnSaveSystem.CustomizableEdges = customizableEdges1;
             btnSaveSystem.FillColor = Color.FromArgb(142, 68, 173);
             btnSaveSystem.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             btnSaveSystem.ForeColor = Color.White;
-            btnSaveSystem.Location = new Point(418, 223);
-            btnSaveSystem.Margin = new Padding(4, 5, 4, 5);
+            btnSaveSystem.HoverState.FillColor = Color.FromArgb(155, 89, 182);
+            btnSaveSystem.Location = new Point(490, 85);
             btnSaveSystem.Name = "btnSaveSystem";
-            btnSaveSystem.ShadowDecoration.CustomizableEdges = customizableEdges26;
-            btnSaveSystem.Size = new Size(240, 60);
+            btnSaveSystem.ShadowDecoration.BorderRadius = 10;
+            btnSaveSystem.ShadowDecoration.Color = Color.FromArgb(142, 68, 173);
+            btnSaveSystem.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            btnSaveSystem.ShadowDecoration.Depth = 8;
+            btnSaveSystem.ShadowDecoration.Enabled = true;
+            btnSaveSystem.Size = new Size(158, 46);
             btnSaveSystem.TabIndex = 4;
-            btnSaveSystem.Text = "ÁP DỤNG";
+            btnSaveSystem.Text = "⚙️  ÁP DỤNG";
             // 
-            // grpSecurity
+            // grpLogout
             // 
-            grpSecurity.BackColor = Color.Transparent;
-            grpSecurity.BorderRadius = 15;
-            grpSecurity.Controls.Add(txtOldPass);
-            grpSecurity.Controls.Add(txtNewPass);
-            grpSecurity.Controls.Add(txtConfirmPass);
-            grpSecurity.Controls.Add(btnChangePassword);
-            grpSecurity.CustomBorderColor = Color.White;
-            grpSecurity.CustomizableEdges = customizableEdges37;
-            grpSecurity.Dock = DockStyle.Top;
-            grpSecurity.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
-            grpSecurity.ForeColor = Color.FromArgb(64, 64, 64);
-            grpSecurity.Location = new Point(0, 0);
-            grpSecurity.Margin = new Padding(4, 5, 4, 5);
-            grpSecurity.Name = "grpSecurity";
-            grpSecurity.ShadowDecoration.Color = Color.Silver;
-            grpSecurity.ShadowDecoration.CustomizableEdges = customizableEdges38;
-            grpSecurity.ShadowDecoration.Enabled = true;
-            grpSecurity.Size = new Size(678, 326);
-            grpSecurity.TabIndex = 0;
-            grpSecurity.Text = "BẢO MẬT";
-            grpSecurity.TextOffset = new Point(10, 10);
+            grpLogout.BackColor = Color.Transparent;
+            grpLogout.BorderColor = Color.Transparent;
+            grpLogout.BorderRadius = 20;
+            grpLogout.Controls.Add(lblLogoutDesc);
+            grpLogout.Controls.Add(btnLogout);
+            grpLogout.CustomBorderColor = Color.FromArgb(231, 76, 60);
+            grpLogout.CustomizableEdges = customizableEdges5;
+            grpLogout.Dock = DockStyle.Bottom;
+            grpLogout.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
+            grpLogout.ForeColor = Color.White;
+            grpLogout.Location = new Point(15, 490);
+            grpLogout.Margin = new Padding(0, 10, 0, 0);
+            grpLogout.Name = "grpLogout";
+            grpLogout.Padding = new Padding(0, 60, 0, 15);
+            grpLogout.ShadowDecoration.BorderRadius = 20;
+            grpLogout.ShadowDecoration.Color = Color.FromArgb(200, 200, 200);
+            grpLogout.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            grpLogout.ShadowDecoration.Depth = 15;
+            grpLogout.ShadowDecoration.Enabled = true;
+            grpLogout.Size = new Size(651, 224);
+            grpLogout.TabIndex = 2;
+            grpLogout.Text = "ĐĂNG XUẤT";
+            grpLogout.TextOffset = new Point(0, 5);
             // 
-            // txtOldPass
+            // lblLogoutDesc
             // 
-            txtOldPass.BorderRadius = 8;
-            txtOldPass.CustomizableEdges = customizableEdges29;
-            txtOldPass.DefaultText = "";
-            txtOldPass.Font = new Font("Segoe UI", 10F);
-            txtOldPass.Location = new Point(17, 61);
-            txtOldPass.Margin = new Padding(4, 6, 4, 6);
-            txtOldPass.Name = "txtOldPass";
-            txtOldPass.PlaceholderText = "Mật khẩu hiện tại";
-            txtOldPass.SelectedText = "";
-            txtOldPass.ShadowDecoration.CustomizableEdges = customizableEdges30;
-            txtOldPass.Size = new Size(300, 50);
-            txtOldPass.TabIndex = 0;
-            txtOldPass.UseSystemPasswordChar = true;
+            lblLogoutDesc.BackColor = Color.White;
+            lblLogoutDesc.Font = new Font("Segoe UI", 10F);
+            lblLogoutDesc.ForeColor = Color.FromArgb(127, 140, 141);
+            lblLogoutDesc.Location = new Point(30, 70);
+            lblLogoutDesc.Name = "lblLogoutDesc";
+            lblLogoutDesc.Size = new Size(585, 40);
+            lblLogoutDesc.TabIndex = 0;
+            lblLogoutDesc.Text = "Đăng xuất khỏi hệ thống. Bạn sẽ cần đăng nhập lại để tiếp tục sử dụng.";
+            lblLogoutDesc.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // txtNewPass
+            // btnLogout
             // 
-            txtNewPass.BorderRadius = 8;
-            txtNewPass.CustomizableEdges = customizableEdges31;
-            txtNewPass.DefaultText = "";
-            txtNewPass.Font = new Font("Segoe UI", 10F);
-            txtNewPass.Location = new Point(17, 143);
-            txtNewPass.Margin = new Padding(4, 6, 4, 6);
-            txtNewPass.Name = "txtNewPass";
-            txtNewPass.PlaceholderText = "Mật khẩu mới";
-            txtNewPass.SelectedText = "";
-            txtNewPass.ShadowDecoration.CustomizableEdges = customizableEdges32;
-            txtNewPass.Size = new Size(300, 50);
-            txtNewPass.TabIndex = 1;
-            txtNewPass.UseSystemPasswordChar = true;
-            txtNewPass.TextChanged += txtNewPass_TextChanged;
-            // 
-            // txtConfirmPass
-            // 
-            txtConfirmPass.BorderRadius = 8;
-            txtConfirmPass.CustomizableEdges = customizableEdges33;
-            txtConfirmPass.DefaultText = "";
-            txtConfirmPass.Font = new Font("Segoe UI", 10F);
-            txtConfirmPass.Location = new Point(358, 143);
-            txtConfirmPass.Margin = new Padding(4, 6, 4, 6);
-            txtConfirmPass.Name = "txtConfirmPass";
-            txtConfirmPass.PlaceholderText = "Xác nhận mật khẩu mới";
-            txtConfirmPass.SelectedText = "";
-            txtConfirmPass.ShadowDecoration.CustomizableEdges = customizableEdges34;
-            txtConfirmPass.Size = new Size(300, 50);
-            txtConfirmPass.TabIndex = 2;
-            txtConfirmPass.UseSystemPasswordChar = true;
-            //txtConfirmPass.TextChanged += this.txtConfirmPass_TextChanged;
-            // 
-            // btnChangePassword
-            // 
-            btnChangePassword.BorderRadius = 10;
-            btnChangePassword.CustomizableEdges = customizableEdges35;
-            btnChangePassword.FillColor = Color.FromArgb(52, 152, 219);
-            btnChangePassword.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            btnChangePassword.ForeColor = Color.White;
-            btnChangePassword.Location = new Point(153, 230);
-            btnChangePassword.Margin = new Padding(4, 5, 4, 5);
-            btnChangePassword.Name = "btnChangePassword";
-            btnChangePassword.ShadowDecoration.CustomizableEdges = customizableEdges36;
-            btnChangePassword.Size = new Size(400, 60);
-            btnChangePassword.TabIndex = 3;
-            btnChangePassword.Text = "ĐỔI MẬT KHẨU";
+            btnLogout.Animated = true;
+            btnLogout.BackColor = Color.Transparent;
+            btnLogout.BorderRadius = 12;
+            btnLogout.CustomizableEdges = customizableEdges1;
+            btnLogout.FillColor = Color.FromArgb(231, 76, 60);
+            btnLogout.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            btnLogout.ForeColor = Color.White;
+            btnLogout.HoverState.FillColor = Color.FromArgb(192, 57, 43);
+            btnLogout.Location = new Point(180, 120);
+            btnLogout.Name = "btnLogout";
+            btnLogout.ShadowDecoration.BorderRadius = 12;
+            btnLogout.ShadowDecoration.Color = Color.FromArgb(231, 76, 60);
+            btnLogout.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            btnLogout.ShadowDecoration.Depth = 12;
+            btnLogout.ShadowDecoration.Enabled = true;
+            btnLogout.Size = new Size(285, 54);
+            btnLogout.TabIndex = 1;
+            btnLogout.Text = "🚪  ĐĂNG XUẤT NGAY";
+            btnLogout.Click += Logout_Click;
             // 
             // panelHeader
             // 
+            panelHeader.Controls.Add(lblSubtitle);
             panelHeader.Controls.Add(lblTitle);
-            panelHeader.CustomizableEdges = customizableEdges39;
+            panelHeader.Controls.Add(picHeaderIcon);
+            panelHeader.CustomizableEdges = customizableEdges7;
             panelHeader.Dock = DockStyle.Top;
             panelHeader.FillColor = Color.White;
             panelHeader.Location = new Point(0, 0);
-            panelHeader.Margin = new Padding(4, 5, 4, 5);
             panelHeader.Name = "panelHeader";
-            panelHeader.ShadowDecoration.CustomizableEdges = customizableEdges40;
+            panelHeader.Padding = new Padding(30, 20, 30, 20);
+            panelHeader.ShadowDecoration.Color = Color.FromArgb(200, 200, 200);
+            panelHeader.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            panelHeader.ShadowDecoration.Depth = 10;
             panelHeader.ShadowDecoration.Enabled = true;
-            panelHeader.ShadowDecoration.Shadow = new Padding(0, 0, 0, 5);
-            panelHeader.Size = new Size(1450, 123);
+            panelHeader.ShadowDecoration.Shadow = new Padding(0, 2, 0, 8);
+            panelHeader.Size = new Size(1450, 140);
             panelHeader.TabIndex = 0;
+            // 
+            // lblSubtitle
+            // 
+            lblSubtitle.AutoSize = true;
+            lblSubtitle.BackColor = Color.Transparent;
+            lblSubtitle.Font = new Font("Segoe UI", 11F);
+            lblSubtitle.ForeColor = Color.FromArgb(127, 140, 141);
+            lblSubtitle.Location = new Point(123, 85);
+            lblSubtitle.Name = "lblSubtitle";
+            lblSubtitle.Size = new Size(397, 25);
+            lblSubtitle.TabIndex = 1;
+            lblSubtitle.Text = "Quản lý thông tin cá nhân và cài đặt hệ thống";
             // 
             // lblTitle
             // 
             lblTitle.AutoSize = true;
             lblTitle.BackColor = Color.Transparent;
-            lblTitle.Font = new Font("Segoe UI", 20F, FontStyle.Bold);
-            lblTitle.ForeColor = Color.FromArgb(39, 174, 96);
-            lblTitle.Location = new Point(40, 31);
-            lblTitle.Margin = new Padding(4, 0, 4, 0);
+            lblTitle.Font = new Font("Segoe UI", 24F, FontStyle.Bold);
+            lblTitle.ForeColor = Color.FromArgb(44, 62, 80);
+            lblTitle.Location = new Point(120, 35);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(382, 46);
+            lblTitle.Size = new Size(449, 54);
             lblTitle.TabIndex = 0;
             lblTitle.Text = "THIẾT LẬP TÀI KHOẢN";
             // 
+            // picHeaderIcon
+            // 
+            picHeaderIcon.BackColor = Color.Transparent;
+            picHeaderIcon.Image = Properties.Resources.logo2019_png_1;
+            picHeaderIcon.Location = new Point(30, 35);
+            picHeaderIcon.Name = "picHeaderIcon";
+            picHeaderIcon.Size = new Size(70, 70);
+            picHeaderIcon.SizeMode = PictureBoxSizeMode.Zoom;
+            picHeaderIcon.TabIndex = 2;
+            picHeaderIcon.TabStop = false;
+            // 
             // Setting
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleDimensions = new SizeF(120F, 120F);
+            AutoScaleMode = AutoScaleMode.Dpi;
             Controls.Add(panelMain);
-            Margin = new Padding(4, 5, 4, 5);
             Name = "Setting";
-            Size = new Size(1450, 850);
+            Size = new Size(1450, 900);
             panelMain.ResumeLayout(false);
             tableLayoutPanel.ResumeLayout(false);
             panelLeft.ResumeLayout(false);
             grpProfile.ResumeLayout(false);
             grpProfile.PerformLayout();
             panelRight.ResumeLayout(false);
+            grpSecurity.ResumeLayout(false);
             grpSystem.ResumeLayout(false);
             grpSystem.PerformLayout();
-            grpSecurity.ResumeLayout(false);
+            grpLogout.ResumeLayout(false);
             panelHeader.ResumeLayout(false);
             panelHeader.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)picHeaderIcon).EndInit();
             ResumeLayout(false);
         }
 
@@ -596,7 +707,9 @@ namespace BaiTapLonWinForm.View.Setting
 
         private System.Windows.Forms.Panel panelMain;
         private Guna2Panel panelHeader;
+        private PictureBox picHeaderIcon;
         private System.Windows.Forms.Label lblTitle;
+        private System.Windows.Forms.Label lblSubtitle;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
         private System.Windows.Forms.Panel panelLeft;
         private System.Windows.Forms.Panel panelRight;
@@ -629,5 +742,10 @@ namespace BaiTapLonWinForm.View.Setting
         private System.Windows.Forms.Label labelTheme;
         private Guna2ComboBox cboTheme;
         private Guna2Button btnSaveSystem;
+
+        // Logout Controls
+        private Guna2GroupBox grpLogout;
+        private System.Windows.Forms.Label lblLogoutDesc;
+        private Guna2Button btnLogout;
     }
 }

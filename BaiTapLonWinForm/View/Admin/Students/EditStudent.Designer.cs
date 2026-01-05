@@ -57,7 +57,6 @@
             btnSave = new Button();
             panelTop = new Panel();
             lblTitle = new Label();
-            cbActive = new Guna.UI2.WinForms.Guna2CheckBox();
             panelStep1.SuspendLayout();
             groupBoxInfo.SuspendLayout();
             panelBottom.SuspendLayout();
@@ -77,7 +76,6 @@
             // 
             // groupBoxInfo
             // 
-            groupBoxInfo.Controls.Add(cbActive);
             groupBoxInfo.Controls.Add(lblErrFirstName);
             groupBoxInfo.Controls.Add(lblErrLastName);
             groupBoxInfo.Controls.Add(lblErrEmail);
@@ -369,24 +367,6 @@
             lblTitle.TabIndex = 0;
             lblTitle.Text = "✏️ CHỈNH SỬA THÔNG TIN HỌC VIÊN";
             // 
-            // cbActive
-            // 
-            cbActive.AutoSize = true;
-            cbActive.CheckedState.BorderColor = Color.FromArgb(94, 148, 255);
-            cbActive.CheckedState.BorderRadius = 0;
-            cbActive.CheckedState.BorderThickness = 0;
-            cbActive.CheckedState.FillColor = Color.FromArgb(94, 148, 255);
-            cbActive.Location = new Point(80, 476);
-            cbActive.Name = "cbActive";
-            cbActive.Size = new Size(123, 29);
-            cbActive.TabIndex = 26;
-            cbActive.Text = "Khôi phục";
-            cbActive.UncheckedState.BorderColor = Color.FromArgb(125, 137, 149);
-            cbActive.UncheckedState.BorderRadius = 0;
-            cbActive.UncheckedState.BorderThickness = 0;
-            cbActive.UncheckedState.FillColor = Color.FromArgb(125, 137, 149);
-            cbActive.Visible = false;
-            // 
             // EditStudent
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -438,6 +418,5 @@
         private Label lblErrPhone;
         private Label lblErrParentPhone;
         private Label lblErrGender;
-        private Guna.UI2.WinForms.Guna2CheckBox cbActive;
     }
 }

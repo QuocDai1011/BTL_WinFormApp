@@ -43,16 +43,16 @@ namespace BaiTapLonWinForm.View.Admin.Students
 
         private void InitializeListView()
         {
-            lvAttendance.View = System.Windows.Forms.View.Details;
-            lvAttendance.GridLines = true;
-            lvAttendance.FullRowSelect = true;
+            //lvAttendance.View = System.Windows.Forms.View.Details;
+            //lvAttendance.GridLines = true;
+            //lvAttendance.FullRowSelect = true;
 
-            lvAttendance.Columns.Clear();
-            lvAttendance.Columns.Add("Thời gian", 100);
-            lvAttendance.Columns.Add("Họ và tên", 200);
-            lvAttendance.Columns.Add("Lớp học - Ca", 250);
-            lvAttendance.Columns.Add("Trạng thái", 150);
-            lvAttendance.Columns.Add("Ghi chú", 100);
+            //lvAttendance.Columns.Clear();
+            //lvAttendance.Columns.Add("Thời gian", 100);
+            //lvAttendance.Columns.Add("Họ và tên", 200);
+            //lvAttendance.Columns.Add("Lớp học - Ca", 250);
+            //lvAttendance.Columns.Add("Trạng thái", 150);
+            //lvAttendance.Columns.Add("Ghi chú", 100);
 
         }
 
@@ -151,7 +151,7 @@ namespace BaiTapLonWinForm.View.Admin.Students
             }
         }
 
-        private void ProcessCheckInResult(ReceptionCheckInResult result)
+        private async void ProcessCheckInResult(ReceptionCheckInResult result)
         {
             // Cập nhật trạng thái text
             lblRecognitionStatus.Text = result.Success ? "✅ " + result.Message : "❌ " + result.Message;
@@ -174,28 +174,72 @@ namespace BaiTapLonWinForm.View.Admin.Students
                 }
 
                 _checkedInCache[result.StudentId] = DateTime.Now;
-                AddRecordToListView(result);
+                AddRecordToDataGridView(result);
 
                 // Cập nhật số lượng
                 lblTotalPresent.Text = _checkedInCache.Count.ToString();
+                var studentResult = await _serviceHub.StudentService.GetAllStudentsAsync();
+
+                if (studentResult.Success && studentResult.Data != null)
+                {
+                    int totalStudent = studentResult.Data.Count();
+
+                    if (totalStudent > 0)
+                    {
+                        double rate = (double)_checkedInCache.Count / totalStudent;
+
+                        lblAttendanceRate.Text = rate.ToString("P0");
+                    }
+                    else
+                    {
+                        lblAttendanceRate.Text = "0%";
+                    }
+                }
+                else
+                {
+                    lblAttendanceRate.Text = "N/A";
+                    MessageBox.Show(studentResult.Message);
+                }
             }
         }
 
-        private void AddRecordToListView(ReceptionCheckInResult result)
+        private void AddRecordToDataGridView(ReceptionCheckInResult result)
         {
-            // Tạo Item mới
-            ListViewItem item = new ListViewItem(result.CheckInTime?.ToString("HH:mm:ss")); 
-            item.SubItems.Add(result.StudentName); 
-            item.SubItems.Add($"{result.ClassName} ({result.ShiftName})"); 
-            item.SubItems.Add("Có mặt"); 
+            // Đảm bảo thao tác trên UI Thread
+            if (dgvStudentAttendance.InvokeRequired)
+            {
+                dgvStudentAttendance.Invoke(new Action(() => AddRecordToDataGridView(result)));
+                return;
+            }
+
+            string time = result.CheckInTime?.ToString("HH:mm:ss") ?? DateTime.Now.ToString("HH:mm:ss");
+            string studentName = result.StudentName;
+            string classAndShift = $"{result.ClassName} ({result.ShiftName})";
+            string note = result.isLate ? "Đi muộn" : "";
+            string status = $"Có mặt";
+            string confidence = result.confidence.ToString("P0");
+            dgvStudentAttendance.Rows.Insert(0,
+                time,
+                studentName,
+                classAndShift,
+                confidence,
+                status + $"({note})"
+            );
+
+            DataGridViewRow row = dgvStudentAttendance.Rows[0];
+
+            row.DefaultCellStyle.Font = new Font(dgvStudentAttendance.Font, FontStyle.Bold);
+
             if (result.isLate)
             {
-                item.SubItems.Add("Đi muộn");
+                row.DefaultCellStyle.ForeColor = Color.OrangeRed;
             }
-            item.ForeColor = Color.DarkGreen;
-            item.Font = new Font(lvAttendance.Font, FontStyle.Bold);
+            else
+            {
+                row.DefaultCellStyle.ForeColor = Color.DarkGreen;
+            }
 
-            lvAttendance.Items.Insert(0, item);
+            dgvStudentAttendance.FirstDisplayedScrollingRowIndex = 0;
         }
 
 

@@ -1,4 +1,5 @@
 ﻿using BaiTapLonWinForm.Services;
+using BaiTapLonWinForm.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,10 +20,16 @@ namespace BaiTapLonWinForm.View.Setting
             InitializeComponent();
             _serviceHub = serviceHub;
         }
-
-        private void txtNewPass_TextChanged(object sender, EventArgs e)
+        private void Logout_Click(object sender, EventArgs e)
         {
-
+           if (MessageHelper.ShowConfirmation("Bạn có chắc chắn muốn đăng xuất không?"))
+            {
+                Form parentForm = this.FindForm();
+                if (parentForm != null)
+                {
+                    parentForm.Close();
+                }
+            }
         }
     }
 }

@@ -20,7 +20,7 @@ namespace BaiTapLonWinForm.View.Admin.Class
         private bool _isLoaded = false;
         private DateTime _originalStartDate;
         private int? _currentStatus;
-
+        private bool _isAdjustingDate = false;
 
         private List<Guna.UI2.WinForms.Guna2Button> _dayButtons;
         private readonly List<(int Id, string Name)> mapShift = new List<(int, string)>()
@@ -265,7 +265,7 @@ namespace BaiTapLonWinForm.View.Admin.Class
 
         #endregion
 
-        #region handle button event 
+        #region handle events 
 
         private void btnAddStudent_Click(object sender, EventArgs e)
         {
@@ -428,6 +428,75 @@ namespace BaiTapLonWinForm.View.Admin.Class
 
         }
 
+        private async void cmbCourse_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbCourse.SelectedValue == null) return;
+
+            if (int.TryParse(cmbCourse.SelectedValue.ToString(), out int courseId))
+            {
+                var result = await _serviceHub.CourseService.GetCourseByIdAsync(courseId);
+
+                if (!result.Success || result.Data == null) return;
+
+                int totalSessions = result.Data.NumberSessions;
+                if (totalSessions <= 0) return;
+
+                DateTime minStartDate = DateTime.Now.AddDays(7);
+
+                int daysUntilMonday = ((int)DayOfWeek.Monday - (int)minStartDate.DayOfWeek + 7) % 7;
+                DateTime actualStartDate = minStartDate.AddDays(daysUntilMonday);
+
+                int weeksNeeded = (int)Math.Ceiling(totalSessions / 3.0);
+
+
+                DateTime actualEndDate = actualStartDate.AddDays((weeksNeeded * 7) - 1);
+
+                dtpStartDate.Value = actualStartDate;
+                dtpEndDate.Value = actualEndDate;
+
+                lblEstimate.Text = $"Khóa học: {totalSessions} buổi. \n" +
+                                  $"Thời gian: {weeksNeeded} tuần. \n" +
+                                  $"(Học từ Thứ 2 ngày {actualStartDate:dd/MM} đến Chủ Nhật ngày {actualEndDate:dd/MM})";
+                lblEstimate.Visible = true;
+            }
+        }
+
+        private async void dtpStartDate_ValueChanged(object sender, EventArgs e)
+        {
+            if (_isAdjustingDate) return;
+
+            _isAdjustingDate = true;
+            try
+            {
+                DateTime selectedDate = dtpStartDate.Value;
+                DateTime minAllowedDate = DateTime.Now.AddDays(7);
+
+                int diff = (7 + (selectedDate.DayOfWeek - DayOfWeek.Monday)) % 7;
+                DateTime targetMonday = selectedDate.AddDays(-1 * diff);
+
+                if (targetMonday < minAllowedDate)
+                {
+                    int daysUntilNextMonday = ((int)DayOfWeek.Monday - (int)minAllowedDate.DayOfWeek + 7) % 7;
+                    targetMonday = minAllowedDate.AddDays(daysUntilNextMonday);
+                }
+
+                if (dtpStartDate.Value.Date != targetMonday.Date)
+                {
+                    dtpStartDate.Value = targetMonday;
+                }
+
+                await RecalculateEndDate(targetMonday);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi tính toán ngày: " + ex.Message);
+            }
+            finally
+            {
+                _isAdjustingDate = false;
+            }
+        }
+
         #endregion
 
         #region validate input
@@ -548,6 +617,30 @@ namespace BaiTapLonWinForm.View.Admin.Class
             pnlMain.Controls.Clear();
             pnlMain.Controls.Add(this.TabControls);
             await initialDetailClass();
+        }
+
+        private async Task RecalculateEndDate(DateTime startDate)
+        {
+            if (cmbCourse.SelectedValue == null) return;
+
+            if (int.TryParse(cmbCourse.SelectedValue.ToString(), out int courseId))
+            {
+                var result = await _serviceHub.CourseService.GetCourseByIdAsync(courseId);
+
+                if (result.Success && result.Data != null)
+                {
+                    int totalSessions = result.Data.NumberSessions;
+                    if (totalSessions <= 0) return;
+
+                    int weeksNeeded = (int)Math.Ceiling(totalSessions / 3.0);
+
+                    DateTime endDate = startDate.AddDays((weeksNeeded * 7) - 1);
+
+                    dtpEndDate.Value = endDate;
+
+                    lblEstimate.Text = $"Lịch dự kiến: {weeksNeeded} tuần ({totalSessions} buổi).";
+                }
+            }
         }
         #endregion
         protected override async void OnLoad(EventArgs e)

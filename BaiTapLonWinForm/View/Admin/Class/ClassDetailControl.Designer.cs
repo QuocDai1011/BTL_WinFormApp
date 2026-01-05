@@ -183,6 +183,7 @@
             label6 = new Label();
             tabPage2 = new TabPage();
             pnlEditContainer = new Guna.UI2.WinForms.Guna2Panel();
+            lblEstimate = new Label();
             lblErrorDayofWeek = new Label();
             lblErrorEndDate = new Label();
             lblErrorStartDate = new Label();
@@ -465,11 +466,10 @@
             // 
             // lblNote
             // 
-            lblNote.AutoSize = true;
             lblNote.Font = new Font("Segoe UI", 10F);
             lblNote.Location = new Point(20, 155);
             lblNote.Name = "lblNote";
-            lblNote.Size = new Size(31, 23);
+            lblNote.Size = new Size(320, 52);
             lblNote.TabIndex = 4;
             lblNote.Text = "---";
             // 
@@ -764,6 +764,7 @@
             // 
             pnlEditContainer.AutoScroll = true;
             pnlEditContainer.BackColor = Color.White;
+            pnlEditContainer.Controls.Add(lblEstimate);
             pnlEditContainer.Controls.Add(lblErrorDayofWeek);
             pnlEditContainer.Controls.Add(lblErrorEndDate);
             pnlEditContainer.Controls.Add(lblErrorStartDate);
@@ -798,6 +799,17 @@
             pnlEditContainer.ShadowDecoration.CustomizableEdges = customizableEdges46;
             pnlEditContainer.Size = new Size(1046, 705);
             pnlEditContainer.TabIndex = 0;
+            // 
+            // lblEstimate
+            // 
+            lblEstimate.AutoSize = true;
+            lblEstimate.ForeColor = Color.Green;
+            lblEstimate.Location = new Point(540, 143);
+            lblEstimate.Name = "lblEstimate";
+            lblEstimate.Size = new Size(50, 20);
+            lblEstimate.TabIndex = 33;
+            lblEstimate.Text = "label7";
+            lblEstimate.Visible = false;
             // 
             // lblErrorDayofWeek
             // 
@@ -1342,7 +1354,6 @@
             grpTeacher.ResumeLayout(false);
             grpTeacher.PerformLayout();
             grpStats.ResumeLayout(false);
-            grpStats.PerformLayout();
             pnlProgressBg.ResumeLayout(false);
             pnlMain.ResumeLayout(false);
             TabControls.ResumeLayout(false);
@@ -1404,5 +1415,6 @@
         private Label lblErrorStartDate;
         private Label lblErrorClassName;
         private Label lblErrorDayofWeek;
+        private Label lblEstimate;
     }
 }

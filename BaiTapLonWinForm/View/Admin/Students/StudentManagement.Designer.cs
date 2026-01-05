@@ -51,6 +51,7 @@
             cboFilter = new Guna.UI2.WinForms.Guna2ComboBox();
             label1 = new Label();
             pnlContent = new Panel();
+            btnRestore = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvStudents).BeginInit();
             panelTop.SuspendLayout();
             panelStats.SuspendLayout();
@@ -391,7 +392,7 @@
             btnImport.FlatStyle = FlatStyle.Flat;
             btnImport.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
             btnImport.ForeColor = Color.White;
-            btnImport.Location = new Point(1130, 755);
+            btnImport.Location = new Point(1109, 755);
             btnImport.Name = "btnImport";
             btnImport.Size = new Size(155, 45);
             btnImport.TabIndex = 4;
@@ -432,6 +433,7 @@
             // 
             // pnlContent
             // 
+            pnlContent.Controls.Add(btnRestore);
             pnlContent.Controls.Add(panelTop);
             pnlContent.Controls.Add(panelSearch);
             pnlContent.Controls.Add(panelButtons);
@@ -445,6 +447,23 @@
             pnlContent.Name = "pnlContent";
             pnlContent.Size = new Size(1480, 850);
             pnlContent.TabIndex = 8;
+            // 
+            // btnRestore
+            // 
+            btnRestore.BackColor = Color.DeepSkyBlue;
+            btnRestore.Cursor = Cursors.Hand;
+            btnRestore.FlatAppearance.BorderSize = 0;
+            btnRestore.FlatStyle = FlatStyle.Flat;
+            btnRestore.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            btnRestore.ForeColor = Color.White;
+            btnRestore.Location = new Point(922, 755);
+            btnRestore.Name = "btnRestore";
+            btnRestore.Size = new Size(155, 45);
+            btnRestore.TabIndex = 8;
+            btnRestore.Text = "🔄 Khôi phục";
+            btnRestore.UseVisualStyleBackColor = false;
+            btnRestore.Visible = false;
+            btnRestore.Click += btnRestore_Click;
             // 
             // StudentManagement
             // 
@@ -499,5 +518,6 @@
         private DataGridViewTextBoxColumn DateOfBirth;
         private DataGridViewTextBoxColumn FaceImageCount;
         private Panel pnlContent;
+        private Button btnRestore;
     }
 }

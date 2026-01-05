@@ -4,6 +4,7 @@ using BaiTapLonWinForm.Services;
 using BaiTapLonWinForm.Utils;
 using BaiTapLonWinForm.View.Admin.Class;
 using BaiTapLonWinForm.View.Admin.Course;
+using BaiTapLonWinForm.View.Admin.Helper;
 using BaiTapLonWinForm.View.Admin.Schedule;
 using BaiTapLonWinForm.View.Admin.Students;
 using BaiTapLonWinForm.View.Admin.Teacher;
@@ -20,7 +21,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
 {
-    public partial class HomePage : Form
+    public partial class HomePage : Form, INavigationHandler
     {
         private Panel currentActivePanel;
         private readonly Color hoverColor = Color.FromArgb(52, 152, 219);
@@ -68,7 +69,6 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             SetupMenuItem(pnlSettings, picSettings, lblSettings);
 
             // Logout
-            SetupMenuItem(pnlLogout, picLogout, lblLogout);
             SetupMenuItem(pnlSchedule, pbSchedule, lblSchedule);
 
         }
@@ -208,25 +208,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
         }
 
 
-        private void Logout_Click(object sender, EventArgs e)
-        {
-            var result = MessageBox.Show(
-                "Bạn có chắc chắn muốn đăng xuất?",
-                "Xác nhận đăng xuất",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question);
-
-            if (result == DialogResult.Yes)
-            {
-                this.Hide();
-                //LoginForm loginForm = new LoginForm();
-                //loginForm.ShowDialog();
-                this.Close();
-
-                MessageBox.Show("Đăng xuất thành công!", "Thông báo",
-                    MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-        }
+   
         #endregion
 
         #region Load User Control
@@ -259,8 +241,14 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
         
             if(count > 0)
             {
-                MessageHelper.ShowError($"Đã cập nhật trạng thái cho {count} lớp học");
+                MessageHelper.ShowSuccess($"Đã cập nhật trạng thái cho {count} lớp học");
             }
+        }
+
+        public void NavigateToClassDetail(int classId)
+        {
+            SetActiveMenuItem(pnlMyClass);
+            LoadUserControl(new ClassDetailControl(_serviceHub, classId));
         }
         #endregion
     }

@@ -46,10 +46,6 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
         private PictureBox picSettings;
         private Label lblSettings;
 
-        private Panel pnlLogout;
-        private PictureBox picLogout;
-        private Label lblLogout;
-
         // Sidebar Footer
         private Panel pnlSidebarFooter;
         private Label lblVersion;
@@ -74,9 +70,6 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             lblAttendance = new Label();
             pnlSidebarFooter = new Panel();
             lblVersion = new Label();
-            pnlLogout = new Panel();
-            picLogout = new PictureBox();
-            lblLogout = new Label();
             pnlSettings = new Panel();
             picSettings = new PictureBox();
             lblSettings = new Label();
@@ -111,8 +104,6 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             pnAttendance.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbAttendance).BeginInit();
             pnlSidebarFooter.SuspendLayout();
-            pnlLogout.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)picLogout).BeginInit();
             pnlSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picSettings).BeginInit();
             pnlManagement.SuspendLayout();
@@ -139,7 +130,6 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             sidebarPanel.Controls.Add(pnlSchedule);
             sidebarPanel.Controls.Add(pnAttendance);
             sidebarPanel.Controls.Add(pnlSidebarFooter);
-            sidebarPanel.Controls.Add(pnlLogout);
             sidebarPanel.Controls.Add(pnlSettings);
             sidebarPanel.Controls.Add(pnlManagement);
             sidebarPanel.Controls.Add(pnlCourse);
@@ -160,7 +150,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             pnlSchedule.Controls.Add(pbSchedule);
             pnlSchedule.Controls.Add(lblSchedule);
             pnlSchedule.Cursor = Cursors.Hand;
-            pnlSchedule.Location = new Point(13, 619);
+            pnlSchedule.Location = new Point(19, 641);
             pnlSchedule.Margin = new Padding(4);
             pnlSchedule.Name = "pnlSchedule";
             pnlSchedule.Size = new Size(312, 69);
@@ -254,55 +244,13 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             lblVersion.Text = "Version 1.0.0\r\n© 2024 Tre Xanh";
             lblVersion.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // pnlLogout
-            // 
-            pnlLogout.BackColor = Color.Transparent;
-            pnlLogout.Controls.Add(picLogout);
-            pnlLogout.Controls.Add(lblLogout);
-            pnlLogout.Cursor = Cursors.Hand;
-            pnlLogout.Location = new Point(19, 768);
-            pnlLogout.Margin = new Padding(4);
-            pnlLogout.Name = "pnlLogout";
-            pnlLogout.Size = new Size(312, 69);
-            pnlLogout.TabIndex = 7;
-            pnlLogout.Click += Logout_Click;
-            pnlLogout.MouseEnter += MenuItem_MouseEnter;
-            pnlLogout.MouseLeave += MenuItem_MouseLeave;
-            // 
-            // picLogout
-            // 
-            picLogout.Image = BaiTapLonWinForm.Properties.Resources.logo2019_png_1;
-            picLogout.Location = new Point(25, 15);
-            picLogout.Margin = new Padding(4);
-            picLogout.Name = "picLogout";
-            picLogout.Size = new Size(40, 40);
-            picLogout.SizeMode = PictureBoxSizeMode.Zoom;
-            picLogout.TabIndex = 0;
-            picLogout.TabStop = false;
-            picLogout.Click += Logout_Click;
-            picLogout.MouseEnter += MenuItem_MouseEnter;
-            // 
-            // lblLogout
-            // 
-            lblLogout.AutoSize = true;
-            lblLogout.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
-            lblLogout.ForeColor = Color.White;
-            lblLogout.Location = new Point(81, 21);
-            lblLogout.Margin = new Padding(4, 0, 4, 0);
-            lblLogout.Name = "lblLogout";
-            lblLogout.Size = new Size(101, 25);
-            lblLogout.TabIndex = 1;
-            lblLogout.Text = "Đăng xuất";
-            lblLogout.Click += Logout_Click;
-            lblLogout.MouseEnter += MenuItem_MouseEnter;
-            // 
             // pnlSettings
             // 
             pnlSettings.BackColor = Color.Transparent;
             pnlSettings.Controls.Add(picSettings);
             pnlSettings.Controls.Add(lblSettings);
             pnlSettings.Cursor = Cursors.Hand;
-            pnlSettings.Location = new Point(19, 681);
+            pnlSettings.Location = new Point(19, 768);
             pnlSettings.Margin = new Padding(4);
             pnlSettings.Name = "pnlSettings";
             pnlSettings.Size = new Size(312, 69);
@@ -694,9 +642,6 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             pnAttendance.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbAttendance).EndInit();
             pnlSidebarFooter.ResumeLayout(false);
-            pnlLogout.ResumeLayout(false);
-            pnlLogout.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)picLogout).EndInit();
             pnlSettings.ResumeLayout(false);
             pnlSettings.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)picSettings).EndInit();

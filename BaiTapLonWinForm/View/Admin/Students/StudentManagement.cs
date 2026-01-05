@@ -52,7 +52,7 @@ namespace BaiTapLonWinForm.View.Admin.Students
             ApplyRoundedCorners(btnSearch, 8);
         }
 
-        
+
 
         private async void StudentManagement_Load(object sender, EventArgs e)
         {
@@ -127,38 +127,45 @@ namespace BaiTapLonWinForm.View.Admin.Students
                         .Where(s => s.User.Gender == true)
                         .Where(s => s.User.IsActive == true)
                         .ToList();
+                    btnRestore.Visible = false;
                     break;
                 case "Nữ":
                     filteredList = _masterStudentList
                         .Where(s => s.User.Gender == false)
                         .Where(s => s.User.IsActive == true)
                         .ToList();
+                    btnRestore.Visible = false;
                     break;
                 case "Đang hoạt động":
                     filteredList = _masterStudentList
                         .Where(s => s.User.IsActive == true)
                         .ToList();
+                    btnRestore.Visible = false;
                     break;
                 case "Ngừng hoạt động":
                     filteredList = _masterStudentList
                         .Where(s => s.User.IsActive == false)
                         .ToList();
+                    btnRestore.Visible = true;
                     break;
                 case "Chưa có ảnh":
                     filteredList = _masterStudentList
                         .Where(s => s.StudentFaceImages == null || s.StudentFaceImages.Count == 0)
                         .Where(s => s.User.IsActive == true)
                         .ToList();
+                    btnRestore.Visible = false;
                     break;
                 case "Có ảnh":
                     filteredList = _masterStudentList
                         .Where(s => s.StudentFaceImages != null && s.StudentFaceImages.Count > 0)
                         .Where(s => s.User.IsActive == true)
                         .ToList();
+                    btnRestore.Visible = false;
                     break;
                 case "Tất cả":
                 default:
                     filteredList = _masterStudentList.Where(s => s.User.IsActive == true).ToList();
+                    btnRestore.Visible = false;
                     break;
             }
 
@@ -267,13 +274,13 @@ namespace BaiTapLonWinForm.View.Admin.Students
         {
             if (dgvStudents.SelectedRows.Count == 0)
             {
-                MessageHelper.ShowWarning("Vui lòng chọn sinh viên cần xóa!");
+                MessageHelper.ShowWarning("Vui lòng chọn học viên cần xóa!");
                 return;
             }
 
             var confirm = MessageBox.Show(
-                "Bạn có chắc chắn muốn xóa sinh viên này?\nDữ liệu khuôn mặt và thông tin sẽ bị xóa vĩnh viễn.",
-                "Xác nhận xóa",
+                "Bạn có chắc chắn muốn vô hiệu hóa học viên này?",
+                "Xác nhận vô hiệu hóa",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
 
@@ -293,7 +300,6 @@ namespace BaiTapLonWinForm.View.Admin.Students
                         return;
                     }
 
-                    // 3. Xóa học viên
                     var result = await _serviceHub.UserService.DeactivateUserAsync(userId);
 
                     if (result.Success)
@@ -376,10 +382,11 @@ namespace BaiTapLonWinForm.View.Admin.Students
                                 }
                                 else
                                 {
+                                    message = result.Message;
                                     errorCount++;
                                 }
                             }
-                            catch(Exception ex)
+                            catch (Exception ex)
                             {
                                 message = ex.Message;
                                 errorCount++;
@@ -387,8 +394,8 @@ namespace BaiTapLonWinForm.View.Admin.Students
                         }
                     }
 
-                    MessageBox.Show($"Import hoàn tất!\nThành công: {successCount}\nLỗi: {errorCount} | message: {message}",
-                        "Kết quả", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageHelper.ShowSuccess($"Import hoàn tất!\nThành công: {successCount}\nLỗi: {errorCount} | message: {message}",
+                        "Kết quả");
 
                     // 4. QUAN TRỌNG: Load lại dữ liệu sau khi import
                     await RefreshDataAsync();
@@ -418,12 +425,21 @@ namespace BaiTapLonWinForm.View.Admin.Students
                         var worksheet = package.Workbook.Worksheets.Add("Template");
 
                         // Header
-                        string[] headers = { "Họ", "Tên", "Email", "Giới tính (Nam/Nữ)", "Ngày sinh", "Địa chỉ", "SĐT", "SĐT Phụ huynh" };
+                        string[] headers = { "Tên", "Họ", "Email", "Giới tính (Nam/Nữ)", "Ngày sinh", "Địa chỉ", "SĐT", "SĐT Phụ huynh" };
                         for (int i = 0; i < headers.Length; i++)
                         {
-                            worksheet.Cells[1, i + 1].Value = headers[i];
-                            worksheet.Cells[1, i + 1].Style.Font.Bold = true;
+                            var cell = worksheet.Cells[1, i + 1];
+                            cell.Value = headers[i];
+                            cell.Style.Font.Bold = true;
+                            cell.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                            cell.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.LightBlue);
+                            cell.Style.Border.BorderAround(OfficeOpenXml.Style.ExcelBorderStyle.Thin);
                         }
+
+                        worksheet.Cells[1, 3].AddComment("Email phải là duy nhất và đúng định dạng (ví dụ: abc@gmail.com)", "Hệ thống");
+                        worksheet.Cells[1, 4].AddComment("Chỉ nhập 'Nam' hoặc 'Nữ'", "Hệ thống");
+                        worksheet.Cells[1, 5].AddComment("Định dạng: Năm-Tháng-Ngày (yyyy-MM-dd)", "Hệ thống");
+                        worksheet.Cells[1, 7].AddComment("Số điện thoại phải đủ 10 số", "Hệ thống");
 
                         // Sample Data
                         worksheet.Cells[2, 1].Value = "Nguyễn";
@@ -548,12 +564,46 @@ namespace BaiTapLonWinForm.View.Admin.Students
                 var studentDetail = new StudentDetailForm(studentId, _serviceHub);
 
                 studentDetail.ShowDialog();
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageHelper.ShowError("Lỗi khi mở form chi tiết học viên!", ex.Message);
             }
         }
 
+        private async void btnRestore_Click(object sender, EventArgs e)
+        {
+            if (dgvStudents.SelectedRows.Count == 0)
+            {
+                MessageHelper.ShowWarning("Vui lòng chọn sinh viên cần sửa!");
+                return;
+            }
+
+            int userId = Convert.ToInt32(dgvStudents.SelectedRows[0].Cells["UserId"].Value);
+
+            var confirm = MessageHelper.ShowConfirmation("Bạn có chắc chắn muốn khôi phục sinh viên này?");
+
+            if (confirm)
+            {
+                try
+                {
+                    var result = await _serviceHub.UserService.ActivateUserAsync(userId);
+                    if (result.Success)
+                    {
+                        MessageHelper.ShowSuccess(result.Message);
+                        _ = RefreshDataAsync();
+                    }
+                    else
+                    {
+                        MessageHelper.ShowError(result.Message);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageHelper.ShowError($"Lỗi: {ex.Message}");
+                }
+            }
+        }
         #endregion
 
         #region helper method
@@ -581,5 +631,7 @@ namespace BaiTapLonWinForm.View.Admin.Students
             control.Region = new Region(path);
         }
         #endregion
+
+        
     }
 }

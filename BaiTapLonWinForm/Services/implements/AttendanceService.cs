@@ -109,9 +109,7 @@ namespace BaiTapLonWinForm.Services.implements
                     return result;
                 }
 
-                // =========================================================
-                //  XỬ LÝ ĐI MUỘN (LATE)
-                // =========================================================
+                //  xử lý đi muộn (LATE)
                 var (shiftStart, _) = GetShiftTimes(activeClass.Shift);
                 var lateTimeLimit = shiftStart.Add(TimeSpan.FromMinutes(LATE_THRESHOLD_MINUTES));
                 var currentTime = DateTime.Now.TimeOfDay;
@@ -126,7 +124,7 @@ namespace BaiTapLonWinForm.Services.implements
                     Console.WriteLine($"[DEBUG STATUS] ⚠️ Sinh viên đi muộn! Giờ: {currentTime:hh\\:mm} > Ngưỡng: {lateTimeLimit:hh\\:mm}");
                 }
 
-                // =========================================================
+                //
 
                 var existing = await _attendanceRepo.GetByStudentAndSessionAsync(int.Parse(subject), todaySession.SessionId);
 
@@ -165,9 +163,7 @@ namespace BaiTapLonWinForm.Services.implements
             }
         }
 
-        // =========================================================================
-        // LOGIC TÌM LỚP
-        // =========================================================================
+
 
         private Class? FindActiveBooking(Student student, DateTime currentTime)
         {
@@ -215,7 +211,7 @@ namespace BaiTapLonWinForm.Services.implements
             var windowClose = end;
 
             // Debug logic
-            // Console.WriteLine($"   [Window Check] Ca {shift}: {windowOpen:hh\\:mm} -> {windowClose:hh\\:mm} | Now: {now:hh\\:mm}");
+            Console.WriteLine($"   [Window Check] Ca {shift}: {windowOpen:hh\\:mm} -> {windowClose:hh\\:mm} | Now: {now:hh\\:mm}");
 
             return now >= windowOpen && now <= windowClose;
         }

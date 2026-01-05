@@ -78,7 +78,7 @@ namespace BaiTapLonWinForm.Services.implements
 
                 var createdClass = await _classRepository.CreateAsync(classEntity);
 
-                
+                var createdSession = await _classSessionService.CreateSessionsAsync(createdClass.ClassId);
 
                 return (true, "Tạo lớp học thành công", createdClass);
             }
@@ -127,7 +127,8 @@ namespace BaiTapLonWinForm.Services.implements
                 if (updatedClass == null)
                     return (false, "Không thể cập nhật lớp học", null);
 
-                
+                var createdSession = await _classSessionService.CreateSessionsAsync(updatedClass.ClassId);
+
 
                 return (true, $"Cập nhật lớp học thành công", updatedClass);
             }

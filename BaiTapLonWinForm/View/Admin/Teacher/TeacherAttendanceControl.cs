@@ -107,16 +107,16 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
 
         private void InitializeListView()
         {
-            lvAttendance.View = System.Windows.Forms.View.Details;
-            lvAttendance.GridLines = true;
-            lvAttendance.FullRowSelect = true;
+            //lvAttendance.View = System.Windows.Forms.View.Details;
+            //lvAttendance.GridLines = true;
+            //lvAttendance.FullRowSelect = true;
 
-            lvAttendance.Columns.Clear();
-            lvAttendance.Columns.Add("Thời gian", 100);
-            lvAttendance.Columns.Add("Họ và tên", 200);
-            lvAttendance.Columns.Add("Lớp học - Ca", 250);
-            lvAttendance.Columns.Add("Trạng thái", 150);
-            lvAttendance.Columns.Add("Ghi chú", 100);
+            //lvAttendance.Columns.Clear();
+            //lvAttendance.Columns.Add("Thời gian", 100);
+            //lvAttendance.Columns.Add("Họ và tên", 200);
+            //lvAttendance.Columns.Add("Lớp học - Ca", 250);
+            //lvAttendance.Columns.Add("Trạng thái", 150);
+            //lvAttendance.Columns.Add("Ghi chú", 100);
         }
 
         #endregion
@@ -215,7 +215,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             }
         }
 
-        private void ProcessCheckInResult(TeacherCheckInResult result)
+        private async void ProcessCheckInResult(TeacherCheckInResult result)
         {
             // Hiển thị trạng thái bên dưới camera
             lblRecognitionStatus.Text = result.Success ? "✅ " + result.Message : "❌ " + result.Message;
@@ -237,35 +237,68 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
                 }
 
                 _checkedInCache[result.teacherId] = DateTime.Now;
-                AddRecordToListView(result);
+                AddRecordToDataGridView(result);
 
                 lblTotalPresent.Text = _checkedInCache.Count.ToString();
+                var teacherResult = await _serviceHub.TeacherService.GetAllTeachersAsync();
+
+                if (teacherResult.Success && teacherResult.Data != null)
+                {
+                    int totalTeachers = teacherResult.Data.Count();
+
+                    if (totalTeachers > 0)
+                    {
+                        double rate = (double)_checkedInCache.Count / totalTeachers;
+
+                        lblAttendanceRate.Text = rate.ToString("P0");
+                    }
+                    else
+                    {
+                        lblAttendanceRate.Text = "0%";
+                    }
+                }
+                else
+                {
+                    lblAttendanceRate.Text = "N/A";
+                    MessageBox.Show(teacherResult.Message);
+                }
+
             }
         }
 
-        private void AddRecordToListView(TeacherCheckInResult result)
+        private void AddRecordToDataGridView(TeacherCheckInResult result)
         {
+            string time = result.CheckInTime?.ToString("HH:mm:ss") ?? DateTime.Now.ToString("HH:mm:ss");
+            string teacherId = result.teacherId.ToString() ?? "N/A";
+            string teacherName = result.teacherName;
+            string classInfo = $"{result.ClassName} ({result.ShiftName})";
+            string email = "";
+            string confidence = result.confidence.ToString("P0");
 
+            dgvAttendance.Rows.Insert(0,
+                time,
+                teacherId,
+                teacherName,
+                classInfo,
+                confidence,
+                "Có mặt"
+            );
 
-            ListViewItem item = new ListViewItem(result.CheckInTime?.ToString("HH:mm:ss") ?? DateTime.Now.ToString("HH:mm:ss"));
-            item.SubItems.Add(result.teacherName);
-            item.SubItems.Add($"{result.ClassName} ({result.ShiftName})");
-            item.SubItems.Add("Có mặt");
+            DataGridViewRow row = dgvAttendance.Rows[0];
 
-            // Xử lý cột Ghi chú
             if (result.isLate)
             {
-                item.SubItems.Add("Đi muộn");
-                item.ForeColor = Color.OrangeRed;
+                row.DefaultCellStyle.ForeColor = Color.OrangeRed;
+                row.Cells["colStatus"].Value = "Có mặt (Muộn)";
             }
             else
             {
-                item.SubItems.Add(""); 
-                item.ForeColor = Color.DarkGreen;
+                row.DefaultCellStyle.ForeColor = Color.DarkGreen;
             }
 
-            item.Font = new Font(lvAttendance.Font, FontStyle.Bold);
-            lvAttendance.Items.Insert(0, item); 
+            row.DefaultCellStyle.Font = new Font(dgvAttendance.Font, FontStyle.Bold);
+
+            dgvAttendance.FirstDisplayedScrollingRowIndex = 0;
         }
 
 

@@ -29,117 +29,135 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.mainPanel = new Guna.UI2.WinForms.Guna2Panel();
-            this.flowLayoutPanelCourses = new System.Windows.Forms.FlowLayoutPanel();
-            this.headerPanel = new Guna.UI2.WinForms.Guna2Panel();
-            this.btnAddCourse = new Guna.UI2.WinForms.Guna2Button();
-            this.txtSearch = new Guna.UI2.WinForms.Guna2TextBox();
-            this.lblTitle = new System.Windows.Forms.Label();
-            this.mainPanel.SuspendLayout();
-            this.headerPanel.SuspendLayout();
-            this.SuspendLayout();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            mainPanel = new Guna.UI2.WinForms.Guna2Panel();
+            flowLayoutPanelCourses = new FlowLayoutPanel();
+            headerPanel = new Guna.UI2.WinForms.Guna2Panel();
+            btnAddCourse = new Guna.UI2.WinForms.Guna2Button();
+            txtSearch = new Guna.UI2.WinForms.Guna2TextBox();
+            lblTitle = new Label();
+            mainPanel.SuspendLayout();
+            headerPanel.SuspendLayout();
+            SuspendLayout();
             // 
             // mainPanel
             // 
-            this.mainPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(244)))), ((int)(((byte)(247)))));
-            this.mainPanel.Controls.Add(this.flowLayoutPanelCourses);
-            this.mainPanel.Controls.Add(this.headerPanel);
-            this.mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mainPanel.Location = new System.Drawing.Point(0, 0);
-            this.mainPanel.Name = "mainPanel";
-            this.mainPanel.Size = new System.Drawing.Size(1450, 850);
-            this.mainPanel.TabIndex = 0;
+            mainPanel.BackColor = Color.FromArgb(240, 244, 247);
+            mainPanel.Controls.Add(flowLayoutPanelCourses);
+            mainPanel.Controls.Add(headerPanel);
+            mainPanel.CustomizableEdges = customizableEdges7;
+            mainPanel.Dock = DockStyle.Fill;
+            mainPanel.Location = new Point(0, 0);
+            mainPanel.Margin = new Padding(3, 4, 3, 4);
+            mainPanel.Name = "mainPanel";
+            mainPanel.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            mainPanel.Size = new Size(1450, 1062);
+            mainPanel.TabIndex = 0;
             // 
             // flowLayoutPanelCourses
             // 
-            this.flowLayoutPanelCourses.AutoScroll = true;
-            this.flowLayoutPanelCourses.BackColor = System.Drawing.Color.Transparent;
-            this.flowLayoutPanelCourses.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanelCourses.Location = new System.Drawing.Point(0, 100);
-            this.flowLayoutPanelCourses.Name = "flowLayoutPanelCourses";
-            this.flowLayoutPanelCourses.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
-            this.flowLayoutPanelCourses.Size = new System.Drawing.Size(1450, 750);
-            this.flowLayoutPanelCourses.TabIndex = 1;
+            flowLayoutPanelCourses.AutoScroll = true;
+            flowLayoutPanelCourses.BackColor = Color.White;
+            flowLayoutPanelCourses.Dock = DockStyle.Fill;
+            flowLayoutPanelCourses.Location = new Point(0, 125);
+            flowLayoutPanelCourses.Margin = new Padding(3, 4, 3, 4);
+            flowLayoutPanelCourses.Name = "flowLayoutPanelCourses";
+            flowLayoutPanelCourses.Padding = new Padding(20, 12, 20, 12);
+            flowLayoutPanelCourses.Size = new Size(1450, 937);
+            flowLayoutPanelCourses.TabIndex = 1;
             // 
             // headerPanel
             // 
-            this.headerPanel.BackColor = System.Drawing.Color.White;
-            this.headerPanel.Controls.Add(this.btnAddCourse);
-            this.headerPanel.Controls.Add(this.txtSearch);
-            this.headerPanel.Controls.Add(this.lblTitle);
-            this.headerPanel.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.headerPanel.CustomBorderThickness = new System.Windows.Forms.Padding(0, 0, 0, 1);
-            this.headerPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.headerPanel.Location = new System.Drawing.Point(0, 0);
-            this.headerPanel.Name = "headerPanel";
-            this.headerPanel.Size = new System.Drawing.Size(1450, 100);
-            this.headerPanel.TabIndex = 0;
+            headerPanel.BackColor = Color.White;
+            headerPanel.Controls.Add(btnAddCourse);
+            headerPanel.Controls.Add(txtSearch);
+            headerPanel.Controls.Add(lblTitle);
+            headerPanel.CustomBorderColor = Color.FromArgb(224, 224, 224);
+            headerPanel.CustomBorderThickness = new Padding(0, 0, 0, 1);
+            headerPanel.CustomizableEdges = customizableEdges5;
+            headerPanel.Dock = DockStyle.Top;
+            headerPanel.Location = new Point(0, 0);
+            headerPanel.Margin = new Padding(3, 4, 3, 4);
+            headerPanel.Name = "headerPanel";
+            headerPanel.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            headerPanel.Size = new Size(1450, 125);
+            headerPanel.TabIndex = 0;
             // 
             // btnAddCourse
             // 
-            this.btnAddCourse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnAddCourse.BorderRadius = 8;
-            this.btnAddCourse.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.btnAddCourse.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.btnAddCourse.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.btnAddCourse.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.btnAddCourse.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.btnAddCourse.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold);
-            this.btnAddCourse.ForeColor = System.Drawing.Color.White;
-            this.btnAddCourse.Location = new System.Drawing.Point(1280, 30);
-            this.btnAddCourse.Name = "btnAddCourse";
-            this.btnAddCourse.Size = new System.Drawing.Size(140, 45);
-            this.btnAddCourse.TabIndex = 2;
-            this.btnAddCourse.Text = "+ Thêm khóa học";
+            btnAddCourse.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnAddCourse.BorderRadius = 8;
+            btnAddCourse.CustomizableEdges = customizableEdges1;
+            btnAddCourse.DisabledState.BorderColor = Color.DarkGray;
+            btnAddCourse.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnAddCourse.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnAddCourse.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnAddCourse.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+            btnAddCourse.ForeColor = Color.White;
+            btnAddCourse.Location = new Point(1280, 38);
+            btnAddCourse.Margin = new Padding(3, 4, 3, 4);
+            btnAddCourse.Name = "btnAddCourse";
+            btnAddCourse.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            btnAddCourse.Size = new Size(140, 56);
+            btnAddCourse.TabIndex = 2;
+            btnAddCourse.Text = "+ Thêm khóa học";
             // 
             // txtSearch
             // 
-            this.txtSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtSearch.BorderRadius = 8;
-            this.txtSearch.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txtSearch.DefaultText = "";
-            this.txtSearch.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.txtSearch.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.txtSearch.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.txtSearch.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.txtSearch.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.txtSearch.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtSearch.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            //this.txtSearch.IconLeft = global::BaiTapLonWinForm.Properties.Resources.search_icon;
-            this.txtSearch.IconLeftOffset = new System.Drawing.Point(10, 0);
-            this.txtSearch.Location = new System.Drawing.Point(940, 30);
-            this.txtSearch.Margin = new System.Windows.Forms.Padding(3, 5, 3, 5);
-            this.txtSearch.Name = "txtSearch";
-            this.txtSearch.PasswordChar = '\0';
-            this.txtSearch.PlaceholderText = "Tìm kiếm khóa học...";
-            this.txtSearch.SelectedText = "";
-            this.txtSearch.Size = new System.Drawing.Size(320, 45);
-            this.txtSearch.TabIndex = 1;
-            this.txtSearch.TextOffset = new System.Drawing.Point(10, 0);
+            txtSearch.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            txtSearch.BorderRadius = 8;
+            txtSearch.Cursor = Cursors.IBeam;
+            txtSearch.CustomizableEdges = customizableEdges3;
+            txtSearch.DefaultText = "";
+            txtSearch.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
+            txtSearch.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
+            txtSearch.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
+            txtSearch.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
+            txtSearch.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            txtSearch.Font = new Font("Segoe UI", 10F);
+            txtSearch.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
+            txtSearch.IconLeftOffset = new Point(10, 0);
+            txtSearch.Location = new Point(940, 38);
+            txtSearch.Margin = new Padding(3, 6, 3, 6);
+            txtSearch.Name = "txtSearch";
+            txtSearch.PlaceholderText = "Tìm kiếm khóa học...";
+            txtSearch.SelectedText = "";
+            txtSearch.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            txtSearch.Size = new Size(320, 56);
+            txtSearch.TabIndex = 1;
+            txtSearch.TextOffset = new Point(10, 0);
             // 
             // lblTitle
             // 
-            this.lblTitle.AutoSize = true;
-            this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
-            this.lblTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.lblTitle.Location = new System.Drawing.Point(30, 33);
-            this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(253, 41);
-            this.lblTitle.TabIndex = 0;
-            this.lblTitle.Text = "Quản lý khóa học";
+            lblTitle.AutoSize = true;
+            lblTitle.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+            lblTitle.ForeColor = Color.FromArgb(64, 64, 64);
+            lblTitle.Location = new Point(30, 41);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(261, 41);
+            lblTitle.TabIndex = 0;
+            lblTitle.Text = "Quản lý khóa học";
             // 
-            // CourseCardUserControl
+            // CourseManagement
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
-            this.Controls.Add(this.mainPanel);
-            this.Name = "CourseCardUserControl";
-            this.Size = new System.Drawing.Size(1450, 850);
-            this.mainPanel.ResumeLayout(false);
-            this.headerPanel.ResumeLayout(false);
-            this.headerPanel.PerformLayout();
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.White;
+            Controls.Add(mainPanel);
+            Margin = new Padding(3, 4, 3, 4);
+            Name = "CourseManagement";
+            Size = new Size(1450, 1062);
+            mainPanel.ResumeLayout(false);
+            headerPanel.ResumeLayout(false);
+            headerPanel.PerformLayout();
+            ResumeLayout(false);
         }
 
         #endregion
