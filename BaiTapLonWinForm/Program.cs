@@ -38,6 +38,8 @@ namespace BaiTapLonWinForm
             // 2. Tạo ServiceCollection để đăng ký các service (DI)
             var services = new ServiceCollection();
 
+            services.AddSingleton<IConfiguration>(config);
+
             // 3. Đăng ký DbContext EF Core
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(config.GetConnectionString("EnglishCenterDb")));

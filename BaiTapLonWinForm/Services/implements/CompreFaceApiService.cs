@@ -1,5 +1,6 @@
 ﻿using BaiTapLonWinForm.Models.CompreFace;
 using BaiTapLonWinForm.Services.interfaces;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,11 +14,14 @@ namespace BaiTapLonWinForm.Services.implements
     public class CompreFaceApiService : ICompreFaceApiService
     {
         private readonly HttpClient _httpClient;
-        private const string BASE_URL = "http://localhost:8000/api/v1";
-        private const string API_KEY = "42dc0240-765a-426d-89dd-30e290ad636f"; // TODO: Thay bằng API key thực tế
+        private string BASE_URL;
+        private string API_KEY;
 
-        public CompreFaceApiService()
+        public CompreFaceApiService(IConfiguration configuration)
         {
+            BASE_URL = configuration["CompreFace:BaseUrl"];
+            API_KEY = configuration["CompreFace:ApiKey"];
+
             _httpClient = new HttpClient();
             _httpClient.DefaultRequestHeaders.Add("x-api-key", API_KEY);
             _httpClient.Timeout = TimeSpan.FromSeconds(30);
