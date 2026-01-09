@@ -21,21 +21,30 @@ namespace BaiTapLonWinForm.View.Setting
 
         private void InitializeComponent()
         {
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             panelMain = new Panel();
             tableLayoutPanel = new TableLayoutPanel();
             panelLeft = new Panel();
             grpProfile = new Guna2GroupBox();
-            txtUsername = new Guna2TextBox();
-            txtFirstName = new Guna2TextBox();
+            lblErrGender = new Label();
+            label5 = new Label();
+            lblErrEmail = new Label();
+            lblErrPhone = new Label();
+            lblErrFirstName = new Label();
+            lblErrLastName = new Label();
             txtLastName = new Guna2TextBox();
+            txtFirstName = new Guna2TextBox();
             txtPhone = new Guna2TextBox();
             txtEmail = new Guna2TextBox();
             labelBirthDate = new Label();
@@ -117,9 +126,14 @@ namespace BaiTapLonWinForm.View.Setting
             grpProfile.BackColor = Color.Transparent;
             grpProfile.BorderColor = Color.Transparent;
             grpProfile.BorderRadius = 20;
-            grpProfile.Controls.Add(txtUsername);
-            grpProfile.Controls.Add(txtFirstName);
+            grpProfile.Controls.Add(lblErrGender);
+            grpProfile.Controls.Add(label5);
+            grpProfile.Controls.Add(lblErrEmail);
+            grpProfile.Controls.Add(lblErrPhone);
+            grpProfile.Controls.Add(lblErrFirstName);
+            grpProfile.Controls.Add(lblErrLastName);
             grpProfile.Controls.Add(txtLastName);
+            grpProfile.Controls.Add(txtFirstName);
             grpProfile.Controls.Add(txtPhone);
             grpProfile.Controls.Add(txtEmail);
             grpProfile.Controls.Add(labelBirthDate);
@@ -129,7 +143,7 @@ namespace BaiTapLonWinForm.View.Setting
             grpProfile.Controls.Add(cboGender);
             grpProfile.Controls.Add(btnUpdateProfile);
             grpProfile.CustomBorderColor = Color.FromArgb(41, 128, 185);
-            grpProfile.CustomizableEdges = customizableEdges3;
+            grpProfile.CustomizableEdges = customizableEdges7;
             grpProfile.Dock = DockStyle.Fill;
             grpProfile.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
             grpProfile.ForeColor = Color.White;
@@ -138,7 +152,7 @@ namespace BaiTapLonWinForm.View.Setting
             grpProfile.Padding = new Padding(0, 60, 0, 20);
             grpProfile.ShadowDecoration.BorderRadius = 20;
             grpProfile.ShadowDecoration.Color = Color.FromArgb(200, 200, 200);
-            grpProfile.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            grpProfile.ShadowDecoration.CustomizableEdges = customizableEdges8;
             grpProfile.ShadowDecoration.Depth = 15;
             grpProfile.ShadowDecoration.Enabled = true;
             grpProfile.Size = new Size(707, 714);
@@ -146,41 +160,77 @@ namespace BaiTapLonWinForm.View.Setting
             grpProfile.Text = "THÔNG TIN CÁ NHÂN";
             grpProfile.TextOffset = new Point(0, 5);
             // 
-            // txtUsername
+            // lblErrGender
             // 
-            txtUsername.BorderRadius = 10;
-            txtUsername.CustomizableEdges = customizableEdges1;
-            txtUsername.DefaultText = "";
-            txtUsername.Enabled = false;
-            txtUsername.FillColor = Color.FromArgb(245, 245, 245);
-            txtUsername.Font = new Font("Segoe UI", 10F);
-            txtUsername.ForeColor = Color.FromArgb(52, 73, 94);
-            txtUsername.Location = new Point(30, 80);
-            txtUsername.Margin = new Padding(4, 6, 4, 6);
-            txtUsername.Name = "txtUsername";
-            txtUsername.PlaceholderForeColor = Color.FromArgb(149, 165, 166);
-            txtUsername.PlaceholderText = "Tên đăng nhập (Chỉ đọc)";
-            txtUsername.SelectedText = "";
-            txtUsername.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            txtUsername.Size = new Size(300, 50);
-            txtUsername.TabIndex = 0;
+            lblErrGender.AutoSize = true;
+            lblErrGender.Font = new Font("Segoe UI", 10.2F);
+            lblErrGender.ForeColor = Color.Red;
+            lblErrGender.Location = new Point(358, 403);
+            lblErrGender.Name = "lblErrGender";
+            lblErrGender.Size = new Size(55, 23);
+            lblErrGender.TabIndex = 16;
+            lblErrGender.Text = "label6";
+            lblErrGender.Visible = false;
             // 
-            // txtFirstName
+            // label5
             // 
-            txtFirstName.BorderRadius = 10;
-            txtFirstName.CustomizableEdges = customizableEdges1;
-            txtFirstName.DefaultText = "";
-            txtFirstName.Font = new Font("Segoe UI", 10F);
-            txtFirstName.ForeColor = Color.FromArgb(52, 73, 94);
-            txtFirstName.Location = new Point(370, 80);
-            txtFirstName.Margin = new Padding(4, 6, 4, 6);
-            txtFirstName.Name = "txtFirstName";
-            txtFirstName.PlaceholderForeColor = Color.FromArgb(149, 165, 166);
-            txtFirstName.PlaceholderText = "Tên";
-            txtFirstName.SelectedText = "";
-            txtFirstName.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            txtFirstName.Size = new Size(300, 50);
-            txtFirstName.TabIndex = 1;
+            label5.AutoSize = true;
+            label5.Font = new Font("Segoe UI", 10.2F);
+            label5.ForeColor = Color.Red;
+            label5.Location = new Point(30, 403);
+            label5.Name = "label5";
+            label5.Size = new Size(55, 23);
+            label5.TabIndex = 15;
+            label5.Text = "label5";
+            label5.Visible = false;
+            // 
+            // lblErrEmail
+            // 
+            lblErrEmail.AutoSize = true;
+            lblErrEmail.Font = new Font("Segoe UI", 10.2F);
+            lblErrEmail.ForeColor = Color.Red;
+            lblErrEmail.Location = new Point(30, 216);
+            lblErrEmail.Name = "lblErrEmail";
+            lblErrEmail.Size = new Size(55, 23);
+            lblErrEmail.TabIndex = 14;
+            lblErrEmail.Text = "label4";
+            lblErrEmail.Visible = false;
+            // 
+            // lblErrPhone
+            // 
+            lblErrPhone.AutoSize = true;
+            lblErrPhone.Font = new Font("Segoe UI", 10.2F);
+            lblErrPhone.ForeColor = Color.Red;
+            lblErrPhone.Location = new Point(358, 211);
+            lblErrPhone.Name = "lblErrPhone";
+            lblErrPhone.Size = new Size(55, 23);
+            lblErrPhone.TabIndex = 13;
+            lblErrPhone.Text = "label3";
+            lblErrPhone.Visible = false;
+            // 
+            // lblErrFirstName
+            // 
+            lblErrFirstName.AutoSize = true;
+            lblErrFirstName.Font = new Font("Segoe UI", 10.2F);
+            lblErrFirstName.ForeColor = Color.Red;
+            lblErrFirstName.Location = new Point(30, 136);
+            lblErrFirstName.Name = "lblErrFirstName";
+            lblErrFirstName.Size = new Size(55, 23);
+            lblErrFirstName.TabIndex = 12;
+            lblErrFirstName.Text = "label2";
+            lblErrFirstName.Visible = false;
+            // 
+            // lblErrLastName
+            // 
+            lblErrLastName.AutoSize = true;
+            lblErrLastName.Font = new Font("Segoe UI", 10.2F);
+            lblErrLastName.ForeColor = Color.Red;
+            lblErrLastName.Location = new Point(358, 131);
+            lblErrLastName.Name = "lblErrLastName";
+            lblErrLastName.Size = new Size(55, 23);
+            lblErrLastName.TabIndex = 11;
+            lblErrLastName.Text = "label1";
+            lblErrLastName.Visible = false;
             // 
             // txtLastName
             // 
@@ -189,20 +239,37 @@ namespace BaiTapLonWinForm.View.Setting
             txtLastName.DefaultText = "";
             txtLastName.Font = new Font("Segoe UI", 10F);
             txtLastName.ForeColor = Color.FromArgb(52, 73, 94);
-            txtLastName.Location = new Point(30, 160);
+            txtLastName.Location = new Point(370, 80);
             txtLastName.Margin = new Padding(4, 6, 4, 6);
             txtLastName.Name = "txtLastName";
             txtLastName.PlaceholderForeColor = Color.FromArgb(149, 165, 166);
-            txtLastName.PlaceholderText = "Họ đệm";
+            txtLastName.PlaceholderText = "Tên";
             txtLastName.SelectedText = "";
             txtLastName.ShadowDecoration.CustomizableEdges = customizableEdges2;
             txtLastName.Size = new Size(300, 50);
-            txtLastName.TabIndex = 2;
+            txtLastName.TabIndex = 1;
+            // 
+            // txtFirstName
+            // 
+            txtFirstName.BorderRadius = 10;
+            txtFirstName.CustomizableEdges = customizableEdges3;
+            txtFirstName.DefaultText = "";
+            txtFirstName.Font = new Font("Segoe UI", 10F);
+            txtFirstName.ForeColor = Color.FromArgb(52, 73, 94);
+            txtFirstName.Location = new Point(30, 80);
+            txtFirstName.Margin = new Padding(4, 6, 4, 6);
+            txtFirstName.Name = "txtFirstName";
+            txtFirstName.PlaceholderForeColor = Color.FromArgb(149, 165, 166);
+            txtFirstName.PlaceholderText = "Họ đệm";
+            txtFirstName.SelectedText = "";
+            txtFirstName.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            txtFirstName.Size = new Size(300, 50);
+            txtFirstName.TabIndex = 2;
             // 
             // txtPhone
             // 
             txtPhone.BorderRadius = 10;
-            txtPhone.CustomizableEdges = customizableEdges1;
+            txtPhone.CustomizableEdges = customizableEdges5;
             txtPhone.DefaultText = "";
             txtPhone.Font = new Font("Segoe UI", 10F);
             txtPhone.ForeColor = Color.FromArgb(52, 73, 94);
@@ -212,25 +279,25 @@ namespace BaiTapLonWinForm.View.Setting
             txtPhone.PlaceholderForeColor = Color.FromArgb(149, 165, 166);
             txtPhone.PlaceholderText = "Số điện thoại";
             txtPhone.SelectedText = "";
-            txtPhone.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            txtPhone.ShadowDecoration.CustomizableEdges = customizableEdges6;
             txtPhone.Size = new Size(300, 50);
             txtPhone.TabIndex = 3;
             // 
             // txtEmail
             // 
             txtEmail.BorderRadius = 10;
-            txtEmail.CustomizableEdges = customizableEdges1;
+            txtEmail.CustomizableEdges = customizableEdges5;
             txtEmail.DefaultText = "";
             txtEmail.Font = new Font("Segoe UI", 10F);
             txtEmail.ForeColor = Color.FromArgb(52, 73, 94);
-            txtEmail.Location = new Point(30, 240);
+            txtEmail.Location = new Point(30, 160);
             txtEmail.Margin = new Padding(4, 6, 4, 6);
             txtEmail.Name = "txtEmail";
             txtEmail.PlaceholderForeColor = Color.FromArgb(149, 165, 166);
             txtEmail.PlaceholderText = "Email";
             txtEmail.SelectedText = "";
-            txtEmail.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            txtEmail.Size = new Size(640, 50);
+            txtEmail.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            txtEmail.Size = new Size(300, 50);
             txtEmail.TabIndex = 4;
             // 
             // labelBirthDate
@@ -239,7 +306,7 @@ namespace BaiTapLonWinForm.View.Setting
             labelBirthDate.BackColor = Color.White;
             labelBirthDate.Font = new Font("Segoe UI Semibold", 9.5F, FontStyle.Bold);
             labelBirthDate.ForeColor = Color.FromArgb(52, 73, 94);
-            labelBirthDate.Location = new Point(30, 395);
+            labelBirthDate.Location = new Point(30, 320);
             labelBirthDate.Name = "labelBirthDate";
             labelBirthDate.Size = new Size(81, 21);
             labelBirthDate.TabIndex = 6;
@@ -250,15 +317,15 @@ namespace BaiTapLonWinForm.View.Setting
             dtpBirthDate.BackColor = Color.White;
             dtpBirthDate.BorderRadius = 10;
             dtpBirthDate.Checked = true;
-            dtpBirthDate.CustomizableEdges = customizableEdges1;
+            dtpBirthDate.CustomizableEdges = customizableEdges5;
             dtpBirthDate.FillColor = Color.White;
             dtpBirthDate.Font = new Font("Segoe UI", 10F);
             dtpBirthDate.Format = DateTimePickerFormat.Short;
-            dtpBirthDate.Location = new Point(30, 425);
+            dtpBirthDate.Location = new Point(30, 350);
             dtpBirthDate.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
             dtpBirthDate.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
             dtpBirthDate.Name = "dtpBirthDate";
-            dtpBirthDate.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            dtpBirthDate.ShadowDecoration.CustomizableEdges = customizableEdges6;
             dtpBirthDate.Size = new Size(300, 50);
             dtpBirthDate.TabIndex = 7;
             dtpBirthDate.Value = new DateTime(2025, 1, 5, 0, 0, 0, 0);
@@ -266,17 +333,17 @@ namespace BaiTapLonWinForm.View.Setting
             // txtAddress
             // 
             txtAddress.BorderRadius = 10;
-            txtAddress.CustomizableEdges = customizableEdges1;
+            txtAddress.CustomizableEdges = customizableEdges5;
             txtAddress.DefaultText = "";
             txtAddress.Font = new Font("Segoe UI", 10F);
             txtAddress.ForeColor = Color.FromArgb(52, 73, 94);
-            txtAddress.Location = new Point(30, 320);
+            txtAddress.Location = new Point(30, 245);
             txtAddress.Margin = new Padding(4, 6, 4, 6);
             txtAddress.Name = "txtAddress";
             txtAddress.PlaceholderForeColor = Color.FromArgb(149, 165, 166);
             txtAddress.PlaceholderText = "Địa chỉ liên hệ";
             txtAddress.SelectedText = "";
-            txtAddress.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            txtAddress.ShadowDecoration.CustomizableEdges = customizableEdges6;
             txtAddress.Size = new Size(640, 50);
             txtAddress.TabIndex = 5;
             // 
@@ -286,7 +353,7 @@ namespace BaiTapLonWinForm.View.Setting
             labelGender.BackColor = Color.White;
             labelGender.Font = new Font("Segoe UI Semibold", 9.5F, FontStyle.Bold);
             labelGender.ForeColor = Color.FromArgb(52, 73, 94);
-            labelGender.Location = new Point(370, 395);
+            labelGender.Location = new Point(370, 320);
             labelGender.Name = "labelGender";
             labelGender.Size = new Size(71, 21);
             labelGender.TabIndex = 8;
@@ -296,7 +363,7 @@ namespace BaiTapLonWinForm.View.Setting
             // 
             cboGender.BackColor = Color.Transparent;
             cboGender.BorderRadius = 10;
-            cboGender.CustomizableEdges = customizableEdges1;
+            cboGender.CustomizableEdges = customizableEdges5;
             cboGender.DrawMode = DrawMode.OwnerDrawFixed;
             cboGender.DropDownStyle = ComboBoxStyle.DropDownList;
             cboGender.FocusedColor = Color.FromArgb(41, 128, 185);
@@ -304,10 +371,10 @@ namespace BaiTapLonWinForm.View.Setting
             cboGender.Font = new Font("Segoe UI", 10F);
             cboGender.ForeColor = Color.FromArgb(68, 88, 112);
             cboGender.ItemHeight = 30;
-            cboGender.Items.AddRange(new object[] { "Nam", "Nữ", "Khác" });
-            cboGender.Location = new Point(370, 425);
+            cboGender.Items.AddRange(new object[] { "Nam", "Nữ" });
+            cboGender.Location = new Point(370, 350);
             cboGender.Name = "cboGender";
-            cboGender.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            cboGender.ShadowDecoration.CustomizableEdges = customizableEdges6;
             cboGender.Size = new Size(300, 36);
             cboGender.TabIndex = 9;
             // 
@@ -316,7 +383,7 @@ namespace BaiTapLonWinForm.View.Setting
             btnUpdateProfile.Animated = true;
             btnUpdateProfile.BackColor = Color.Transparent;
             btnUpdateProfile.BorderRadius = 12;
-            btnUpdateProfile.CustomizableEdges = customizableEdges1;
+            btnUpdateProfile.CustomizableEdges = customizableEdges5;
             btnUpdateProfile.DisabledState.BorderColor = Color.DarkGray;
             btnUpdateProfile.DisabledState.CustomBorderColor = Color.DarkGray;
             btnUpdateProfile.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -325,16 +392,17 @@ namespace BaiTapLonWinForm.View.Setting
             btnUpdateProfile.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             btnUpdateProfile.ForeColor = Color.White;
             btnUpdateProfile.HoverState.FillColor = Color.FromArgb(46, 204, 113);
-            btnUpdateProfile.Location = new Point(180, 540);
+            btnUpdateProfile.Location = new Point(142, 507);
             btnUpdateProfile.Name = "btnUpdateProfile";
             btnUpdateProfile.ShadowDecoration.BorderRadius = 12;
             btnUpdateProfile.ShadowDecoration.Color = Color.FromArgb(39, 174, 96);
-            btnUpdateProfile.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            btnUpdateProfile.ShadowDecoration.CustomizableEdges = customizableEdges6;
             btnUpdateProfile.ShadowDecoration.Depth = 10;
             btnUpdateProfile.ShadowDecoration.Enabled = true;
             btnUpdateProfile.Size = new Size(350, 58);
             btnUpdateProfile.TabIndex = 10;
             btnUpdateProfile.Text = "💾  CẬP NHẬT HỒ SƠ";
+            btnUpdateProfile.Click += btnUpdateProfile_Click;
             // 
             // panelRight
             // 
@@ -358,7 +426,7 @@ namespace BaiTapLonWinForm.View.Setting
             grpSecurity.Controls.Add(txtConfirmPass);
             grpSecurity.Controls.Add(btnChangePassword);
             grpSecurity.CustomBorderColor = Color.FromArgb(52, 152, 219);
-            grpSecurity.CustomizableEdges = customizableEdges1;
+            grpSecurity.CustomizableEdges = customizableEdges5;
             grpSecurity.Dock = DockStyle.Top;
             grpSecurity.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
             grpSecurity.ForeColor = Color.White;
@@ -368,7 +436,7 @@ namespace BaiTapLonWinForm.View.Setting
             grpSecurity.Padding = new Padding(0, 60, 0, 15);
             grpSecurity.ShadowDecoration.BorderRadius = 20;
             grpSecurity.ShadowDecoration.Color = Color.FromArgb(200, 200, 200);
-            grpSecurity.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            grpSecurity.ShadowDecoration.CustomizableEdges = customizableEdges6;
             grpSecurity.ShadowDecoration.Depth = 15;
             grpSecurity.ShadowDecoration.Enabled = true;
             grpSecurity.Size = new Size(651, 315);
@@ -379,7 +447,7 @@ namespace BaiTapLonWinForm.View.Setting
             // txtOldPass
             // 
             txtOldPass.BorderRadius = 10;
-            txtOldPass.CustomizableEdges = customizableEdges1;
+            txtOldPass.CustomizableEdges = customizableEdges5;
             txtOldPass.DefaultText = "";
             txtOldPass.Font = new Font("Segoe UI", 10F);
             txtOldPass.ForeColor = Color.FromArgb(52, 73, 94);
@@ -390,7 +458,7 @@ namespace BaiTapLonWinForm.View.Setting
             txtOldPass.PlaceholderForeColor = Color.FromArgb(149, 165, 166);
             txtOldPass.PlaceholderText = "Mật khẩu hiện tại";
             txtOldPass.SelectedText = "";
-            txtOldPass.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            txtOldPass.ShadowDecoration.CustomizableEdges = customizableEdges6;
             txtOldPass.Size = new Size(585, 50);
             txtOldPass.TabIndex = 0;
             txtOldPass.UseSystemPasswordChar = true;
@@ -398,7 +466,7 @@ namespace BaiTapLonWinForm.View.Setting
             // txtNewPass
             // 
             txtNewPass.BorderRadius = 10;
-            txtNewPass.CustomizableEdges = customizableEdges1;
+            txtNewPass.CustomizableEdges = customizableEdges5;
             txtNewPass.DefaultText = "";
             txtNewPass.Font = new Font("Segoe UI", 10F);
             txtNewPass.ForeColor = Color.FromArgb(52, 73, 94);
@@ -409,7 +477,7 @@ namespace BaiTapLonWinForm.View.Setting
             txtNewPass.PlaceholderForeColor = Color.FromArgb(149, 165, 166);
             txtNewPass.PlaceholderText = "Mật khẩu mới";
             txtNewPass.SelectedText = "";
-            txtNewPass.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            txtNewPass.ShadowDecoration.CustomizableEdges = customizableEdges6;
             txtNewPass.Size = new Size(280, 50);
             txtNewPass.TabIndex = 1;
             txtNewPass.UseSystemPasswordChar = true;
@@ -417,7 +485,7 @@ namespace BaiTapLonWinForm.View.Setting
             // txtConfirmPass
             // 
             txtConfirmPass.BorderRadius = 10;
-            txtConfirmPass.CustomizableEdges = customizableEdges1;
+            txtConfirmPass.CustomizableEdges = customizableEdges5;
             txtConfirmPass.DefaultText = "";
             txtConfirmPass.Font = new Font("Segoe UI", 10F);
             txtConfirmPass.ForeColor = Color.FromArgb(52, 73, 94);
@@ -428,7 +496,7 @@ namespace BaiTapLonWinForm.View.Setting
             txtConfirmPass.PlaceholderForeColor = Color.FromArgb(149, 165, 166);
             txtConfirmPass.PlaceholderText = "Xác nhận mật khẩu mới";
             txtConfirmPass.SelectedText = "";
-            txtConfirmPass.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            txtConfirmPass.ShadowDecoration.CustomizableEdges = customizableEdges6;
             txtConfirmPass.Size = new Size(280, 50);
             txtConfirmPass.TabIndex = 2;
             txtConfirmPass.UseSystemPasswordChar = true;
@@ -438,7 +506,7 @@ namespace BaiTapLonWinForm.View.Setting
             btnChangePassword.Animated = true;
             btnChangePassword.BackColor = Color.Transparent;
             btnChangePassword.BorderRadius = 12;
-            btnChangePassword.CustomizableEdges = customizableEdges1;
+            btnChangePassword.CustomizableEdges = customizableEdges5;
             btnChangePassword.FillColor = Color.FromArgb(52, 152, 219);
             btnChangePassword.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             btnChangePassword.ForeColor = Color.White;
@@ -447,7 +515,7 @@ namespace BaiTapLonWinForm.View.Setting
             btnChangePassword.Name = "btnChangePassword";
             btnChangePassword.ShadowDecoration.BorderRadius = 12;
             btnChangePassword.ShadowDecoration.Color = Color.FromArgb(52, 152, 219);
-            btnChangePassword.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            btnChangePassword.ShadowDecoration.CustomizableEdges = customizableEdges6;
             btnChangePassword.ShadowDecoration.Depth = 10;
             btnChangePassword.ShadowDecoration.Enabled = true;
             btnChangePassword.Size = new Size(365, 58);
@@ -465,7 +533,7 @@ namespace BaiTapLonWinForm.View.Setting
             grpSystem.Controls.Add(cboTheme);
             grpSystem.Controls.Add(btnSaveSystem);
             grpSystem.CustomBorderColor = Color.FromArgb(155, 89, 182);
-            grpSystem.CustomizableEdges = customizableEdges1;
+            grpSystem.CustomizableEdges = customizableEdges5;
             grpSystem.Dock = DockStyle.Top;
             grpSystem.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
             grpSystem.ForeColor = Color.White;
@@ -475,7 +543,7 @@ namespace BaiTapLonWinForm.View.Setting
             grpSystem.Padding = new Padding(0, 60, 0, 15);
             grpSystem.ShadowDecoration.BorderRadius = 20;
             grpSystem.ShadowDecoration.Color = Color.FromArgb(200, 200, 200);
-            grpSystem.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            grpSystem.ShadowDecoration.CustomizableEdges = customizableEdges6;
             grpSystem.ShadowDecoration.Depth = 15;
             grpSystem.ShadowDecoration.Enabled = true;
             grpSystem.Size = new Size(651, 160);
@@ -499,7 +567,7 @@ namespace BaiTapLonWinForm.View.Setting
             // 
             cboLanguage.BackColor = Color.Transparent;
             cboLanguage.BorderRadius = 10;
-            cboLanguage.CustomizableEdges = customizableEdges1;
+            cboLanguage.CustomizableEdges = customizableEdges5;
             cboLanguage.DrawMode = DrawMode.OwnerDrawFixed;
             cboLanguage.DropDownStyle = ComboBoxStyle.DropDownList;
             cboLanguage.FocusedColor = Color.FromArgb(155, 89, 182);
@@ -510,7 +578,7 @@ namespace BaiTapLonWinForm.View.Setting
             cboLanguage.Items.AddRange(new object[] { "Tiếng Việt", "English" });
             cboLanguage.Location = new Point(30, 95);
             cboLanguage.Name = "cboLanguage";
-            cboLanguage.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            cboLanguage.ShadowDecoration.CustomizableEdges = customizableEdges6;
             cboLanguage.Size = new Size(200, 36);
             cboLanguage.TabIndex = 1;
             // 
@@ -530,7 +598,7 @@ namespace BaiTapLonWinForm.View.Setting
             // 
             cboTheme.BackColor = Color.Transparent;
             cboTheme.BorderRadius = 10;
-            cboTheme.CustomizableEdges = customizableEdges1;
+            cboTheme.CustomizableEdges = customizableEdges5;
             cboTheme.DrawMode = DrawMode.OwnerDrawFixed;
             cboTheme.DropDownStyle = ComboBoxStyle.DropDownList;
             cboTheme.FocusedColor = Color.FromArgb(155, 89, 182);
@@ -541,7 +609,7 @@ namespace BaiTapLonWinForm.View.Setting
             cboTheme.Items.AddRange(new object[] { "Sáng (Light)", "Xanh (Tre Xanh)", "Tối (Dark)" });
             cboTheme.Location = new Point(260, 95);
             cboTheme.Name = "cboTheme";
-            cboTheme.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            cboTheme.ShadowDecoration.CustomizableEdges = customizableEdges6;
             cboTheme.Size = new Size(200, 36);
             cboTheme.TabIndex = 3;
             // 
@@ -550,7 +618,7 @@ namespace BaiTapLonWinForm.View.Setting
             btnSaveSystem.Animated = true;
             btnSaveSystem.BackColor = Color.Transparent;
             btnSaveSystem.BorderRadius = 10;
-            btnSaveSystem.CustomizableEdges = customizableEdges1;
+            btnSaveSystem.CustomizableEdges = customizableEdges5;
             btnSaveSystem.FillColor = Color.FromArgb(142, 68, 173);
             btnSaveSystem.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             btnSaveSystem.ForeColor = Color.White;
@@ -559,7 +627,7 @@ namespace BaiTapLonWinForm.View.Setting
             btnSaveSystem.Name = "btnSaveSystem";
             btnSaveSystem.ShadowDecoration.BorderRadius = 10;
             btnSaveSystem.ShadowDecoration.Color = Color.FromArgb(142, 68, 173);
-            btnSaveSystem.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            btnSaveSystem.ShadowDecoration.CustomizableEdges = customizableEdges6;
             btnSaveSystem.ShadowDecoration.Depth = 8;
             btnSaveSystem.ShadowDecoration.Enabled = true;
             btnSaveSystem.Size = new Size(158, 46);
@@ -574,20 +642,20 @@ namespace BaiTapLonWinForm.View.Setting
             grpLogout.Controls.Add(lblLogoutDesc);
             grpLogout.Controls.Add(btnLogout);
             grpLogout.CustomBorderColor = Color.FromArgb(231, 76, 60);
-            grpLogout.CustomizableEdges = customizableEdges5;
+            grpLogout.CustomizableEdges = customizableEdges9;
             grpLogout.Dock = DockStyle.Bottom;
             grpLogout.Font = new Font("Segoe UI", 13F, FontStyle.Bold);
             grpLogout.ForeColor = Color.White;
-            grpLogout.Location = new Point(15, 490);
+            grpLogout.Location = new Point(15, 581);
             grpLogout.Margin = new Padding(0, 10, 0, 0);
             grpLogout.Name = "grpLogout";
             grpLogout.Padding = new Padding(0, 60, 0, 15);
             grpLogout.ShadowDecoration.BorderRadius = 20;
             grpLogout.ShadowDecoration.Color = Color.FromArgb(200, 200, 200);
-            grpLogout.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            grpLogout.ShadowDecoration.CustomizableEdges = customizableEdges10;
             grpLogout.ShadowDecoration.Depth = 15;
             grpLogout.ShadowDecoration.Enabled = true;
-            grpLogout.Size = new Size(651, 224);
+            grpLogout.Size = new Size(651, 133);
             grpLogout.TabIndex = 2;
             grpLogout.Text = "ĐĂNG XUẤT";
             grpLogout.TextOffset = new Point(0, 5);
@@ -609,7 +677,7 @@ namespace BaiTapLonWinForm.View.Setting
             btnLogout.Animated = true;
             btnLogout.BackColor = Color.Transparent;
             btnLogout.BorderRadius = 12;
-            btnLogout.CustomizableEdges = customizableEdges1;
+            btnLogout.CustomizableEdges = customizableEdges5;
             btnLogout.FillColor = Color.FromArgb(231, 76, 60);
             btnLogout.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
             btnLogout.ForeColor = Color.White;
@@ -618,7 +686,7 @@ namespace BaiTapLonWinForm.View.Setting
             btnLogout.Name = "btnLogout";
             btnLogout.ShadowDecoration.BorderRadius = 12;
             btnLogout.ShadowDecoration.Color = Color.FromArgb(231, 76, 60);
-            btnLogout.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            btnLogout.ShadowDecoration.CustomizableEdges = customizableEdges6;
             btnLogout.ShadowDecoration.Depth = 12;
             btnLogout.ShadowDecoration.Enabled = true;
             btnLogout.Size = new Size(285, 54);
@@ -631,14 +699,14 @@ namespace BaiTapLonWinForm.View.Setting
             panelHeader.Controls.Add(lblSubtitle);
             panelHeader.Controls.Add(lblTitle);
             panelHeader.Controls.Add(picHeaderIcon);
-            panelHeader.CustomizableEdges = customizableEdges7;
+            panelHeader.CustomizableEdges = customizableEdges11;
             panelHeader.Dock = DockStyle.Top;
             panelHeader.FillColor = Color.White;
             panelHeader.Location = new Point(0, 0);
             panelHeader.Name = "panelHeader";
             panelHeader.Padding = new Padding(30, 20, 30, 20);
             panelHeader.ShadowDecoration.Color = Color.FromArgb(200, 200, 200);
-            panelHeader.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            panelHeader.ShadowDecoration.CustomizableEdges = customizableEdges12;
             panelHeader.ShadowDecoration.Depth = 10;
             panelHeader.ShadowDecoration.Enabled = true;
             panelHeader.ShadowDecoration.Shadow = new Padding(0, 2, 0, 8);
@@ -716,9 +784,8 @@ namespace BaiTapLonWinForm.View.Setting
 
         // Profile Controls
         private Guna2GroupBox grpProfile;
-        private Guna2TextBox txtUsername;
-        private Guna2TextBox txtLastName;
         private Guna2TextBox txtFirstName;
+        private Guna2TextBox txtLastName;
         private Guna2TextBox txtEmail;
         private Guna2TextBox txtPhone;
         private Guna2TextBox txtAddress;
@@ -747,5 +814,11 @@ namespace BaiTapLonWinForm.View.Setting
         private Guna2GroupBox grpLogout;
         private System.Windows.Forms.Label lblLogoutDesc;
         private Guna2Button btnLogout;
+        private Label lblErrGender;
+        private Label label5;
+        private Label lblErrEmail;
+        private Label lblErrPhone;
+        private Label lblErrFirstName;
+        private Label lblErrLastName;
     }
 }

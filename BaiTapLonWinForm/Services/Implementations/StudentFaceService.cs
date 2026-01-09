@@ -1,5 +1,5 @@
 ﻿using BaiTapLonWinForm.Models;
-using BaiTapLonWinForm.Repositories.implements;
+using BaiTapLonWinForm.Repositories.Implementations;
 using BaiTapLonWinForm.Repositories.interfaces;
 using BaiTapLonWinForm.Services.interfaces;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BaiTapLonWinForm.Services.implements
+namespace BaiTapLonWinForm.Services.Implementations
 {
     public class StudentFaceService : IStudentFaceService
     {

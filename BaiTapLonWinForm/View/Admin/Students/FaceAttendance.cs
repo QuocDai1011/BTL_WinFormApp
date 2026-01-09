@@ -1,5 +1,5 @@
 ﻿using BaiTapLonWinForm.Services;
-using BaiTapLonWinForm.Services.implements; 
+using BaiTapLonWinForm.Services.Implementations; 
 using Emgu.CV;
 using Emgu.CV.Structure;
 using System;

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BaiTapLonWinForm.Service.interfaces
+namespace BaiTapLonWinForm.Services.interfaces
 {
     public interface IUserService
     {

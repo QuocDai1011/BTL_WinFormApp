@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BaiTapLonWinForm.Repositories.implements
+namespace BaiTapLonWinForm.Repositories.Implementations
 {
     public class UnitOfWork : IUnitOfWork
     {

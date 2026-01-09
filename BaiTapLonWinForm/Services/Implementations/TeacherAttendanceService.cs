@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace BaiTapLonWinForm.Services.implements
+namespace BaiTapLonWinForm.Services.Implementations
 {
     public class TeacherAttendanceService : ITeacherAttendanceService
     {

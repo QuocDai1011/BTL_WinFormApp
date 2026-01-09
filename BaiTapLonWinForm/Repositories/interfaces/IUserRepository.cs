@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BaiTapLonWinForm.Repository.interfaces
+namespace BaiTapLonWinForm.Repositories.interfaces
 {
     public interface IUserRepository
     {

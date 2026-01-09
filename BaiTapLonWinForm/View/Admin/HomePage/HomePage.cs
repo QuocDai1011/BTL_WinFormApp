@@ -29,7 +29,8 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
         private readonly Color activeColor = Color.FromArgb(52, 152, 219);
 
         private readonly ServiceHub _serviceHub;
-        public HomePage(ServiceHub serviceHub)
+        private int _userId;
+        public HomePage(ServiceHub serviceHub, int userId = 2)
         {
             InitializeComponent();
             InitializeMenuEvents();
@@ -37,6 +38,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
 
             // Load dashboard by default
             _serviceHub = serviceHub;
+            _userId = userId;
             LoadUserControl(new DashBoard(_serviceHub));
 
             this.Load += HomePage_Load;
@@ -192,7 +194,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
         private void Settings_Click(object sender, EventArgs e)
         {
             SetActiveMenuItem(pnlSettings);
-            LoadUserControl(new Setting(_serviceHub));
+            LoadUserControl(new Setting(_serviceHub, _userId));
         }
 
         private void Attendance_Click(object sender, EventArgs e)

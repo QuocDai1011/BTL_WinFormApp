@@ -1,13 +1,9 @@
 ﻿using BaiTapLon_WinFormApp.Views.Admin.HomePage;
 using BaiTapLonWinForm.Data;
-using BaiTapLonWinForm.Repositories.implements;
+using BaiTapLonWinForm.Repositories.Implementations;
 using BaiTapLonWinForm.Repositories.interfaces;
-using BaiTapLonWinForm.Repository.implements;
-using BaiTapLonWinForm.Repository.interfaces;
-using BaiTapLonWinForm.Service.implements;
-using BaiTapLonWinForm.Service.interfaces;
 using BaiTapLonWinForm.Services;
-using BaiTapLonWinForm.Services.implements;
+using BaiTapLonWinForm.Services.Implementations;
 using BaiTapLonWinForm.Services.interfaces;
 using BaiTapLonWinForm.Test;
 using BaiTapLonWinForm.View.Admin.Students;

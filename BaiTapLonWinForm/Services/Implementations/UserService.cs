@@ -1,6 +1,6 @@
 ﻿using BaiTapLonWinForm.Models;
-using BaiTapLonWinForm.Repository.interfaces;
-using BaiTapLonWinForm.Service.interfaces;
+using BaiTapLonWinForm.Repositories.interfaces;
+using BaiTapLonWinForm.Services.interfaces;
 using BaiTapLonWinForm.Utils;
 using BaiTapLonWinForm.Validate;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BaiTapLonWinForm.Service.implements
+namespace BaiTapLonWinForm.Services.Implementations
 {
     public class UserService : IUserService
     {

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BaiTapLonWinForm.Services.implements
+namespace BaiTapLonWinForm.Services.Implementations
 {
     public class TeacherFaceService : ITeacherFaceService
     {

@@ -1,6 +1,6 @@
 ﻿using BaiTapLonWinForm.Data;
 using BaiTapLonWinForm.Models;
-using BaiTapLonWinForm.Repository.interfaces;
+using BaiTapLonWinForm.Repositories.interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BaiTapLonWinForm.Repository.implements
+namespace BaiTapLonWinForm.Repositories.Implementations
 {
     public class UserRepository : IUserRepository
     {
@@ -82,9 +82,7 @@ namespace BaiTapLonWinForm.Repository.implements
 
             user.UpdateAt = DateTime.Now;
             user.CreateAt = existingUser.CreateAt;
-            user.Email = user.Email.ToLower();
-
-            _context.Entry(existingUser).CurrentValues.SetValues(user);
+            
             await _context.SaveChangesAsync();
 
             return user;
