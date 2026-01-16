@@ -1,10 +1,13 @@
 ﻿using BaiTapLon_WinFormApp.Views.Admin.HomePage;
 using BaiTapLonWinForm.Data;
+using BaiTapLonWinForm.Models;
 using BaiTapLonWinForm.Repositories.Implementations;
 using BaiTapLonWinForm.Repositories.interfaces;
+using BaiTapLonWinForm.Repositories.Interfaces;
 using BaiTapLonWinForm.Services;
 using BaiTapLonWinForm.Services.Implementations;
 using BaiTapLonWinForm.Services.interfaces;
+using BaiTapLonWinForm.Services.Interfaces;
 using BaiTapLonWinForm.Test;
 using BaiTapLonWinForm.View.Admin.Students;
 using Microsoft.EntityFrameworkCore;
@@ -36,7 +39,7 @@ namespace BaiTapLonWinForm
             services.AddSingleton<IConfiguration>(config);
 
             // 3. Đăng ký DbContext EF Core
-            services.AddDbContext<AppDbContext>(options =>
+            services.AddDbContext<EnglishCenterDbContext>(options =>
                 options.UseSqlServer(config.GetConnectionString("EnglishCenterDb")));
 
             //Đăng ký các repository cho Repository ở đây
@@ -51,6 +54,7 @@ namespace BaiTapLonWinForm
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ITeacherAttendanceRepository, TeacherAttendanceRepository>();
             services.AddScoped<ITeacherFaceImageRepository, TeacherFaceImageRepository>();
+            services.AddScoped<ISchoolDayRepository, SchoolDayRepository>();
 
 
             ////Đăng ký các service cho Service ở đây
@@ -65,6 +69,7 @@ namespace BaiTapLonWinForm
             services.AddScoped<IStudentFaceService, StudentFaceService>();
             services.AddScoped<ITeacherAttendanceService, TeacherAttendanceService>();
             services.AddScoped<ITeacherFaceService, TeacherFaceService>();
+            services.AddScoped<ISchoolDayService, SchoolDayService>();
 
 
             //Dăng ký ServiceHub
@@ -77,7 +82,7 @@ namespace BaiTapLonWinForm
             services.AddTransient<AddStudentControl>();
             services.AddTransient<DashBoard>();
 
-            services.AddTransient<TestDataSeeder>();
+            //services.AddTransient<TestDataSeeder>();
 
             Application.EnableVisualStyles();
             // 5. Build provider
@@ -87,19 +92,19 @@ namespace BaiTapLonWinForm
             ApplicationConfiguration.Initialize();
 
             // Tạo một Scope riêng để lấy Seeder ra, chạy xong thì hủy Scope để giải phóng RAM
-            using (var scope = provider.CreateScope())
-            {
-                try
-                {
-                    var seeder = scope.ServiceProvider.GetRequiredService<TestDataSeeder>();
+            //using (var scope = provider.CreateScope())
+            //{
+            //    try
+            //    {
+            //        var seeder = scope.ServiceProvider.GetRequiredService<TestDataSeeder>();
 
-                    seeder.SeedAsync().GetAwaiter().GetResult();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show($"Lỗi khởi tạo dữ liệu Test: {ex.Message}");
-                }
-            }
+            //        seeder.SeedAsync().GetAwaiter().GetResult();
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        MessageBox.Show($"Lỗi khởi tạo dữ liệu Test: {ex.Message}");
+            //    }
+            //}
 
             
 

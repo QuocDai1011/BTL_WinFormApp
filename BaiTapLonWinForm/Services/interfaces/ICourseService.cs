@@ -9,6 +9,7 @@ namespace BaiTapLonWinForm.Services.interfaces
 {
     public interface ICourseService
     {
+        Course? GetCourseByClassId(long classId);
         Task<(bool Success, string Message, IEnumerable<Course> Data)> GetAllCoursesAsync();
         Task<(bool Success, string Message, Course Data)> GetCourseByIdAsync(int id);
         Task<(bool Success, string Message, Course Data)> GetCourseByCourseCodeAsync(string courseCode);

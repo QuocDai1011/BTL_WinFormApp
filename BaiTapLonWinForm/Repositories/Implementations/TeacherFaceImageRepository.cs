@@ -12,8 +12,8 @@ namespace BaiTapLonWinForm.Repositories.Implementations
 {
     public class TeacherFaceImageRepository : ITeacherFaceImageRepository
     {
-        private readonly AppDbContext _context;
-        public TeacherFaceImageRepository(AppDbContext context) { _context = context; }
+        private readonly EnglishCenterDbContext _context;
+        public TeacherFaceImageRepository(EnglishCenterDbContext context) { _context = context; }
         public async Task<TeacherFaceImage> AddAsync(TeacherFaceImage image)
         {
             _context.TeacherFaceImages.Add(image);

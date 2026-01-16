@@ -1,4 +1,5 @@
 ﻿using BaiTapLonWinForm.Data;
+using BaiTapLonWinForm.Models;
 using BaiTapLonWinForm.Repositories.interfaces;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
@@ -11,12 +12,12 @@ namespace BaiTapLonWinForm.Repositories.Implementations
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly AppDbContext _context;
+        private readonly EnglishCenterDbContext _context;
         private IDbContextTransaction _transaction;
 
         public bool HasActiveTransaction => _transaction != null;
 
-        public UnitOfWork(AppDbContext context)
+        public UnitOfWork(EnglishCenterDbContext context)
         {
             _context = context;
         }

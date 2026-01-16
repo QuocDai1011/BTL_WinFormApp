@@ -12,9 +12,9 @@ namespace BaiTapLonWinForm.Repositories.Implementations
 {
     public class StudentFaceImageRepository : IStudentFaceImageRepository
     {
-        private readonly AppDbContext _context;
+        private readonly EnglishCenterDbContext _context;
 
-        public StudentFaceImageRepository(AppDbContext context)
+        public StudentFaceImageRepository(EnglishCenterDbContext context)
         {
             _context = context;
         }

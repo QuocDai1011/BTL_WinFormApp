@@ -9,6 +9,10 @@ namespace BaiTapLonWinForm.Services.interfaces
 {
     public interface IClassService
     {
+        List<Class> GetAllClass(long teacherId);
+        Class GetClassById(long classId);
+        List<Class> UpdateClassesStatusList(List<Class> updatedClasses);
+
         Task<(bool Success, string Message, IEnumerable<Class>? Data)> GetAllClassesAsync();
         Task<(bool Success, string Message, Class? Data)> GetClassByIdAsync(int id);
         Task<(bool Success, string Message, Class? Data)> CreateClassAsync(Class classEntity);

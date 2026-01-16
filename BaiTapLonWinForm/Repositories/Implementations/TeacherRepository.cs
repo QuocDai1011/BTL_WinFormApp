@@ -19,6 +19,31 @@ namespace BaiTapLonWinForm.Repositories.Implementations
             _context = context;
         }
 
+        public async Task<bool> UserIdExistsAsync(long userId, int? excludeTeacherId = null)
+        {
+            try
+            {
+                var query = _context.Teachers.Where(t => t.UserId == userId);
+
+                if (excludeTeacherId.HasValue)
+                    query = query.Where(t => t.TeacherId != excludeTeacherId.Value);
+
+                return await query.AnyAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public int GetTeacherByUserId(long userId)
+        {
+            return (int)_context.Teachers
+            .Where(t => t.UserId == userId)
+            .Select(t => (int?)t.TeacherId)
+            .FirstOrDefault();
+        }
+
         public Teacher GetAllTeacherByClassId(long classId)
         {
             var teacher = _context.Classes

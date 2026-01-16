@@ -12,9 +12,9 @@ namespace BaiTapLonWinForm.Repositories.Implementations
 {
     public class TeacherAttendanceRepository : ITeacherAttendanceRepository
     {
-        private readonly AppDbContext _context;
+        private readonly EnglishCenterDbContext _context;
 
-        public TeacherAttendanceRepository(AppDbContext context)
+        public TeacherAttendanceRepository(EnglishCenterDbContext context)
         {
             _context = context;
         }
