@@ -1,38 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<OutputType>WinExe</OutputType>
-		<TargetFramework>net8.0-windows</TargetFramework>
-		<Nullable>enable</Nullable>
-		<UseWindowsForms>true</UseWindowsForms>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
-		<ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
-	</PropertyGroup>
-
-	<ItemGroup>
-	  <None Remove="Views\Teacher\MyClass\MyNews\editor.html" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Content Include="Views\Teacher\MyClass\MyNews\editor.html">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
-	</ItemGroup>
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
 
   <ItemGroup>
 		<PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
 		<PackageReference Include="CloudinaryDotNet" Version="1.27.8" />
+		<PackageReference Include="Emgu.CV" Version="4.8.1.5350" />
+		<PackageReference Include="Emgu.CV.Bitmap" Version="4.8.1.5350" />
+		<PackageReference Include="Emgu.CV.runtime.windows" Version="4.8.1.5350" />
 		<PackageReference Include="EPPlus" Version="8.3.0" />
 		<PackageReference Include="FontAwesome.Sharp" Version="6.6.0" />
 		<PackageReference Include="Guna.UI2.WinForms" Version="2.0.4.7" />
-		<PackageReference Include="Hourglass" Version="1.0.2" />
-		<PackageReference Include="Jenga.NET" Version="4.0.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.21" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.21">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.21" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.21">
 			<PrivateAssets>all</PrivateAssets>
@@ -41,31 +26,87 @@
 		<PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="10.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.0" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3650.58" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
-		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3650.58" />
-		<PackageReference Include="NEST" Version="7.17.5" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 	</ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="Views\Teacher\MyClass\MyExercise\" />
-    <Folder Include="Views\Teacher\MyClass\MyResult\" />
-  </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Update="View\Admin\Teacher\AddPhoto.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
+      <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Update="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="SampleFaces\0d53858d-0cb8-45ae-82c2-d57b506a5396.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleFaces\25128e13-286a-4aac-b1b0-855e4997b4aa.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleFaces\36b2b7a2-074d-435d-8f70-396bcae64323.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleFaces\3d46e924-dea0-4263-96bb-1d90938a7296.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleFaces\46dd8b52-db40-44a1-a78f-9de46287aa80.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleFaces\47bf1cdc-9db7-45f6-a6cf-2937cc569a90.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleFaces\86f1cf95-a5d9-4bd8-9111-952c47dddf28.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleFaces\8c0bd2dd-7985-4416-822e-cc092922271c.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleFaces\97111f85-9370-40ba-a761-3e58ce3da329.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleFaces\a8ca8958-e5e1-4595-8ffb-86776674788a.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleFaces\b2d62aa8-29c6-45e9-9347-8583415b6d39.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleFaces\c588352b-eac0-4f58-858c-046473371eda.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleFaces\de004892-cf4d-436f-8534-b603939dff3e.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleFaces\e1302294-6781-4df3-b0ec-0c2e4660fc28.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="SampleFaces\e8159f6d-71de-48ef-b92d-c5f1d41f62a4.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Debug\net8.0-windows\" />
+    <Folder Include="SampleFaces\" />
   </ItemGroup>
 </Project>
