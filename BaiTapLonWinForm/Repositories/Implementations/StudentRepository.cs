@@ -36,17 +36,10 @@ namespace BaiTapLonWinForm.Repositories.Implementations
         }
         public async Task<IEnumerable<Student>> GetAllAsync()
         {
-            try
-            {
-                return await _context.Students
+            return await _context.Students
                     .Include(s => s.User)
                     .Include(f => f.StudentFaceImages)
                     .ToListAsync();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
         }
 
         public async Task<Student?> GetByIdAsync(int id)

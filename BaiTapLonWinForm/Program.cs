@@ -36,6 +36,13 @@ namespace BaiTapLonWinForm
             // 2. Tạo ServiceCollection để đăng ký các service (DI)
             var services = new ServiceCollection();
 
+            services.AddLogging(builder =>
+            {
+                builder.AddConsole(); // log ra console (Debug / Output)
+                builder.AddDebug();   // log ra Output Window trong VS
+            });
+
+
             services.AddSingleton<IConfiguration>(config);
 
             // 3. Đăng ký DbContext EF Core
@@ -106,7 +113,7 @@ namespace BaiTapLonWinForm
             //    }
             //}
 
-            
+
 
             Application.Run(provider.GetRequiredService<HomePage>());
         }

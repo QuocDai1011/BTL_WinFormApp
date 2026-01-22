@@ -45,12 +45,13 @@ namespace BaiTapLonWinForm.Services.Implementations
             return null;
         }
 
-        public async Task<(bool Success, string Message, IEnumerable<Student> Data)> GetAllStudentsAsync()
+        public async Task<(bool Success, string Message, List<Student> Data)> GetAllStudentsAsync()
         {
             try
             {
                 var students = await _studentRepository.GetAllAsync();
-                return (true, $"Lấy danh sách {students.Count()} học viên thành công", students);
+
+                return (true, $"Lấy danh sách {students.Count()} học viên thành công", students.ToList());
             }
             catch (Exception ex)
             {
