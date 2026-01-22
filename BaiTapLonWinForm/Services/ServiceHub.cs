@@ -17,6 +17,8 @@ namespace BaiTapLonWinForm.Services
         public IStudentService StudentService { get; }
         public ITeacherService TeacherService { get; }
         public ISchoolDayService SchoolDayService { get; }
+
+        public IReceiptService ReceiptService { get; set; }
         public ServiceHub(
             //IStudentService studentService,
             IUserService userService,
@@ -24,7 +26,8 @@ namespace BaiTapLonWinForm.Services
             ICourseService courseService,
             IStudentService studentService,
             ITeacherService teacherService,
-            ISchoolDayService schoolDayService
+            ISchoolDayService schoolDayService,
+            IReceiptService receiptService
             )
         {
             //StudentService = studentService;
@@ -34,6 +37,7 @@ namespace BaiTapLonWinForm.Services
             TeacherService = teacherService;
             CourseService = courseService;
             SchoolDayService = schoolDayService;
+            ReceiptService = receiptService;
         }
     }
 }

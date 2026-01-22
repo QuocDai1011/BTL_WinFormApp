@@ -1,16 +1,16 @@
-﻿//using BaiTapLonWinForm.Models;
-using BaiTapLonWinForm.Models;
+﻿using BaiTapLonWinForm.Models;
 using BaiTapLonWinForm.Repositories.Implementations;
 using BaiTapLonWinForm.Repositories.Interfaces;
 using BaiTapLonWinForm.Services;
 using BaiTapLonWinForm.Services.Implementations;
 using BaiTapLonWinForm.Services.Interfaces;
+using BaiTapLonWinForm.Views.Student;
 using BaiTapLonWinForm.Views.SystemAcess.Login;
 using BaiTapLonWinForm.Views.Teacher;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Data.Common;
+
 namespace BaiTapLonWinForm
 {
     internal static class Program
@@ -18,49 +18,61 @@ namespace BaiTapLonWinForm
         [STAThread]
         static void Main()
         {
-            //ApplicationConfiguration.Initialize();
-            //Application.Run(new Form1());
-            // 1. Đọc file appsettings.json
+            // Load appsettings.json
             var config = new ConfigurationBuilder()
                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .Build();
 
-            // 2. Tạo ServiceCollection để đăng ký các service (DI)
+            // Register DI
             var services = new ServiceCollection();
 
+            services.AddSingleton<IConfiguration>(config);
 
-
-            // 3. Đăng ký DbContext EF Core
             services.AddDbContext<EnglishCenterDbContext>(options =>
-                options.UseSqlServer(config.GetConnectionString("EnglishCenterDb")));
+            {
+                var connectionString = config.GetConnectionString("DefaultConnection");
+                options.UseSqlServer(connectionString);
+            });
 
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IClassRepository, ClassRepository>();
-            services.AddScoped<ICourseRepository, CourseRepository>();
             services.AddScoped<IStudentRepository, StudentRepository>();
+            services.AddScoped<IReceiptRepository, ReceiptRepository>();
+            services.AddScoped<ICourseRepository, CourseRepository>();
+            services.AddScoped<IClassRepository, ClassRepository>();
             services.AddScoped<ITeacherRepository, TeacherRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ISchoolDayRepository, SchoolDayRepository>();
-            //Đăng ký các service cho Service ở đây
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IClassService, ClassService>();
-            services.AddScoped<ICourseService, CourseService>();
+
+
             services.AddScoped<IStudentService, StudentService>();
+            services.AddScoped<IReceiptService, ReceiptService>();
+            services.AddScoped<ICourseService, CourseService>();
+            services.AddScoped<IClassService, ClassService>();
             services.AddScoped<ITeacherService, TeacherService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<ISchoolDayService, SchoolDayService>();
+
             services.AddScoped<ServiceHub>();
 
 
-            // 4. Đăng ký Form cần dùng DI
+            // Register Form
+            services.AddTransient<StudentForm>();
+            services.AddTransient<TeacherPage>();
             services.AddTransient<Form1>();
             services.AddTransient<LoginForm>();
             services.AddTransient<TeacherPage>();
-            // 5. Build provider
+
+            // Build DI container
             var provider = services.BuildServiceProvider();
-            // 6. Chạy WinForms
+
             ApplicationConfiguration.Initialize();
-            Application.Run(provider.GetRequiredService<LoginForm>());
-            //Application.Run(provider.GetRequiredService<TeacherPage>());
+
+            // Lấy form từ DI
+            var mainForm = provider.GetRequiredService<StudentForm>();
+            //var teacherForm = provider.GetRequiredService<TeacherPage>();
+            var loginForm = provider.GetRequiredService<LoginForm>();
+
+            Application.Run(mainForm);
         }
     }
 }

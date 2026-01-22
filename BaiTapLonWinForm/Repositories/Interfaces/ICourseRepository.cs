@@ -1,14 +1,24 @@
-﻿using BaiTapLonWinForm.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+﻿using BaiTapLonWinForm.DTOs;
+using BaiTapLonWinForm.Models;
 
 namespace BaiTapLonWinForm.Repositories.Interfaces
 {
     public interface ICourseRepository
     {
         Course? GetCourseByClassId(long classId);
+        decimal Getamount(int courseId);
+
+        List<CourseDto> GetAllCourse();
+
+        List<Class>? GetClassByCourseId(int courseId);
+
+        void Add(Receipt receipt);
+
+        Receipt GetByTransferContent(string content);
+
+        void UpdateStatus(int receiptId, string status);
+
+        bool ExistReceipt(int studentId, int classId);
     }
 }

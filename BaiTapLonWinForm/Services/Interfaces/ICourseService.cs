@@ -1,14 +1,18 @@
-﻿using BaiTapLonWinForm.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BaiTapLonWinForm.DTOs;
+using BaiTapLonWinForm.Models;
 
 namespace BaiTapLonWinForm.Services.Interfaces
 {
     public interface ICourseService
     {
         Course? GetCourseByClassId(long classId);
+        decimal GetAmount(int courseId);
+        List<CourseDto>? GetAllCourse();
+
+        List<CourseClassDto>? GetAllClassByCourseId(int courseId);
+
+        void CreateReceipt(int studentId, int classId, decimal amount);
+
+        bool ExistReceipt(int studentId, int classId);
     }
 }

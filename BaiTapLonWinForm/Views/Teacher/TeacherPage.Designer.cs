@@ -341,7 +341,7 @@
             // 
             // guna2CirclePictureBox1
             // 
-            guna2CirclePictureBox1.Image = Properties.Resources.default_user;
+            //guna2CirclePictureBox1.Image = Properties.Resources.default_user;
             guna2CirclePictureBox1.ImageRotate = 0F;
             resources.ApplyResources(guna2CirclePictureBox1, "guna2CirclePictureBox1");
             guna2CirclePictureBox1.Name = "guna2CirclePictureBox1";

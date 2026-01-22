@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-	<PropertyGroup>
+<PropertyGroup>
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>net8.0-windows</TargetFramework>
 		<Nullable>enable</Nullable>
 		<UseWindowsForms>true</UseWindowsForms>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
 		<ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
@@ -21,6 +21,32 @@
 	</ItemGroup>
 
   <ItemGroup>
+    <None Remove="Fonts\NotoSerif-Regular.ttf" />
+    <None Remove="Fonts\TIMES.TTF" />
+    <None Remove="Fonts\TIMESBD.TTF" />
+    <None Remove="Fonts\TIMESBI.TTF" />
+    <None Remove="Fonts\TIMESI.TTF" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Fonts\NotoSerif-Regular.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fonts\TIMES.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fonts\TIMESBD.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fonts\TIMESBI.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Fonts\TIMESI.TTF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
 		<PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
 		<PackageReference Include="CloudinaryDotNet" Version="1.27.8" />
 		<PackageReference Include="EPPlus" Version="8.3.0" />
@@ -28,6 +54,8 @@
 		<PackageReference Include="Guna.UI2.WinForms" Version="2.0.4.7" />
 		<PackageReference Include="Hourglass" Version="1.0.2" />
 		<PackageReference Include="Jenga.NET" Version="4.0.0" />
+		<PackageReference Include="itext.bouncy-castle-adapter" Version="8.0.5" />
+		<PackageReference Include="itext7" Version="8.0.5" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.21" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.21" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.21">
@@ -40,6 +68,8 @@
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
 		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3650.58" />
 		<PackageReference Include="NEST" Version="7.17.5" />
+		<PackageReference Include="QRCoder" Version="1.7.0" />
+		<PackageReference Include="System.Text.Encoding.CodePages" Version="8.0.0" />
 	</ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -51,6 +81,9 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Views\Teacher\TeacherPage.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
   </ItemGroup>
   <ItemGroup>

@@ -1,14 +1,17 @@
-﻿using BaiTapLonWinForm.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+﻿using BaiTapLonWinForm.DTOs;
+using BaiTapLonWinForm.Models;
 
 namespace BaiTapLonWinForm.Services.Interfaces
 {
     public interface IStudentService
     {
-        List<Student> getAllStudentByClassId(long classId);
+         List<Student> getAllStudentByClassId(long classId);
+    
+        Student? GetStudentByStudentId(int studentId);
+
+        bool UpdateStudentByStudentId(int studentId, UpdateStudentDto data);
+
+        List<ClassDto>? GetClassesByStudentId(int studentId);
     }
 }

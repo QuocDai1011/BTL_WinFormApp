@@ -231,7 +231,7 @@
             customizableEdges1.TopRight = false;
             guna2PictureBox1.CustomizableEdges = customizableEdges1;
             guna2PictureBox1.FillColor = Color.LightSeaGreen;
-            guna2PictureBox1.Image = Properties.Resources.login_iluustrator;
+            //guna2PictureBox1.Image = Properties.Resources.login_iluustrator;
             guna2PictureBox1.ImageRotate = 0F;
             guna2PictureBox1.Location = new Point(414, 113);
             guna2PictureBox1.Name = "guna2PictureBox1";
@@ -402,7 +402,7 @@
             guna2PictureBox2.BackgroundImageLayout = ImageLayout.Stretch;
             guna2PictureBox2.CustomizableEdges = customizableEdges9;
             guna2PictureBox2.FillColor = Color.Transparent;
-            guna2PictureBox2.Image = Properties.Resources.logo_login;
+            //guna2PictureBox2.Image = Properties.Resources.logo_login;
             guna2PictureBox2.ImageRotate = 0F;
             guna2PictureBox2.Location = new Point(123, 18);
             guna2PictureBox2.Name = "guna2PictureBox2";
@@ -511,7 +511,7 @@
             customizableEdges19.TopRight = false;
             guna2PictureBox5.CustomizableEdges = customizableEdges19;
             guna2PictureBox5.FillColor = Color.ForestGreen;
-            guna2PictureBox5.Image = Properties.Resources.register_illustrator;
+            //guna2PictureBox5.Image = Properties.Resources.register_illustrator;
             guna2PictureBox5.ImageRotate = 0F;
             guna2PictureBox5.Location = new Point(372, 3);
             guna2PictureBox5.Name = "guna2PictureBox5";
