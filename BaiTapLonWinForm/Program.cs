@@ -1,17 +1,58 @@
+﻿using BaiTapLonWinForm.Models;
+using BaiTapLonWinForm.Repositories.Implementations;
+using BaiTapLonWinForm.Repositories.Interfaces;
+using BaiTapLonWinForm.Services.Implementations;
+using BaiTapLonWinForm.Services.Interfaces;
+using BaiTapLonWinForm.Views.Student;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
 namespace BaiTapLonWinForm
 {
     internal static class Program
     {
-        /// <summary>
-        ///  The main entry point for the application.
-        /// </summary>
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
+            // Load appsettings.json
+            var config = new ConfigurationBuilder()
+                .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .Build();
+
+            // Register DI
+            var services = new ServiceCollection();
+
+            services.AddSingleton<IConfiguration>(config);
+
+            services.AddDbContext<EnglistCenterContext>(options =>
+            {
+                var connectionString = config.GetConnectionString("DefaultConnection");
+                options.UseSqlServer(connectionString);
+            });
+
+            services.AddScoped<IStudentRepository, StudentRepository>();
+            services.AddScoped<IStudentService, StudentService>();
+
+            services.AddScoped<IReceiptRepository, ReceiptRepository>();
+            services.AddScoped<IReceiptService, ReceiptService>();
+
+            services.AddScoped<ICourseRepository, CourseRepository>();
+            services.AddScoped<ICourseService, CourseSesrvice>();
+
+            // Register Form
+            services.AddTransient<StudentForm>();
+
+            // Build DI container
+            var provider = services.BuildServiceProvider();
+
             ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+
+            // Lấy form từ DI
+            var mainForm = provider.GetRequiredService<StudentForm>();
+
+            Application.Run(mainForm);
         }
     }
 }
