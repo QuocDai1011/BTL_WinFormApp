@@ -1,5 +1,7 @@
 ﻿using BaiTapLon_WinFormApp.Views.Admin.HomePage;
 using BaiTapLonWinForm.Data;
+using Microsoft.Extensions.Logging;
+
 using BaiTapLonWinForm.Models;
 using BaiTapLonWinForm.Repositories.Implementations;
 using BaiTapLonWinForm.Repositories.interfaces;
@@ -36,11 +38,6 @@ namespace BaiTapLonWinForm
             // 2. Tạo ServiceCollection để đăng ký các service (DI)
             var services = new ServiceCollection();
 
-            services.AddLogging(builder =>
-            {
-                builder.AddConsole(); // log ra console (Debug / Output)
-                builder.AddDebug();   // log ra Output Window trong VS
-            });
 
 
             services.AddSingleton<IConfiguration>(config);
