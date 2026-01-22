@@ -26,7 +26,7 @@ namespace BaiTapLonWinForm
 
             services.AddSingleton<IConfiguration>(config);
 
-            services.AddDbContext<EnglistCenterContext>(options =>
+            services.AddDbContext<EnglishCenterDbContext>(options =>
             {
                 var connectionString = config.GetConnectionString("DefaultConnection");
                 options.UseSqlServer(connectionString);

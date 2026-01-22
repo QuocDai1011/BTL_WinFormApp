@@ -7,9 +7,9 @@ namespace BaiTapLonWinForm.Repositories.Implementations
 {
     public class CourseRepository : ICourseRepository
     {
-        private readonly EnglistCenterContext _context;
+        private readonly EnglishCenterDbContext _context;
 
-        public CourseRepository(EnglistCenterContext context)
+        public CourseRepository(EnglishCenterDbContext context)
         {
             _context = context;
         }

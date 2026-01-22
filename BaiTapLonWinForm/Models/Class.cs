@@ -33,6 +33,8 @@ public partial class Class
 
     public int? CourseId { get; set; }
 
+    public virtual ICollection<ClassSession> ClassSessions { get; set; } = new List<ClassSession>();
+
     public virtual Course? Course { get; set; }
 
     public virtual ICollection<Receipt> Receipts { get; set; } = new List<Receipt>();
