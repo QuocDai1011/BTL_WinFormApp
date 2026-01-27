@@ -89,7 +89,7 @@ namespace BaiTapLonWinForm.Services.Implementations
                 PromotionId = receipt.PromotionId,
                 PayAmount = amount,
                 PaymentDate = DateOnly.FromDateTime(DateTime.Now),
-                PaymentMethod = "VietQR Transfer",
+                PaymentMethod = "VNPay",
                 Receipt = receipt
             };
 
@@ -100,12 +100,7 @@ namespace BaiTapLonWinForm.Services.Implementations
 
         public bool ExistReceipt(int studentId, int classId)
         {
-            if(_repo.ExistReceipt(studentId, classId))
-            {
-                return false;
-            }
-
-            return true;
+            return _repo.ExistReceipt(studentId, classId);
         }
     }
 }

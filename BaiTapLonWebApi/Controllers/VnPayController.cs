@@ -39,8 +39,6 @@ namespace BaiTapLonWebApi.Controllers
                 Status = "PENDING"
             };
 
-            await _context.Receipts.AddAsync(newReceipt);
-            await _context.SaveChangesAsync();
 
             var vnp = new VnPayLibrary();
 
@@ -64,6 +62,8 @@ namespace BaiTapLonWebApi.Controllers
 
             string paymentUrl = vnp.CreateRequestUrl(baseUrl, hashSecret);
                         
+            await _context.Receipts.AddAsync(newReceipt);
+            await _context.SaveChangesAsync();
             return Ok(new { url = paymentUrl });
         }
 

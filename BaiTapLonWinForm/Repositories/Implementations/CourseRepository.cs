@@ -72,8 +72,9 @@ namespace BaiTapLonWinForm.Repositories.Implementations
 
         public bool ExistReceipt(int studentId, int classId)
         {
-            return _context.Receipts
-                .Any(r => r.StudentId == studentId && r.ClassId == classId);
+            return _context.Receipts.Any(r =>
+                r.StudentId == studentId &&
+                r.ClassId == classId);
         }
     }
 }

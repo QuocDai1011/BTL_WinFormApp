@@ -1,31 +1,38 @@
-﻿using BaiTapLonWinForm.Services.Interfaces;
+﻿using BaiTapLonWinForm.DTOs;
+using BaiTapLonWinForm.Models;
+using BaiTapLonWinForm.Services.Interfaces;
 using BaiTapLonWinForm.Utils;
 
 namespace BaiTapLonWinForm.Views.Student.Controllers
 {
     public partial class UC_Dashboard : UserControl
     {
-        private readonly IStudentService _service;
-        public UC_Dashboard(IStudentService service)
+        private readonly IStudentService _studentService;
+        private readonly INewsfeedService _newsfeedService;
+        private readonly EnglistCenterContext _context;
+        private List<ClassDto> _cachedClasses;
+        public UC_Dashboard(IStudentService service, INewsfeedService newsfeedService, EnglistCenterContext context, int studentId)
         {
-            _service = service;
             InitializeComponent();
-            LoadClasses(35);
+            _studentService = service;
+            _cachedClasses = _studentService.GetClassesByStudentId(studentId);
+            _context = context;
+            _newsfeedService = newsfeedService;
+            LoadClasses(studentId);
         }
 
         private void LoadClasses(int studentId)
         {
-            var classes = _service.GetClassesByStudentId(studentId);
             FlowLayoutPanel flpRender = new FlowLayoutPanel();
             flpRender.Dock = DockStyle.Fill;
 
-            if (classes == null)
+            if (_cachedClasses == null)
             {
                 MessageHelper.ShowError("Không tìm thấy khóa học", "Lỗi");
                 return;
             }
 
-            foreach (var item in classes)
+            foreach (var item in _cachedClasses)
             {
                 var classroom = new UC_Class();
 
@@ -47,7 +54,7 @@ namespace BaiTapLonWinForm.Views.Student.Controllers
 
         private void LoadClassDetail(int classId)
         {
-            var ucDetail = new UC_DetailClass();
+            var ucDetail = new UC_DetailClass(_newsfeedService, _context);
             ucDetail.LoadDetailClass(classId);
 
             pnlRender.Controls.Clear();

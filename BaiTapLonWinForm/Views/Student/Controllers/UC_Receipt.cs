@@ -20,6 +20,11 @@ namespace BaiTapLonWinForm.Views.Student.Controllers
                 throw new Exception("_receiptService IS NULL");
             var data = _receiptService.GetAllReceiptByStudentId(studentId);
 
+            foreach(var item in data)
+            {
+                _receiptService.ChangeStatusReceipt(item);
+            }
+
             if (data == null)
             {
                 MessageHelper.ShowInfo("Bạn chưa mua khóa học nào", "Thông báo");
@@ -29,10 +34,14 @@ namespace BaiTapLonWinForm.Views.Student.Controllers
             listReceipt.AutoGenerateColumns = true;
             listReceipt.DataSource = data;
 
+            //Ẩn một số cột trong bảng
+            listReceipt.Columns["StudentId"].Visible = false;
+            listReceipt.Columns["ClassId"].Visible = false;
             listReceipt.Columns["NameStudent"].Visible = false;
             listReceipt.Columns["SChoolDay"].Visible = false;
             listReceipt.Columns["StartDate"].Visible = false;
             listReceipt.Columns["EndDate"].Visible = false;
+            listReceipt.Columns["UpdatedAt"].Visible = false;
 
             listReceipt.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
 
@@ -50,9 +59,7 @@ namespace BaiTapLonWinForm.Views.Student.Controllers
                 .Value?
                 .ToString() ?? "";
 
-            Debug.WriteLine(status);
-
-            if (status == "UNPAID")
+            if (status == "FALSE")
             {
                 MessageHelper.ShowInfo(
                     "Thanh toán thất bại, hãy liên hệ với bên trung tâm để được xử lý",
@@ -97,9 +104,14 @@ namespace BaiTapLonWinForm.Views.Student.Controllers
             decimal giamGia = Convert.ToDecimal(row.Cells["PaidAmount"].Value ?? 0);
 
             string noiDung = "";
-            string lichHoc = RegexUtilities.ToVietnameseDay(
-                row.Cells["SchoolDay"].Value?.ToString() ?? ""
-            );
+
+            int dayOfWeek;
+            if (!int.TryParse(row.Cells["SchoolDay"].Value?.ToString(), out dayOfWeek))
+            {
+                MessageBox.Show("Dữ liệu ngày học không hợp lệ");
+                return;
+            }
+            string lichHoc = RegexUtilities.ToVietnameseDay(dayOfWeek);
 
             string khaiGiang = row.Cells["StartDate"].Value?.ToString() ?? "";
             string ketThuc = row.Cells["EndDate"].Value?.ToString() ?? "";

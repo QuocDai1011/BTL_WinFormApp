@@ -30,20 +30,19 @@
         {
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UC_Course));
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UC_Course));
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             pnlContain = new Guna.UI2.WinForms.Guna2Panel();
             tableLayoutPanel1 = new TableLayoutPanel();
-            avatarConurse = new Guna.UI2.WinForms.Guna2PictureBox();
             containInfoCourse = new Guna.UI2.WinForms.Guna2Panel();
             ctnTuition = new Guna.UI2.WinForms.Guna2Panel();
             lbTuition = new Guna.UI2.WinForms.Guna2HtmlLabel();
@@ -52,13 +51,14 @@
             lbEndDate = new Guna.UI2.WinForms.Guna2HtmlLabel();
             containNameCourse = new Guna.UI2.WinForms.Guna2Panel();
             lbCourseName = new Guna.UI2.WinForms.Guna2HtmlLabel();
+            avatarConurse = new Guna.UI2.WinForms.Guna2PictureBox();
             pnlContain.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)avatarConurse).BeginInit();
             containInfoCourse.SuspendLayout();
             ctnTuition.SuspendLayout();
             ctnTimeCourse.SuspendLayout();
             containNameCourse.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)avatarConurse).BeginInit();
             SuspendLayout();
             // 
             // pnlContain
@@ -74,7 +74,7 @@
             pnlContain.Name = "pnlContain";
             pnlContain.Padding = new Padding(10);
             pnlContain.ShadowDecoration.CustomizableEdges = customizableEdges12;
-            pnlContain.Size = new Size(261, 273);
+            pnlContain.Size = new Size(197, 273);
             pnlContain.TabIndex = 0;
             pnlContain.Click += pnlContain_Click;
             // 
@@ -82,60 +82,42 @@
             // 
             tableLayoutPanel1.ColumnCount = 1;
             tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Controls.Add(avatarConurse, 0, 0);
             tableLayoutPanel1.Controls.Add(containInfoCourse, 0, 1);
+            tableLayoutPanel1.Controls.Add(avatarConurse, 0, 0);
             tableLayoutPanel1.Dock = DockStyle.Fill;
             tableLayoutPanel1.Location = new Point(10, 10);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
             tableLayoutPanel1.RowCount = 2;
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 43.0188675F));
             tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 56.9811325F));
-            tableLayoutPanel1.Size = new Size(241, 253);
+            tableLayoutPanel1.Size = new Size(177, 253);
             tableLayoutPanel1.TabIndex = 0;
             tableLayoutPanel1.Click += pnlContain_Click;
-            // 
-            // avatarConurse
-            // 
-            avatarConurse.BackgroundImageLayout = ImageLayout.Center;
-            avatarConurse.BorderRadius = 20;
-            avatarConurse.Cursor = Cursors.Hand;
-            avatarConurse.CustomizableEdges = customizableEdges1;
-            avatarConurse.Dock = DockStyle.Fill;
-            avatarConurse.FillColor = Color.Bisque;
-            avatarConurse.Image = (Image)resources.GetObject("avatarConurse.Image");
-            avatarConurse.ImageRotate = 0F;
-            avatarConurse.Location = new Point(3, 3);
-            avatarConurse.Name = "avatarConurse";
-            avatarConurse.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            avatarConurse.Size = new Size(235, 102);
-            avatarConurse.TabIndex = 0;
-            avatarConurse.TabStop = false;
-            avatarConurse.Click += pnlContain_Click;
             // 
             // containInfoCourse
             // 
             containInfoCourse.Controls.Add(ctnTuition);
             containInfoCourse.Controls.Add(ctnTimeCourse);
             containInfoCourse.Controls.Add(containNameCourse);
-            containInfoCourse.CustomizableEdges = customizableEdges9;
+            containInfoCourse.CustomizableEdges = customizableEdges7;
             containInfoCourse.Dock = DockStyle.Fill;
             containInfoCourse.Location = new Point(3, 111);
             containInfoCourse.Name = "containInfoCourse";
             containInfoCourse.Padding = new Padding(0, 0, 0, 10);
-            containInfoCourse.ShadowDecoration.CustomizableEdges = customizableEdges10;
-            containInfoCourse.Size = new Size(235, 139);
+            containInfoCourse.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            containInfoCourse.Size = new Size(171, 139);
             containInfoCourse.TabIndex = 1;
             containInfoCourse.Click += pnlContain_Click;
             // 
             // ctnTuition
             // 
             ctnTuition.Controls.Add(lbTuition);
-            ctnTuition.CustomizableEdges = customizableEdges3;
+            ctnTuition.CustomizableEdges = customizableEdges1;
             ctnTuition.Dock = DockStyle.Top;
             ctnTuition.Location = new Point(0, 97);
             ctnTuition.Name = "ctnTuition";
-            ctnTuition.ShadowDecoration.CustomizableEdges = customizableEdges4;
-            ctnTuition.Size = new Size(235, 42);
+            ctnTuition.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            ctnTuition.Size = new Size(171, 42);
             ctnTuition.TabIndex = 4;
             // 
             // lbTuition
@@ -154,12 +136,12 @@
             // 
             ctnTimeCourse.Controls.Add(lbLevel);
             ctnTimeCourse.Controls.Add(lbEndDate);
-            ctnTimeCourse.CustomizableEdges = customizableEdges5;
+            ctnTimeCourse.CustomizableEdges = customizableEdges3;
             ctnTimeCourse.Dock = DockStyle.Top;
             ctnTimeCourse.Location = new Point(0, 65);
             ctnTimeCourse.Name = "ctnTimeCourse";
-            ctnTimeCourse.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            ctnTimeCourse.Size = new Size(235, 32);
+            ctnTimeCourse.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            ctnTimeCourse.Size = new Size(171, 32);
             ctnTimeCourse.TabIndex = 2;
             ctnTimeCourse.Click += pnlContain_Click;
             // 
@@ -168,7 +150,7 @@
             lbLevel.BackColor = Color.Transparent;
             lbLevel.Dock = DockStyle.Right;
             lbLevel.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbLevel.Location = new Point(185, 0);
+            lbLevel.Location = new Point(121, 0);
             lbLevel.Name = "lbLevel";
             lbLevel.Size = new Size(50, 17);
             lbLevel.TabIndex = 1;
@@ -190,12 +172,12 @@
             // containNameCourse
             // 
             containNameCourse.Controls.Add(lbCourseName);
-            containNameCourse.CustomizableEdges = customizableEdges7;
+            containNameCourse.CustomizableEdges = customizableEdges5;
             containNameCourse.Dock = DockStyle.Top;
             containNameCourse.Location = new Point(0, 0);
             containNameCourse.Name = "containNameCourse";
-            containNameCourse.ShadowDecoration.CustomizableEdges = customizableEdges8;
-            containNameCourse.Size = new Size(235, 65);
+            containNameCourse.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            containNameCourse.Size = new Size(171, 65);
             containNameCourse.TabIndex = 1;
             containNameCourse.Click += pnlContain_Click;
             // 
@@ -207,11 +189,30 @@
             lbCourseName.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
             lbCourseName.Location = new Point(0, 0);
             lbCourseName.Name = "lbCourseName";
-            lbCourseName.Size = new Size(235, 65);
+            lbCourseName.Size = new Size(171, 65);
             lbCourseName.TabIndex = 0;
             lbCourseName.Text = "Khóa học dưỡng sinh";
             lbCourseName.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
             lbCourseName.Click += pnlContain_Click;
+            // 
+            // avatarConurse
+            // 
+            avatarConurse.BackgroundImageLayout = ImageLayout.Center;
+            avatarConurse.BorderRadius = 20;
+            avatarConurse.Cursor = Cursors.Hand;
+            avatarConurse.CustomizableEdges = customizableEdges9;
+            avatarConurse.Dock = DockStyle.Fill;
+            avatarConurse.FillColor = Color.Bisque;
+            avatarConurse.Image = (Image)resources.GetObject("avatarConurse.Image");
+            avatarConurse.ImageRotate = 0F;
+            avatarConurse.InitialImage = null;
+            avatarConurse.Location = new Point(3, 3);
+            avatarConurse.Name = "avatarConurse";
+            avatarConurse.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            avatarConurse.Size = new Size(171, 102);
+            avatarConurse.TabIndex = 0;
+            avatarConurse.TabStop = false;
+            avatarConurse.Click += pnlContain_Click;
             // 
             // UC_Course
             // 
@@ -222,16 +223,16 @@
             ForeColor = SystemColors.ControlText;
             Margin = new Padding(20);
             Name = "UC_Course";
-            Size = new Size(261, 273);
+            Size = new Size(197, 273);
             pnlContain.ResumeLayout(false);
             tableLayoutPanel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)avatarConurse).EndInit();
             containInfoCourse.ResumeLayout(false);
             ctnTuition.ResumeLayout(false);
             ctnTuition.PerformLayout();
             ctnTimeCourse.ResumeLayout(false);
             ctnTimeCourse.PerformLayout();
             containNameCourse.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)avatarConurse).EndInit();
             ResumeLayout(false);
         }
 

@@ -1,4 +1,5 @@
-﻿using BaiTapLonWinForm.Services.Interfaces;
+﻿using BaiTapLonWinForm.DTOs;
+using BaiTapLonWinForm.Services.Interfaces;
 using BaiTapLonWinForm.Utils;
 using System.Diagnostics;
 using System.Text;
@@ -11,6 +12,7 @@ namespace BaiTapLonWinForm.Views.Student.Controllers
         private readonly ICourseService _courseService;
         private readonly int _studentId;
         private readonly int _courseId;
+        private List<CourseClassDto> _cachedCourseClass;
 
         public UC_DetailCourse(ICourseService courseService, int studentId, int courseId)
         {
@@ -18,20 +20,20 @@ namespace BaiTapLonWinForm.Views.Student.Controllers
             _studentId = studentId;
             _courseId = courseId;
             InitializeComponent();
+            _cachedCourseClass = _courseService.GetAllClassByCourseId(courseId);
         }
 
         public void LoadDetailCourse(int courseId)
         {
-            var data = _courseService.GetAllClassByCourseId(courseId);
 
-            if (data == null)
+            if (_cachedCourseClass == null)
             {
                 MessageHelper.ShowWarning("Lớp học chưa được mở", "Trống");
                 return;
             }
 
             listClass.AutoGenerateColumns = true;
-            listClass.DataSource = data;
+            listClass.DataSource = _cachedCourseClass;
 
             // Style
 
@@ -66,10 +68,17 @@ namespace BaiTapLonWinForm.Views.Student.Controllers
             var row = listClass.CurrentRow;
             int classId = (int)row.Cells["ClassId"].Value;
             string studyDay = row.Cells["SchoolDay"].Value?.ToString();
+            bool existReceipt = _courseService.ExistReceipt(_studentId, classId);
 
             if (studyDay == "Chưa có lịch học")
             {
                 MessageHelper.ShowInfo("Chưa có lịch học không thể đăng ký", "Thông báo");
+                return;
+            }
+
+            if (existReceipt)
+            {
+                MessageHelper.ShowInfo("Lớp học này bạn đã thanh toán, không thể mua lại");
                 return;
             }
 
