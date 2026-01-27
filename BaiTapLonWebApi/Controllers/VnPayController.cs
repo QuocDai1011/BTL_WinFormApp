@@ -95,7 +95,7 @@ namespace BaiTapLonWebApi.Controllers
             string txnRef = Request.Query["vnp_TxnRef"];
 
             var receipt = _context.Receipts
-                .FirstOrDefault(r => r.TxnRef == txnRef);
+                .FirstOrDefault(r => r.TxnRef.Equals("0"));
 
             if (receipt == null)
                 return Content("Không tìm thấy hóa đơn");

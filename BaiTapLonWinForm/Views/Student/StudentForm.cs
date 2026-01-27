@@ -8,7 +8,7 @@ namespace BaiTapLonWinForm.Views.Student
         private readonly IStudentService _studentService;
         private readonly ICourseService _courseService;
         private readonly IReceiptService _receiptService;
-        private readonly int _studentId = 1;
+        private readonly int _studentId = 2;
         public StudentForm(IStudentService studentService, ICourseService courseService, IReceiptService receiptService)
         {
             _studentService = studentService;

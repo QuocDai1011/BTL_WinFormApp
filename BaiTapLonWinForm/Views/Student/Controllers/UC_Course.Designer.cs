@@ -96,21 +96,21 @@
             // 
             // avatarConurse
             // 
-            avatarConurse.BackgroundImageLayout = ImageLayout.Center;
-            avatarConurse.BorderRadius = 20;
-            avatarConurse.Cursor = Cursors.Hand;
-            avatarConurse.CustomizableEdges = customizableEdges1;
-            avatarConurse.Dock = DockStyle.Fill;
-            avatarConurse.FillColor = Color.Bisque;
-            avatarConurse.Image = (Image)resources.GetObject("avatarConurse.Image");
-            avatarConurse.ImageRotate = 0F;
-            avatarConurse.Location = new Point(3, 3);
-            avatarConurse.Name = "avatarConurse";
-            avatarConurse.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            avatarConurse.Size = new Size(235, 102);
-            avatarConurse.TabIndex = 0;
-            avatarConurse.TabStop = false;
-            avatarConurse.Click += pnlContain_Click;
+            //avatarConurse.BackgroundImageLayout = ImageLayout.Center;
+            //avatarConurse.BorderRadius = 20;
+            //avatarConurse.Cursor = Cursors.Hand;
+            //avatarConurse.CustomizableEdges = customizableEdges1;
+            //avatarConurse.Dock = DockStyle.Fill;
+            //avatarConurse.FillColor = Color.Bisque;
+            //avatarConurse.Image = (Image)resources.GetObject("avatarConurse.Image");
+            //avatarConurse.ImageRotate = 0F;
+            //avatarConurse.Location = new Point(3, 3);
+            //avatarConurse.Name = "avatarConurse";
+            //avatarConurse.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            //avatarConurse.Size = new Size(235, 102);
+            //avatarConurse.TabIndex = 0;
+            //avatarConurse.TabStop = false;
+            //avatarConurse.Click += pnlContain_Click;
             // 
             // containInfoCourse
             // 
