@@ -24,6 +24,9 @@ namespace BaiTapLonWinForm
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .Build();
 
+            var mongoSettings = new MongoDbSettings();
+            config.GetSection("MongoDbSettings").Bind(mongoSettings);
+
             // Register DI
             var services = new ServiceCollection();
 
@@ -42,7 +45,15 @@ namespace BaiTapLonWinForm
             services.AddScoped<ITeacherRepository, TeacherRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ISchoolDayRepository, SchoolDayRepository>();
+            services.AddScoped<IStudentRepository, StudentRepository>();
+            services.AddScoped<ICourseRepository, CourseRepository>();
+            services.AddScoped<IReceiptRepository, ReceiptRepository>();
 
+
+            services.AddScoped<IStudentService, StudentService>();
+            services.AddScoped<IReceiptService, ReceiptService>();
+            services.AddScoped<ICourseService, CourseService>();
+            services.AddScoped<INewsfeedService, NewsfeedService>();
 
             services.AddScoped<IStudentService, StudentService>();
             services.AddScoped<IReceiptService, ReceiptService>();

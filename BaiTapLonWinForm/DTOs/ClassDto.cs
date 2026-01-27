@@ -7,7 +7,8 @@
         public string? ClassName { get; set; }
         public string? Node { get; set; }
         public int Shift { get; set; }
-        public string? SchoolDay { get; set; }
+        public List<int>? SchoolDay { get; set; }
+        public string? SchoolDayString { get; set; }
         public string? TeacherName { get; set; }
     }
 }

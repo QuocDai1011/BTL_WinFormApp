@@ -25,6 +25,8 @@ namespace BaiTapLonWinForm.Repositories.Implementations
                 .Where(r => r.StudentId == studentId)
                 .Select(r => new ReceiptDto
                 {
+                    StudentId = r.StudentId,
+                    ClassId = r.ClassId,
                     NameCourse = r.Class.ClassName,
                     NameStudent = r.Student.User.FirstName + r.Student.User.LastName,
                     SchoolDay = string.Join(", ",
@@ -34,10 +36,25 @@ namespace BaiTapLonWinForm.Repositories.Implementations
                     StartDate = r.Class.StartDate,
                     EndDate = r.Class.EndDate,
                     CreateAt = r.CreateAt,
+                    UpdatedAt = r.UpdateAt,
                     TotalAmount = r.TotalAmount,
                     PaidAmount = r.PaidAmount,
                     Status = r.Status
                 }).ToList();
+        }
+
+        public void UpdateStatusReceipt(int studentId, int classId)
+        {
+            var receipt = _context.Receipts
+                .FirstOrDefault(r => r.StudentId == studentId &&
+                    r.ClassId == classId);
+
+            if (receipt == null) return;
+
+            receipt.Status = "FALSE";
+            receipt.UpdateAt = DateTime.Now;
+
+            _context.SaveChangesAsync();
         }
     }
 }

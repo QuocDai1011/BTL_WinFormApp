@@ -26,7 +26,6 @@ namespace BaiTapLonWinForm.Repositories.Implementations
         public List<ClassDto> GetClassesByStudenId(int studentId)
         {
             return _context.Classes
-                .AsNoTracking()
                 .Where(c => c.StudentClasses.Any(sc => sc.StudentId == studentId))
                 .Select(c => new ClassDto
                 {
@@ -36,16 +35,35 @@ namespace BaiTapLonWinForm.Repositories.Implementations
                     Node = c.Note,
                     Shift = c.Shift,
 
-                    SchoolDay = string.Join(", ",
-                        c.SchoolDays
-                            .OrderBy(sd => sd.SchoolDayId)
-                            .Select(sd => sd.DayOfWeek)),
+                    SchoolDay = c.SchoolDays
+                        .OrderBy(sd => sd.SchoolDayId)
+                        .Select(sd => (int)sd.SchoolDayId)
+                        .ToList(),
 
                     TeacherName = c.Teacher.User.FirstName + " " + c.Teacher.User.LastName,
                 })
                 .ToList();
         }
 
+        public List<ScheduleDto> GetScheduleClass(int studentId)
+        {
+            return _context.StudentClasses
+                .Where(s => s.StudentId == studentId)
+                .Select(s => new ScheduleDto
+                {
+                    ClassId = s.ClassId,
+                    Course = s.Class.ClassName,
+                    StartDate = s.Class.StartDate,
+                    EndDate = s.Class.EndDate,
+                    Shift = s.Class.Shift,
+                    SchoolDays = s.Class.SchoolDays
+                        .OrderBy(sd => sd.SchoolDayId)
+                        .Select(sd => (int)sd.SchoolDayId)
+                        .ToList(),
+                    TeacherName = s.Class.Teacher.User.FirstName + " " + s.Class.Teacher.User.LastName
+                })
+                .ToList();
+        }
 
         public Student? GetStudentByStudentId(int studentId)
         {

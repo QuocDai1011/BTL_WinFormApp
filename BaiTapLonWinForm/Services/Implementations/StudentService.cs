@@ -9,16 +9,16 @@ namespace BaiTapLonWinForm.Services.Implementations
 {
     public class StudentService : IStudentService
     {
-        private readonly IStudentRepository _repo;
+        private readonly IStudentRepository _studentRepo;
         public StudentService(IStudentRepository repo)
         {
-            _repo = repo;
+            _studentRepo = repo;
         }
 
         public List<Student> getAllStudentByClassId(long classId)
         {
             List<Student> students = new List<Student>();
-            students = _repo.getAllStudentByClassId(classId);
+            students = _studentRepo.getAllStudentByClassId(classId);
             if (students != null && students.Count > 0) 
             {
                 return students;
@@ -28,21 +28,41 @@ namespace BaiTapLonWinForm.Services.Implementations
 
         public List<ClassDto>? GetClassesByStudentId(int studentId)
         {
-            return _repo.GetClassesByStudenId(studentId) ?? new List<ClassDto>();
+            var classes = _studentRepo.GetClassesByStudenId(studentId) ?? null;
+
+            return classes.Select(c => new ClassDto
+            {
+                ClassId = c.ClassId,
+                CourseName = c.CourseName,
+                ClassName = c.ClassName,
+                Node = c.Node ?? "Không có ghi chú",
+                Shift = c.Shift,
+                SchoolDay = c.SchoolDay,
+                TeacherName = c.TeacherName
+            }).ToList();
+        }
+
+        public List<ScheduleDto>? GetScheduleClass(int studentId)
+        {
+            var schedule = _studentRepo.GetScheduleClass(studentId);
+
+            if (schedule == null) return [];
+
+            return schedule;
         }
 
         public Student? GetStudentByStudentId(int studentId)
         {
-            var student = _repo.GetStudentByStudentId(studentId);
+            var student = _studentRepo.GetStudentByStudentId(studentId);
             if (student == null) return null;
             return student;
         }
 
         public bool UpdateStudentByStudentId(int studentId, UpdateStudentDto data)
         {
-            var student = _repo.GetStudentByStudentId(studentId);
+            var student = _studentRepo.GetStudentByStudentId(studentId);
             if (student == null)
-                throw new Exception("Không tìm thấy sinh viên");
+                throw new Exception("Không tìm thấy học viên");
 
             // Validate chung
             ValidateString(data.FirstName, "FirstName");
@@ -77,7 +97,7 @@ namespace BaiTapLonWinForm.Services.Implementations
             if (data.DateOfBirth == default)
                 throw new Exception("DateOfBirth không được để trống");
 
-            return _repo.UpdateStudentByStudentId(studentId, data);
+            return _studentRepo.UpdateStudentByStudentId(studentId, data);
         }
 
         private void ValidateString(string? str, string fieldName)

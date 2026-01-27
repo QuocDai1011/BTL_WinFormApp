@@ -1,5 +1,7 @@
-﻿using BaiTapLonWinForm.Views.Student.Controllers;
+﻿using BaiTapLonWinForm.Models;
 using BaiTapLonWinForm.Services.Interfaces;
+using BaiTapLonWinForm.Views.Student.Controllers;
+using System.Diagnostics;
 
 namespace BaiTapLonWinForm.Views.Student
 {
@@ -8,13 +10,18 @@ namespace BaiTapLonWinForm.Views.Student
         private readonly IStudentService _studentService;
         private readonly ICourseService _courseService;
         private readonly IReceiptService _receiptService;
+
+        private readonly INewsfeedService _newsfeedSerivce;
+        private readonly EnglishCenterDbContext _context;
         private readonly int _studentId = 2;
-        public StudentForm(IStudentService studentService, ICourseService courseService, IReceiptService receiptService)
+        public StudentForm(IStudentService studentService, ICourseService courseService, IReceiptService receiptService, INewsfeedService newsfeedSerivce, EnglishCenterDbContext context)
         {
+            InitializeComponent();
             _studentService = studentService;
             _courseService = courseService;
             _receiptService = receiptService;
-            InitializeComponent();
+            _newsfeedSerivce = newsfeedSerivce;
+            _context = context;
             lbTitle.Text = "";
         }
 
@@ -23,15 +30,11 @@ namespace BaiTapLonWinForm.Views.Student
             pnlLoader.Controls.Clear();
             control.Dock = DockStyle.Fill;
             pnlLoader.Controls.Add(control);
-
-            if (control is IAsyncLoadable asyncLoadable)
-            {
-                await asyncLoadable.LoadAsync();
-            }
         }
 
         private void StudentForm_Load(object sender, EventArgs e)
         {
+            btnMap.Show();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -55,7 +58,7 @@ namespace BaiTapLonWinForm.Views.Student
 
             lbTitle.Text = "Thông tin cá nhân";
 
-            var uc = new UC_DetailStudent(_studentService);
+            var uc = new UC_DetailStudent(_studentService, _studentId);
             uc.LoadDetailStudent(_studentId);
 
             await LoadControllerAsync(uc);
@@ -70,7 +73,7 @@ namespace BaiTapLonWinForm.Views.Student
 
             lbTitle.Text = "Lớp học";
 
-            LoadControllerAsync(new UC_Dashboard(_studentService));
+            LoadControllerAsync(new UC_Dashboard(_studentService, _newsfeedSerivce, _context, _studentId));
         }
 
         private void BtnCalender_Click(object sender, EventArgs e)
@@ -82,7 +85,7 @@ namespace BaiTapLonWinForm.Views.Student
 
             lbTitle.Text = "Lịch học";
 
-            LoadControllerAsync(new UC_Calendar());
+            LoadControllerAsync(new UC_Calendar(_studentService, _studentId));
         }
 
         private void BtnBuy_Click(object sender, EventArgs e)
@@ -138,6 +141,20 @@ namespace BaiTapLonWinForm.Views.Student
             BtnLogOut.ForeColor = Color.White;
             BtnLogOut.FillColor = Color.Transparent;
             BtnLogOut.FillColor2 = Color.Transparent;
+        }
+
+        private void btnMap_Click(object sender, EventArgs e)
+        {
+            string? locationUrl =
+                "https://www.google.com/maps/place/Chung+Cư+Kim+Sơn/@10.8363776,106.7810816,14z/data=!4m6!3m5!1s0x3175288bb8f7d72d:0x36d50c9042822756!8m2!3d10.8286539!4d106.7038307!16s%2Fg%2F11cs32bnwz";
+
+
+
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = locationUrl,
+                UseShellExecute = true
+            });
         }
     }
 }

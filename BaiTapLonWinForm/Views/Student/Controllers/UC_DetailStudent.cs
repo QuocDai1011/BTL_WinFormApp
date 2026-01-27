@@ -8,10 +8,13 @@ namespace BaiTapLonWinForm.Views.Student.Controllers
     public partial class UC_DetailStudent : UserControl
     {
         private readonly IStudentService _service;
-        public UC_DetailStudent(IStudentService service)
+        private int _studentId;
+        public UC_DetailStudent(IStudentService service, int studentId)
         {
             _service = service;
             InitializeComponent();
+            _studentId = studentId;
+
         }
 
         public void LoadDetailStudent(int studentId)
@@ -149,13 +152,13 @@ namespace BaiTapLonWinForm.Views.Student.Controllers
 
 
             var data = new UpdateStudentDto();
-            bool isSuccess = UpdateStudent(1, data);
+            bool isSuccess = UpdateStudent(_studentId, data);
 
             if (!isSuccess) MessageHelper.ShowError("Cập nhật không hành công", "Lỗi");
 
             MessageHelper.ShowSuccess("Cập nhật thông tin thành công", "Thành công");
 
-            this.LoadDetailStudent(1);
+            this.LoadDetailStudent(_studentId);
 
             gunaSave.Visible = false;
 

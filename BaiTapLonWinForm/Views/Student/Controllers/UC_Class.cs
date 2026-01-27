@@ -1,5 +1,5 @@
 ﻿using BaiTapLonWinForm.DTOs;
-using System;
+using BaiTapLonWinForm.Utils;
 namespace BaiTapLonWinForm.Views.Student.Controllers
 {
     public partial class UC_Class : UserControl
@@ -18,6 +18,15 @@ namespace BaiTapLonWinForm.Views.Student.Controllers
             lbCourseName.Text = data.CourseName;
             lbClassName.Text = data.ClassName;
             lbNote.Text = data.Node;
+            lbSchoolDay.Text = "";
+            if (data.SchoolDay == null)
+            {
+                lbSchoolDay.Text = "Chưa có lịch học";
+            }
+            foreach (var item in data.SchoolDay)
+            {
+                lbSchoolDay.Text += RegexUtilities.ToVietnameseDay(item) + " ";
+            }
 
             if (data.Shift == 1)
                 lbShift.Text = "8:00 - 9:30";
@@ -32,9 +41,7 @@ namespace BaiTapLonWinForm.Views.Student.Controllers
             else if (data.Shift == 6)
                 lbShift.Text = "19:30 - 21:00";
             else
-                lbShift.Text = "Lỗi";
-
-            //lbSchoolDay.Text = data.SchoolDay;
+                lbShift.Text = "";
             lbNameTeacher.Text = data.TeacherName;
         }
 
