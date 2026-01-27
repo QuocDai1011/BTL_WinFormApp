@@ -1,6 +1,7 @@
 ﻿using BaiTapLonWinForm.Models;
 using BaiTapLonWinForm.Repositories.interfaces;
 using BaiTapLonWinForm.Services.interfaces;
+using BaiTapLonWinForm.Services.Interfaces;
 using BaiTapLonWinForm.Validate;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -278,6 +279,29 @@ namespace BaiTapLonWinForm.Services.Implementations
             {
                 return (false, $"Lỗi: {ex.Message}", null);
             }
+        }
+
+        public async Task<(bool Success, string Message, int Data)> GetTotalStudentByClassCodeAsync(string classCode)
+        {
+            if(await _courseRepository.GetTotalStudentByClassCode(classCode) == 0 ||
+                    await _courseRepository.GetTotalStudentByClassCode(classCode) < 0)
+            {
+                return (false, "Lớp học không tồn tại hoặc không có sinh viên nào", 0);
+            }
+
+            return (true, "Lấy tổng số sinh viên trong lớp học thành công", 
+                await _courseRepository.GetTotalStudentByClassCode(classCode) );
+        }
+
+        public async Task<(bool Success, string Message, int Data)> GetTotalStudentByOtherClassCodeAsync()
+        {
+            if(await _courseRepository.GetTotalStudentByOtherClassCode() <= 0)
+            {
+                return (false, "Lỗi khi lấy tổng số sinh viên trong các lớp học khác", 0);
+            }
+            
+            return (true, "Lấy tổng số sinh viên trong các lớp học khác thành công",
+                await _courseRepository.GetTotalStudentByOtherClassCode());
         }
     }
 }

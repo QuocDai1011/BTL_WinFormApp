@@ -23,5 +23,7 @@ namespace BaiTapLonWinForm.Repositories.interfaces
         Task<IEnumerable<Course>> SearchByNameAsync(string keyword);
         Task<int> GetClassCountAsync(int courseId);
         Task<IEnumerable<Course>> GetCoursesByTuitionRangeAsync(decimal minTuition, decimal maxTuition);
+        Task<int> GetTotalStudentByClassCode(string classCode);
+        Task<int> GetTotalStudentByOtherClassCode();
     }
 }

@@ -1,6 +1,7 @@
 ﻿using BaiTapLonWinForm.Models;
 using BaiTapLonWinForm.Repositories.interfaces;
 using BaiTapLonWinForm.Services.interfaces;
+using BaiTapLonWinForm.Services.Interfaces;
 using BaiTapLonWinForm.Validate;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -34,6 +35,19 @@ namespace BaiTapLonWinForm.Services.Implementations
 
         }
 
+        public async Task<(bool Success, string Message, IEnumerable<Student> Data)> GetAllStudentsAsync()
+        {
+            try
+            {
+                var students = await _studentRepository.GetAllAsync();
+                return (true, $"Lấy danh sách {students.Count()} học viên thành công", students);
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Lỗi: {ex.Message}", null);
+            }
+        }
+
         public List<Student> getAllStudentByClassId(long classId)
         {
             List<Student> students = new List<Student>();
@@ -45,19 +59,7 @@ namespace BaiTapLonWinForm.Services.Implementations
             return null;
         }
 
-        public async Task<(bool Success, string Message, List<Student> Data)> GetAllStudentsAsync()
-        {
-            try
-            {
-                var students = await _studentRepository.GetAllAsync();
-
-                return (true, $"Lấy danh sách {students.Count()} học viên thành công", students.ToList());
-            }
-            catch (Exception ex)
-            {
-                return (false, $"Lỗi: {ex.Message}", null);
-            }
-        }
+        
 
         public async Task<(bool Success, string Message, Student? Data)> GetStudentByIdAsync(int id)
         {

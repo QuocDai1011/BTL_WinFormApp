@@ -226,5 +226,41 @@ namespace BaiTapLonWinForm.Repositories.Implementations
                 throw;
             }
         }
+
+        public async Task<int> GetTotalStudentByClassCode(string classCode)
+        {
+            int totalStudents = await
+                (from co in _context.Courses
+                 join cl in _context.Classes
+                     on co.CourseId equals cl.CourseId
+                 join s in _context.StudentClasses
+                     on cl.ClassId equals s.ClassId
+                 where co.CourseCode.Contains(classCode)
+                 select s.StudentId
+                )
+                .Distinct()
+                .CountAsync();
+
+            return totalStudents;
+        }
+
+
+        public async Task<int> GetTotalStudentByOtherClassCode()
+        {
+            return await
+                (from co in _context.Courses
+                 join cl in _context.Classes
+                     on co.CourseId equals cl.CourseId
+                 join s in _context.StudentClasses
+                     on cl.ClassId equals s.ClassId
+                 where !new[] { "MOVERS", "FLYERS", "KET" }
+                        .Contains(co.CourseCode)
+                       && !co.CourseCode.StartsWith("IELTS")
+                 select s.StudentId
+                )
+                .Distinct()
+                .CountAsync();
+        }
+
     }
 }

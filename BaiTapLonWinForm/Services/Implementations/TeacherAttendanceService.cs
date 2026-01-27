@@ -25,8 +25,7 @@ namespace BaiTapLonWinForm.Services.Implementations
             ITeacherRepository teacherRepository,
             IClassSessionRepository classSessionRepository,
             ICompreFaceApiService compreFaceApiService,
-            IClassRepository classRepository,
-            ILogger<TeacherAttendanceService> logger
+            IClassRepository classRepository
             )
         {
             _attRepo = teacherAttendanceRepository;
