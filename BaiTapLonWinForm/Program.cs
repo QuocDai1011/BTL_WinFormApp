@@ -1,4 +1,5 @@
 ﻿using BaiTapLon_WinFormApp.Views.Admin.HomePage;
+using BaiTapLonWinForm.CoreSystem;
 using BaiTapLonWinForm.Data;
 using BaiTapLonWinForm.Repositories.Implementations;
 using BaiTapLonWinForm.Repositories.interfaces;
@@ -102,7 +103,8 @@ namespace BaiTapLonWinForm
                 }
             }
 
-            
+            SettingsManager.LoadSettings();
+
 
             Application.Run(provider.GetRequiredService<HomePage>());
         }

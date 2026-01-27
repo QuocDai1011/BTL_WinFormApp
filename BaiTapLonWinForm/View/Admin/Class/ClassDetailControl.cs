@@ -1,4 +1,5 @@
-﻿using BaiTapLonWinForm.Models; 
+﻿using BaiTapLonWinForm.CoreSystem;
+using BaiTapLonWinForm.Models; 
 using BaiTapLonWinForm.Services;
 using BaiTapLonWinForm.Utils;
 using Guna.UI2.WinForms; 
@@ -51,7 +52,7 @@ namespace BaiTapLonWinForm.View.Admin.Class
             btnThu.Tag = 5;
             btnFri.Tag = 6;
             btnSat.Tag = 7;
-            btnSun.Tag = 8; 
+            btnSun.Tag = 8;
 
             // 3. Gán sự kiện Click (để giới hạn 3 ngày)
             foreach (var btn in _dayButtons)
@@ -60,9 +61,24 @@ namespace BaiTapLonWinForm.View.Admin.Class
             }
 
             AttachValidationEvents();
+
+            ThemeManager.ThemeChanged += (s, e) => ResetDataGridView();
+            ResetDataGridView();
         }
 
         #region Init data 
+        private void ResetDataGridView()
+        {
+            dgvStudents.BackgroundColor = Color.White;
+            dgvStudents.DefaultCellStyle.ForeColor = Color.FromArgb(33, 33, 33);
+            dgvStudents.RowsDefaultCellStyle.ForeColor = Color.FromArgb(33, 33, 33);
+            dgvStudents.AlternatingRowsDefaultCellStyle.ForeColor = Color.FromArgb(33, 33, 33);
+            dgvStudents.Refresh();
+
+            lblStudentCount.ForeColor = Color.Black;
+            lblNoteTitle.ForeColor = Color.Black;
+            lblNote.ForeColor = Color.Black;
+        }
         private async Task initialDetailClass()
         {
             try
@@ -340,7 +356,7 @@ namespace BaiTapLonWinForm.View.Admin.Class
                         int dayId = Convert.ToInt32(btn.Tag);
                         selectedDays.Add(new Models.SchoolDay
                         {
-                            SchoolDayId = (byte)dayId, 
+                            SchoolDayId = (byte)dayId,
                             DayOfWeek = btn.Text
                         });
                     }
@@ -349,7 +365,7 @@ namespace BaiTapLonWinForm.View.Admin.Class
                 if (selectedDays.Count == 0)
                 {
                     MessageHelper.ShowWarning("Vui lòng chọn ít nhất 1 ngày học trong tuần!");
-                    return; 
+                    return;
                 }
 
                 var updateModel = new Models.Class
@@ -570,7 +586,7 @@ namespace BaiTapLonWinForm.View.Admin.Class
                 ClearError(lblErrorStartDate);
             }
 
-            if (isValid) 
+            if (isValid)
             {
                 if (end <= start)
                 {
@@ -610,7 +626,7 @@ namespace BaiTapLonWinForm.View.Admin.Class
         }
 
         #endregion
-        
+
         #region helper method
         private async Task ShowStudentList()
         {
@@ -651,6 +667,11 @@ namespace BaiTapLonWinForm.View.Admin.Class
                 await initialDetailClass();
                 _isLoaded = true;
             }
+        }
+
+        private void btnCancelEdit_Click(object sender, EventArgs e)
+        {
+            TabControls.SelectedTab = tabPage1;
         }
     }
 }

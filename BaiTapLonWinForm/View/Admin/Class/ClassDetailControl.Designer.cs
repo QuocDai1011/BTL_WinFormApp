@@ -636,7 +636,7 @@
             btnAddStudent.FillColor = Color.FromArgb(46, 204, 113);
             btnAddStudent.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             btnAddStudent.ForeColor = Color.White;
-            btnAddStudent.Location = new Point(667, 619);
+            btnAddStudent.Location = new Point(663, 633);
             btnAddStudent.Name = "btnAddStudent";
             btnAddStudent.ShadowDecoration.CustomizableEdges = customizableEdges2;
             btnAddStudent.Size = new Size(180, 50);
@@ -655,7 +655,7 @@
             btnDelete.FillColor = Color.FromArgb(231, 76, 60);
             btnDelete.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
             btnDelete.ForeColor = Color.White;
-            btnDelete.Location = new Point(865, 619);
+            btnDelete.Location = new Point(861, 633);
             btnDelete.Name = "btnDelete";
             btnDelete.ShadowDecoration.CustomizableEdges = customizableEdges4;
             btnDelete.Size = new Size(154, 50);
@@ -684,7 +684,6 @@
             dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
             dgvStudents.DefaultCellStyle = dataGridViewCellStyle2;
-            dgvStudents.Dock = DockStyle.Fill;
             dgvStudents.Location = new Point(3, 53);
             dgvStudents.Name = "dgvStudents";
             dgvStudents.ReadOnly = true;
@@ -692,7 +691,7 @@
             dgvStudents.RowHeadersWidth = 51;
             dgvStudents.RowTemplate.Height = 40;
             dgvStudents.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvStudents.Size = new Size(1046, 655);
+            dgvStudents.Size = new Size(1046, 567);
             dgvStudents.TabIndex = 2;
             // 
             // colName
@@ -872,6 +871,7 @@
             btnCancelEdit.Size = new Size(130, 50);
             btnCancelEdit.TabIndex = 22;
             btnCancelEdit.Text = "✖ Hủy";
+            btnCancelEdit.Click += btnCancelEdit_Click;
             // 
             // btnSaveChanges
             // 
@@ -969,7 +969,7 @@
             numMaxStudent.Location = new Point(40, 419);
             numMaxStudent.Margin = new Padding(3, 4, 3, 4);
             numMaxStudent.Maximum = new decimal(new int[] { 30, 0, 0, 0 });
-            numMaxStudent.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numMaxStudent.Minimum = new decimal(new int[] { 10, 0, 0, 0 });
             numMaxStudent.Name = "numMaxStudent";
             numMaxStudent.ShadowDecoration.CustomizableEdges = customizableEdges16;
             numMaxStudent.Size = new Size(450, 45);

@@ -73,6 +73,10 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             // Logout
             SetupMenuItem(pnlSchedule, pbSchedule, lblSchedule);
 
+            //Attendance
+            SetupMenuItem(pnlAttendance, pbAttendance, lblAttendance);
+
+
         }
 
         private void SetupMenuItem(Panel panel, PictureBox picture, Label label)
@@ -199,7 +203,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
 
         private void Attendance_Click(object sender, EventArgs e)
         {
-            SetActiveMenuItem(pnAttendance);
+            SetActiveMenuItem(pnlAttendance);
             LoadUserControl(new FaceAttendance(_serviceHub));
         }
 

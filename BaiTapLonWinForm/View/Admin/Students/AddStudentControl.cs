@@ -4,6 +4,7 @@ using BaiTapLonWinForm.Services.interfaces;
 using BaiTapLonWinForm.Utils;
 using Emgu.CV;
 using Emgu.CV.Structure;
+using Guna.UI2.WinForms;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -111,7 +112,7 @@ namespace BaiTapLonWinForm.View.Admin.Students
         }
 
         // Hàm Helper: Check điều kiện -> Hiện/Ẩn Label
-        private bool ValidateInput(TextBox txt, Label lbl, Func<string, bool> rule, string errMsg)
+        private bool ValidateInput(Guna2TextBox txt, Label lbl, Func<string, bool> rule, string errMsg)
         {
             if (!rule(txt.Text.Trim()))
             {

@@ -64,8 +64,6 @@ namespace BaiTapLonWinForm.Repositories.Implementations
         public async Task<User> CreateAsync(User user)
         {
             user.CreateAt = DateTime.Now;
-            user.UpdateAt = DateTime.Now;
-            user.Email = user.Email.ToLower();
             user.IsActive = user.IsActive ?? true;
 
             await _context.Users.AddAsync(user);
@@ -76,12 +74,16 @@ namespace BaiTapLonWinForm.Repositories.Implementations
 
         public async Task<User> UpdateAsync(User user)
         {
-            var existingUser = await _context.Users.FindAsync(user.UserId);
+            var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.UserId == user.UserId);
             if (existingUser == null)
                 return null;
-
-            user.UpdateAt = DateTime.Now;
-            user.CreateAt = existingUser.CreateAt;
+            existingUser.Address = user.Address;
+            existingUser.DateOfBirth = user.DateOfBirth;
+            existingUser.FirstName = user.FirstName;
+            existingUser.LastName = user.LastName;
+            existingUser.Gender = user.Gender;
+            existingUser.Email = user.Email;
+            existingUser.UpdateAt = DateTime.Now;
             
             await _context.SaveChangesAsync();
 
@@ -124,6 +126,18 @@ namespace BaiTapLonWinForm.Repositories.Implementations
                 query = query.Where(u => u.UserId != excludeUserId.Value);
 
             return await query.AnyAsync();
+        }
+
+        public async Task<bool> ChangePassword(int userId, string newPasswordHash)
+        {
+            var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
+            if(existingUser == null)
+                return false;
+            
+            existingUser.PasswordHashing = newPasswordHash;
+            existingUser.UpdateAt = DateTime.Now;
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

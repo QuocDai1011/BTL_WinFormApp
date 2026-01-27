@@ -53,7 +53,6 @@
             colConfidence = new DataGridViewTextBoxColumn();
             colStatus = new DataGridViewTextBoxColumn();
             panelBottom = new Panel();
-            btnExport = new Button();
             panelTop.SuspendLayout();
             panelLeft.SuspendLayout();
             groupBoxStats.SuspendLayout();
@@ -64,7 +63,6 @@
             groupBoxAttendance.SuspendLayout();
             panelNotification.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvStudentAttendance).BeginInit();
-            panelBottom.SuspendLayout();
             SuspendLayout();
             // 
             // panelTop
@@ -165,9 +163,9 @@
             lblTotalPresentTitle.Font = new Font("Segoe UI", 10F);
             lblTotalPresentTitle.Location = new Point(30, 40);
             lblTotalPresentTitle.Name = "lblTotalPresentTitle";
-            lblTotalPresentTitle.Size = new Size(163, 23);
+            lblTotalPresentTitle.Size = new Size(160, 23);
             lblTotalPresentTitle.TabIndex = 0;
-            lblTotalPresentTitle.Text = "Số sinh viên có mặt:";
+            lblTotalPresentTitle.Text = "Số học viên có mặt:";
             // 
             // groupBoxCamera
             // 
@@ -456,27 +454,11 @@
             // panelBottom
             // 
             panelBottom.BackColor = Color.FromArgb(236, 240, 241);
-            panelBottom.Controls.Add(btnExport);
             panelBottom.Dock = DockStyle.Bottom;
             panelBottom.Location = new Point(0, 750);
             panelBottom.Name = "panelBottom";
             panelBottom.Size = new Size(1400, 80);
             panelBottom.TabIndex = 3;
-            // 
-            // btnExport
-            // 
-            btnExport.BackColor = Color.FromArgb(243, 156, 18);
-            btnExport.Cursor = Cursors.Hand;
-            btnExport.FlatAppearance.BorderSize = 0;
-            btnExport.FlatStyle = FlatStyle.Flat;
-            btnExport.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            btnExport.ForeColor = Color.White;
-            btnExport.Location = new Point(1195, 18);
-            btnExport.Name = "btnExport";
-            btnExport.Size = new Size(180, 50);
-            btnExport.TabIndex = 1;
-            btnExport.Text = "📄 Xuất Excel";
-            btnExport.UseVisualStyleBackColor = false;
             // 
             // FaceAttendance
             // 
@@ -502,7 +484,6 @@
             panelNotification.ResumeLayout(false);
             panelNotification.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvStudentAttendance).EndInit();
-            panelBottom.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -531,7 +512,6 @@
         private GroupBox groupBoxAttendance;
         private Guna.UI2.WinForms.Guna2DataGridView dgvStudentAttendance;
         private Panel panelBottom;
-        private Button btnExport;
         private Panel panelNotification;
         private Label lblNotificationMessage;
         private Label lblNotificationTitle;

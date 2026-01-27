@@ -52,11 +52,10 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             colTime = new DataGridViewTextBoxColumn();
             colTeacherId = new DataGridViewTextBoxColumn();
             colTeacherName = new DataGridViewTextBoxColumn();
-            colEmail = new DataGridViewTextBoxColumn();
+            colClass = new DataGridViewTextBoxColumn();
             colConfidence = new DataGridViewTextBoxColumn();
             colStatus = new DataGridViewTextBoxColumn();
             panelBottom = new Panel();
-            btnExport = new Button();
             panelTop.SuspendLayout();
             panelLeft.SuspendLayout();
             groupBoxStats.SuspendLayout();
@@ -67,7 +66,6 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             panelNotification.SuspendLayout();
             groupBoxAttendance.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvAttendance).BeginInit();
-            panelBottom.SuspendLayout();
             SuspendLayout();
             // 
             // panelTop
@@ -377,7 +375,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
             dgvAttendance.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dgvAttendance.ColumnHeadersHeight = 40;
-            dgvAttendance.Columns.AddRange(new DataGridViewColumn[] { colTime, colTeacherId, colTeacherName, colEmail, colConfidence, colStatus });
+            dgvAttendance.Columns.AddRange(new DataGridViewColumn[] { colTime, colTeacherId, colTeacherName, colClass, colConfidence, colStatus });
             dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle6.BackColor = Color.White;
             dataGridViewCellStyle6.Font = new Font("Segoe UI", 9.5F);
@@ -442,12 +440,12 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             colTeacherName.Name = "colTeacherName";
             colTeacherName.ReadOnly = true;
             // 
-            // colEmail
+            // colClass
             // 
-            colEmail.HeaderText = "Email";
-            colEmail.MinimumWidth = 6;
-            colEmail.Name = "colEmail";
-            colEmail.ReadOnly = true;
+            colClass.HeaderText = "Lớp học";
+            colClass.MinimumWidth = 6;
+            colClass.Name = "colClass";
+            colClass.ReadOnly = true;
             // 
             // colConfidence
             // 
@@ -470,27 +468,11 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             // panelBottom
             // 
             panelBottom.BackColor = Color.FromArgb(236, 240, 241);
-            panelBottom.Controls.Add(btnExport);
             panelBottom.Dock = DockStyle.Bottom;
             panelBottom.Location = new Point(0, 750);
             panelBottom.Name = "panelBottom";
             panelBottom.Size = new Size(1400, 80);
             panelBottom.TabIndex = 3;
-            // 
-            // btnExport
-            // 
-            btnExport.BackColor = Color.FromArgb(243, 156, 18);
-            btnExport.Cursor = Cursors.Hand;
-            btnExport.FlatAppearance.BorderSize = 0;
-            btnExport.FlatStyle = FlatStyle.Flat;
-            btnExport.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            btnExport.ForeColor = Color.White;
-            btnExport.Location = new Point(1195, 18);
-            btnExport.Name = "btnExport";
-            btnExport.Size = new Size(180, 50);
-            btnExport.TabIndex = 1;
-            btnExport.Text = "📄 Xuất Excel";
-            btnExport.UseVisualStyleBackColor = false;
             // 
             // TeacherAttendanceControl
             // 
@@ -516,7 +498,6 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             panelNotification.PerformLayout();
             groupBoxAttendance.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvAttendance).EndInit();
-            panelBottom.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -546,16 +527,15 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
         private Panel panelRight;
         private GroupBox groupBoxAttendance;
         private Guna.UI2.WinForms.Guna2DataGridView dgvAttendance; 
-        private DataGridViewTextBoxColumn colTime;
-        private DataGridViewTextBoxColumn colTeacherId;
-        private DataGridViewTextBoxColumn colTeacherName;
-        private DataGridViewTextBoxColumn colEmail;
-        private DataGridViewTextBoxColumn colConfidence;
-        private DataGridViewTextBoxColumn colStatus;
         private Panel panelBottom;
-        private Button btnExport;
         private Panel panelNotification;
         private Label lblNotificationMessage;
         private Label lblNotificationTitle;
+        private DataGridViewTextBoxColumn colTime;
+        private DataGridViewTextBoxColumn colTeacherId;
+        private DataGridViewTextBoxColumn colTeacherName;
+        private DataGridViewTextBoxColumn colClass;
+        private DataGridViewTextBoxColumn colConfidence;
+        private DataGridViewTextBoxColumn colStatus;
     }
 }

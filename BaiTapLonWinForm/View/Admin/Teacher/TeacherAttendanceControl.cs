@@ -272,7 +272,6 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             string teacherId = result.teacherId.ToString() ?? "N/A";
             string teacherName = result.teacherName;
             string classInfo = $"{result.ClassName} ({result.ShiftName})";
-            string email = "";
             string confidence = result.confidence.ToString("P0");
 
             dgvAttendance.Rows.Insert(0,

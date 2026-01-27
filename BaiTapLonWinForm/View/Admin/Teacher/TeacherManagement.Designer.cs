@@ -103,7 +103,7 @@
             panelGrid.Location = new Point(0, 0);
             panelGrid.Name = "panelGrid";
             panelGrid.Padding = new Padding(20);
-            panelGrid.Size = new Size(1470, 850);
+            panelGrid.Size = new Size(1490, 850);
             panelGrid.TabIndex = 0;
             // 
             // guna2Panel3
@@ -121,7 +121,7 @@
             guna2Panel3.ShadowDecoration.CustomizableEdges = customizableEdges12;
             guna2Panel3.ShadowDecoration.Enabled = true;
             guna2Panel3.ShadowDecoration.Shadow = new Padding(0, 4, 8, 8);
-            guna2Panel3.Size = new Size(1430, 70);
+            guna2Panel3.Size = new Size(1450, 70);
             guna2Panel3.TabIndex = 3;
             // 
             // guna2Panel1
@@ -281,7 +281,7 @@
             dgvTeachers.RowHeadersWidth = 51;
             dgvTeachers.RowTemplate.Height = 40;
             dgvTeachers.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvTeachers.Size = new Size(1385, 606);
+            dgvTeachers.Size = new Size(1426, 606);
             dgvTeachers.TabIndex = 0;
             // 
             // ColTeacherName
@@ -393,7 +393,7 @@
             panelButtons.Dock = DockStyle.Bottom;
             panelButtons.Location = new Point(20, 762);
             panelButtons.Name = "panelButtons";
-            panelButtons.Size = new Size(1430, 68);
+            panelButtons.Size = new Size(1450, 68);
             panelButtons.TabIndex = 2;
             // 
             // btnAddImages
@@ -572,7 +572,7 @@
             BackColor = Color.FromArgb(236, 240, 241);
             Controls.Add(panelGrid);
             Name = "TeacherManagement";
-            Size = new Size(1470, 850);
+            Size = new Size(1490, 850);
             panelGrid.ResumeLayout(false);
             guna2Panel3.ResumeLayout(false);
             guna2Panel3.PerformLayout();

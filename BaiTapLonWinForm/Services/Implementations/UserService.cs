@@ -238,41 +238,7 @@ namespace BaiTapLonWinForm.Services.Implementations
             }
         }
 
-        public async Task<(bool Success, string Message)> ChangePasswordAsync(long userId, string currentPassword, string newPassword)
-        {
-            try
-            {
-                if (userId <= 0)
-                    return (false, "ID người dùng không hợp lệ");
-
-                if (string.IsNullOrWhiteSpace(currentPassword) || string.IsNullOrWhiteSpace(newPassword))
-                    return (false, "Mật khẩu không được để trống");
-
-                if (newPassword.Length < 6)
-                    return (false, "Mật khẩu mới phải có ít nhất 6 ký tự");
-
-                var user = await _userRepository.GetByIdAsync(userId);
-
-                if (user == null)
-                    return (false, "Không tìm thấy người dùng");
-
-                // Verify current password (giả sử bạn có phương thức hash password)
-                // if (!VerifyPassword(currentPassword, user.PasswordHashing))
-                //     return (false, "Mật khẩu hiện tại không đúng");
-
-                // Hash new password
-                // user.PasswordHashing = HashPassword(newPassword);
-                user.UpdateAt = DateTime.Now;
-
-                await _userRepository.UpdateAsync(user);
-
-                return (true, "Đổi mật khẩu thành công");
-            }
-            catch (Exception ex)
-            {
-                return (false, $"Lỗi: {ex.Message}");
-            }
-        }
+        
 
         public async Task<(bool Success, string Message)> isEmailExists(string email, long? excludeUserId = null)
         {
@@ -295,5 +261,23 @@ namespace BaiTapLonWinForm.Services.Implementations
                 return (false, $"Lỗi: {ex.Message}");
             }
         }
+
+        public async Task<(bool Success, string Message)> changePasswordAsync(int userId, string newPassword)
+        {
+            var existingUser = await _userRepository.GetByIdAsync(userId);
+            if(existingUser == null)
+                return (false, "Không tìm thấy người dùng cần đổi mật khẩu");
+            
+            if(newPassword.Length <= 8)
+            {
+                return (false, "Mật khẩu mới phải có độ dài lớn hơn 8 ký tự");
+            }
+            string passwordHashing = BCrypt.Net.BCrypt.HashPassword(newPassword);
+            Console.WriteLine("Password mới đã hash: " + passwordHashing);
+
+            var result = await _userRepository.ChangePassword(userId, passwordHashing);
+            return result == true ? (true, "Đổi mật khẩu thành công") : (false, "Đổi mật khẩu thất bại");
+        }
+
     }
 }

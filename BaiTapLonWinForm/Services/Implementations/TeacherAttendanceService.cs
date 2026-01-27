@@ -194,12 +194,12 @@ namespace BaiTapLonWinForm.Services.Implementations
         {
             return shift switch
             {
-                1 => (new TimeSpan(7, 0, 0), new TimeSpan(9, 0, 0)),
-                2 => (new TimeSpan(9, 0, 0), new TimeSpan(11, 0, 0)),
-                3 => (new TimeSpan(13, 0, 0), new TimeSpan(15, 0, 0)),
-                4 => (new TimeSpan(15, 0, 0), new TimeSpan(17, 0, 0)),
-                5 => (new TimeSpan(17, 30, 0), new TimeSpan(19, 30, 0)),
-                6 => (new TimeSpan(19, 30, 0), new TimeSpan(21, 30, 0)),
+                1 => (new TimeSpan(8, 0, 0), new TimeSpan(9, 30, 0)),
+                2 => (new TimeSpan(9, 30, 0), new TimeSpan(11, 0, 0)),
+                3 => (new TimeSpan(14, 0, 0), new TimeSpan(15, 30, 0)),
+                4 => (new TimeSpan(15, 30, 0), new TimeSpan(17, 0, 0)),
+                5 => (new TimeSpan(18, 0, 0), new TimeSpan(19, 30, 0)),
+                6 => (new TimeSpan(19, 30, 0), new TimeSpan(21, 0, 0)),
                 _ => (TimeSpan.Zero, TimeSpan.Zero)
             };
         }

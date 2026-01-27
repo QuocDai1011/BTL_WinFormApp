@@ -30,40 +30,40 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
         /// </summary>
         private void InitializeComponent()
         {
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges35 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges36 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges37 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges38 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges39 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges40 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges41 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges42 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges43 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges44 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges45 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges46 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges47 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges48 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges49 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges50 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges51 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges52 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges53 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges54 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges55 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges56 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges65 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges66 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges57 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges58 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges59 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges60 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges61 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges62 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges63 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges64 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges67 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges68 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges21 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges22 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges19 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges20 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges31 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges32 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges23 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges24 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges25 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges26 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges27 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges28 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges29 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges30 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges33 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges34 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             panelMain = new Panel();
             panelContent = new Panel();
             panelStep2 = new Panel();
@@ -416,7 +416,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             panelStep1.BorderRadius = 15;
             panelStep1.Controls.Add(grpTeacherInfo);
             panelStep1.Controls.Add(grpUserInfo);
-            panelStep1.CustomizableEdges = customizableEdges35;
+            panelStep1.CustomizableEdges = customizableEdges21;
             panelStep1.Dock = DockStyle.Fill;
             panelStep1.FillColor = Color.White;
             panelStep1.Location = new Point(20, 20);
@@ -424,7 +424,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             panelStep1.Padding = new Padding(20);
             panelStep1.ShadowDecoration.BorderRadius = 15;
             panelStep1.ShadowDecoration.Color = Color.FromArgb(100, 0, 0, 0);
-            panelStep1.ShadowDecoration.CustomizableEdges = customizableEdges36;
+            panelStep1.ShadowDecoration.CustomizableEdges = customizableEdges22;
             panelStep1.ShadowDecoration.Depth = 10;
             panelStep1.ShadowDecoration.Enabled = true;
             panelStep1.Size = new Size(1440, 630);
@@ -457,10 +457,10 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             panelInfoBox.BorderThickness = 2;
             panelInfoBox.Controls.Add(guna2HtmlLabel1);
             panelInfoBox.Controls.Add(lblInfoContent);
-            panelInfoBox.CustomizableEdges = customizableEdges37;
+            panelInfoBox.CustomizableEdges = customizableEdges1;
             panelInfoBox.Location = new Point(30, 260);
             panelInfoBox.Name = "panelInfoBox";
-            panelInfoBox.ShadowDecoration.CustomizableEdges = customizableEdges38;
+            panelInfoBox.ShadowDecoration.CustomizableEdges = customizableEdges2;
             panelInfoBox.Size = new Size(440, 180);
             panelInfoBox.TabIndex = 37;
             // 
@@ -493,7 +493,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             nudExperienceYear.BorderRadius = 10;
             nudExperienceYear.BorderThickness = 2;
             nudExperienceYear.Cursor = Cursors.IBeam;
-            nudExperienceYear.CustomizableEdges = customizableEdges39;
+            nudExperienceYear.CustomizableEdges = customizableEdges3;
             nudExperienceYear.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             nudExperienceYear.Font = new Font("Segoe UI", 10.5F);
             nudExperienceYear.ForeColor = Color.FromArgb(52, 73, 94);
@@ -501,7 +501,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             nudExperienceYear.Margin = new Padding(3, 4, 3, 4);
             nudExperienceYear.Maximum = new decimal(new int[] { 50, 0, 0, 0 });
             nudExperienceYear.Name = "nudExperienceYear";
-            nudExperienceYear.ShadowDecoration.CustomizableEdges = customizableEdges40;
+            nudExperienceYear.ShadowDecoration.CustomizableEdges = customizableEdges4;
             nudExperienceYear.Size = new Size(440, 50);
             nudExperienceYear.TabIndex = 1;
             nudExperienceYear.Value = new decimal(new int[] { 1, 0, 0, 0 });
@@ -513,7 +513,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             nudSalary.BorderRadius = 10;
             nudSalary.BorderThickness = 2;
             nudSalary.Cursor = Cursors.IBeam;
-            nudSalary.CustomizableEdges = customizableEdges41;
+            nudSalary.CustomizableEdges = customizableEdges5;
             nudSalary.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
             nudSalary.Font = new Font("Segoe UI", 10.5F);
             nudSalary.ForeColor = Color.FromArgb(52, 73, 94);
@@ -522,7 +522,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             nudSalary.Maximum = new decimal(new int[] { 1000000000, 0, 0, 0 });
             nudSalary.Minimum = new decimal(new int[] { 1000000, 0, 0, 0 });
             nudSalary.Name = "nudSalary";
-            nudSalary.ShadowDecoration.CustomizableEdges = customizableEdges42;
+            nudSalary.ShadowDecoration.CustomizableEdges = customizableEdges6;
             nudSalary.Size = new Size(440, 50);
             nudSalary.TabIndex = 0;
             nudSalary.ThousandsSeparator = true;
@@ -608,7 +608,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             cboGender.BorderColor = Color.FromArgb(220, 224, 230);
             cboGender.BorderRadius = 10;
             cboGender.BorderThickness = 2;
-            cboGender.CustomizableEdges = customizableEdges43;
+            cboGender.CustomizableEdges = customizableEdges7;
             cboGender.DrawMode = DrawMode.OwnerDrawFixed;
             cboGender.DropDownStyle = ComboBoxStyle.DropDownList;
             cboGender.FocusedColor = Color.FromArgb(94, 148, 255);
@@ -616,10 +616,10 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             cboGender.Font = new Font("Segoe UI", 10.5F);
             cboGender.ForeColor = Color.FromArgb(52, 73, 94);
             cboGender.ItemHeight = 44;
-            cboGender.Items.AddRange(new object[] { "Nam", "Nữ", "Khác" });
+            cboGender.Items.AddRange(new object[] { "Nam", "Nữ" });
             cboGender.Location = new Point(460, 289);
             cboGender.Name = "cboGender";
-            cboGender.ShadowDecoration.CustomizableEdges = customizableEdges44;
+            cboGender.ShadowDecoration.CustomizableEdges = customizableEdges8;
             cboGender.Size = new Size(380, 50);
             cboGender.TabIndex = 6;
             // 
@@ -629,7 +629,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             dtpDateOfBirth.BorderRadius = 10;
             dtpDateOfBirth.BorderThickness = 2;
             dtpDateOfBirth.Checked = true;
-            dtpDateOfBirth.CustomizableEdges = customizableEdges45;
+            dtpDateOfBirth.CustomizableEdges = customizableEdges9;
             dtpDateOfBirth.FillColor = Color.White;
             dtpDateOfBirth.FocusedColor = Color.FromArgb(94, 148, 255);
             dtpDateOfBirth.Font = new Font("Segoe UI", 10.5F);
@@ -639,7 +639,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             dtpDateOfBirth.MaxDate = new DateTime(9998, 12, 31, 0, 0, 0, 0);
             dtpDateOfBirth.MinDate = new DateTime(1753, 1, 1, 0, 0, 0, 0);
             dtpDateOfBirth.Name = "dtpDateOfBirth";
-            dtpDateOfBirth.ShadowDecoration.CustomizableEdges = customizableEdges46;
+            dtpDateOfBirth.ShadowDecoration.CustomizableEdges = customizableEdges10;
             dtpDateOfBirth.Size = new Size(380, 50);
             dtpDateOfBirth.TabIndex = 5;
             dtpDateOfBirth.Value = new DateTime(2000, 1, 1, 0, 0, 0, 0);
@@ -650,7 +650,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             txtAddress.BorderRadius = 10;
             txtAddress.BorderThickness = 2;
             txtAddress.Cursor = Cursors.IBeam;
-            txtAddress.CustomizableEdges = customizableEdges47;
+            txtAddress.CustomizableEdges = customizableEdges11;
             txtAddress.DefaultText = "";
             txtAddress.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             txtAddress.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -667,7 +667,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             txtAddress.PlaceholderForeColor = Color.FromArgb(150, 150, 150);
             txtAddress.PlaceholderText = "VD: 123 Lê Lợi, Quận 1, TP.HCM";
             txtAddress.SelectedText = "";
-            txtAddress.ShadowDecoration.CustomizableEdges = customizableEdges48;
+            txtAddress.ShadowDecoration.CustomizableEdges = customizableEdges12;
             txtAddress.Size = new Size(380, 80);
             txtAddress.TabIndex = 4;
             // 
@@ -677,7 +677,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             txtPhoneNumber.BorderRadius = 10;
             txtPhoneNumber.BorderThickness = 2;
             txtPhoneNumber.Cursor = Cursors.IBeam;
-            txtPhoneNumber.CustomizableEdges = customizableEdges49;
+            txtPhoneNumber.CustomizableEdges = customizableEdges13;
             txtPhoneNumber.DefaultText = "";
             txtPhoneNumber.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             txtPhoneNumber.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -693,7 +693,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             txtPhoneNumber.PlaceholderForeColor = Color.FromArgb(150, 150, 150);
             txtPhoneNumber.PlaceholderText = "VD: 0987654321";
             txtPhoneNumber.SelectedText = "";
-            txtPhoneNumber.ShadowDecoration.CustomizableEdges = customizableEdges50;
+            txtPhoneNumber.ShadowDecoration.CustomizableEdges = customizableEdges14;
             txtPhoneNumber.Size = new Size(380, 50);
             txtPhoneNumber.TabIndex = 3;
             // 
@@ -703,7 +703,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             txtEmail.BorderRadius = 10;
             txtEmail.BorderThickness = 2;
             txtEmail.Cursor = Cursors.IBeam;
-            txtEmail.CustomizableEdges = customizableEdges51;
+            txtEmail.CustomizableEdges = customizableEdges15;
             txtEmail.DefaultText = "";
             txtEmail.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             txtEmail.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -719,7 +719,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             txtEmail.PlaceholderForeColor = Color.FromArgb(150, 150, 150);
             txtEmail.PlaceholderText = "VD: NguyenVanA@gmail.com";
             txtEmail.SelectedText = "";
-            txtEmail.ShadowDecoration.CustomizableEdges = customizableEdges52;
+            txtEmail.ShadowDecoration.CustomizableEdges = customizableEdges16;
             txtEmail.Size = new Size(380, 50);
             txtEmail.TabIndex = 2;
             // 
@@ -729,7 +729,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             txtLastName.BorderRadius = 10;
             txtLastName.BorderThickness = 2;
             txtLastName.Cursor = Cursors.IBeam;
-            txtLastName.CustomizableEdges = customizableEdges53;
+            txtLastName.CustomizableEdges = customizableEdges17;
             txtLastName.DefaultText = "";
             txtLastName.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             txtLastName.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -745,7 +745,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             txtLastName.PlaceholderForeColor = Color.FromArgb(150, 150, 150);
             txtLastName.PlaceholderText = "VD: A";
             txtLastName.SelectedText = "";
-            txtLastName.ShadowDecoration.CustomizableEdges = customizableEdges54;
+            txtLastName.ShadowDecoration.CustomizableEdges = customizableEdges18;
             txtLastName.Size = new Size(380, 50);
             txtLastName.TabIndex = 1;
             // 
@@ -755,7 +755,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             txtFirstName.BorderRadius = 10;
             txtFirstName.BorderThickness = 2;
             txtFirstName.Cursor = Cursors.IBeam;
-            txtFirstName.CustomizableEdges = customizableEdges55;
+            txtFirstName.CustomizableEdges = customizableEdges19;
             txtFirstName.DefaultText = "";
             txtFirstName.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             txtFirstName.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -771,7 +771,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             txtFirstName.PlaceholderForeColor = Color.FromArgb(150, 150, 150);
             txtFirstName.PlaceholderText = "VD: Nguyễn Văn";
             txtFirstName.SelectedText = "";
-            txtFirstName.ShadowDecoration.CustomizableEdges = customizableEdges56;
+            txtFirstName.ShadowDecoration.CustomizableEdges = customizableEdges20;
             txtFirstName.Size = new Size(380, 50);
             txtFirstName.TabIndex = 0;
             // 
@@ -930,11 +930,11 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             guna2Panel1.Controls.Add(btnSave);
             guna2Panel1.Controls.Add(btnCancel);
             guna2Panel1.Controls.Add(btnBack);
-            guna2Panel1.CustomizableEdges = customizableEdges65;
+            guna2Panel1.CustomizableEdges = customizableEdges31;
             guna2Panel1.Location = new Point(20, 0);
             guna2Panel1.Name = "guna2Panel1";
-            guna2Panel1.ShadowDecoration.CustomizableEdges = customizableEdges66;
-            guna2Panel1.Size = new Size(1420, 119);
+            guna2Panel1.ShadowDecoration.CustomizableEdges = customizableEdges32;
+            guna2Panel1.Size = new Size(1440, 100);
             guna2Panel1.TabIndex = 4;
             // 
             // btnNext
@@ -942,7 +942,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             btnNext.Animated = true;
             btnNext.BackColor = Color.Transparent;
             btnNext.BorderRadius = 10;
-            btnNext.CustomizableEdges = customizableEdges57;
+            btnNext.CustomizableEdges = customizableEdges23;
             btnNext.DisabledState.BorderColor = Color.DarkGray;
             btnNext.DisabledState.CustomBorderColor = Color.DarkGray;
             btnNext.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -954,7 +954,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             btnNext.Location = new Point(992, 21);
             btnNext.Name = "btnNext";
             btnNext.ShadowDecoration.Color = Color.FromArgb(100, 46, 204, 113);
-            btnNext.ShadowDecoration.CustomizableEdges = customizableEdges58;
+            btnNext.ShadowDecoration.CustomizableEdges = customizableEdges24;
             btnNext.ShadowDecoration.Enabled = true;
             btnNext.ShadowDecoration.Shadow = new Padding(0, 4, 8, 8);
             btnNext.Size = new Size(182, 58);
@@ -967,7 +967,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             btnSave.Animated = true;
             btnSave.BackColor = Color.Transparent;
             btnSave.BorderRadius = 10;
-            btnSave.CustomizableEdges = customizableEdges59;
+            btnSave.CustomizableEdges = customizableEdges25;
             btnSave.DisabledState.BorderColor = Color.DarkGray;
             btnSave.DisabledState.CustomBorderColor = Color.DarkGray;
             btnSave.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -979,7 +979,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             btnSave.Location = new Point(992, 21);
             btnSave.Name = "btnSave";
             btnSave.ShadowDecoration.Color = Color.FromArgb(100, 46, 204, 113);
-            btnSave.ShadowDecoration.CustomizableEdges = customizableEdges60;
+            btnSave.ShadowDecoration.CustomizableEdges = customizableEdges26;
             btnSave.ShadowDecoration.Enabled = true;
             btnSave.ShadowDecoration.Shadow = new Padding(0, 4, 8, 8);
             btnSave.Size = new Size(182, 58);
@@ -993,7 +993,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             btnCancel.Animated = true;
             btnCancel.BackColor = Color.Transparent;
             btnCancel.BorderRadius = 10;
-            btnCancel.CustomizableEdges = customizableEdges61;
+            btnCancel.CustomizableEdges = customizableEdges27;
             btnCancel.DisabledState.BorderColor = Color.DarkGray;
             btnCancel.DisabledState.CustomBorderColor = Color.DarkGray;
             btnCancel.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -1005,7 +1005,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             btnCancel.Location = new Point(1203, 21);
             btnCancel.Name = "btnCancel";
             btnCancel.ShadowDecoration.Color = Color.FromArgb(100, 231, 76, 60);
-            btnCancel.ShadowDecoration.CustomizableEdges = customizableEdges62;
+            btnCancel.ShadowDecoration.CustomizableEdges = customizableEdges28;
             btnCancel.ShadowDecoration.Enabled = true;
             btnCancel.ShadowDecoration.Shadow = new Padding(0, 4, 8, 8);
             btnCancel.Size = new Size(182, 58);
@@ -1018,7 +1018,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             btnBack.Animated = true;
             btnBack.BackColor = Color.Transparent;
             btnBack.BorderRadius = 10;
-            btnBack.CustomizableEdges = customizableEdges63;
+            btnBack.CustomizableEdges = customizableEdges29;
             btnBack.DisabledState.BorderColor = Color.DarkGray;
             btnBack.DisabledState.CustomBorderColor = Color.DarkGray;
             btnBack.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -1030,7 +1030,7 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             btnBack.Location = new Point(783, 21);
             btnBack.Name = "btnBack";
             btnBack.ShadowDecoration.Color = Color.FromArgb(100, 52, 152, 219);
-            btnBack.ShadowDecoration.CustomizableEdges = customizableEdges64;
+            btnBack.ShadowDecoration.CustomizableEdges = customizableEdges30;
             btnBack.ShadowDecoration.Enabled = true;
             btnBack.ShadowDecoration.Shadow = new Padding(0, 4, 8, 8);
             btnBack.Size = new Size(182, 58);
@@ -1055,13 +1055,13 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             guna2Panel3.BackColor = Color.Transparent;
             guna2Panel3.BorderRadius = 10;
             guna2Panel3.Controls.Add(lblTitle);
-            guna2Panel3.CustomizableEdges = customizableEdges67;
+            guna2Panel3.CustomizableEdges = customizableEdges33;
             guna2Panel3.Dock = DockStyle.Fill;
             guna2Panel3.FillColor = Color.FromArgb(94, 148, 255);
             guna2Panel3.Location = new Point(0, 0);
             guna2Panel3.Name = "guna2Panel3";
             guna2Panel3.ShadowDecoration.Color = Color.FromArgb(100, 94, 148, 255);
-            guna2Panel3.ShadowDecoration.CustomizableEdges = customizableEdges68;
+            guna2Panel3.ShadowDecoration.CustomizableEdges = customizableEdges34;
             guna2Panel3.ShadowDecoration.Depth = 15;
             guna2Panel3.ShadowDecoration.Enabled = true;
             guna2Panel3.ShadowDecoration.Shadow = new Padding(0, 5, 0, 10);

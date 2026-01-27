@@ -1,6 +1,8 @@
-﻿using BaiTapLonWinForm.Models;
+﻿using BaiTapLonWinForm.CoreSystem;
+using BaiTapLonWinForm.Models;
 using BaiTapLonWinForm.Services;
 using BaiTapLonWinForm.Utils;
+using BaiTapLonWinForm.Validate;
 using Guna.UI2.WinForms;
 using System;
 using System.Collections.Generic;
@@ -20,6 +22,8 @@ namespace BaiTapLonWinForm.View.Setting
         private readonly ServiceHub _serviceHub;
         private int _userId;
         private User _currentUser;
+        private bool _suspendValidation = false;
+
         public Setting(ServiceHub serviceHub, int userId)
         {
             InitializeComponent();
@@ -43,6 +47,10 @@ namespace BaiTapLonWinForm.View.Setting
             _currentUser = currentUser;
 
             loadData(_currentUser);
+            LoadCurrentSettings();
+
+
+            //dtpBirthDate.Value = DateTime.Now.AddYears(-4);
         }
 
         private void loadData(User user)
@@ -72,8 +80,7 @@ namespace BaiTapLonWinForm.View.Setting
 
         private async void btnUpdateProfile_Click(object sender, EventArgs e)
         {
-            bool isAllValid = CheckFirstName() & CheckLastName() & CheckEmail() &
-                              CheckPhone() & CheckGender();
+            bool isAllValid = ValidateForm();
 
             if (!isAllValid)
             {
@@ -81,23 +88,24 @@ namespace BaiTapLonWinForm.View.Setting
                 return;
             }
 
-
-            var updateUser = new BaiTapLonWinForm.Models.User
+            var updateUser = new User
             {
                 UserId = _userId,
-                FirstName = txtLastName.Text.Trim(),
-                LastName = txtFirstName.Text.Trim(),
+                FirstName = txtFirstName.Text.Trim(),
+                LastName = txtLastName.Text.Trim(),
                 Email = txtEmail.Text.Trim(),
                 PhoneNumber = txtPhone.Text.Trim(),
                 Address = txtAddress.Text.Trim(),
                 DateOfBirth = DateOnly.FromDateTime(dtpBirthDate.Value),
-                Gender = cboGender.SelectedItem?.ToString() == "Nam" ? true : false
+                Gender = cboGender.SelectedItem?.ToString() == "Nam" ? true : false,
+                RoleId = 1 // admin
+
             };
 
 
-            var result =  await _serviceHub.UserService.UpdateAsync(updateUser);
+            var result = await _serviceHub.UserService.UpdateAsync(updateUser);
 
-            if(result.Success)
+            if (result.Success)
             {
                 MessageHelper.ShowSuccess("Cập nhật thông tin thành công.");
                 _currentUser = result.Data;
@@ -109,25 +117,217 @@ namespace BaiTapLonWinForm.View.Setting
             }
         }
 
+        private void btnChangePassword_Click(object sender, EventArgs e)
+        {
+            bool isValid = vaidateUpdatePass();
+            if (!isValid)
+            {
+                MessageHelper.ShowWarning("Vui lòng nhập đầy đủ và chính xác thông tin trước khi tiếp tục.");
+                return;
+            }
+
+            ChangePassword();
+        }
+
+        private async void ChangePassword()
+        {
+            string newPass = txtNewPass.Text.Trim();
+            var result = await _serviceHub.UserService.changePasswordAsync(_userId, newPass);
+
+            if (result.Success)
+            {
+                MessageHelper.ShowSuccess("Đổi mật khẩu thành công.");
+                _suspendValidation = true;
+
+                txtOldPass.Clear();
+                txtNewPass.Clear();
+                txtConfirmPass.Clear();
+
+                lblErrorOldPassword.Visible = false;
+                lblErrorNewPassword.Visible = false;
+                lblErrorConfirmPassword.Visible = false;
+
+                _suspendValidation = false;
+            }
+            else
+            {
+                MessageHelper.ShowError("Đổi mật khẩu thất bại. " + result.Message);
+            }
+
+
+        }
+
+        
+
+        private void SelectComboBoxItem(ComboBox comboBox, string[] possibleValues)
+        {
+            foreach (string value in possibleValues)
+            {
+                int index = comboBox.FindStringExact(value);
+                if (index != -1)
+                {
+                    comboBox.SelectedIndex = index;
+                    return;
+                }
+            }
+
+            // Nếu không tìm thấy, chọn item đầu tiên
+            if (comboBox.Items.Count > 0)
+            {
+                comboBox.SelectedIndex = 0;
+            }
+        }
+        private void btnSaveSystem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                //string language = cboLanguage.SelectedItem?.ToString() ?? "Vietnamese";
+                string theme = cboTheme.SelectedItem?.ToString() ?? "Light";
+
+                // Áp dụng language
+                //SettingsManager.ApplyLanguage(language);
+
+                // Áp dụng theme
+                SettingsManager.ApplyTheme(theme);
+
+                //MessageBox.Show(
+                //    SettingsManager.CurrentLanguage == "vi"
+                //        ? "Cài đặt đã được áp dụng thành công!"
+                //        : "Settings applied successfully!",
+                //    SettingsManager.CurrentLanguage == "vi" ? "Thành công" : "Success",
+                //    MessageBoxButtons.OK,
+                //    MessageBoxIcon.Information
+                //);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    $"Lỗi khi lưu cài đặt: {ex.Message}",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
+            }
+        }
+
+        private void LoadCurrentSettings()
+        {
+            try
+            {
+                // Load Language
+                //string currentLang = SettingsManager.CurrentLanguage;
+                //SelectComboBoxItem(cboLanguage, currentLang == "vi" ?
+                //    new[] { "Tiếng Việt", "Vietnamese" } :
+                //    new[] { "English" });
+
+                // Load Theme  
+                string currentTheme = SettingsManager.CurrentTheme;
+                SelectComboBoxItem(cboTheme, currentTheme.ToLower() == "dark" ?
+                    new[] { "Tối (Dark)", "Dark" } :
+                    new[] { "Sáng (Light)", "Light" });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi tải cài đặt: {ex.Message}",
+                    "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         #endregion
 
         #region validation input
+        private bool ValidateControl<T>(
+            T control,
+            Label errorLabel,
+            Func<T, bool> rule,
+            string errorMessage
+        )
+        {
+            if (_suspendValidation)
+            {
+                errorLabel.Visible = false;
+                return true;
+            }
+            if (!rule(control))
+            {
+                errorLabel.Text = errorMessage;
+                errorLabel.Visible = true;
+                return false;
+            }
+
+            errorLabel.Visible = false;
+            return true;
+        }
+
         private void SetupValidationEvents()
         {
-            // Validate ngay khi gõ phím
             txtFirstName.TextChanged += (s, e) => CheckFirstName();
             txtLastName.TextChanged += (s, e) => CheckLastName();
             txtEmail.TextChanged += (s, e) => CheckEmail();
             txtPhone.TextChanged += (s, e) => CheckPhone();
             cboGender.SelectedIndexChanged += (s, e) => CheckGender();
+            dtpBirthDate.ValueChanged += (s, e) => CheckBirthDate();
+            txtConfirmPass.TextChanged += (s, e) => CheckConfirmPassword();
+            txtNewPass.TextChanged += (s, e) => CheckNewPassword();
+            txtOldPass.TextChanged += (s, e) => CheckOldPassword();
         }
 
+        private bool vaidateUpdatePass()
+        {
+            return CheckOldPassword()
+            && CheckNewPassword()
+            && CheckConfirmPassword();
+        }
+        private bool ValidateForm()
+        {
+            return CheckFirstName()
+                & CheckLastName()
+                & CheckEmail()
+                & CheckPhone()
+                & CheckGender()
+                & CheckBirthDate();
+        }
+
+        private bool CheckOldPassword()
+        {
+            return ValidateControl(txtOldPass, lblErrorOldPassword,
+                    c => !string.IsNullOrWhiteSpace(c.Text),
+                    "Mật khẩu cũ không được để trống."
+                );
+        }
+
+        private bool CheckConfirmPassword()
+        {
+            return ValidateControl(txtConfirmPass, lblErrorConfirmPassword,
+                c =>
+                {
+                    string confirmPass = c.Text.Trim();
+                    string newPass = txtNewPass.Text.Trim();
+
+                    return !string.IsNullOrWhiteSpace(confirmPass)
+                           && confirmPass == newPass;
+                },
+                "Xác nhận mật khẩu không khớp."
+            );
+        }
+
+
+        private bool CheckNewPassword()
+        {
+            string newPass = txtNewPass.Text.Trim();
+            return ValidateControl(txtNewPass, lblErrorNewPassword,
+                    c => !string.IsNullOrWhiteSpace(c.Text) && newPass != txtOldPass.Text.Trim(),
+                    "Mật khẩu mới không được để trống \n và khác mật khẩu cũ."
+                );
+        }
         private bool CheckFirstName()
         {
-            return ValidateInput(txtFirstName, lblErrFirstName,
-                t => !string.IsNullOrWhiteSpace(t) && Regex.IsMatch(t, @"^[\p{L}\s]+$"),
+            return ValidateControl(txtFirstName, lblErrFirstName,
+                c => !string.IsNullOrWhiteSpace(c.Text) &&
+                     Regex.IsMatch(c.Text, @"^[\p{L}\s]+$"),
                 "Họ không được để trống và không chứa số.");
         }
+
 
         private bool CheckLastName()
         {
@@ -138,11 +338,11 @@ namespace BaiTapLonWinForm.View.Setting
 
         private bool CheckEmail()
         {
-            // Check regex email
-            return ValidateInput(txtEmail, lblErrEmail,
-                t => !string.IsNullOrWhiteSpace(t) && Regex.IsMatch(t, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"),
+            return ValidateControl(txtEmail, lblErrEmail,
+                c => Regex.IsMatch(c.Text.Trim(), @"^[^@\s]+@[^@\s]+\.[^@\s]+$"),
                 "Email không đúng định dạng.");
         }
+
 
         private bool CheckPhone()
         {
@@ -155,15 +355,11 @@ namespace BaiTapLonWinForm.View.Setting
 
         private bool CheckGender()
         {
-            if (cboGender.SelectedItem == null)
-            {
-                lblErrGender.Text = "Vui lòng chọn giới tính.";
-                lblErrGender.Visible = true;
-                return false;
-            }
-            lblErrGender.Visible = false;
-            return true;
+            return ValidateControl(cboGender, lblErrGender,
+                c => c.SelectedItem != null,
+                "Vui lòng chọn giới tính.");
         }
+
 
         // Hàm Helper: Check điều kiện -> Hiện/Ẩn Label
         private bool ValidateInput(Guna2TextBox txt, Label lbl, Func<string, bool> rule, string errMsg)
@@ -177,7 +373,27 @@ namespace BaiTapLonWinForm.View.Setting
             lbl.Visible = false;
             return true;
         }
+        private bool CheckBirthDate()
+        {
+            return ValidateControl(dtpBirthDate, label5, picker =>
+            {
+                DateTime dob = picker.Value.Date;
+                DateTime today = DateTime.Today;
+
+                if (dob > today) return false;
+
+                int age = today.Year - dob.Year;
+                if (dob > today.AddYears(-age)) age--;
+
+                return age >= 4;
+            }, "Ngày sinh không hợp lệ (lớn hơn 4 tuổi).");
+        }
+
 
         #endregion
+
+
+
+        
     }
 }

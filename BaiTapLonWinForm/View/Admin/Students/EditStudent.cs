@@ -1,6 +1,7 @@
 ﻿using BaiTapLonWinForm.Models;
 using BaiTapLonWinForm.Services;
 using BaiTapLonWinForm.Utils;
+using Guna.UI2.WinForms;
 using System;
 using System.Linq;
 using System.Text.RegularExpressions; // Cần thêm namespace này để dùng Regex
@@ -109,7 +110,7 @@ namespace BaiTapLonWinForm.View.Admin.Students
             return true;
         }
 
-        private bool ValidateInput(TextBox txt, Label lbl, Func<string, bool> rule, string errMsg)
+        private bool ValidateInput(Guna2TextBox txt, Label lbl, Func<string, bool> rule, string errMsg)
         {
             // Nếu input không thỏa mãn rule
             if (!rule(txt.Text.Trim()))

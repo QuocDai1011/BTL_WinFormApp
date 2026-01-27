@@ -1,4 +1,5 @@
-﻿using BaiTapLonWinForm.Models;
+﻿using BaiTapLonWinForm.CoreSystem;
+using BaiTapLonWinForm.Models;
 using BaiTapLonWinForm.Services;
 using BaiTapLonWinForm.Utils;
 
@@ -14,9 +15,18 @@ namespace BaiTapLonWinForm.View.Admin.Teacher
             _serviceHub = serviceHub;
             InitializeComponent();
             refreshDataGridView();
+            ThemeManager.ThemeChanged += (s, e) => ResetDataGridView();
+            ResetDataGridView();
         }
 
-
+        private void ResetDataGridView()
+        {
+            dgvTeachers.BackgroundColor = Color.White;
+            dgvTeachers.DefaultCellStyle.ForeColor = Color.FromArgb(33, 33, 33);
+            dgvTeachers.RowsDefaultCellStyle.ForeColor = Color.FromArgb(33, 33, 33);
+            dgvTeachers.AlternatingRowsDefaultCellStyle.ForeColor = Color.FromArgb(33, 33, 33);
+            dgvTeachers.Refresh();
+        }
         private async void refreshDataGridView()
         {
             var teacher = await _serviceHub.TeacherService.GetAllTeachersAsync();

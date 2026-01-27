@@ -1,4 +1,5 @@
-﻿using BaiTapLonWinForm.Models;
+﻿using BaiTapLonWinForm.CoreSystem;
+using BaiTapLonWinForm.Models;
 using BaiTapLonWinForm.Services;
 using BaiTapLonWinForm.Utils;
 using BaiTapLonWinForm.View.Admin.Students; 
@@ -27,30 +28,16 @@ namespace BaiTapLonWinForm.View.Admin.Students
         {
             InitializeComponent();
             _serviceHub = serviceHub;
-            SetupModernUI();
             EnableDoubleBuffered(dgvStudents);
             _typingTimer = new System.Windows.Forms.Timer();
             _typingTimer.Interval = 1500;
             _typingTimer.Tick += TypingTimer_Tick;
+            ThemeManager.ThemeChanged += (s, e) => ResetDataGridView();
+            ResetDataGridView();
         }
+
 
         #region initialize data and set up UI
-        private void SetupModernUI()
-        {
-            // Bo tròn các panel và button
-            ApplyRoundedCorners(panelSearch, 10);
-            ApplyRoundedCorners(panelButtons, 10);
-            ApplyRoundedCorners(panelStats, 10);
-
-            foreach (Control control in panelButtons.Controls)
-            {
-                if (control is Button btn) ApplyRoundedCorners(btn, 8);
-            }
-
-            ApplyRoundedCorners(btnImport, 8);
-            ApplyRoundedCorners(btnExport, 8);
-            ApplyRoundedCorners(btnSearch, 8);
-        }
 
 
 
@@ -66,6 +53,14 @@ namespace BaiTapLonWinForm.View.Admin.Students
             await RefreshDataAsync();
         }
 
+        private void ResetDataGridView()
+        {
+            dgvStudents.BackgroundColor = Color.White;
+            dgvStudents.DefaultCellStyle.ForeColor = Color.FromArgb(33, 33, 33);
+            dgvStudents.RowsDefaultCellStyle.ForeColor = Color.FromArgb(33, 33, 33);
+            dgvStudents.AlternatingRowsDefaultCellStyle.ForeColor = Color.FromArgb(33, 33, 33);
+            dgvStudents.Refresh();
+        }
         private async Task RefreshDataAsync()
         {
             try
@@ -490,7 +485,7 @@ namespace BaiTapLonWinForm.View.Admin.Students
         {
             if (dgvStudents.SelectedRows.Count == 0)
             {
-                MessageHelper.ShowWarning("Vui lòng chọn sinh viên cần sửa!");
+                MessageHelper.ShowWarning("Vui lòng chọn học viên cần sửa!");
                 return;
             }
 
@@ -518,7 +513,7 @@ namespace BaiTapLonWinForm.View.Admin.Students
         {
             if (dgvStudents.SelectedRows.Count == 0)
             {
-                MessageHelper.ShowWarning("Vui lòng chọn sinh viên cần thêm ảnh!");
+                MessageHelper.ShowWarning("Vui lòng chọn học viên cần thêm ảnh!");
                 return;
             }
 
@@ -575,13 +570,13 @@ namespace BaiTapLonWinForm.View.Admin.Students
         {
             if (dgvStudents.SelectedRows.Count == 0)
             {
-                MessageHelper.ShowWarning("Vui lòng chọn sinh viên cần sửa!");
+                MessageHelper.ShowWarning("Vui lòng chọn học viên cần khôi phục!");
                 return;
             }
 
             int userId = Convert.ToInt32(dgvStudents.SelectedRows[0].Cells["UserId"].Value);
 
-            var confirm = MessageHelper.ShowConfirmation("Bạn có chắc chắn muốn khôi phục sinh viên này?");
+            var confirm = MessageHelper.ShowConfirmation("Bạn có chắc chắn muốn khôi phục học viên này?");
 
             if (confirm)
             {

@@ -46,7 +46,7 @@ namespace BaiTapLonWinForm.View.Admin.Students
         {
             cboCamera.Items.Clear();
             cboCamera.Enabled = false;
-            lblSelectCamera.Text = "Đang tìm camera...";
+            lblLoadCamera.Text = "Đang tìm camera...";
             btnStartCamera.Enabled = false;
 
             try
@@ -85,7 +85,7 @@ namespace BaiTapLonWinForm.View.Admin.Students
                 }
                 else
                 {
-                    lblSelectCamera.Text = "Không tìm thấy camera";
+                    lblLoadCamera.Text = "Không tìm thấy camera";
                     lblSelectCamera.ForeColor = Color.Red;
                     btnStartCamera.Enabled = false;
                 }
@@ -97,6 +97,8 @@ namespace BaiTapLonWinForm.View.Admin.Students
             finally
             {
                 cboCamera.Enabled = true;
+                lblLoadCamera.Text = "";
+
             }
         }
 

@@ -472,7 +472,7 @@
             numMaxStudent.Location = new Point(40, 510);
             numMaxStudent.Margin = new Padding(4, 5, 4, 5);
             numMaxStudent.Maximum = new decimal(new int[] { 30, 0, 0, 0 });
-            numMaxStudent.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            numMaxStudent.Minimum = new decimal(new int[] { 10, 0, 0, 0 });
             numMaxStudent.Name = "numMaxStudent";
             numMaxStudent.ShadowDecoration.CustomizableEdges = customizableEdges12;
             numMaxStudent.Size = new Size(200, 50);

@@ -20,5 +20,7 @@ namespace BaiTapLonWinForm.Repositories.interfaces
         Task<bool> SoftDeleteAsync(long userId);
         Task<bool> ExistsAsync(long userId);
         Task<bool> EmailExistsAsync(string email, long? excludeUserId = null);
+        
+        Task<bool> ChangePassword(int userId, string newPasswordHash);
     }
 }

@@ -65,7 +65,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             pnlSchedule = new Panel();
             pbSchedule = new PictureBox();
             lblSchedule = new Label();
-            pnAttendance = new Panel();
+            pnlAttendance = new Panel();
             pbAttendance = new PictureBox();
             lblAttendance = new Label();
             pnlSidebarFooter = new Panel();
@@ -101,7 +101,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             sidebarPanel.SuspendLayout();
             pnlSchedule.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbSchedule).BeginInit();
-            pnAttendance.SuspendLayout();
+            pnlAttendance.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbAttendance).BeginInit();
             pnlSidebarFooter.SuspendLayout();
             pnlSettings.SuspendLayout();
@@ -128,7 +128,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             // 
             sidebarPanel.BackColor = Color.FromArgb(41, 128, 185);
             sidebarPanel.Controls.Add(pnlSchedule);
-            sidebarPanel.Controls.Add(pnAttendance);
+            sidebarPanel.Controls.Add(pnlAttendance);
             sidebarPanel.Controls.Add(pnlSidebarFooter);
             sidebarPanel.Controls.Add(pnlSettings);
             sidebarPanel.Controls.Add(pnlManagement);
@@ -182,18 +182,18 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             lblSchedule.Text = "Thời khóa biểu";
             lblSchedule.Click += Schedule_Click;
             // 
-            // pnAttendance
+            // pnlAttendance
             // 
-            pnAttendance.BackColor = Color.Transparent;
-            pnAttendance.Controls.Add(pbAttendance);
-            pnAttendance.Controls.Add(lblAttendance);
-            pnAttendance.Cursor = Cursors.Hand;
-            pnAttendance.Location = new Point(19, 549);
-            pnAttendance.Margin = new Padding(4);
-            pnAttendance.Name = "pnAttendance";
-            pnAttendance.Size = new Size(312, 69);
-            pnAttendance.TabIndex = 9;
-            pnAttendance.Click += Attendance_Click;
+            pnlAttendance.BackColor = Color.Transparent;
+            pnlAttendance.Controls.Add(pbAttendance);
+            pnlAttendance.Controls.Add(lblAttendance);
+            pnlAttendance.Cursor = Cursors.Hand;
+            pnlAttendance.Location = new Point(19, 549);
+            pnlAttendance.Margin = new Padding(4);
+            pnlAttendance.Name = "pnlAttendance";
+            pnlAttendance.Size = new Size(312, 69);
+            pnlAttendance.TabIndex = 9;
+            pnlAttendance.Click += Attendance_Click;
             // 
             // pbAttendance
             // 
@@ -638,8 +638,8 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             pnlSchedule.ResumeLayout(false);
             pnlSchedule.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbSchedule).EndInit();
-            pnAttendance.ResumeLayout(false);
-            pnAttendance.PerformLayout();
+            pnlAttendance.ResumeLayout(false);
+            pnlAttendance.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbAttendance).EndInit();
             pnlSidebarFooter.ResumeLayout(false);
             pnlSettings.ResumeLayout(false);
@@ -678,5 +678,6 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
         private Panel pnlSchedule;
         private PictureBox pbSchedule;
         private Label lblSchedule;
+        private Panel pnlAttendance;
     }
 }
