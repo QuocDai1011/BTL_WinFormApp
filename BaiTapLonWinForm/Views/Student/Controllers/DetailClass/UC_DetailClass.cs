@@ -34,6 +34,10 @@ namespace BaiTapLonWinForm.Views.Student.Controllers
             LoadControl(control);
         }
 
+
+
+
+
         private void btnAssignment_Click(object sender, EventArgs e)
         {
             var control = new UC_Exercise();
