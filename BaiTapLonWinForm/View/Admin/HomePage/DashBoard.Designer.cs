@@ -16,14 +16,14 @@
 
         private void InitializeComponent()
         {
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges14 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             sqlCommand1 = new Microsoft.Data.SqlClient.SqlCommand();
             mainPanel = new FlowLayoutPanel();
             flowLayoutPanel2 = new FlowLayoutPanel();
@@ -409,7 +409,7 @@
             // 
             guna2Button1.BorderRadius = 25;
             guna2Button1.Cursor = Cursors.Hand;
-            guna2Button1.CustomizableEdges = customizableEdges9;
+            guna2Button1.CustomizableEdges = customizableEdges1;
             guna2Button1.DisabledState.BorderColor = Color.DarkGray;
             guna2Button1.DisabledState.CustomBorderColor = Color.DarkGray;
             guna2Button1.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -419,7 +419,7 @@
             guna2Button1.ForeColor = Color.White;
             guna2Button1.Location = new Point(408, 199);
             guna2Button1.Name = "guna2Button1";
-            guna2Button1.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            guna2Button1.ShadowDecoration.CustomizableEdges = customizableEdges2;
             guna2Button1.Size = new Size(373, 98);
             guna2Button1.TabIndex = 12;
             guna2Button1.Text = "Xuất Báo Cáo";
@@ -454,7 +454,7 @@
             // 
             btnCreateTeacher.BorderRadius = 25;
             btnCreateTeacher.Cursor = Cursors.Hand;
-            btnCreateTeacher.CustomizableEdges = customizableEdges11;
+            btnCreateTeacher.CustomizableEdges = customizableEdges3;
             btnCreateTeacher.DisabledState.BorderColor = Color.DarkGray;
             btnCreateTeacher.DisabledState.CustomBorderColor = Color.DarkGray;
             btnCreateTeacher.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -464,16 +464,17 @@
             btnCreateTeacher.ForeColor = Color.White;
             btnCreateTeacher.Location = new Point(408, 28);
             btnCreateTeacher.Name = "btnCreateTeacher";
-            btnCreateTeacher.ShadowDecoration.CustomizableEdges = customizableEdges12;
+            btnCreateTeacher.ShadowDecoration.CustomizableEdges = customizableEdges4;
             btnCreateTeacher.Size = new Size(373, 98);
             btnCreateTeacher.TabIndex = 8;
             btnCreateTeacher.Text = "Thêm Giảng Viên Mới";
+            btnCreateTeacher.Click += btnCreateTeacher_Click;
             // 
             // btnCreateClass
             // 
             btnCreateClass.BorderRadius = 25;
             btnCreateClass.Cursor = Cursors.Hand;
-            btnCreateClass.CustomizableEdges = customizableEdges13;
+            btnCreateClass.CustomizableEdges = customizableEdges5;
             btnCreateClass.DisabledState.BorderColor = Color.DarkGray;
             btnCreateClass.DisabledState.CustomBorderColor = Color.DarkGray;
             btnCreateClass.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -483,10 +484,11 @@
             btnCreateClass.ForeColor = Color.White;
             btnCreateClass.Location = new Point(3, 199);
             btnCreateClass.Name = "btnCreateClass";
-            btnCreateClass.ShadowDecoration.CustomizableEdges = customizableEdges14;
+            btnCreateClass.ShadowDecoration.CustomizableEdges = customizableEdges6;
             btnCreateClass.Size = new Size(373, 98);
             btnCreateClass.TabIndex = 10;
             btnCreateClass.Text = "Tạo Lớp Học";
+            btnCreateClass.Click += btnCreateClass_Click;
             // 
             // iconCustom5
             // 
@@ -505,7 +507,7 @@
             // 
             btnCreateStudent.BorderRadius = 25;
             btnCreateStudent.Cursor = Cursors.Hand;
-            btnCreateStudent.CustomizableEdges = customizableEdges15;
+            btnCreateStudent.CustomizableEdges = customizableEdges7;
             btnCreateStudent.DisabledState.BorderColor = Color.DarkGray;
             btnCreateStudent.DisabledState.CustomBorderColor = Color.DarkGray;
             btnCreateStudent.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -515,10 +517,11 @@
             btnCreateStudent.ForeColor = Color.White;
             btnCreateStudent.Location = new Point(3, 28);
             btnCreateStudent.Name = "btnCreateStudent";
-            btnCreateStudent.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            btnCreateStudent.ShadowDecoration.CustomizableEdges = customizableEdges8;
             btnCreateStudent.Size = new Size(373, 98);
             btnCreateStudent.TabIndex = 4;
             btnCreateStudent.Text = "Thêm Học Viên Mới";
+            btnCreateStudent.Click += btnCreateStudent_Click;
             // 
             // DashBoard
             // 

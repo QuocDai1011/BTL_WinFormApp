@@ -139,7 +139,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             sidebarPanel.Controls.Add(pnlDashboard);
             sidebarPanel.Dock = DockStyle.Left;
             sidebarPanel.Location = new Point(0, 119);
-            sidebarPanel.Margin = new Padding(5, 5, 5, 5);
+            sidebarPanel.Margin = new Padding(5);
             sidebarPanel.Name = "sidebarPanel";
             sidebarPanel.Size = new Size(420, 752);
             sidebarPanel.TabIndex = 0;
@@ -151,7 +151,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             pnlSchedule.Controls.Add(lblSchedule);
             pnlSchedule.Cursor = Cursors.Hand;
             pnlSchedule.Location = new Point(23, 769);
-            pnlSchedule.Margin = new Padding(5, 5, 5, 5);
+            pnlSchedule.Margin = new Padding(5);
             pnlSchedule.Name = "pnlSchedule";
             pnlSchedule.Size = new Size(375, 83);
             pnlSchedule.TabIndex = 10;
@@ -161,7 +161,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             // 
             pbSchedule.Image = BaiTapLonWinForm.Properties.Resources.logo2019_png_1;
             pbSchedule.Location = new Point(30, 18);
-            pbSchedule.Margin = new Padding(5, 5, 5, 5);
+            pbSchedule.Margin = new Padding(5);
             pbSchedule.Name = "pbSchedule";
             pbSchedule.Size = new Size(48, 48);
             pbSchedule.SizeMode = PictureBoxSizeMode.Zoom;
@@ -189,7 +189,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             pnAttendance.Controls.Add(lblAttendance);
             pnAttendance.Cursor = Cursors.Hand;
             pnAttendance.Location = new Point(23, 659);
-            pnAttendance.Margin = new Padding(5, 5, 5, 5);
+            pnAttendance.Margin = new Padding(5);
             pnAttendance.Name = "pnAttendance";
             pnAttendance.Size = new Size(375, 83);
             pnAttendance.TabIndex = 9;
@@ -199,7 +199,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             // 
             pbAttendance.Image = BaiTapLonWinForm.Properties.Resources.logo2019_png_1;
             pbAttendance.Location = new Point(30, 18);
-            pbAttendance.Margin = new Padding(5, 5, 5, 5);
+            pbAttendance.Margin = new Padding(5);
             pbAttendance.Name = "pbAttendance";
             pbAttendance.Size = new Size(48, 48);
             pbAttendance.SizeMode = PictureBoxSizeMode.Zoom;
@@ -226,7 +226,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             pnlSidebarFooter.Controls.Add(lblVersion);
             pnlSidebarFooter.Dock = DockStyle.Bottom;
             pnlSidebarFooter.Location = new Point(0, 677);
-            pnlSidebarFooter.Margin = new Padding(5, 5, 5, 5);
+            pnlSidebarFooter.Margin = new Padding(5);
             pnlSidebarFooter.Name = "pnlSidebarFooter";
             pnlSidebarFooter.Size = new Size(420, 75);
             pnlSidebarFooter.TabIndex = 8;
@@ -251,7 +251,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             pnlSettings.Controls.Add(lblSettings);
             pnlSettings.Cursor = Cursors.Hand;
             pnlSettings.Location = new Point(23, 921);
-            pnlSettings.Margin = new Padding(5, 5, 5, 5);
+            pnlSettings.Margin = new Padding(5);
             pnlSettings.Name = "pnlSettings";
             pnlSettings.Size = new Size(375, 83);
             pnlSettings.TabIndex = 6;
@@ -263,7 +263,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             // 
             picSettings.Image = BaiTapLonWinForm.Properties.Resources.logo2019_png_1;
             picSettings.Location = new Point(30, 18);
-            picSettings.Margin = new Padding(5, 5, 5, 5);
+            picSettings.Margin = new Padding(5);
             picSettings.Name = "picSettings";
             picSettings.Size = new Size(48, 48);
             picSettings.SizeMode = PictureBoxSizeMode.Zoom;
@@ -293,7 +293,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             pnlManagement.Controls.Add(lblManagement);
             pnlManagement.Cursor = Cursors.Hand;
             pnlManagement.Location = new Point(23, 555);
-            pnlManagement.Margin = new Padding(5, 5, 5, 5);
+            pnlManagement.Margin = new Padding(5);
             pnlManagement.Name = "pnlManagement";
             pnlManagement.Size = new Size(375, 83);
             pnlManagement.TabIndex = 5;
@@ -305,7 +305,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             // 
             picManagement.Image = BaiTapLonWinForm.Properties.Resources.logo2019_png_1;
             picManagement.Location = new Point(30, 18);
-            picManagement.Margin = new Padding(5, 5, 5, 5);
+            picManagement.Margin = new Padding(5);
             picManagement.Name = "picManagement";
             picManagement.Size = new Size(48, 48);
             picManagement.SizeMode = PictureBoxSizeMode.Zoom;
@@ -335,7 +335,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             pnlCourse.Controls.Add(lblCourse);
             pnlCourse.Cursor = Cursors.Hand;
             pnlCourse.Location = new Point(23, 450);
-            pnlCourse.Margin = new Padding(5, 5, 5, 5);
+            pnlCourse.Margin = new Padding(5);
             pnlCourse.Name = "pnlCourse";
             pnlCourse.Size = new Size(375, 83);
             pnlCourse.TabIndex = 4;
@@ -347,7 +347,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             // 
             picCourse.Image = BaiTapLonWinForm.Properties.Resources.logo2019_png_1;
             picCourse.Location = new Point(30, 18);
-            picCourse.Margin = new Padding(5, 5, 5, 5);
+            picCourse.Margin = new Padding(5);
             picCourse.Name = "picCourse";
             picCourse.Size = new Size(48, 48);
             picCourse.SizeMode = PictureBoxSizeMode.Zoom;
@@ -377,7 +377,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             pnlTeacherList.Controls.Add(lblTeacherList);
             pnlTeacherList.Cursor = Cursors.Hand;
             pnlTeacherList.Location = new Point(23, 345);
-            pnlTeacherList.Margin = new Padding(5, 5, 5, 5);
+            pnlTeacherList.Margin = new Padding(5);
             pnlTeacherList.Name = "pnlTeacherList";
             pnlTeacherList.Size = new Size(375, 83);
             pnlTeacherList.TabIndex = 3;
@@ -389,7 +389,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             // 
             picTeacherList.Image = BaiTapLonWinForm.Properties.Resources.logo2019_png_1;
             picTeacherList.Location = new Point(30, 18);
-            picTeacherList.Margin = new Padding(5, 5, 5, 5);
+            picTeacherList.Margin = new Padding(5);
             picTeacherList.Name = "picTeacherList";
             picTeacherList.Size = new Size(48, 48);
             picTeacherList.SizeMode = PictureBoxSizeMode.Zoom;
@@ -419,7 +419,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             pnlStudentList.Controls.Add(lblStudentList);
             pnlStudentList.Cursor = Cursors.Hand;
             pnlStudentList.Location = new Point(23, 240);
-            pnlStudentList.Margin = new Padding(5, 5, 5, 5);
+            pnlStudentList.Margin = new Padding(5);
             pnlStudentList.Name = "pnlStudentList";
             pnlStudentList.Size = new Size(375, 83);
             pnlStudentList.TabIndex = 2;
@@ -431,7 +431,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             // 
             picStudentList.Image = BaiTapLonWinForm.Properties.Resources.logo2019_png_1;
             picStudentList.Location = new Point(30, 18);
-            picStudentList.Margin = new Padding(5, 5, 5, 5);
+            picStudentList.Margin = new Padding(5);
             picStudentList.Name = "picStudentList";
             picStudentList.Size = new Size(48, 48);
             picStudentList.SizeMode = PictureBoxSizeMode.Zoom;
@@ -461,11 +461,12 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             pnlMyClass.Controls.Add(lblMyClass);
             pnlMyClass.Cursor = Cursors.Hand;
             pnlMyClass.Location = new Point(23, 135);
-            pnlMyClass.Margin = new Padding(5, 5, 5, 5);
+            pnlMyClass.Margin = new Padding(5);
             pnlMyClass.Name = "pnlMyClass";
             pnlMyClass.Size = new Size(375, 83);
             pnlMyClass.TabIndex = 1;
             pnlMyClass.Click += MyClass_Click;
+            pnlMyClass.Paint += pnlMyClass_Paint;
             pnlMyClass.MouseEnter += MenuItem_MouseEnter;
             pnlMyClass.MouseLeave += MenuItem_MouseLeave;
             // 
@@ -473,7 +474,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             // 
             picMyClass.Image = BaiTapLonWinForm.Properties.Resources.logo2019_png_1;
             picMyClass.Location = new Point(30, 18);
-            picMyClass.Margin = new Padding(5, 5, 5, 5);
+            picMyClass.Margin = new Padding(5);
             picMyClass.Name = "picMyClass";
             picMyClass.Size = new Size(48, 48);
             picMyClass.SizeMode = PictureBoxSizeMode.Zoom;
@@ -503,11 +504,12 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             pnlDashboard.Controls.Add(lblDashboard);
             pnlDashboard.Cursor = Cursors.Hand;
             pnlDashboard.Location = new Point(23, 30);
-            pnlDashboard.Margin = new Padding(5, 5, 5, 5);
+            pnlDashboard.Margin = new Padding(5);
             pnlDashboard.Name = "pnlDashboard";
             pnlDashboard.Size = new Size(375, 83);
             pnlDashboard.TabIndex = 0;
             pnlDashboard.Click += Dashboard_Click;
+            pnlDashboard.Paint += pnlDashboard_Paint;
             pnlDashboard.MouseEnter += MenuItem_MouseEnter;
             pnlDashboard.MouseLeave += MenuItem_MouseLeave;
             // 
@@ -515,7 +517,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             // 
             picDashboard.Image = BaiTapLonWinForm.Properties.Resources.logo2019_png_1;
             picDashboard.Location = new Point(30, 18);
-            picDashboard.Margin = new Padding(5, 5, 5, 5);
+            picDashboard.Margin = new Padding(5);
             picDashboard.Name = "picDashboard";
             picDashboard.Size = new Size(48, 48);
             picDashboard.SizeMode = PictureBoxSizeMode.Zoom;
@@ -547,7 +549,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             headerPanel.Controls.Add(logoBox);
             headerPanel.Dock = DockStyle.Top;
             headerPanel.Location = new Point(0, 0);
-            headerPanel.Margin = new Padding(5, 5, 5, 5);
+            headerPanel.Margin = new Padding(5);
             headerPanel.Name = "headerPanel";
             headerPanel.Size = new Size(1625, 119);
             headerPanel.TabIndex = 1;
@@ -559,7 +561,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             pnlHeaderRight.Cursor = Cursors.Hand;
             pnlHeaderRight.Dock = DockStyle.Right;
             pnlHeaderRight.Location = new Point(1251, 0);
-            pnlHeaderRight.Margin = new Padding(5, 5, 5, 5);
+            pnlHeaderRight.Margin = new Padding(5);
             pnlHeaderRight.Name = "pnlHeaderRight";
             pnlHeaderRight.Size = new Size(372, 117);
             pnlHeaderRight.TabIndex = 2;
@@ -568,7 +570,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             // 
             picUserAvatar.Image = BaiTapLonWinForm.Properties.Resources.logo2019_png_1;
             picUserAvatar.Location = new Point(225, 23);
-            picUserAvatar.Margin = new Padding(5, 5, 5, 5);
+            picUserAvatar.Margin = new Padding(5);
             picUserAvatar.Name = "picUserAvatar";
             picUserAvatar.Size = new Size(75, 75);
             picUserAvatar.SizeMode = PictureBoxSizeMode.Zoom;
@@ -603,7 +605,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             // 
             logoBox.Image = BaiTapLonWinForm.Properties.Resources.logo2019_png_1;
             logoBox.Location = new Point(30, 15);
-            logoBox.Margin = new Padding(5, 5, 5, 5);
+            logoBox.Margin = new Padding(5);
             logoBox.Name = "logoBox";
             logoBox.Size = new Size(120, 90);
             logoBox.SizeMode = PictureBoxSizeMode.Zoom;
@@ -616,9 +618,9 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             contentPanel.BackColor = Color.FromArgb(236, 240, 241);
             contentPanel.Dock = DockStyle.Fill;
             contentPanel.Location = new Point(420, 119);
-            contentPanel.Margin = new Padding(5, 5, 5, 5);
+            contentPanel.Margin = new Padding(5);
             contentPanel.Name = "contentPanel";
-            contentPanel.Padding = new Padding(45, 45, 45, 45);
+            contentPanel.Padding = new Padding(45);
             contentPanel.Size = new Size(1205, 752);
             contentPanel.TabIndex = 2;
             // 
@@ -630,7 +632,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             Controls.Add(contentPanel);
             Controls.Add(sidebarPanel);
             Controls.Add(headerPanel);
-            Margin = new Padding(5, 5, 5, 5);
+            Margin = new Padding(5);
             Name = "HomePage";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Trung Tâm Anh Ngữ Tre Xanh - Quản Lý";

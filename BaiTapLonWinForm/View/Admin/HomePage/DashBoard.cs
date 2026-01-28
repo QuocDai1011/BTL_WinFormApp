@@ -1,4 +1,7 @@
 ﻿using BaiTapLonWinForm.Services;
+using BaiTapLonWinForm.View.Admin.Class;
+using BaiTapLonWinForm.View.Admin.Students;
+using BaiTapLonWinForm.View.Admin.Teacher;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
 using System;
@@ -138,7 +141,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             AddPoint(s, "T8", 180);
             AddPoint(s, "T9", 100);
             AddPoint(s, "T10", 111);
-            AddPoint(s, "T11", 113); 
+            AddPoint(s, "T11", 113);
             AddPoint(s, "T12", 145);
 
             chart.Series.Add(s);
@@ -390,5 +393,33 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             });
         }
 
+        private void btnCreateStudent_Click(object sender, EventArgs e)
+        {
+            var panel = this.Parent as Panel;
+            if (panel == null) return;
+            panel.Controls.Clear();
+            var userControlAddStudent = new AddStudentControl(_serviceHub);
+            panel.Controls.Add(userControlAddStudent);
+            
+        }
+
+        private void btnCreateTeacher_Click(object sender, EventArgs e)
+        {
+            var panel = this.Parent as Panel;
+            if (panel == null) return;
+            panel.Controls.Clear();
+            var userControlAddTeacher = new AddTeacher(_serviceHub);
+            panel.Controls.Add(userControlAddTeacher);
+        }
+
+        private void btnCreateClass_Click(object sender, EventArgs e)
+        {
+            var panel = this.Parent as Panel;
+            if (panel == null) return;
+            panel.Controls.Clear();
+            var userControlAddClass = new ClassManagement(_serviceHub);
+            panel.Controls.Add(userControlAddClass);
+            userControlAddClass.NavigateToTabAddClass();
+        }
     }
 }

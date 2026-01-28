@@ -241,7 +241,7 @@ namespace BaiTapLonWinForm.View.Admin.Class
             }
         }
 
-        private Guna2ShadowPanel CreateClassPanel(Models.Class classInfo)
+        public Guna2ShadowPanel CreateClassPanel(Models.Class classInfo)
         {
             var panel = new Guna2ShadowPanel
             {
@@ -377,7 +377,7 @@ namespace BaiTapLonWinForm.View.Admin.Class
             }
 
             var courseList = result.Data.Select(c => new
-            {   
+            {
                 Id = c.CourseId,
                 Name = c.CourseName
             }).ToList();
@@ -754,5 +754,10 @@ namespace BaiTapLonWinForm.View.Admin.Class
             }
         }
 
+        public void NavigateToTabAddClass()
+        {
+            tabControl.SelectedTab = tabPage1;
+
+        }
     }
 }
