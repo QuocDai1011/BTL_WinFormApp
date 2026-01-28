@@ -17,5 +17,5 @@ namespace BaiTapLonWinForm.Services.Interfaces
 
         Task<ReceptionCheckInResult> CheckInAtReceptionAsync(byte[] capturedImage);
 
-    }    
+    }
 }

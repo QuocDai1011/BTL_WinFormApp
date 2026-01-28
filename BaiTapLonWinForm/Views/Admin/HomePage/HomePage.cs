@@ -29,8 +29,8 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
         private readonly Color activeColor = Color.FromArgb(52, 152, 219);
 
         private readonly ServiceHub _serviceHub;
-        private int _userId;
-        public HomePage(ServiceHub serviceHub, int userId = 2)
+        private long _userId;
+        public HomePage(ServiceHub serviceHub, long userId = 2)
         {
             InitializeComponent();
             InitializeMenuEvents();
@@ -44,7 +44,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             this.Load += HomePage_Load;
         }
 
-        
+
 
         #region Menu Item Events Setup
         private void InitializeMenuEvents()
@@ -214,7 +214,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
         }
 
 
-   
+
         #endregion
 
         #region Load User Control
@@ -244,8 +244,8 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
         private async Task updateAutoStatus()
         {
             int count = await _serviceHub.ClassService.UpdateClassStatusesAutoAsync();
-        
-            if(count > 0)
+
+            if (count > 0)
             {
                 MessageHelper.ShowSuccess($"Đã cập nhật trạng thái cho {count} lớp học");
             }
@@ -257,6 +257,21 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             LoadUserControl(new ClassDetailControl(_serviceHub, classId));
         }
         #endregion
+
+        private void pnlDashboard_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void pnlMyClass_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void pnlSettings_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
-    
+
 }

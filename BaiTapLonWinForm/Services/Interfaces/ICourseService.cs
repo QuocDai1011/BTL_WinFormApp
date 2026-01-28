@@ -22,7 +22,6 @@ namespace BaiTapLonWinForm.Services.Interfaces
         Task<(bool Success, string Message, IEnumerable<Course> Data)> SearchCoursesByNameAsync(string keyword);
         Task<(bool Success, string Message, int Data)> GetClassCountAsync(int courseId);
         Task<(bool Success, string Message, IEnumerable<Course> Data)> GetCoursesByTuitionRangeAsync(decimal minTuition, decimal maxTuition);
-
         #endregion
 
         #region feature/ha branch 
@@ -38,6 +37,11 @@ namespace BaiTapLonWinForm.Services.Interfaces
         void CreateReceipt(int studentId, int classId, decimal amount);
 
         bool ExistReceipt(int studentId, int classId);
+        #endregion
+
+        #region feature/dai branch
+        Task<(bool Success, string Message, int Data)> GetTotalStudentByOtherClassCodeAsync();
+        Task<(bool Success, string Message, int Data)> GetTotalStudentByClassCodeAsync(string classCode);
         #endregion
     }
 }

@@ -10,6 +10,8 @@ namespace BaiTapLonWinForm.Repositories.Interfaces
     public interface IClassRepository
     {
         #region feature/trung branch
+        Class GetClassById(int classId);
+        void UpdateClassesStatus(List<Class> updatedClasses);
         Task<IEnumerable<Class>> GetAllAsync();
         Task<Class?> GetByIdAsync(int id);
         Task<Class> CreateAsync(Class entity);
@@ -32,12 +34,12 @@ namespace BaiTapLonWinForm.Repositories.Interfaces
             DateOnly endDate, List<byte> dayIds, int? ignoreClassId = null);
 
         Task<List<Class>> GetClassesActiveInRangeAsync(DateOnly startDate, DateOnly endDate);
+
         #endregion
 
-        #region feature/ha branch
+        #region feature/ha branch 
         Task<List<Class>> GetAllClassesAsync(int teacherId);
-        Class GetClassById(int classId);
-        void UpdateClassesStatus(List<Class> updatedClasses);
+
         #endregion
     }
 }

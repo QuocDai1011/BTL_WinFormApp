@@ -192,7 +192,7 @@ namespace BaiTapLonWinForm.Views.Teacher.Profile
 
             // Display labels
             lblAddress.Text = user.Address ?? "";
-            lblBirthday.Text = user.DateOfBirth?.ToString() ?? "";
+            lblBirthday.Text = user.DateOfBirth.ToString() ?? "";
             lblEmail.Text = user.Email ?? "";
             lblFixEmail.Text = user.Email ?? "";
             lblFixName.Text = $"{user.FirstName} {user.LastName}";
@@ -204,7 +204,7 @@ namespace BaiTapLonWinForm.Views.Teacher.Profile
             txbLastName.Text = user.LastName ?? "";
             txbGmail.Text = user.Email ?? "";
             txbPhoneNumber.Text = user.PhoneNumber ?? "";
-            dtpkBirthday.Value = user.DateOfBirth?.ToDateTime(TimeOnly.MinValue) ?? DateTime.Now;
+            dtpkBirthday.Value = user.DateOfBirth.Value.ToDateTime(TimeOnly.MinValue);
             cbxGender.Text = (user.Gender ?? false) ? "Nam" : "Nữ";
         }
         #endregion

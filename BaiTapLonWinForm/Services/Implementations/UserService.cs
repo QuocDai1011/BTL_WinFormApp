@@ -17,7 +17,6 @@ namespace BaiTapLonWinForm.Services.Implementations
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-
         public UserService(IUserRepository userRepository)
         {
             _userRepository = userRepository;
@@ -142,7 +141,6 @@ namespace BaiTapLonWinForm.Services.Implementations
         {
             return _userRepository.GetUserByUserId(userId);
         }
-
 
         public async Task<(bool Success, string Message, User Data)> GetByIdAsync(long userId)
         {

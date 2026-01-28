@@ -14,12 +14,36 @@ namespace BaiTapLonWinForm.Repositories.Implementations
     {
         private readonly EnglishCenterDbContext _context;
         public TeacherRepository(EnglishCenterDbContext context)
-
         {
             _context = context;
         }
 
-        public Teacher GetAllTeacherByClassId(int classId)
+        public async Task<bool> UserIdExistsAsync(long userId, int? excludeTeacherId = null)
+        {
+            try
+            {
+                var query = _context.Teachers.Where(t => t.UserId == userId);
+
+                if (excludeTeacherId.HasValue)
+                    query = query.Where(t => t.TeacherId != excludeTeacherId.Value);
+
+                return await query.AnyAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public int GetTeacherByUserId(long userId)
+        {
+            return (int)_context.Teachers
+            .Where(t => t.UserId == userId)
+            .Select(t => (int?)t.TeacherId)
+            .FirstOrDefault();
+        }
+
+        public Teacher GetAllTeacherByClassId(long classId)
         {
             var teacher = _context.Classes
             .Where(c => c.ClassId == classId)
@@ -28,6 +52,7 @@ namespace BaiTapLonWinForm.Repositories.Implementations
             .FirstOrDefault();
             return teacher;
         }
+
         public async Task<IEnumerable<Teacher>> GetAllAsync()
         {
             try
@@ -60,7 +85,6 @@ namespace BaiTapLonWinForm.Repositories.Implementations
                 throw;
             }
         }
-        
 
         public async Task<Teacher?> GetByUserIdAsync(long userId)
         {
@@ -96,7 +120,6 @@ namespace BaiTapLonWinForm.Repositories.Implementations
                 throw;
             }
         }
-
 
         public async Task<Teacher> UpdateAsync(Teacher entity)
         {
@@ -164,24 +187,6 @@ namespace BaiTapLonWinForm.Repositories.Implementations
             }
         }
 
-        public async Task<bool> UserIdExistsAsync(long userId, int? excludeTeacherId = null)
-        {
-            try
-            {
-                var query = _context.Teachers.Where(t => t.UserId == userId);
-
-                if (excludeTeacherId.HasValue)
-                    query = query.Where(t => t.TeacherId != excludeTeacherId.Value);
-
-                return await query.AnyAsync();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-
         public async Task<IEnumerable<Teacher>> GetTeachersWithClassesAsync()
         {
             try
@@ -198,13 +203,6 @@ namespace BaiTapLonWinForm.Repositories.Implementations
             }
         }
 
-        public int GetTeacherByUserId(long userId)
-        {
-            return (int)_context.Teachers
-            .Where(t => t.UserId == userId)
-            .Select(t => (int?)t.TeacherId)
-            .FirstOrDefault();
-        }
         public async Task<IEnumerable<Teacher>> GetTeachersByExperienceAsync(int minYears, int maxYears)
         {
             try

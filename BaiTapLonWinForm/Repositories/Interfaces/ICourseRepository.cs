@@ -10,7 +10,8 @@ namespace BaiTapLonWinForm.Repositories.Interfaces
 {
     public interface ICourseRepository
     {
-        #region feature/trung branch 
+        #region feature/trung branch
+        Course? GetCourseByClassId(long classId);
         Task<IEnumerable<Course>> GetAllAsync();
         Task<Course?> GetByIdAsync(int id);
         Task<Course?> GetByCourseCodeAsync(string courseCode);
@@ -24,14 +25,17 @@ namespace BaiTapLonWinForm.Repositories.Interfaces
         Task<IEnumerable<Course>> SearchByNameAsync(string keyword);
         Task<int> GetClassCountAsync(int courseId);
         Task<IEnumerable<Course>> GetCoursesByTuitionRangeAsync(decimal minTuition, decimal maxTuition);
-        #endregion
-
-        #region feature/ha branch 
-        Course? GetCourseByClassId(long classId);
+        Task<int> GetTotalStudentByClassCode(string classCode);
 
         #endregion
 
-        #region feature/nhan branch 
+        #region feature/dai branch
+
+        Task<int> GetTotalStudentByOtherClassCode();
+
+        #endregion
+
+        #region feature/nhan branch
         decimal Getamount(int courseId);
 
         List<CourseDto> GetAllCourse();

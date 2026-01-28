@@ -1,5 +1,3 @@
-
-
 namespace BaiTapLonWinForm.Models;
 
 public partial class Teacher

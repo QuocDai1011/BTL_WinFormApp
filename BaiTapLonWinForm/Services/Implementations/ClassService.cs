@@ -10,7 +10,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace BaiTapLonWinForm.Services.Implementations
 {
     public class ClassService : IClassService
@@ -26,11 +25,11 @@ namespace BaiTapLonWinForm.Services.Implementations
         }
         #region feature/ha branch
 
+
         public async Task<List<Class>> GetAllClassAsync(int teacherId)
         {
             return await _classRepository.GetAllClassesAsync(teacherId);
         }
-
         public Class GetClassById(int classId)
         {
             return _classRepository.GetClassById(classId);

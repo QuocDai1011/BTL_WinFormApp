@@ -1,6 +1,5 @@
 ﻿using BaiTapLonWinForm.Models;
 using BaiTapLonWinForm.Repositories.Interfaces;
-﻿using BaiTapLonWinForm.Data;
 
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -14,10 +13,12 @@ namespace BaiTapLonWinForm.Repositories.Implementations
     internal class ClassRepository : IClassRepository
     {
         private readonly EnglishCenterDbContext _context;
+
         public ClassRepository(EnglishCenterDbContext context)
         {
             _context = context;
         }
+
         public async Task<List<Class>> GetAllClassesAsync(int teacherId)
         {
             return await _context.Classes

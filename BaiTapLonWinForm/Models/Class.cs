@@ -1,4 +1,3 @@
-
 namespace BaiTapLonWinForm.Models;
 
 public partial class Class

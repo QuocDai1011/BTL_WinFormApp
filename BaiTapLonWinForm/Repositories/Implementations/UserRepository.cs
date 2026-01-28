@@ -1,11 +1,14 @@
 ﻿using BaiTapLonWinForm.Models;
 using BaiTapLonWinForm.Repositories.Interfaces;
+
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace BaiTapLonWinForm.Repositories.Implementations
 {
@@ -17,7 +20,7 @@ namespace BaiTapLonWinForm.Repositories.Implementations
         {
             _context = context;
         }
-             
+
         public User GetUserByEmail(string email)
         {
             var existUser = _context.Users.FirstOrDefault(u => u.Email == email);
@@ -140,7 +143,6 @@ namespace BaiTapLonWinForm.Repositories.Implementations
             return user;
         }
 
-
         public async Task<User> UpdateAsync(User user)
         {
             var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.UserId == user.UserId);
@@ -154,6 +156,11 @@ namespace BaiTapLonWinForm.Repositories.Implementations
             existingUser.Email = user.Email;
             existingUser.UpdateAt = DateTime.Now;
             
+            user.UpdateAt = DateTime.Now;
+            user.CreateAt = existingUser.CreateAt;
+            // user.Email = user.Email.ToLower();
+            // _context.Entry(existingUser).CurrentValues.SetValues(user);
+
             await _context.SaveChangesAsync();
 
             return user;
@@ -216,5 +223,6 @@ namespace BaiTapLonWinForm.Repositories.Implementations
             await _context.SaveChangesAsync();
             return true;
         }
+
     }
 }

@@ -1,7 +1,9 @@
-﻿using BaiTapLonWinForm.Models;
+﻿using BaiTapLon_WinFormApp.Views.Admin.HomePage;
+using BaiTapLonWinForm.Models;
 using BaiTapLonWinForm.Services;
 using BaiTapLonWinForm.Services.Implementations;
 using BaiTapLonWinForm.Utils;
+using BaiTapLonWinForm.Views.Student;
 using BaiTapLonWinForm.Views.SystemAcess.Pages.ForgetForm;
 using BaiTapLonWinForm.Views.Teacher;
 using System;
@@ -59,7 +61,7 @@ namespace BaiTapLonWinForm.Views.SystemAcess.Login
                 {
                     case "admin":
                         {
-                            this.Dispose();
+                            new HomePage(_serviceHub, existUser.UserId).ShowDialog();
                             break;
                         }
                     case "teacher":
@@ -71,7 +73,7 @@ namespace BaiTapLonWinForm.Views.SystemAcess.Login
                         }
                     case "student":
                         {
-                            this.Dispose();
+                            //new StudentForm()
                             break;
                         }
                 }

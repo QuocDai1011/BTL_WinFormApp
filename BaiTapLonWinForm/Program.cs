@@ -1,3 +1,7 @@
+
+﻿using BaiTapLon_WinFormApp.Views.Admin.HomePage;
+using BaiTapLonWinForm.Data;
+using Microsoft.Extensions.Logging;
 using BaiTapLonWinForm.Models;
 using BaiTapLonWinForm.Mongo;
 using BaiTapLonWinForm.Repositories.Implementations;
@@ -11,9 +15,7 @@ using BaiTapLonWinForm.Views.Teacher;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using BaiTapLon_WinFormApp.Views.Admin.HomePage;
 using BaiTapLonWinForm.CoreSystem;
-using BaiTapLonWinForm.Data;
 using BaiTapLonWinForm.Test;
 using BaiTapLonWinForm.View.Admin.Students;
 using OfficeOpenXml;
@@ -22,13 +24,13 @@ namespace BaiTapLonWinForm
 {
     internal static class Program
     {
+
         [STAThread]
         static void Main()
         {
-            // Đăng ký excel của EPPlus
+            // đăng ký excel của EPPlus
             ExcelPackage.License.SetNonCommercialPersonal(Environment.UserName);
-
-            // 1️⃣ Load appsettings.json
+            // 1. Đọc file appsettings.json
             var config = new ConfigurationBuilder()
                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -61,7 +63,7 @@ namespace BaiTapLonWinForm
             services.AddScoped<IAssignmentRepository, AssignmentRepository>();
             services.AddScoped<INewsfeedRepository, NewsfeedRepository>();
             services.AddScoped<ISubmissionRepository, SubmissionRepository>();
-
+            services.AddScoped<ISchoolDayRepository, SchoolDayRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             // Services
@@ -81,6 +83,7 @@ namespace BaiTapLonWinForm
             services.AddScoped<IAssignmentService, AssignmentService>();
             services.AddScoped<INewsfeedService, NewsfeedService>();
             services.AddScoped<ISubmissionService, SubmissionService>();
+            services.AddScoped<ISchoolDayService, SchoolDayService>();
 
             services.AddScoped<ServiceHub>();
 
@@ -101,9 +104,13 @@ namespace BaiTapLonWinForm
             services.AddTransient<DashBoard>();
 
             // 3️⃣ Build DI container
+            services.AddTransient<TestDataSeeder>();
+
+            Application.EnableVisualStyles();
+            // 5. Build provider
+
             var provider = services.BuildServiceProvider();
 
-            ApplicationConfiguration.Initialize();
 
             // Seed test data
             using (var scope = provider.CreateScope())
@@ -120,6 +127,26 @@ namespace BaiTapLonWinForm
             }
 
             SettingsManager.LoadSettings();
+
+            
+            // Tạo một Scope riêng để lấy Seeder ra, chạy xong thì hủy Scope để giải phóng RAM
+            
+            using (var scope = provider.CreateScope())
+            {
+                try
+                {
+                    var seeder = scope.ServiceProvider.GetRequiredService<TestDataSeeder>();
+
+                    seeder.SeedAsync().GetAwaiter().GetResult();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Lỗi khởi tạo dữ liệu Test: {ex.Message}");
+                }
+            }
+
+            ApplicationConfiguration.Initialize();
+
 
             var loginForm = provider.GetRequiredService<LoginForm>();
             Application.Run(loginForm);

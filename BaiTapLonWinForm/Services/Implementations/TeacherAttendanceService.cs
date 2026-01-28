@@ -2,6 +2,7 @@
 using BaiTapLonWinForm.Repositories.Interfaces;
 using BaiTapLonWinForm.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,7 +16,6 @@ namespace BaiTapLonWinForm.Services.Implementations
         private readonly IClassSessionRepository _sessionRepo;
         private readonly ICompreFaceApiService _faceApi;
         private readonly IClassRepository _classRepo;
-
         // Cấu hình thời gian (giống bên Student)
         private const int LATE_THRESHOLD_MINUTES = 15;
         private const int WINDOW_OPEN_MINUTES_BEFORE = 30;
@@ -25,7 +25,8 @@ namespace BaiTapLonWinForm.Services.Implementations
             ITeacherRepository teacherRepository,
             IClassSessionRepository classSessionRepository,
             ICompreFaceApiService compreFaceApiService,
-            IClassRepository classRepository)
+            IClassRepository classRepository
+            )
         {
             _attRepo = teacherAttendanceRepository;
             _teacherRepo = teacherRepository;
@@ -150,7 +151,6 @@ namespace BaiTapLonWinForm.Services.Implementations
         public async Task<Class?> FindActiveTeachingClass(int teacherId, DateTime time)
         {
             var classes = await _classRepo.GetByTeacherIdAsync(teacherId);
-
             string currentDayVi = ConvertToVietnameseDay(time.DayOfWeek);
 
             foreach (var cls in classes)
