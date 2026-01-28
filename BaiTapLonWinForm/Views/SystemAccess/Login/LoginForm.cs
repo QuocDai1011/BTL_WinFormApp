@@ -62,6 +62,7 @@ namespace BaiTapLonWinForm.Views.SystemAcess.Login
                     case "admin":
                         {
                             new HomePage(_serviceHub, existUser.UserId).ShowDialog();
+                            this.Dispose();
                             break;
                         }
                     case "teacher":
@@ -73,7 +74,8 @@ namespace BaiTapLonWinForm.Views.SystemAcess.Login
                         }
                     case "student":
                         {
-                            //new StudentForm()
+                            new StudentForm(_serviceHub).ShowDialog();
+                            this.Dispose();
                             break;
                         }
                 }

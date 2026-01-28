@@ -20,11 +20,11 @@ namespace BaiTapLonWinForm.View.Setting
     public partial class Setting : UserControl
     {
         private readonly ServiceHub _serviceHub;
-        private int _userId;
+        private long _userId;
         private User _currentUser;
         private bool _suspendValidation = false;
 
-        public Setting(ServiceHub serviceHub, int userId)
+        public Setting(ServiceHub serviceHub, long userId)
         {
             InitializeComponent();
             _serviceHub = serviceHub;

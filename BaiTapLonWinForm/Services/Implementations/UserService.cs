@@ -388,7 +388,7 @@ namespace BaiTapLonWinForm.Services.Implementations
             }
         }
 
-        public async Task<(bool Success, string Message)> changePasswordAsync(int userId, string newPassword)
+        public async Task<(bool Success, string Message)> changePasswordAsync(long userId, string newPassword)
         {
             var existingUser = await _userRepository.GetByIdAsync(userId);
             if(existingUser == null)

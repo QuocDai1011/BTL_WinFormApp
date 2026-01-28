@@ -1,5 +1,6 @@
 ﻿using BaiTapLonWinForm.Views.Student.Controllers;
 using BaiTapLonWinForm.Services.Interfaces;
+using BaiTapLonWinForm.Services;
 
 namespace BaiTapLonWinForm.Views.Student
 {
@@ -8,12 +9,12 @@ namespace BaiTapLonWinForm.Views.Student
         private readonly IStudentService _studentService;
         private readonly ICourseService _courseService;
         private readonly IReceiptService _receiptService;
+
+        private readonly ServiceHub _serviceHub;
         private readonly int _studentId = 2;
-        public StudentForm(IStudentService studentService, ICourseService courseService, IReceiptService receiptService)
+        public StudentForm(ServiceHub serviceHub)
         {
-            _studentService = studentService;
-            _courseService = courseService;
-            _receiptService = receiptService;
+            _serviceHub = serviceHub;
             InitializeComponent();
             lbTitle.Text = "";
         }
@@ -55,7 +56,7 @@ namespace BaiTapLonWinForm.Views.Student
 
             lbTitle.Text = "Thông tin cá nhân";
 
-            var uc = new UC_DetailStudent(_studentService);
+            var uc = new UC_DetailStudent(_serviceHub.StudentService);
             uc.LoadDetailStudent(_studentId);
 
             await LoadControllerAsync(uc);
@@ -70,7 +71,7 @@ namespace BaiTapLonWinForm.Views.Student
 
             lbTitle.Text = "Lớp học";
 
-            LoadControllerAsync(new UC_Dashboard(_studentService));
+            LoadControllerAsync(new UC_Dashboard(_serviceHub.StudentService));
         }
 
         private void BtnCalender_Click(object sender, EventArgs e)
@@ -94,7 +95,7 @@ namespace BaiTapLonWinForm.Views.Student
 
             lbTitle.Text = "Mua khóa học";
 
-            LoadControllerAsync(new UC_BuyCourse(_courseService, _studentId));
+            LoadControllerAsync(new UC_BuyCourse(_serviceHub.CourseService, _studentId));
         }
 
         private void BtnSetting_Click(object sender, EventArgs e)
@@ -106,7 +107,7 @@ namespace BaiTapLonWinForm.Views.Student
 
             lbTitle.Text = "Hóa đơn";
 
-            LoadControllerAsync(new UC_Receipt(_receiptService, _studentId));
+            LoadControllerAsync(new UC_Receipt(_serviceHub.ReceiptService, _studentId));
         }
 
         private void BtnLogOut_Click(object sender, EventArgs e)

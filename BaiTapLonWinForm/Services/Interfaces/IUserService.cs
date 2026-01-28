@@ -22,7 +22,7 @@ namespace BaiTapLonWinForm.Services.Interfaces
         Task<(bool Success, string Message)> ActivateUserAsync(long userId);
         Task<(bool Success, string Message)> isEmailExists(string email, long? excludeUserId = null);
 
-        Task<(bool Success, string Message)> changePasswordAsync(int userId, string newPassword);
+        Task<(bool Success, string Message)> changePasswordAsync(long userId, string newPassword);
 
         #endregion
 

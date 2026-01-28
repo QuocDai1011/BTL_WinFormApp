@@ -212,7 +212,7 @@ namespace BaiTapLonWinForm.Repositories.Implementations
                 .FirstOrDefault();
         }
 
-        public async Task<bool> ChangePassword(int userId, string newPasswordHash)
+        public async Task<bool> ChangePassword(long userId, string newPasswordHash)
         {
             var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
             if(existingUser == null)
