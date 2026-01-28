@@ -9,8 +9,8 @@ namespace BaiTapLonWinForm.Services.Interfaces
 {
     public interface IClassService
     {
-        List<Class> GetAllClass(long teacherId);
-        Class GetClassById(long classId);
+        Task<List<Class>> GetAllClassAsync(int teacherId);
+        Class GetClassById(int classId);
         List<Class> UpdateClassesStatusList(List<Class> updatedClasses);
     }
 }

@@ -34,16 +34,16 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="10.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.0" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.1" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.1" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="10.0.1" />
+	  <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.1" />
+	  <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.1" />
 		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3650.58" />
+		<PackageReference Include="MongoDB.Driver" Version="3.5.2" />
 		<PackageReference Include="NEST" Version="7.17.5" />
 	</ItemGroup>
   <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="Views\Teacher\MyClass\MyExercise\" />
     <Folder Include="Views\Teacher\MyClass\MyResult\" />
   </ItemGroup>
   <ItemGroup>
@@ -61,7 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Update="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 </Project>

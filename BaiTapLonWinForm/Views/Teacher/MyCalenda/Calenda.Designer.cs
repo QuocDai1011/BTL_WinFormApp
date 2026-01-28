@@ -82,7 +82,7 @@
             iptbNext = new FontAwesome.Sharp.IconPictureBox();
             iptbPre = new FontAwesome.Sharp.IconPictureBox();
             cbbClassList = new Guna.UI2.WinForms.Guna2ComboBox();
-            flowLayoutPanel1 = new FlowLayoutPanel();
+            flpCalenda = new FlowLayoutPanel();
             guna2CustomGradientPanel3 = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
             pnMon = new FlowLayoutPanel();
             guna2CustomGradientPanel11 = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
@@ -149,7 +149,7 @@
             guna2CustomGradientPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)iptbNext).BeginInit();
             ((System.ComponentModel.ISupportInitialize)iptbPre).BeginInit();
-            flowLayoutPanel1.SuspendLayout();
+            flpCalenda.SuspendLayout();
             guna2CustomGradientPanel3.SuspendLayout();
             pnMon.SuspendLayout();
             guna2CustomGradientPanel11.SuspendLayout();
@@ -182,14 +182,21 @@
             // 
             // pnCalendaList
             // 
+            pnCalendaList.BackColor = Color.Transparent;
+            pnCalendaList.BorderColor = Color.White;
+            pnCalendaList.BorderRadius = 12;
+            pnCalendaList.BorderThickness = 1;
             pnCalendaList.Controls.Add(guna2CustomGradientPanel2);
             pnCalendaList.Controls.Add(cbbClassList);
+            pnCalendaList.CustomBorderColor = Color.White;
+            customizableEdges5.BottomLeft = false;
+            customizableEdges5.BottomRight = false;
             pnCalendaList.CustomizableEdges = customizableEdges5;
             pnCalendaList.Dock = DockStyle.Top;
             pnCalendaList.Location = new Point(0, 0);
             pnCalendaList.Name = "pnCalendaList";
             pnCalendaList.ShadowDecoration.CustomizableEdges = customizableEdges6;
-            pnCalendaList.Size = new Size(1459, 57);
+            pnCalendaList.Size = new Size(1459, 74);
             pnCalendaList.TabIndex = 0;
             // 
             // guna2CustomGradientPanel2
@@ -198,7 +205,11 @@
             guna2CustomGradientPanel2.Controls.Add(iptbNext);
             guna2CustomGradientPanel2.Controls.Add(iptbPre);
             guna2CustomGradientPanel2.CustomizableEdges = customizableEdges1;
-            guna2CustomGradientPanel2.Location = new Point(465, 11);
+            guna2CustomGradientPanel2.FillColor = Color.Transparent;
+            guna2CustomGradientPanel2.FillColor2 = Color.Transparent;
+            guna2CustomGradientPanel2.FillColor3 = Color.Transparent;
+            guna2CustomGradientPanel2.FillColor4 = Color.Transparent;
+            guna2CustomGradientPanel2.Location = new Point(464, 25);
             guna2CustomGradientPanel2.Name = "guna2CustomGradientPanel2";
             guna2CustomGradientPanel2.ShadowDecoration.CustomizableEdges = customizableEdges2;
             guna2CustomGradientPanel2.Size = new Size(549, 33);
@@ -219,7 +230,7 @@
             // 
             // iptbNext
             // 
-            iptbNext.BackColor = Color.White;
+            iptbNext.BackColor = Color.Transparent;
             iptbNext.Dock = DockStyle.Right;
             iptbNext.ForeColor = SystemColors.ControlText;
             iptbNext.IconChar = FontAwesome.Sharp.IconChar.AngleRight;
@@ -235,7 +246,7 @@
             // 
             // iptbPre
             // 
-            iptbPre.BackColor = Color.White;
+            iptbPre.BackColor = Color.Transparent;
             iptbPre.Dock = DockStyle.Left;
             iptbPre.ForeColor = SystemColors.ControlText;
             iptbPre.IconChar = FontAwesome.Sharp.IconChar.AngleLeft;
@@ -262,30 +273,31 @@
             cbbClassList.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cbbClassList.ForeColor = Color.Black;
             cbbClassList.ItemHeight = 30;
-            cbbClassList.Location = new Point(3, 3);
+            cbbClassList.Location = new Point(12, 19);
             cbbClassList.Name = "cbbClassList";
             cbbClassList.ShadowDecoration.CustomizableEdges = customizableEdges4;
             cbbClassList.Size = new Size(303, 36);
             cbbClassList.TabIndex = 0;
             cbbClassList.SelectedIndexChanged += cbbClassList_SelectedIndexChanged;
             // 
-            // flowLayoutPanel1
+            // flpCalenda
             // 
-            flowLayoutPanel1.AutoScroll = true;
-            flowLayoutPanel1.Controls.Add(guna2CustomGradientPanel3);
-            flowLayoutPanel1.Controls.Add(guna2CustomGradientPanel4);
-            flowLayoutPanel1.Controls.Add(guna2CustomGradientPanel5);
-            flowLayoutPanel1.Controls.Add(guna2CustomGradientPanel6);
-            flowLayoutPanel1.Controls.Add(guna2CustomGradientPanel7);
-            flowLayoutPanel1.Controls.Add(guna2CustomGradientPanel8);
-            flowLayoutPanel1.Controls.Add(guna2CustomGradientPanel9);
-            flowLayoutPanel1.Dock = DockStyle.Fill;
-            flowLayoutPanel1.Location = new Point(0, 57);
-            flowLayoutPanel1.Margin = new Padding(0);
-            flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(1459, 792);
-            flowLayoutPanel1.TabIndex = 1;
-            flowLayoutPanel1.WrapContents = false;
+            flpCalenda.BackColor = Color.White;
+            flpCalenda.Controls.Add(guna2CustomGradientPanel3);
+            flpCalenda.Controls.Add(guna2CustomGradientPanel4);
+            flpCalenda.Controls.Add(guna2CustomGradientPanel5);
+            flpCalenda.Controls.Add(guna2CustomGradientPanel6);
+            flpCalenda.Controls.Add(guna2CustomGradientPanel7);
+            flpCalenda.Controls.Add(guna2CustomGradientPanel8);
+            flpCalenda.Controls.Add(guna2CustomGradientPanel9);
+            flpCalenda.Dock = DockStyle.Fill;
+            flpCalenda.Location = new Point(0, 74);
+            flpCalenda.Margin = new Padding(0);
+            flpCalenda.Name = "flpCalenda";
+            flpCalenda.Size = new Size(1459, 775);
+            flpCalenda.TabIndex = 1;
+            flpCalenda.WrapContents = false;
+            flpCalenda.Paint += flowLayoutPanel1_Paint;
             // 
             // guna2CustomGradientPanel3
             // 
@@ -1068,8 +1080,8 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.White;
-            Controls.Add(flowLayoutPanel1);
+            BackColor = Color.Transparent;
+            Controls.Add(flpCalenda);
             Controls.Add(pnCalendaList);
             Name = "Calenda";
             Size = new Size(1459, 849);
@@ -1078,7 +1090,7 @@
             guna2CustomGradientPanel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)iptbNext).EndInit();
             ((System.ComponentModel.ISupportInitialize)iptbPre).EndInit();
-            flowLayoutPanel1.ResumeLayout(false);
+            flpCalenda.ResumeLayout(false);
             guna2CustomGradientPanel3.ResumeLayout(false);
             guna2CustomGradientPanel3.PerformLayout();
             pnMon.ResumeLayout(false);
@@ -1139,7 +1151,7 @@
         private Guna.UI2.WinForms.Guna2CustomGradientPanel guna2CustomGradientPanel2;
         private Guna.UI2.WinForms.Guna2HtmlLabel lblWeekRange;
         private FontAwesome.Sharp.IconPictureBox iptbNext;
-        private FlowLayoutPanel flowLayoutPanel1;
+        private FlowLayoutPanel flpCalenda;
         private Guna.UI2.WinForms.Guna2CustomGradientPanel guna2CustomGradientPanel3;
         private Guna.UI2.WinForms.Guna2CustomGradientPanel guna2CustomGradientPanel4;
         private Guna.UI2.WinForms.Guna2CustomGradientPanel guna2CustomGradientPanel5;

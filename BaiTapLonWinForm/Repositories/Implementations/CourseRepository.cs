@@ -21,11 +21,27 @@ namespace BaiTapLonWinForm.Repositories.Implementations
         public Course? GetCourseByClassId(long classId)
         {
             Course? course = _context.Classes
+                .AsNoTracking()
                 .Include(c => c.Course)
                 .Where(c => c.ClassId == classId)
                 .Select(c => c.Course)
                 .FirstOrDefault();
             return course;
+        }
+
+        public async Task<IEnumerable<Course>> GetAllAsync()
+        {
+            try
+            {
+                return await _context.Courses
+                    .AsNoTracking()
+                    .OrderByDescending(c => c.CreateAt)
+                    .ToListAsync();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

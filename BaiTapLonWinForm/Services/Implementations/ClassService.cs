@@ -16,12 +16,12 @@ namespace BaiTapLonWinForm.Services.Implementations
         {
             _classRepository = classRepository;
         }
-        public List<Class> GetAllClass(long teacherId)
+        public async Task<List<Class>> GetAllClassAsync(int teacherId)
         {
-            return _classRepository.getAllClasses(teacherId);
+            return await _classRepository.GetAllClassesAsync(teacherId);
         }
 
-        public Class GetClassById(long classId)
+        public Class GetClassById(int classId)
         {
             return _classRepository.GetClassById(classId);
         }

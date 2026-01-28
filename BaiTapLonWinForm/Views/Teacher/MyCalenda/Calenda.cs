@@ -14,7 +14,7 @@ namespace BaiTapLonWinForm.Views.Teacher.MyCalenda
     public partial class Calenda : UserControl
     {
         private readonly ServiceHub _serviceHub;
-        private readonly long _teacherId;
+        private readonly int _teacherId;
         private DateTime _startOfWeek;
         private DateTime _currentWeek;
         private bool _isLoaded = false;
@@ -26,9 +26,15 @@ namespace BaiTapLonWinForm.Views.Teacher.MyCalenda
         // Cache schedule items per day to avoid recreation
         private Dictionary<DayOfWeek, List<Control>> _cachedScheduleItems = new Dictionary<DayOfWeek, List<Control>>();
 
-        public Calenda(ServiceHub serviceHub, long teacherId)
+        public Calenda(ServiceHub serviceHub, int teacherId)
+            : this(serviceHub, teacherId, false)
+        {
+        }
+
+        public Calenda(ServiceHub serviceHub, int teacherId, bool isDarkMode)
         {
             InitializeComponent();
+            ApplyThemeToAllItems(isDarkMode);
             _serviceHub = serviceHub;
             _teacherId = teacherId;
 
@@ -55,9 +61,9 @@ namespace BaiTapLonWinForm.Views.Teacher.MyCalenda
             }
         }
 
-        private void Calenda_Load(object sender, EventArgs e)
+        private async void Calenda_Load(object sender, EventArgs e)
         {
-            LoadClassCombo();
+            await LoadClassComboAsync();
             dayColumns = new FlowLayoutPanel[]
             {
                 pnMon, pnTue, pnWed, pnThu, pnFri, pnSat, pnSun
@@ -92,6 +98,32 @@ namespace BaiTapLonWinForm.Views.Teacher.MyCalenda
             };
         }
 
+        //private async Task LoadScheduleAsync()
+        //{
+        //    if (_isLoading) return;
+        //    _isLoading = true;
+
+        //    try
+        //    {
+        //        long selectedClassId = Convert.ToInt64(cbbClassList.SelectedValue);
+
+        //        //var classes = await Task.Run(() => _serviceHub.ClassService.GetAllClass(_teacherId));
+        //        var classes = _serviceHub.ClassService.GetAllClass(_teacherId);
+        //        _cachedClasses = classes;
+
+        //        if (selectedClassId != 0)
+        //        {
+        //            classes = classes.Where(c => c.ClassId == selectedClassId).ToList();
+        //        }
+
+        //        var scheduleData = await Task.Run(() => PrepareScheduleData(classes));
+        //        UpdateScheduleUI(scheduleData);
+        //    }
+        //    finally
+        //    {
+        //        _isLoading = false;
+        //    }
+        //}
         private async Task LoadScheduleAsync()
         {
             if (_isLoading) return;
@@ -101,15 +133,21 @@ namespace BaiTapLonWinForm.Views.Teacher.MyCalenda
             {
                 long selectedClassId = Convert.ToInt64(cbbClassList.SelectedValue);
 
-                var classes = await Task.Run(() => _serviceHub.ClassService.GetAllClass(_teacherId));
+                var classes = await _serviceHub.ClassService
+                    .GetAllClassAsync(_teacherId);
+
                 _cachedClasses = classes;
 
                 if (selectedClassId != 0)
                 {
-                    classes = classes.Where(c => c.ClassId == selectedClassId).ToList();
+                    classes = classes
+                        .Where(c => c.ClassId == selectedClassId)
+                        .ToList();
                 }
 
-                var scheduleData = await Task.Run(() => PrepareScheduleData(classes));
+                // ❌ BỎ Task.Run
+                var scheduleData = PrepareScheduleData(classes);
+
                 UpdateScheduleUI(scheduleData);
             }
             finally
@@ -117,7 +155,6 @@ namespace BaiTapLonWinForm.Views.Teacher.MyCalenda
                 _isLoading = false;
             }
         }
-
         private Dictionary<DayOfWeek, List<(Class cls, string timeText)>> PrepareScheduleData(List<Class> classes)
         {
             var result = new Dictionary<DayOfWeek, List<(Class, string)>>();
@@ -168,14 +205,10 @@ namespace BaiTapLonWinForm.Views.Teacher.MyCalenda
                     dayMap[kvp.Key].Controls.Add(item);
                 }
             }
-
-            // Resume all layouts at once
             foreach (var col in dayMap.Values)
             {
                 col.ResumeLayout(false);
             }
-
-            // Single layout pass
             foreach (var col in dayMap.Values)
             {
                 col.PerformLayout();
@@ -292,16 +325,23 @@ namespace BaiTapLonWinForm.Views.Teacher.MyCalenda
             _ = LoadScheduleAsync();
         }
 
-        private void LoadClassCombo()
+        private async Task LoadClassComboAsync()
         {
-            var classes = _serviceHub.ClassService.GetAllClass(_teacherId);
-            classes.Insert(0, new Class { ClassId = 0, ClassName = "Tất cả lớp học" });
+            var classes = await _serviceHub.ClassService
+                .GetAllClassAsync(_teacherId);
+
+            classes.Insert(0, new Class
+            {
+                ClassId = 0,
+                ClassName = "Tất cả lớp học"
+            });
 
             cbbClassList.DataSource = classes;
             cbbClassList.DisplayMember = "ClassName";
             cbbClassList.ValueMember = "ClassId";
             cbbClassList.SelectedIndex = 0;
         }
+
 
         private void cbbClassList_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -316,6 +356,38 @@ namespace BaiTapLonWinForm.Views.Teacher.MyCalenda
                 _cachedScheduleItems.Clear();
             }
             base.Dispose(disposing);
+        }
+        public void ApplyThemeToAllItems(bool isDarkMode)
+        {
+            if (isDarkMode)
+            {
+                this.BackColor = Color.FromArgb(0, 16, 20);
+                pnCalendaList.FillColor = Color.FromArgb(80, 255, 255, 255);
+                pnCalendaList.FillColor2 = Color.FromArgb(80, 255, 255, 255);
+                pnCalendaList.FillColor3 = Color.FromArgb(80, 255, 255, 255);
+                pnCalendaList.FillColor4 = Color.FromArgb(80, 255, 255, 255);
+                flpCalenda.BackColor = Color.Transparent;
+                lblWeekRange.ForeColor = Color.White;
+                iptbPre.IconColor = Color.White;
+                iptbNext.IconColor = Color.White;
+            }
+            else
+            {
+                this.BackColor = Color.Transparent;
+                pnCalendaList.FillColor = Color.White;
+                pnCalendaList.FillColor2 = Color.White;
+                pnCalendaList.FillColor3 = Color.White;
+                pnCalendaList.FillColor4 = Color.White;
+                flpCalenda.BackColor = Color.White;
+                lblWeekRange.ForeColor = Color.Black;
+                iptbPre.IconColor = Color.Black;
+                iptbNext.IconColor = Color.Black;
+            }
+        }
+
+        private void flowLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

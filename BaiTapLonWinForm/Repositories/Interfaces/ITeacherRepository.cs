@@ -10,7 +10,7 @@ namespace BaiTapLonWinForm.Repositories.Interfaces
 {
     public interface ITeacherRepository
     {
-        Teacher GetAllTeacherByClassId(long classId);
+        Teacher GetAllTeacherByClassId(int classId);
         Task<Teacher?> GetByIdAsync(int id);
         Task<Teacher> UpdateAsync(Teacher entity);
         Task<bool> ExistsAsync(int id);

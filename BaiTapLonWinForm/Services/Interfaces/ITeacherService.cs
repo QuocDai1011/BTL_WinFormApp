@@ -10,7 +10,7 @@ namespace BaiTapLonWinForm.Services.Interfaces
 {
     public interface ITeacherService
     {
-        Teacher getAllTeacherByClassId(long classId);
+        Teacher getAllTeacherByClassId(int classId);
         Task<(bool Success, string Message, Teacher Data)> GetTeacherByIdAsync(int id);
         Task<(bool Success, string Message, Teacher Data)> UpdateTeacherAsync(Teacher teacher);
         int GetTeacherByUserId(long userId);

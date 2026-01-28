@@ -10,5 +10,6 @@ namespace BaiTapLonWinForm.Repositories.Interfaces
     public interface ICourseRepository
     {
         Course? GetCourseByClassId(long classId);
+        Task<IEnumerable<Course>> GetAllAsync();
     }
 }

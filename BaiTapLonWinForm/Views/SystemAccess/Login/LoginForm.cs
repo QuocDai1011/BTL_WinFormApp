@@ -46,7 +46,6 @@ namespace BaiTapLonWinForm.Views.SystemAcess.Login
             }
             else
             {
-                MessageHelper.ShowSuccess("Đăng nhập thành công");
                 return true;
             }
         }

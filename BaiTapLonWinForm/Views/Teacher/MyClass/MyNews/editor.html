@@ -25,6 +25,19 @@
     <textarea id="editor"></textarea>
 
     <script>
+        function setEditorHtml(html) {
+            if (CKEDITOR.instances.editor) {
+                CKEDITOR.instances.editor.setData(html);
+            }
+        }
+
+        function getEditorHtml() {
+            if (CKEDITOR.instances.editor) {
+                return CKEDITOR.instances.editor.getData();
+            }
+            return "";
+        }
+
         CKEDITOR.replace('editor', {
             height: '100%',
             resize_enabled: false,
@@ -32,10 +45,10 @@
             removeButtons: 'Source'
         });
 
-        CKEDITOR.on('instanceReady', function (ev) {
-            var editor = ev.editor;
-            editor.container.setStyle('height', '100%');
-            editor.resize('100%', '100%');
+        CKEDITOR.on('instanceReady', function () {
+            if (window.chrome?.webview) {
+                window.chrome.webview.postMessage("EDITOR_READY");
+            }
         });
     </script>
 </body>

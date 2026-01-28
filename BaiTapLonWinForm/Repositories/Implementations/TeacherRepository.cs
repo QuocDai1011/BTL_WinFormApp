@@ -17,7 +17,7 @@ namespace BaiTapLonWinForm.Repositories.Implementations
             _context = context;
         }
 
-        public Teacher GetAllTeacherByClassId(long classId)
+        public Teacher GetAllTeacherByClassId(int classId)
         {
             var teacher = _context.Classes
             .Where(c => c.ClassId == classId)

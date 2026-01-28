@@ -17,14 +17,14 @@ namespace BaiTapLonWinForm.Repositories.Implementations
         {
             _context = context;
         }
-        public List<Class> getAllClasses(long teacherId)
+        public async Task<List<Class>> GetAllClassesAsync(int teacherId)
         {
-            return _context.Classes
-                   .Where(c => c.TeacherId == teacherId)
-                   .ToList();
+            return await _context.Classes
+                .Where(c => c.TeacherId == teacherId)
+                .ToListAsync();
         }
 
-        public Class GetClassById(long classId)
+        public Class GetClassById(int classId)
         {
             var existClass = _context.Classes.FirstOrDefault(u => u.ClassId == classId);
             if (existClass != null)

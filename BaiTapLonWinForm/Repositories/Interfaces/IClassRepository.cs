@@ -9,8 +9,8 @@ namespace BaiTapLonWinForm.Repositories.Interfaces
 {
     public interface IClassRepository
     {
-        List<Class>getAllClasses(long teacherId);
-        Class GetClassById(long classId);
+        Task<List<Class>> GetAllClassesAsync(int teacherId);
+        Class GetClassById(int classId);
         void UpdateClassesStatus(List<Class> updatedClasses);
     }
 }

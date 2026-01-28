@@ -52,7 +52,6 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
             guna2CustomGradientPanel2 = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
             lblSchoolDay = new Guna.UI2.WinForms.Guna2HtmlLabel();
             lblShift = new Guna.UI2.WinForms.Guna2HtmlLabel();
-            addNew1 = new BaiTapLonWinForm.Views.Teacher.MyClass.MyNews.AddNew();
             guna2CustomGradientPanel1.SuspendLayout();
             guna2Panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)guna2CirclePictureBox1).BeginInit();
@@ -64,7 +63,7 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
             lblClassName.AutoEllipsis = true;
             lblClassName.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblClassName.ForeColor = Color.Black;
-            lblClassName.Location = new Point(18, 77);
+            lblClassName.Location = new Point(18, 68);
             lblClassName.Name = "lblClassName";
             lblClassName.Size = new Size(294, 23);
             lblClassName.TabIndex = 1;
@@ -75,7 +74,7 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
             lblNote.AutoEllipsis = true;
             lblNote.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             lblNote.ForeColor = Color.Black;
-            lblNote.Location = new Point(18, 107);
+            lblNote.Location = new Point(18, 97);
             lblNote.Name = "lblNote";
             lblNote.Size = new Size(284, 17);
             lblNote.TabIndex = 2;
@@ -103,7 +102,7 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
             guna2CustomGradientPanel1.FillColor2 = Color.Teal;
             guna2CustomGradientPanel1.FillColor3 = Color.Teal;
             guna2CustomGradientPanel1.FillColor4 = Color.Teal;
-            guna2CustomGradientPanel1.Location = new Point(20, 27);
+            guna2CustomGradientPanel1.Location = new Point(20, 16);
             guna2CustomGradientPanel1.Name = "guna2CustomGradientPanel1";
             guna2CustomGradientPanel1.ShadowDecoration.CustomizableEdges = customizableEdges2;
             guna2CustomGradientPanel1.Size = new Size(72, 30);
@@ -120,10 +119,10 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
             guna2Panel1.CustomBorderThickness = new Padding(0, 1, 0, 0);
             guna2Panel1.CustomizableEdges = customizableEdges6;
             guna2Panel1.Dock = DockStyle.Bottom;
-            guna2Panel1.Location = new Point(0, 181);
+            guna2Panel1.Location = new Point(0, 162);
             guna2Panel1.Name = "guna2Panel1";
             guna2Panel1.ShadowDecoration.CustomizableEdges = customizableEdges7;
-            guna2Panel1.Size = new Size(330, 77);
+            guna2Panel1.Size = new Size(330, 68);
             guna2Panel1.TabIndex = 11;
             // 
             // btnClassDetail
@@ -197,7 +196,7 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
             guna2CustomGradientPanel2.FillColor2 = Color.Transparent;
             guna2CustomGradientPanel2.FillColor3 = Color.Transparent;
             guna2CustomGradientPanel2.FillColor4 = Color.Transparent;
-            guna2CustomGradientPanel2.Location = new Point(18, 142);
+            guna2CustomGradientPanel2.Location = new Point(18, 133);
             guna2CustomGradientPanel2.Name = "guna2CustomGradientPanel2";
             guna2CustomGradientPanel2.ShadowDecoration.CustomizableEdges = customizableEdges9;
             guna2CustomGradientPanel2.Size = new Size(294, 26);
@@ -227,20 +226,11 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
             lblShift.TabIndex = 13;
             lblShift.Text = "19:00 ";
             // 
-            // addNew1
-            // 
-            addNew1.BackColor = Color.White;
-            addNew1.Location = new Point(226, 52);
-            addNew1.Name = "addNew1";
-            addNew1.Size = new Size(8, 8);
-            addNew1.TabIndex = 13;
-            // 
             // ClassItem
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.White;
-            Controls.Add(addNew1);
+            BackColor = Color.Transparent;
             Controls.Add(guna2CustomGradientPanel2);
             Controls.Add(guna2Panel1);
             Controls.Add(guna2CustomGradientPanel1);
@@ -248,7 +238,8 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
             Controls.Add(lblClassName);
             Margin = new Padding(3, 3, 3, 12);
             Name = "ClassItem";
-            Size = new Size(330, 258);
+            Size = new Size(330, 230);
+            Load += ClassItem_Load;
             guna2CustomGradientPanel1.ResumeLayout(false);
             guna2CustomGradientPanel1.PerformLayout();
             guna2Panel1.ResumeLayout(false);
@@ -274,6 +265,5 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
         private Guna.UI2.WinForms.Guna2CustomGradientPanel guna2CustomGradientPanel2;
         private Guna.UI2.WinForms.Guna2HtmlLabel lblSchoolDay;
         private Guna.UI2.WinForms.Guna2HtmlLabel lblShift;
-        private MyClass.MyNews.AddNew addNew1;
     }
 }

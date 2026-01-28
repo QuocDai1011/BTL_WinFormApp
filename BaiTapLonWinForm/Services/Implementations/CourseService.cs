@@ -25,5 +25,17 @@ namespace BaiTapLonWinForm.Services.Implementations
             }
             return course;
         }
+        public async Task<(bool Success, string Message, IEnumerable<Course> Data)> GetAllCoursesAsync()
+        {
+            try
+            {
+                var courses = await _courseRepository.GetAllAsync();
+                return (true, $"Lấy danh sách {courses.Count()} khóa học thành công", courses);
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Lỗi: {ex.Message}", null);
+            }
+        }
     }
 }
