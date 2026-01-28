@@ -1,0 +1,1231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!--
+    Microsoft ResX Schema
+
+    Version 2.0
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
+    associated with the data types.
+
+    Example:
+
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+
+    There are any number of "resheader" rows that contain simple
+    name/value pairs.
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
+    mimetype set.
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
+    extensible. For a given mimetype the value must be set accordingly:
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
+    read any of the formats listed below.
+
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="tableLayoutPanel.ColumnCount" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="lblErrGender.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="lblErrGender.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 10.2pt</value>
+  </data>
+  <data name="lblErrGender.Location" type="System.Drawing.Point, System.Drawing">
+    <value>358, 403</value>
+  </data>
+  <data name="lblErrGender.Size" type="System.Drawing.Size, System.Drawing">
+    <value>55, 23</value>
+  </data>
+  <data name="lblErrGender.TabIndex" type="System.Int32, mscorlib">
+    <value>16</value>
+  </data>
+  <data name="lblErrGender.Text" xml:space="preserve">
+    <value>label6</value>
+  </data>
+  <data name="lblErrGender.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;lblErrGender.Name" xml:space="preserve">
+    <value>lblErrGender</value>
+  </data>
+  <data name="&gt;&gt;lblErrGender.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblErrGender.Parent" xml:space="preserve">
+    <value>grpProfile</value>
+  </data>
+  <data name="&gt;&gt;lblErrGender.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="label5.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="label5.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 10.2pt</value>
+  </data>
+  <data name="label5.Location" type="System.Drawing.Point, System.Drawing">
+    <value>30, 403</value>
+  </data>
+  <data name="label5.Size" type="System.Drawing.Size, System.Drawing">
+    <value>55, 23</value>
+  </data>
+  <data name="label5.TabIndex" type="System.Int32, mscorlib">
+    <value>15</value>
+  </data>
+  <data name="label5.Text" xml:space="preserve">
+    <value>label5</value>
+  </data>
+  <data name="label5.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;label5.Name" xml:space="preserve">
+    <value>label5</value>
+  </data>
+  <data name="&gt;&gt;label5.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;label5.Parent" xml:space="preserve">
+    <value>grpProfile</value>
+  </data>
+  <data name="&gt;&gt;label5.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="lblErrEmail.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblErrEmail.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 10.2pt</value>
+  </data>
+  <data name="lblErrEmail.Location" type="System.Drawing.Point, System.Drawing">
+    <value>30, 216</value>
+  </data>
+  <data name="lblErrEmail.Size" type="System.Drawing.Size, System.Drawing">
+    <value>55, 23</value>
+  </data>
+  <data name="lblErrEmail.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="lblErrEmail.Text" xml:space="preserve">
+    <value>label4</value>
+  </data>
+  <data name="lblErrEmail.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;lblErrEmail.Name" xml:space="preserve">
+    <value>lblErrEmail</value>
+  </data>
+  <data name="&gt;&gt;lblErrEmail.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblErrEmail.Parent" xml:space="preserve">
+    <value>grpProfile</value>
+  </data>
+  <data name="&gt;&gt;lblErrEmail.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="lblErrPhone.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblErrPhone.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 10.2pt</value>
+  </data>
+  <data name="lblErrPhone.Location" type="System.Drawing.Point, System.Drawing">
+    <value>358, 211</value>
+  </data>
+  <data name="lblErrPhone.Size" type="System.Drawing.Size, System.Drawing">
+    <value>55, 23</value>
+  </data>
+  <data name="lblErrPhone.TabIndex" type="System.Int32, mscorlib">
+    <value>13</value>
+  </data>
+  <data name="lblErrPhone.Text" xml:space="preserve">
+    <value>label3</value>
+  </data>
+  <data name="lblErrPhone.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;lblErrPhone.Name" xml:space="preserve">
+    <value>lblErrPhone</value>
+  </data>
+  <data name="&gt;&gt;lblErrPhone.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblErrPhone.Parent" xml:space="preserve">
+    <value>grpProfile</value>
+  </data>
+  <data name="&gt;&gt;lblErrPhone.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="lblErrFirstName.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblErrFirstName.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 10.2pt</value>
+  </data>
+  <data name="lblErrFirstName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>30, 136</value>
+  </data>
+  <data name="lblErrFirstName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>55, 23</value>
+  </data>
+  <data name="lblErrFirstName.TabIndex" type="System.Int32, mscorlib">
+    <value>12</value>
+  </data>
+  <data name="lblErrFirstName.Text" xml:space="preserve">
+    <value>label2</value>
+  </data>
+  <data name="lblErrFirstName.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;lblErrFirstName.Name" xml:space="preserve">
+    <value>lblErrFirstName</value>
+  </data>
+  <data name="&gt;&gt;lblErrFirstName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblErrFirstName.Parent" xml:space="preserve">
+    <value>grpProfile</value>
+  </data>
+  <data name="&gt;&gt;lblErrFirstName.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="lblErrLastName.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblErrLastName.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 10.2pt</value>
+  </data>
+  <data name="lblErrLastName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>358, 131</value>
+  </data>
+  <data name="lblErrLastName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>55, 23</value>
+  </data>
+  <data name="lblErrLastName.TabIndex" type="System.Int32, mscorlib">
+    <value>11</value>
+  </data>
+  <data name="lblErrLastName.Text" xml:space="preserve">
+    <value>label1</value>
+  </data>
+  <data name="lblErrLastName.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;lblErrLastName.Name" xml:space="preserve">
+    <value>lblErrLastName</value>
+  </data>
+  <data name="&gt;&gt;lblErrLastName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblErrLastName.Parent" xml:space="preserve">
+    <value>grpProfile</value>
+  </data>
+  <data name="&gt;&gt;lblErrLastName.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="txtLastName.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 10pt</value>
+  </data>
+  <data name="txtLastName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>370, 80</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="txtLastName.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 6, 4, 6</value>
+  </data>
+  <data name="txtLastName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>300, 50</value>
+  </data>
+  <data name="txtLastName.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;txtLastName.Name" xml:space="preserve">
+    <value>txtLastName</value>
+  </data>
+  <data name="&gt;&gt;txtLastName.Type" xml:space="preserve">
+    <value>Guna.UI2.WinForms.Guna2TextBox, Guna.UI2, Culture=neutral, PublicKeyToken=8b9d14aa5142e261</value>
+  </data>
+  <data name="&gt;&gt;txtLastName.Parent" xml:space="preserve">
+    <value>grpProfile</value>
+  </data>
+  <data name="&gt;&gt;txtLastName.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="txtFirstName.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 10pt</value>
+  </data>
+  <data name="txtFirstName.Location" type="System.Drawing.Point, System.Drawing">
+    <value>30, 80</value>
+  </data>
+  <data name="txtFirstName.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 6, 4, 6</value>
+  </data>
+  <data name="txtFirstName.Size" type="System.Drawing.Size, System.Drawing">
+    <value>300, 50</value>
+  </data>
+  <data name="txtFirstName.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;txtFirstName.Name" xml:space="preserve">
+    <value>txtFirstName</value>
+  </data>
+  <data name="&gt;&gt;txtFirstName.Type" xml:space="preserve">
+    <value>Guna.UI2.WinForms.Guna2TextBox, Guna.UI2, Culture=neutral, PublicKeyToken=8b9d14aa5142e261</value>
+  </data>
+  <data name="&gt;&gt;txtFirstName.Parent" xml:space="preserve">
+    <value>grpProfile</value>
+  </data>
+  <data name="&gt;&gt;txtFirstName.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="txtPhone.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 10pt</value>
+  </data>
+  <data name="txtPhone.Location" type="System.Drawing.Point, System.Drawing">
+    <value>370, 160</value>
+  </data>
+  <data name="txtPhone.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 6, 4, 6</value>
+  </data>
+  <data name="txtPhone.Size" type="System.Drawing.Size, System.Drawing">
+    <value>300, 50</value>
+  </data>
+  <data name="txtPhone.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;txtPhone.Name" xml:space="preserve">
+    <value>txtPhone</value>
+  </data>
+  <data name="&gt;&gt;txtPhone.Type" xml:space="preserve">
+    <value>Guna.UI2.WinForms.Guna2TextBox, Guna.UI2, Culture=neutral, PublicKeyToken=8b9d14aa5142e261</value>
+  </data>
+  <data name="&gt;&gt;txtPhone.Parent" xml:space="preserve">
+    <value>grpProfile</value>
+  </data>
+  <data name="&gt;&gt;txtPhone.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="txtEmail.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 10pt</value>
+  </data>
+  <data name="txtEmail.Location" type="System.Drawing.Point, System.Drawing">
+    <value>30, 160</value>
+  </data>
+  <data name="txtEmail.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 6, 4, 6</value>
+  </data>
+  <data name="txtEmail.Size" type="System.Drawing.Size, System.Drawing">
+    <value>300, 50</value>
+  </data>
+  <data name="txtEmail.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;txtEmail.Name" xml:space="preserve">
+    <value>txtEmail</value>
+  </data>
+  <data name="&gt;&gt;txtEmail.Type" xml:space="preserve">
+    <value>Guna.UI2.WinForms.Guna2TextBox, Guna.UI2, Culture=neutral, PublicKeyToken=8b9d14aa5142e261</value>
+  </data>
+  <data name="&gt;&gt;txtEmail.Parent" xml:space="preserve">
+    <value>grpProfile</value>
+  </data>
+  <data name="&gt;&gt;txtEmail.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="labelBirthDate.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="labelBirthDate.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI Semibold, 9.5pt, style=Bold</value>
+  </data>
+  <data name="labelBirthDate.Location" type="System.Drawing.Point, System.Drawing">
+    <value>30, 320</value>
+  </data>
+  <data name="labelBirthDate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>81, 21</value>
+  </data>
+  <data name="labelBirthDate.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="labelBirthDate.Text" xml:space="preserve">
+    <value>Ngày sinh</value>
+  </data>
+  <data name="&gt;&gt;labelBirthDate.Name" xml:space="preserve">
+    <value>labelBirthDate</value>
+  </data>
+  <data name="&gt;&gt;labelBirthDate.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelBirthDate.Parent" xml:space="preserve">
+    <value>grpProfile</value>
+  </data>
+  <data name="&gt;&gt;labelBirthDate.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="dtpBirthDate.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 10pt</value>
+  </data>
+  <data name="dtpBirthDate.Location" type="System.Drawing.Point, System.Drawing">
+    <value>30, 350</value>
+  </data>
+  <data name="dtpBirthDate.Size" type="System.Drawing.Size, System.Drawing">
+    <value>300, 50</value>
+  </data>
+  <data name="dtpBirthDate.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;dtpBirthDate.Name" xml:space="preserve">
+    <value>dtpBirthDate</value>
+  </data>
+  <data name="&gt;&gt;dtpBirthDate.Type" xml:space="preserve">
+    <value>Guna.UI2.WinForms.Guna2DateTimePicker, Guna.UI2, Culture=neutral, PublicKeyToken=8b9d14aa5142e261</value>
+  </data>
+  <data name="&gt;&gt;dtpBirthDate.Parent" xml:space="preserve">
+    <value>grpProfile</value>
+  </data>
+  <data name="&gt;&gt;dtpBirthDate.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="txtAddress.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 10pt</value>
+  </data>
+  <data name="txtAddress.Location" type="System.Drawing.Point, System.Drawing">
+    <value>30, 245</value>
+  </data>
+  <data name="txtAddress.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 6, 4, 6</value>
+  </data>
+  <data name="txtAddress.Size" type="System.Drawing.Size, System.Drawing">
+    <value>640, 50</value>
+  </data>
+  <data name="txtAddress.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;txtAddress.Name" xml:space="preserve">
+    <value>txtAddress</value>
+  </data>
+  <data name="&gt;&gt;txtAddress.Type" xml:space="preserve">
+    <value>Guna.UI2.WinForms.Guna2TextBox, Guna.UI2, Culture=neutral, PublicKeyToken=8b9d14aa5142e261</value>
+  </data>
+  <data name="&gt;&gt;txtAddress.Parent" xml:space="preserve">
+    <value>grpProfile</value>
+  </data>
+  <data name="&gt;&gt;txtAddress.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="labelGender.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="labelGender.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI Semibold, 9.5pt, style=Bold</value>
+  </data>
+  <data name="labelGender.Location" type="System.Drawing.Point, System.Drawing">
+    <value>370, 320</value>
+  </data>
+  <data name="labelGender.Size" type="System.Drawing.Size, System.Drawing">
+    <value>71, 21</value>
+  </data>
+  <data name="labelGender.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="labelGender.Text" xml:space="preserve">
+    <value>Giới tính</value>
+  </data>
+  <data name="&gt;&gt;labelGender.Name" xml:space="preserve">
+    <value>labelGender</value>
+  </data>
+  <data name="&gt;&gt;labelGender.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelGender.Parent" xml:space="preserve">
+    <value>grpProfile</value>
+  </data>
+  <data name="&gt;&gt;labelGender.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="cboGender.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 10pt</value>
+  </data>
+  <data name="cboGender.ItemHeight" type="System.Int32, mscorlib">
+    <value>30</value>
+  </data>
+  <data name="cboGender.Items" xml:space="preserve">
+    <value>Nam</value>
+  </data>
+  <data name="cboGender.Items1" xml:space="preserve">
+    <value>Nữ</value>
+  </data>
+  <data name="cboGender.Location" type="System.Drawing.Point, System.Drawing">
+    <value>370, 350</value>
+  </data>
+  <data name="cboGender.Size" type="System.Drawing.Size, System.Drawing">
+    <value>300, 36</value>
+  </data>
+  <data name="cboGender.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;cboGender.Name" xml:space="preserve">
+    <value>cboGender</value>
+  </data>
+  <data name="&gt;&gt;cboGender.Type" xml:space="preserve">
+    <value>Guna.UI2.WinForms.Guna2ComboBox, Guna.UI2, Culture=neutral, PublicKeyToken=8b9d14aa5142e261</value>
+  </data>
+  <data name="&gt;&gt;cboGender.Parent" xml:space="preserve">
+    <value>grpProfile</value>
+  </data>
+  <data name="&gt;&gt;cboGender.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="btnUpdateProfile.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 12pt, style=Bold</value>
+  </data>
+  <data name="btnUpdateProfile.Location" type="System.Drawing.Point, System.Drawing">
+    <value>142, 507</value>
+  </data>
+  <data name="btnUpdateProfile.Size" type="System.Drawing.Size, System.Drawing">
+    <value>350, 58</value>
+  </data>
+  <data name="btnUpdateProfile.TabIndex" type="System.Int32, mscorlib">
+    <value>10</value>
+  </data>
+  <data name="btnUpdateProfile.Text" xml:space="preserve">
+    <value>💾  CẬP NHẬT HỒ SƠ</value>
+  </data>
+  <data name="&gt;&gt;btnUpdateProfile.Name" xml:space="preserve">
+    <value>btnUpdateProfile</value>
+  </data>
+  <data name="&gt;&gt;btnUpdateProfile.Type" xml:space="preserve">
+    <value>Guna.UI2.WinForms.Guna2Button, Guna.UI2, Culture=neutral, PublicKeyToken=8b9d14aa5142e261</value>
+  </data>
+  <data name="&gt;&gt;btnUpdateProfile.Parent" xml:space="preserve">
+    <value>grpProfile</value>
+  </data>
+  <data name="&gt;&gt;btnUpdateProfile.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="grpProfile.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 13pt, style=Bold</value>
+  </data>
+  <data name="grpProfile.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="grpProfile.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 60, 0, 20</value>
+  </data>
+  <data name="grpProfile.Size" type="System.Drawing.Size, System.Drawing">
+    <value>722, 672</value>
+  </data>
+  <data name="grpProfile.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="grpProfile.Text" xml:space="preserve">
+    <value>THÔNG TIN CÁ NHÂN</value>
+  </data>
+  <data name="&gt;&gt;grpProfile.Name" xml:space="preserve">
+    <value>grpProfile</value>
+  </data>
+  <data name="&gt;&gt;grpProfile.Type" xml:space="preserve">
+    <value>Guna.UI2.WinForms.Guna2GroupBox, Guna.UI2, Culture=neutral, PublicKeyToken=8b9d14aa5142e261</value>
+  </data>
+  <data name="&gt;&gt;grpProfile.Parent" xml:space="preserve">
+    <value>panelLeft</value>
+  </data>
+  <data name="&gt;&gt;grpProfile.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="panelLeft.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="panelLeft.Location" type="System.Drawing.Point, System.Drawing">
+    <value>28, 13</value>
+  </data>
+  <data name="panelLeft.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 0, 15, 0</value>
+  </data>
+  <data name="panelLeft.Size" type="System.Drawing.Size, System.Drawing">
+    <value>722, 714</value>
+  </data>
+  <data name="panelLeft.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;panelLeft.Name" xml:space="preserve">
+    <value>panelLeft</value>
+  </data>
+  <data name="&gt;&gt;panelLeft.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelLeft.Parent" xml:space="preserve">
+    <value>tableLayoutPanel</value>
+  </data>
+  <data name="&gt;&gt;panelLeft.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lblErrorConfirmPassword.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblErrorConfirmPassword.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 10.2pt</value>
+  </data>
+  <data name="lblErrorConfirmPassword.Location" type="System.Drawing.Point, System.Drawing">
+    <value>335, 247</value>
+  </data>
+  <data name="lblErrorConfirmPassword.Size" type="System.Drawing.Size, System.Drawing">
+    <value>55, 23</value>
+  </data>
+  <data name="lblErrorConfirmPassword.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="lblErrorConfirmPassword.Text" xml:space="preserve">
+    <value>label6</value>
+  </data>
+  <data name="lblErrorConfirmPassword.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;lblErrorConfirmPassword.Name" xml:space="preserve">
+    <value>lblErrorConfirmPassword</value>
+  </data>
+  <data name="&gt;&gt;lblErrorConfirmPassword.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblErrorConfirmPassword.Parent" xml:space="preserve">
+    <value>grpSecurity</value>
+  </data>
+  <data name="&gt;&gt;lblErrorConfirmPassword.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lblErrorNewPassword.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblErrorNewPassword.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 10.2pt</value>
+  </data>
+  <data name="lblErrorNewPassword.Location" type="System.Drawing.Point, System.Drawing">
+    <value>30, 247</value>
+  </data>
+  <data name="lblErrorNewPassword.Size" type="System.Drawing.Size, System.Drawing">
+    <value>55, 23</value>
+  </data>
+  <data name="lblErrorNewPassword.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="lblErrorNewPassword.Text" xml:space="preserve">
+    <value>label6</value>
+  </data>
+  <data name="lblErrorNewPassword.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;lblErrorNewPassword.Name" xml:space="preserve">
+    <value>lblErrorNewPassword</value>
+  </data>
+  <data name="&gt;&gt;lblErrorNewPassword.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblErrorNewPassword.Parent" xml:space="preserve">
+    <value>grpSecurity</value>
+  </data>
+  <data name="&gt;&gt;lblErrorNewPassword.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="lblErrorOldPassword.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblErrorOldPassword.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 10.2pt</value>
+  </data>
+  <data name="lblErrorOldPassword.Location" type="System.Drawing.Point, System.Drawing">
+    <value>30, 119</value>
+  </data>
+  <data name="lblErrorOldPassword.Size" type="System.Drawing.Size, System.Drawing">
+    <value>55, 23</value>
+  </data>
+  <data name="lblErrorOldPassword.TabIndex" type="System.Int32, mscorlib">
+    <value>17</value>
+  </data>
+  <data name="lblErrorOldPassword.Text" xml:space="preserve">
+    <value>label6</value>
+  </data>
+  <data name="lblErrorOldPassword.Visible" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;lblErrorOldPassword.Name" xml:space="preserve">
+    <value>lblErrorOldPassword</value>
+  </data>
+  <data name="&gt;&gt;lblErrorOldPassword.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblErrorOldPassword.Parent" xml:space="preserve">
+    <value>grpSecurity</value>
+  </data>
+  <data name="&gt;&gt;lblErrorOldPassword.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="txtOldPass.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 10pt</value>
+  </data>
+  <data name="txtOldPass.Location" type="System.Drawing.Point, System.Drawing">
+    <value>30, 63</value>
+  </data>
+  <data name="txtOldPass.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 6, 4, 6</value>
+  </data>
+  <data name="txtOldPass.Size" type="System.Drawing.Size, System.Drawing">
+    <value>585, 50</value>
+  </data>
+  <data name="txtOldPass.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;txtOldPass.Name" xml:space="preserve">
+    <value>txtOldPass</value>
+  </data>
+  <data name="&gt;&gt;txtOldPass.Type" xml:space="preserve">
+    <value>Guna.UI2.WinForms.Guna2TextBox, Guna.UI2, Culture=neutral, PublicKeyToken=8b9d14aa5142e261</value>
+  </data>
+  <data name="&gt;&gt;txtOldPass.Parent" xml:space="preserve">
+    <value>grpSecurity</value>
+  </data>
+  <data name="&gt;&gt;txtOldPass.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="txtNewPass.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 10pt</value>
+  </data>
+  <data name="txtNewPass.Location" type="System.Drawing.Point, System.Drawing">
+    <value>30, 181</value>
+  </data>
+  <data name="txtNewPass.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 6, 4, 6</value>
+  </data>
+  <data name="txtNewPass.Size" type="System.Drawing.Size, System.Drawing">
+    <value>280, 50</value>
+  </data>
+  <data name="txtNewPass.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;txtNewPass.Name" xml:space="preserve">
+    <value>txtNewPass</value>
+  </data>
+  <data name="&gt;&gt;txtNewPass.Type" xml:space="preserve">
+    <value>Guna.UI2.WinForms.Guna2TextBox, Guna.UI2, Culture=neutral, PublicKeyToken=8b9d14aa5142e261</value>
+  </data>
+  <data name="&gt;&gt;txtNewPass.Parent" xml:space="preserve">
+    <value>grpSecurity</value>
+  </data>
+  <data name="&gt;&gt;txtNewPass.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="txtConfirmPass.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 10pt</value>
+  </data>
+  <data name="txtConfirmPass.Location" type="System.Drawing.Point, System.Drawing">
+    <value>335, 181</value>
+  </data>
+  <data name="txtConfirmPass.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 6, 4, 6</value>
+  </data>
+  <data name="txtConfirmPass.Size" type="System.Drawing.Size, System.Drawing">
+    <value>280, 50</value>
+  </data>
+  <data name="txtConfirmPass.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;txtConfirmPass.Name" xml:space="preserve">
+    <value>txtConfirmPass</value>
+  </data>
+  <data name="&gt;&gt;txtConfirmPass.Type" xml:space="preserve">
+    <value>Guna.UI2.WinForms.Guna2TextBox, Guna.UI2, Culture=neutral, PublicKeyToken=8b9d14aa5142e261</value>
+  </data>
+  <data name="&gt;&gt;txtConfirmPass.Parent" xml:space="preserve">
+    <value>grpSecurity</value>
+  </data>
+  <data name="&gt;&gt;txtConfirmPass.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="btnChangePassword.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 12pt, style=Bold</value>
+  </data>
+  <data name="btnChangePassword.Location" type="System.Drawing.Point, System.Drawing">
+    <value>142, 312</value>
+  </data>
+  <data name="btnChangePassword.Size" type="System.Drawing.Size, System.Drawing">
+    <value>365, 58</value>
+  </data>
+  <data name="btnChangePassword.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="btnChangePassword.Text" xml:space="preserve">
+    <value>🔒  ĐỔI MẬT KHẨU</value>
+  </data>
+  <data name="&gt;&gt;btnChangePassword.Name" xml:space="preserve">
+    <value>btnChangePassword</value>
+  </data>
+  <data name="&gt;&gt;btnChangePassword.Type" xml:space="preserve">
+    <value>Guna.UI2.WinForms.Guna2Button, Guna.UI2, Culture=neutral, PublicKeyToken=8b9d14aa5142e261</value>
+  </data>
+  <data name="&gt;&gt;btnChangePassword.Parent" xml:space="preserve">
+    <value>grpSecurity</value>
+  </data>
+  <data name="&gt;&gt;btnChangePassword.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="grpSecurity.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 13pt, style=Bold</value>
+  </data>
+  <data name="grpSecurity.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 195</value>
+  </data>
+  <data name="grpSecurity.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 3, 3, 20</value>
+  </data>
+  <data name="grpSecurity.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 60, 0, 15</value>
+  </data>
+  <data name="grpSecurity.Size" type="System.Drawing.Size, System.Drawing">
+    <value>663, 484</value>
+  </data>
+  <data name="grpSecurity.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="grpSecurity.Text" xml:space="preserve">
+    <value>BẢO MẬT</value>
+  </data>
+  <data name="&gt;&gt;grpSecurity.Name" xml:space="preserve">
+    <value>grpSecurity</value>
+  </data>
+  <data name="&gt;&gt;grpSecurity.Type" xml:space="preserve">
+    <value>Guna.UI2.WinForms.Guna2GroupBox, Guna.UI2, Culture=neutral, PublicKeyToken=8b9d14aa5142e261</value>
+  </data>
+  <data name="&gt;&gt;grpSecurity.Parent" xml:space="preserve">
+    <value>panelRight</value>
+  </data>
+  <data name="&gt;&gt;grpSecurity.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="labelTheme.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="labelTheme.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI Semibold, 9.5pt, style=Bold</value>
+  </data>
+  <data name="labelTheme.Location" type="System.Drawing.Point, System.Drawing">
+    <value>30, 62</value>
+  </data>
+  <data name="labelTheme.Size" type="System.Drawing.Size, System.Drawing">
+    <value>79, 21</value>
+  </data>
+  <data name="labelTheme.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="labelTheme.Text" xml:space="preserve">
+    <value>Giao diện</value>
+  </data>
+  <data name="&gt;&gt;labelTheme.Name" xml:space="preserve">
+    <value>labelTheme</value>
+  </data>
+  <data name="&gt;&gt;labelTheme.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;labelTheme.Parent" xml:space="preserve">
+    <value>grpSystem</value>
+  </data>
+  <data name="&gt;&gt;labelTheme.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="cboTheme.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 10pt</value>
+  </data>
+  <data name="cboTheme.ItemHeight" type="System.Int32, mscorlib">
+    <value>30</value>
+  </data>
+  <data name="cboTheme.Items" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="cboTheme.Items1" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="cboTheme.Location" type="System.Drawing.Point, System.Drawing">
+    <value>30, 89</value>
+  </data>
+  <data name="cboTheme.Size" type="System.Drawing.Size, System.Drawing">
+    <value>392, 36</value>
+  </data>
+  <data name="cboTheme.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;cboTheme.Name" xml:space="preserve">
+    <value>cboTheme</value>
+  </data>
+  <data name="&gt;&gt;cboTheme.Type" xml:space="preserve">
+    <value>Guna.UI2.WinForms.Guna2ComboBox, Guna.UI2, Culture=neutral, PublicKeyToken=8b9d14aa5142e261</value>
+  </data>
+  <data name="&gt;&gt;cboTheme.Parent" xml:space="preserve">
+    <value>grpSystem</value>
+  </data>
+  <data name="&gt;&gt;cboTheme.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="btnSaveSystem.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 11pt, style=Bold</value>
+  </data>
+  <data name="btnSaveSystem.Location" type="System.Drawing.Point, System.Drawing">
+    <value>490, 85</value>
+  </data>
+  <data name="btnSaveSystem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>158, 46</value>
+  </data>
+  <data name="btnSaveSystem.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="btnSaveSystem.Text" xml:space="preserve">
+    <value>⚙️  ÁP DỤNG</value>
+  </data>
+  <data name="&gt;&gt;btnSaveSystem.Name" xml:space="preserve">
+    <value>btnSaveSystem</value>
+  </data>
+  <data name="&gt;&gt;btnSaveSystem.Type" xml:space="preserve">
+    <value>Guna.UI2.WinForms.Guna2Button, Guna.UI2, Culture=neutral, PublicKeyToken=8b9d14aa5142e261</value>
+  </data>
+  <data name="&gt;&gt;btnSaveSystem.Parent" xml:space="preserve">
+    <value>grpSystem</value>
+  </data>
+  <data name="&gt;&gt;btnSaveSystem.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="grpSystem.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 13pt, style=Bold</value>
+  </data>
+  <data name="grpSystem.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 5</value>
+  </data>
+  <data name="grpSystem.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 15, 0, 0</value>
+  </data>
+  <data name="grpSystem.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>0, 60, 0, 15</value>
+  </data>
+  <data name="grpSystem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>666, 175</value>
+  </data>
+  <data name="grpSystem.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="grpSystem.Text" xml:space="preserve">
+    <value>CÀI ĐẶT HỆ THỐNG</value>
+  </data>
+  <data name="&gt;&gt;grpSystem.Name" xml:space="preserve">
+    <value>grpSystem</value>
+  </data>
+  <data name="&gt;&gt;grpSystem.Type" xml:space="preserve">
+    <value>Guna.UI2.WinForms.Guna2GroupBox, Guna.UI2, Culture=neutral, PublicKeyToken=8b9d14aa5142e261</value>
+  </data>
+  <data name="&gt;&gt;grpSystem.Parent" xml:space="preserve">
+    <value>panelRight</value>
+  </data>
+  <data name="&gt;&gt;grpSystem.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="panelRight.Location" type="System.Drawing.Point, System.Drawing">
+    <value>756, 13</value>
+  </data>
+  <data name="panelRight.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>15, 0, 0, 0</value>
+  </data>
+  <data name="panelRight.Size" type="System.Drawing.Size, System.Drawing">
+    <value>666, 714</value>
+  </data>
+  <data name="panelRight.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;panelRight.Name" xml:space="preserve">
+    <value>panelRight</value>
+  </data>
+  <data name="&gt;&gt;panelRight.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelRight.Parent" xml:space="preserve">
+    <value>tableLayoutPanel</value>
+  </data>
+  <data name="&gt;&gt;panelRight.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="tableLayoutPanel.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="tableLayoutPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 140</value>
+  </data>
+  <data name="tableLayoutPanel.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>25, 10, 25, 30</value>
+  </data>
+  <data name="tableLayoutPanel.RowCount" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="tableLayoutPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1450, 760</value>
+  </data>
+  <data name="tableLayoutPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel.Name" xml:space="preserve">
+    <value>tableLayoutPanel</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TableLayoutPanel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel.Parent" xml:space="preserve">
+    <value>panelMain</value>
+  </data>
+  <data name="&gt;&gt;tableLayoutPanel.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="tableLayoutPanel.LayoutSettings" type="System.Windows.Forms.TableLayoutSettings, System.Windows.Forms">
+    <value>&lt;?xml version="1.0" encoding="utf-16"?&gt;&lt;TableLayoutSettings&gt;&lt;Controls&gt;&lt;Control Name="panelLeft" Row="0" RowSpan="1" Column="0" ColumnSpan="1" /&gt;&lt;Control Name="panelRight" Row="0" RowSpan="1" Column="1" ColumnSpan="1" /&gt;&lt;/Controls&gt;&lt;Columns Styles="Percent,52,Percent,48" /&gt;&lt;Rows Styles="Percent,100" /&gt;&lt;/TableLayoutSettings&gt;</value>
+  </data>
+  <data name="lblSubtitle.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblSubtitle.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 11pt</value>
+  </data>
+  <data name="lblSubtitle.Location" type="System.Drawing.Point, System.Drawing">
+    <value>123, 85</value>
+  </data>
+  <data name="lblSubtitle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>397, 25</value>
+  </data>
+  <data name="lblSubtitle.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="lblSubtitle.Text" xml:space="preserve">
+    <value>Quản lý thông tin cá nhân và cài đặt hệ thống</value>
+  </data>
+  <data name="&gt;&gt;lblSubtitle.Name" xml:space="preserve">
+    <value>lblSubtitle</value>
+  </data>
+  <data name="&gt;&gt;lblSubtitle.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblSubtitle.Parent" xml:space="preserve">
+    <value>panelHeader</value>
+  </data>
+  <data name="&gt;&gt;lblSubtitle.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="lblTitle.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="lblTitle.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 24pt, style=Bold</value>
+  </data>
+  <data name="lblTitle.Location" type="System.Drawing.Point, System.Drawing">
+    <value>120, 35</value>
+  </data>
+  <data name="lblTitle.Size" type="System.Drawing.Size, System.Drawing">
+    <value>449, 54</value>
+  </data>
+  <data name="lblTitle.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="lblTitle.Text" xml:space="preserve">
+    <value>THIẾT LẬP TÀI KHOẢN</value>
+  </data>
+  <data name="&gt;&gt;lblTitle.Name" xml:space="preserve">
+    <value>lblTitle</value>
+  </data>
+  <data name="&gt;&gt;lblTitle.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;lblTitle.Parent" xml:space="preserve">
+    <value>panelHeader</value>
+  </data>
+  <data name="&gt;&gt;lblTitle.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="picHeaderIcon.Location" type="System.Drawing.Point, System.Drawing">
+    <value>30, 35</value>
+  </data>
+  <data name="picHeaderIcon.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 70</value>
+  </data>
+  <data name="picHeaderIcon.SizeMode" type="System.Windows.Forms.PictureBoxSizeMode, System.Windows.Forms">
+    <value>Zoom</value>
+  </data>
+  <data name="picHeaderIcon.TabIndex" type="System.Int32, mscorlib">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;picHeaderIcon.Name" xml:space="preserve">
+    <value>picHeaderIcon</value>
+  </data>
+  <data name="&gt;&gt;picHeaderIcon.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;picHeaderIcon.Parent" xml:space="preserve">
+    <value>panelHeader</value>
+  </data>
+  <data name="&gt;&gt;picHeaderIcon.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="panelHeader.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Top</value>
+  </data>
+  <data name="panelHeader.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="panelHeader.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>30, 20, 30, 20</value>
+  </data>
+  <data name="panelHeader.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1450, 140</value>
+  </data>
+  <data name="panelHeader.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;panelHeader.Name" xml:space="preserve">
+    <value>panelHeader</value>
+  </data>
+  <data name="&gt;&gt;panelHeader.Type" xml:space="preserve">
+    <value>Guna.UI2.WinForms.Guna2Panel, Guna.UI2, Culture=neutral, PublicKeyToken=8b9d14aa5142e261</value>
+  </data>
+  <data name="&gt;&gt;panelHeader.Parent" xml:space="preserve">
+    <value>panelMain</value>
+  </data>
+  <data name="&gt;&gt;panelHeader.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="panelMain.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
+    <value>Fill</value>
+  </data>
+  <data name="panelMain.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="panelMain.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1450, 900</value>
+  </data>
+  <data name="panelMain.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;panelMain.Name" xml:space="preserve">
+    <value>panelMain</value>
+  </data>
+  <data name="&gt;&gt;panelMain.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;panelMain.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;panelMain.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>120, 120</value>
+  </data>
+  <data name="$this.Size" type="System.Drawing.Size, System.Drawing">
+    <value>1450, 900</value>
+  </data>
+  <data name="&gt;&gt;$this.Name" xml:space="preserve">
+    <value>Setting</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.UserControl, System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+</root>

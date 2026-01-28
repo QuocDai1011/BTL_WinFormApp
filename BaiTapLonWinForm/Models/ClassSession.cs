@@ -1,6 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-
 namespace BaiTapLonWinForm.Models;
 
 public partial class ClassSession
@@ -14,6 +11,8 @@ public partial class ClassSession
     public int SessionNumber { get; set; }
 
     public DateTime? CreateAt { get; set; }
+
+    public virtual ICollection<Attendance> Attendances { get; set; } = new List<Attendance>();
 
     public virtual Class Class { get; set; } = null!;
 

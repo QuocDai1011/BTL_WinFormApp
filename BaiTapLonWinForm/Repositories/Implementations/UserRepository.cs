@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace BaiTapLonWinForm.Repositories.Implementations
 {
@@ -18,6 +17,7 @@ namespace BaiTapLonWinForm.Repositories.Implementations
         {
             _context = context;
         }
+             
         public User GetUserByEmail(string email)
         {
             var existUser = _context.Users.FirstOrDefault(u => u.Email == email);
@@ -86,21 +86,102 @@ namespace BaiTapLonWinForm.Repositories.Implementations
             }
             return null;
         }
-        public async Task<User> UpdateAsync(User user)
+
+        public async Task<User?> GetByIdAsync(long userId)
         {
-            var existingUser = await _context.Users.FindAsync(user.UserId);
-            if (existingUser == null)
-                return null;
+            return await _context.Users
+                .Include(u => u.Role)
+                .FirstOrDefaultAsync(u => u.UserId == userId);
+        }
 
-            user.UpdateAt = DateTime.Now;
-            user.CreateAt = existingUser.CreateAt;
-            user.Email = user.Email.ToLower();
+        public async Task<User?> GetByEmailAsync(string email)
+        {
+            return await _context.Users
+                .Include(u => u.Role)
+                .FirstOrDefaultAsync(u => u.Email == email.ToLower());
+        }
 
-            _context.Entry(existingUser).CurrentValues.SetValues(user);
+        public async Task<IEnumerable<User>> GetAllAsync()
+        {
+            return await _context.Users
+                .Include(u => u.Role)
+                .OrderByDescending(u => u.CreateAt)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<User>> GetActiveUsersAsync()
+        {
+            return await _context.Users
+                .Include(u => u.Role)
+                .Where(u => u.IsActive == true)
+                .OrderBy(u => u.LastName)
+                .ThenBy(u => u.FirstName)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<User>> GetUsersByRoleAsync(byte roleId)
+        {
+            return await _context.Users
+                .Include(u => u.Role)
+                .Where(u => u.RoleId == roleId)
+                .OrderBy(u => u.LastName)
+                .ThenBy(u => u.FirstName)
+                .ToListAsync();
+        }
+
+        public async Task<User> CreateAsync(User user)
+        {
+            user.CreateAt = DateTime.Now;
+            user.IsActive = user.IsActive ?? true;
+
+            await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
 
             return user;
         }
+
+
+        public async Task<User> UpdateAsync(User user)
+        {
+            var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.UserId == user.UserId);
+            if (existingUser == null)
+                return null;
+            existingUser.Address = user.Address;
+            existingUser.DateOfBirth = user.DateOfBirth;
+            existingUser.FirstName = user.FirstName;
+            existingUser.LastName = user.LastName;
+            existingUser.Gender = user.Gender;
+            existingUser.Email = user.Email;
+            existingUser.UpdateAt = DateTime.Now;
+            
+            await _context.SaveChangesAsync();
+
+            return user;
+        }
+
+        public async Task<bool> DeleteAsync(long userId)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+                return false;
+
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<bool> SoftDeleteAsync(long userId)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user == null)
+                return false;
+
+            user.IsActive = false;
+            user.UpdateAt = DateTime.Now;
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
         public async Task<bool> ExistsAsync(long userId)
         {
             return await _context.Users.AnyAsync(u => u.UserId == userId);
@@ -122,6 +203,18 @@ namespace BaiTapLonWinForm.Repositories.Implementations
                 .Where(t => t.TeacherId == teacherId)
                 .Select(t => t.User)
                 .FirstOrDefault();
+        }
+
+        public async Task<bool> ChangePassword(int userId, string newPasswordHash)
+        {
+            var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
+            if(existingUser == null)
+                return false;
+            
+            existingUser.PasswordHashing = newPasswordHash;
+            existingUser.UpdateAt = DateTime.Now;
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

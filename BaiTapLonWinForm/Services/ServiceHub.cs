@@ -1,4 +1,4 @@
-﻿using BaiTapLonWinForm.Services.Implementations;
+using BaiTapLonWinForm.Services.Implementations;
 using BaiTapLonWinForm.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -10,27 +10,36 @@ namespace BaiTapLonWinForm.Services
 {
     public class ServiceHub
     {
-        //public IStudentService StudentService { get; }
         public IUserService UserService { get; }
         public IClassService ClassService { get; }
         public ICourseService CourseService { get; }
         public IStudentService StudentService { get; }
         public ITeacherService TeacherService { get; }
         public ISchoolDayService SchoolDayService { get; }
-
         public IReceiptService ReceiptService { get; set; }
+        public IClassSessionService ClassSessionService { get; }
+        public IAttendanceService AttendanceService { get; }
+        public ICompreFaceApiService CompreFaceApiService { get; }
+        public ITeacherAttendanceService TeacherAttendanceService { get; }
+        public ITeacherFaceService TeacherFaceService { get; }
+        public IStudentFaceService StudentFaceService { get; }
+
         public ServiceHub(
-            //IStudentService studentService,
             IUserService userService,
             IClassService classService,
             ICourseService courseService,
             IStudentService studentService,
             ITeacherService teacherService,
             ISchoolDayService schoolDayService,
-            IReceiptService receiptService
-            )
+            IReceiptService receiptService,
+            IClassSessionService classSessionService,
+            IAttendanceService attendanceService,
+            ICompreFaceApiService compreFaceApiService,
+            IStudentFaceService studentFaceService,
+            ITeacherAttendanceService teacherAttendanceService,
+            ITeacherFaceService teacherFaceService
+        )
         {
-            //StudentService = studentService;
             UserService = userService;
             ClassService = classService;
             StudentService = studentService;
@@ -38,6 +47,12 @@ namespace BaiTapLonWinForm.Services
             CourseService = courseService;
             SchoolDayService = schoolDayService;
             ReceiptService = receiptService;
+            ClassSessionService = classSessionService;
+            AttendanceService = attendanceService;
+            CompreFaceApiService = compreFaceApiService;
+            StudentFaceService = studentFaceService;
+            TeacherFaceService = teacherFaceService;
+            TeacherAttendanceService = teacherAttendanceService;
         }
     }
 }
