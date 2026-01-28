@@ -23,7 +23,9 @@ namespace BaiTapLonWinForm.Services
         public ITeacherAttendanceService TeacherAttendanceService { get; }
         public ITeacherFaceService TeacherFaceService { get; }
         public IStudentFaceService StudentFaceService { get; }
-
+        public INewsfeedService NewsfeedService { get; }
+        public IAssignmentService AssignmentService { get; }
+        public ISubmissionService SubmissionService { get; }
         public ServiceHub(
             IUserService userService,
             IClassService classService,
@@ -37,8 +39,11 @@ namespace BaiTapLonWinForm.Services
             ICompreFaceApiService compreFaceApiService,
             IStudentFaceService studentFaceService,
             ITeacherAttendanceService teacherAttendanceService,
-            ITeacherFaceService teacherFaceService
-        )
+            ITeacherFaceService teacherFaceService,
+            INewsfeedService newsfeedService,
+            IAssignmentService assignmentService,
+            ISubmissionService submissionService
+        )        
         {
             UserService = userService;
             ClassService = classService;
@@ -53,6 +58,9 @@ namespace BaiTapLonWinForm.Services
             StudentFaceService = studentFaceService;
             TeacherFaceService = teacherFaceService;
             TeacherAttendanceService = teacherAttendanceService;
+            NewsfeedService = newsfeedService;
+            AssignmentService =  assignmentService;
+            SubmissionService = submissionService;
         }
     }
 }

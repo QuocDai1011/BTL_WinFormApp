@@ -23,6 +23,7 @@ namespace BaiTapLonWinForm.Repositories.Implementations
         public Course? GetCourseByClassId(long classId)
         {
             Course? course = _context.Classes
+                .AsNoTracking()
                 .Include(c => c.Course)
                 .Where(c => c.ClassId == classId)
                 .Select(c => c.Course)
@@ -97,6 +98,7 @@ namespace BaiTapLonWinForm.Repositories.Implementations
             try
             {
                 return await _context.Courses
+                    .AsNoTracking()
                     .OrderByDescending(c => c.CreateAt)
                     .ToListAsync();
             }
@@ -105,6 +107,7 @@ namespace BaiTapLonWinForm.Repositories.Implementations
                 throw;
             }
         }
+
 
         public async Task<Course?> GetByIdAsync(int id)
         {
@@ -288,5 +291,6 @@ namespace BaiTapLonWinForm.Repositories.Implementations
                 throw;
             }
         }
+
     }
 }

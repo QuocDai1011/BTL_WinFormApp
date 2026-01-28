@@ -14,7 +14,7 @@ namespace BaiTapLonWinForm.Views.Teacher.MyClass
     /// </summary>
     public partial class ClassMember : UserControl
     {
-        private readonly long _classId;
+        private readonly int _classId;
         private readonly ServiceHub _serviceHub;
         
         // Data cache
@@ -28,7 +28,7 @@ namespace BaiTapLonWinForm.Views.Teacher.MyClass
         private System.Windows.Forms.Timer _searchDebounce;
         private bool _isLoading = false;
 
-        public ClassMember(long classId, ServiceHub serviceHub)
+        public ClassMember(int classId, ServiceHub serviceHub)
         {
             InitializeComponent();
             _classId = classId;

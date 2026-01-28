@@ -119,7 +119,6 @@
 	</resheader>
 	<assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
 
-	<!-- Resources from HEAD -->
 	<data name="register-illustrator" type="System.Resources.ResXFileRef, System.Windows.Forms">
 		<value>..\Views\SystemAccess\img\register-illustrator.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
 	</data>
@@ -153,8 +152,6 @@
 	<data name="backgroud-default" type="System.Resources.ResXFileRef, System.Windows.Forms">
 		<value>..\Resources\backgroud-default.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
 	</data>
-
-	<!-- Resources from branch -->
 	<data name="icons8-vietnam-48" type="System.Resources.ResXFileRef, System.Windows.Forms">
 		<value>..\Resources\icons8-vietnam-48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
 	</data>
@@ -175,5 +172,8 @@
 	</data>
 	<data name="user" type="System.Resources.ResXFileRef, System.Windows.Forms">
 		<value>..\Resources\Ảnh chụp màn hình 2025-12-22 191811.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+	</data>
+	<data name="icon-ellipsis-black" type="System.Resources.ResXFileRef, System.Windows.Forms">
+		<value>..\Resources\icon-ellipsis-black.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
 	</data>
 </root>

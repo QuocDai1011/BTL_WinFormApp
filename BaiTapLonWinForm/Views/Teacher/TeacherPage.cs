@@ -1,8 +1,11 @@
-﻿using BaiTapLonWinForm.Services;
+﻿using BaiTapLonWinForm.Models;
+using BaiTapLonWinForm.Services;
 using BaiTapLonWinForm.Utils;
 using BaiTapLonWinForm.Views.Teacher.Controls;
+using BaiTapLonWinForm.Views.Teacher.ListToDo;
 using BaiTapLonWinForm.Views.Teacher.MyCalenda;
 using BaiTapLonWinForm.Views.Teacher.MyClass;
+using BaiTapLonWinForm.Views.Teacher.MyClass.MyExercise;
 using BaiTapLonWinForm.Views.Teacher.Profile;
 using Guna.UI2.WinForms;
 using System;
@@ -16,7 +19,8 @@ namespace BaiTapLonWinForm.Views.Teacher
     {
         private readonly int _teacherId;
         private readonly ServiceHub _serviceHub;
-
+        private UserControl _currentPage;
+        //private UserControl _previousPage;
         private ClassList _classList;
         private Calenda _calenda;
         private MyProfile _profile;
@@ -38,7 +42,6 @@ namespace BaiTapLonWinForm.Views.Teacher
                 true
             );
             this.UpdateStyles();
-            LoadLabelName();
             isInitialized = true;
         }
 
@@ -46,17 +49,20 @@ namespace BaiTapLonWinForm.Views.Teacher
         {
             MenuClass_Click(null, null);
         }
-        private void LoadLabelName()
+        private void LoadPage(UserControl page)
         {
-            var teacher = _serviceHub.UserService.GetUserByTeacherId(_teacherId);
-            lblMenuUserName.Text = $"{teacher.FirstName} {teacher.LastName}";
+            pnMain.Controls.Clear();   // 🔥 dọn sạch
+            _currentPage = page;
+
+            page.Dock = DockStyle.Fill;
+            pnMain.Controls.Add(page);
         }
 
         #region Class List Management
 
         public void RefreshClassList()
         {
-            _classList?.LoadClassesAsync();
+            _classList?.LoadClassesAsync(false);
         }
 
         public void ClearClassListCache()
@@ -69,71 +75,96 @@ namespace BaiTapLonWinForm.Views.Teacher
         #endregion
 
         #region Navigation
-        private void OpenClassDetail(long classId)
+
+        private void OpenClassDetail(int classId)
         {
-            pnMain.Visible = false;
-            SuspendDrawing();
-            pnMain.SuspendLayout();
+            var cls = _serviceHub.ClassService.GetClassById(classId);
+            string className = cls?.ClassName ?? "Lớp học";
 
-            try
+            var target = this.Controls.Find("pnMainMenuTitle", true)
+                          .FirstOrDefault() as FlowLayoutPanel;
+
+            if (target != null)
             {
-                for (int i = pnMain.Controls.Count - 1; i >= 0; i--)
+                var oldLabels = target.Controls
+                    .OfType<Guna2HtmlLabel>()
+                    .Where(c => c.Text.StartsWith("/ "))
+                    .ToList();
+
+                foreach (var old in oldLabels)
                 {
-                    var ctrl = pnMain.Controls[i];
-                    if (ctrl == _classList || ctrl == _calenda || ctrl == _profile)
-                        pnMain.Controls.Remove(ctrl);
-                    else
-                        ctrl.Dispose();
-                }
-                pnMain.Controls.Clear();
-
-                var cls = _serviceHub.ClassService.GetClassById(classId);
-                string className = cls?.ClassName ?? "Lớp học";
-
-                var target = this.Controls.Find("pnMainMenuTitle", true).FirstOrDefault() as FlowLayoutPanel
-                            ?? this.Controls.Find("pnFlowTitle", true).FirstOrDefault() as FlowLayoutPanel;
-
-                if (target != null)
-                {
-                    var oldLabels = target.Controls.OfType<Guna2HtmlLabel>()
-                                          .Where(c => c.Text.StartsWith("/ "))
-                                          .ToList();
-                    foreach (var old in oldLabels)
-                    {
-                        target.Controls.Remove(old);
-                        old.Dispose();
-                    }
-
-                    var lbl = new Guna2HtmlLabel
-                    {
-                        BackColor = Color.Transparent,
-                        Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold),
-                        ForeColor = isDarkMode ? Color.FromArgb(72, 181, 183) : Color.Teal,
-                        AutoSize = false,
-                        Size = new Size(500, 34),
-                        TextAlignment = ContentAlignment.MiddleLeft,
-                        Text = $"/ {className}",
-                        Margin = new Padding(8, 6, 8, 6)
-                    };
-                    target.Controls.Add(lbl);
+                    target.Controls.Remove(old);
+                    old.Dispose();
                 }
 
-                var classDetail = new ClassDetail(classId, _serviceHub) { Dock = DockStyle.Fill };
-                pnMain.Controls.Add(classDetail);
+                target.Controls.Add(new Guna2HtmlLabel
+                {
+                    Text = $"/ {className}",
+                    Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold),
+                    ForeColor = isDarkMode ? Color.FromArgb(72, 181, 183) : Color.Teal,
+                    BackColor = Color.Transparent,
+                    AutoSize = false,
+                    Size = new Size(500, 34),
+                    Margin = new Padding(8, 6, 8, 6)
+                });
             }
-            catch (Exception ex)
+
+            var classDetail = new ClassDetail((int)classId, _serviceHub)
             {
-                Console.WriteLine(@"Error opening class detail: " + ex.Message);
-            }
-            finally
-            {
-                pnMain.ResumeLayout(true);
-                ResumeDrawing();
-                pnMain.Visible = true;
-            }
+                Dock = DockStyle.Fill
+            };
+            classDetail.OnEditExercise += OpenEditExercise;
+            classDetail.OnAddExercise += OpenAddExercise;
+            classDetail.OnOpenScoreDetail += OpenScoreDetail;
+
+            LoadPage(classDetail);
         }
-        #endregion
 
+        private void OpenEditExercise(Assignment assignment)
+        {
+            var lastPage = _currentPage;
+            var addExercise = new AddExercise(
+                _serviceHub,
+                assignment.ClassId,
+                _teacherId
+            );
+
+            addExercise.LoadAssignmentForEdit(assignment);
+
+            addExercise.OnBack += () =>
+            {
+                LoadPage(lastPage); // quay lại danh sách
+            };
+
+            LoadPage(addExercise);
+        }
+
+        private void OpenAddExercise(int classId)
+        {
+            var lastPage = _currentPage; // để quay lại
+
+            var addExercise = new AddExercise(_serviceHub, classId, _teacherId);
+            addExercise.OnBack += () =>
+            {
+                LoadPage(lastPage);
+            };
+
+            LoadPage(addExercise);
+        }
+
+        #endregion
+        private void OpenScoreDetail(string assignmentId)
+        {
+            var lastPage = _currentPage; // 👈 chụp lại
+
+            var scoreDetail = new ScoreDetail(_serviceHub, assignmentId);
+            scoreDetail.OnBack += () =>
+            {
+                LoadPage(lastPage);
+            };
+
+            LoadPage(scoreDetail);
+        }
         #region Helper Methods
         private void UpdateMainTitleAndClearMenuLabels(string newTitle)
         {
@@ -175,11 +206,9 @@ namespace BaiTapLonWinForm.Views.Teacher
             pnMain.Refresh();
             Color darkBg = Color.FromArgb(0, 27, 51);
             Color darkAccent = Color.FromArgb(4, 59, 59);
-
             SetPanelGradient(pnSideBar, darkBg, Color.Black, darkBg, darkAccent);
             SetPanelGradient(pnHeaderTeacher, darkAccent, Color.Black, darkBg, darkBg);
 
-            lblMenuUserName.ForeColor = Color.White;
             SetPanelGradient(pnParentPanelMain, darkAccent, Color.Black, Color.Black, darkBg);
 
             foreach (var btn in fpnBtnMenu.Controls.OfType<Guna2GradientButton>())
@@ -208,7 +237,6 @@ namespace BaiTapLonWinForm.Views.Teacher
             pnSideBar.FillColor3 = Color.MediumSpringGreen;
             pnSideBar.FillColor4 = Color.FromArgb(61, 104, 201);
 
-            lblMenuUserName.ForeColor = Color.Black;
             pnHeaderTeacher.FillColor = Color.White;
             pnHeaderTeacher.FillColor2 = Color.White;
             pnHeaderTeacher.FillColor3 = Color.White;
@@ -219,7 +247,6 @@ namespace BaiTapLonWinForm.Views.Teacher
                 if (label is Guna2HtmlLabel)
                     label.ForeColor = Color.Black;
             }
-
             pnBorderMain.FillColor = Color.FromArgb(213, 245, 232);
             pnBorderMain.FillColor2 = Color.FromArgb(213, 245, 232);
             pnBorderMain.FillColor3 = Color.FromArgb(213, 245, 232);
@@ -239,7 +266,7 @@ namespace BaiTapLonWinForm.Views.Teacher
                     btn.ForeColor = Color.Black;
                 }
             }
-            
+
             _classList?.ApplyThemeToAllItems(false);
         }
         #endregion
@@ -268,12 +295,14 @@ namespace BaiTapLonWinForm.Views.Teacher
             {
                 _classList = new ClassList(_teacherId, _serviceHub) { Dock = DockStyle.Fill };
                 _classList.OnOpenClassDetail += OpenClassDetail;
+                if (isDarkMode)
+                {
+                    _classList.ApplyThemeToAllItems(true);
+                }
             }
             if (pnMain.Controls.Count > 0 && pnMain.Controls[0] == _classList)
             {
-                pnMain.Visible = false;
-                await _classList.LoadClassesAsync();
-                pnMain.Visible = true;
+                await _classList.LoadClassesAsync(false);
                 return;
             }
 
@@ -289,11 +318,15 @@ namespace BaiTapLonWinForm.Views.Teacher
                     ctrl.Dispose();
             }
             pnMain.Controls.Clear();
+            _currentPage = null;
+            //_previousPage = null;
 
             pnMain.Controls.Add(_classList);
             pnMain.ResumeLayout(false);
-            await _classList.LoadClassesAsync();
+
             pnMain.Visible = true;
+
+            await _classList.LoadClassesAsync(false);
         }
 
         private void MenuCalenda_Click(object sender, EventArgs e)
@@ -303,7 +336,7 @@ namespace BaiTapLonWinForm.Views.Teacher
 
             if (_calenda == null)
             {
-                _calenda = new Calenda(_serviceHub, _teacherId)
+                _calenda = new Calenda(_serviceHub, _teacherId, isDarkMode)
                 {
                     Dock = DockStyle.Fill
                 };
@@ -322,7 +355,9 @@ namespace BaiTapLonWinForm.Views.Teacher
                     ctrl.Dispose();
             }
             pnMain.Controls.Clear();
-            
+            _currentPage = null;
+            //_previousPage = null;
+
             pnMain.Controls.Add(_calenda);
             pnMain.ResumeLayout(false);
             pnMain.Visible = true;
@@ -335,6 +370,8 @@ namespace BaiTapLonWinForm.Views.Teacher
             if (_profile == null)
             {
                 _profile = new MyProfile(_teacherId, _serviceHub) { Dock = DockStyle.Fill };
+                // Chưa tạo darkmode cho profile, nào có thì mở
+                // if (isDarkMode) _profile.ApplyTheme(true);
             }
             if (pnMain.Controls.Count > 0 && pnMain.Controls[0] == _profile)
                 return;
@@ -350,13 +387,15 @@ namespace BaiTapLonWinForm.Views.Teacher
                     ctrl.Dispose();
             }
             pnMain.Controls.Clear();
-            
+            _currentPage = null;
+            //_previousPage = null;
+
             pnMain.AutoScroll = true;
             pnMain.Controls.Add(_profile);
             pnMain.ResumeLayout(false);
             pnMain.Visible = true;
         }
-        
+
         private void lblMainTitle_Click(object sender, EventArgs e)
         {
             if (lblMainTitle.Text == "Lớp học của tôi")
@@ -409,15 +448,17 @@ namespace BaiTapLonWinForm.Views.Teacher
             try
             {
                 isDarkMode = !isDarkMode;
-                if (isDarkMode) 
+                if (isDarkMode)
                 {
                     ApplyDarkMode();
                     _classList?.ApplyThemeToAllItems(true);
+                    if (_calenda != null) _calenda.ApplyThemeToAllItems(true);
                 }
-                else 
+                else
                 {
                     ApplyLightMode();
                     _classList?.ApplyThemeToAllItems(false);
+                    if (_calenda != null) _calenda.ApplyThemeToAllItems(false);
                 }
 
                 await Task.Yield();
@@ -451,12 +492,39 @@ namespace BaiTapLonWinForm.Views.Teacher
                 Dock = DockStyle.Fill
             };
             _classList.OnOpenClassDetail += OpenClassDetail;
-
+            if (isDarkMode)
+            {
+                _classList.ApplyThemeToAllItems(true);
+            }
             pnMain.Controls.Add(_classList);
             pnMain.ResumeLayout(false);
-            
-            await _classList.LoadClassesAsync();
             pnMain.Visible = true;
+            await _classList.LoadClassesAsync(true);
+        }
+        private async void btnMyScore_Click(object sender, EventArgs e)
+        {
+            UpdateMainTitleAndClearMenuLabels("Việc cần làm");
+            //Lấy thông tin teacher hiện tại
+            var currentTeacher = await _serviceHub.TeacherService.GetTeacherByIdAsync(_teacherId);
+            var toDoView = new ToDoDetail(_serviceHub, currentTeacher.Data.UserId)
+            {
+                Dock = DockStyle.Fill
+            };
+
+            toDoView.OnOpenScoreDetail += (assignmentId) =>
+            {
+                LoadPage(new ScoreDetail(_serviceHub, assignmentId));
+            };
+            toDoView.OnEditExercise += (assignment) =>
+            {
+                OpenEditExercise(assignment); // dùng lại logic có sẵn
+            };
+            LoadPage(toDoView);
+        }
+
+        private void btnMyProfile_Click(object sender, EventArgs e)
+        {
+            pnProfileTeacher_Click(sender, e);
         }
     }
 }

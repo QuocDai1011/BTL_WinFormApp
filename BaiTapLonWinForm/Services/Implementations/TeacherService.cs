@@ -37,7 +37,7 @@ namespace BaiTapLonWinForm.Services.Implementations
             _faceService = faceService;
         }
 
-        public Teacher getAllTeacherByClassId(long classId)
+        public Teacher getAllTeacherByClassId(int classId)
         {
             return _teacherRepository.GetAllTeacherByClassId(classId);
         }

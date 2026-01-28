@@ -27,9 +27,10 @@ namespace BaiTapLonWinForm.Repositories.Interfaces
         #endregion
 
         #region feature/ha branch 
-        Teacher GetAllTeacherByClassId(long classId);
+        Teacher GetAllTeacherByClassId(int classId);
+
         Task<bool> UserIdExistsAsync(long userId, int? excludeTeacherId = null);
-        int GetTeacherByUserId(long userId);
+        int GetTeacherByUserId(long userId);    
         #endregion
     }
 }

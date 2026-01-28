@@ -1,4 +1,5 @@
-﻿using BaiTapLonWinForm.Models;
+using BaiTapLonWinForm.Models;
+using BaiTapLonWinForm.Mongo;
 using BaiTapLonWinForm.Repositories.Implementations;
 using BaiTapLonWinForm.Repositories.Interfaces;
 using BaiTapLonWinForm.Services;
@@ -10,7 +11,7 @@ using BaiTapLonWinForm.Views.Teacher;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-﻿using BaiTapLon_WinFormApp.Views.Admin.HomePage;
+using BaiTapLon_WinFormApp.Views.Admin.HomePage;
 using BaiTapLonWinForm.CoreSystem;
 using BaiTapLonWinForm.Data;
 using BaiTapLonWinForm.Test;
@@ -24,17 +25,16 @@ namespace BaiTapLonWinForm
         [STAThread]
         static void Main()
         {
-            // đăng ký excel của EPPlus
+            // Đăng ký excel của EPPlus
             ExcelPackage.License.SetNonCommercialPersonal(Environment.UserName);
 
-            // 1. Đọc file appsettings.json
-
+            // 1️⃣ Load appsettings.json
             var config = new ConfigurationBuilder()
                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .Build();
 
-
+            // 2️⃣ ServiceCollection
             var services = new ServiceCollection();
 
             services.AddSingleton<IConfiguration>(config);
@@ -45,6 +45,7 @@ namespace BaiTapLonWinForm
                 options.UseSqlServer(connectionString);
             });
 
+            // Repositories
             services.AddScoped<IStudentRepository, StudentRepository>();
             services.AddScoped<IReceiptRepository, ReceiptRepository>();
             services.AddScoped<ICourseRepository, CourseRepository>();
@@ -57,54 +58,59 @@ namespace BaiTapLonWinForm
             services.AddScoped<IStudentFaceImageRepository, StudentFaceImageRepository>();
             services.AddScoped<ITeacherAttendanceRepository, TeacherAttendanceRepository>();
             services.AddScoped<ITeacherFaceImageRepository, TeacherFaceImageRepository>();
+            services.AddScoped<IAssignmentRepository, AssignmentRepository>();
+            services.AddScoped<INewsfeedRepository, NewsfeedRepository>();
+            services.AddScoped<ISubmissionRepository, SubmissionRepository>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-
+            // Services
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IClassService, ClassService>();
+            services.AddScoped<ICourseService, CourseService>();
             services.AddScoped<IStudentService, StudentService>();
             services.AddScoped<IReceiptService, ReceiptService>();
-            services.AddScoped<ICourseService, CourseService>();
-            services.AddScoped<IClassService, ClassService>();
             services.AddScoped<ITeacherService, TeacherService>();
-            services.AddScoped<IUserService, UserService>();
             services.AddScoped<ISchoolDayService, SchoolDayService>();
             services.AddScoped<IClassSessionService, ClassSessionService>();
             services.AddScoped<IAttendanceService, AttendanceService>();
             services.AddScoped<IStudentFaceService, StudentFaceService>();
             services.AddScoped<ITeacherAttendanceService, TeacherAttendanceService>();
             services.AddScoped<ITeacherFaceService, TeacherFaceService>();
-
             services.AddScoped<ICompreFaceApiService, CompreFaceApiService>();
-
+            services.AddScoped<IAssignmentService, AssignmentService>();
+            services.AddScoped<INewsfeedService, NewsfeedService>();
+            services.AddScoped<ISubmissionService, SubmissionService>();
 
             services.AddScoped<ServiceHub>();
 
+            var mongoSettings = new MongoDbSettings();
+            config.GetSection("MongoDbSettings").Bind(mongoSettings);
 
-            // Register Form
+            services.AddSingleton(mongoSettings);
+            services.AddSingleton<MongoDbContext>();
+
             services.AddTransient<StudentForm>();
             services.AddTransient<TeacherPage>();
             services.AddTransient<Form1>();
             services.AddTransient<LoginForm>();
-            services.AddTransient<TeacherPage>();
-
             services.AddTransient<TestDataSeeder>();
-
             services.AddTransient<HomePage>();
             services.AddTransient<StudentManagement>();
             services.AddTransient<AddStudentControl>();
             services.AddTransient<DashBoard>();
 
-            // Build DI container
+            // 3️⃣ Build DI container
             var provider = services.BuildServiceProvider();
 
             ApplicationConfiguration.Initialize();
 
+            // Seed test data
             using (var scope = provider.CreateScope())
             {
                 try
                 {
                     var seeder = scope.ServiceProvider.GetRequiredService<TestDataSeeder>();
-
                     seeder.SeedAsync().GetAwaiter().GetResult();
                 }
                 catch (Exception ex)
@@ -115,14 +121,8 @@ namespace BaiTapLonWinForm
 
             SettingsManager.LoadSettings();
 
-            // Lấy form từ DI
-            //var mainForm = provider.GetRequiredService<StudentForm>();
-            //var teacherForm = provider.GetRequiredService<TeacherPage>();
             var loginForm = provider.GetRequiredService<LoginForm>();
-            //Application.Run(provider.GetRequiredService<HomePage>());
-
             Application.Run(loginForm);
         }
     }
 }
-

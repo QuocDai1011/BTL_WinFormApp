@@ -46,7 +46,6 @@ namespace BaiTapLonWinForm.Views.SystemAcess.Login
             }
             else
             {
-                MessageHelper.ShowSuccess("Đăng nhập thành công");
                 return true;
             }
         }
@@ -56,7 +55,7 @@ namespace BaiTapLonWinForm.Views.SystemAcess.Login
             string role = _serviceHub.UserService.GetRoleNameByRoleId(existUser.RoleId);
             if (existUser != null && role != null)
             {
-                switch (role)
+                switch (role.ToLower())
                 {
                     case "admin":
                         {

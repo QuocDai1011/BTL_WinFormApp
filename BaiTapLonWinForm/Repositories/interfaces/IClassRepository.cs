@@ -35,8 +35,8 @@ namespace BaiTapLonWinForm.Repositories.Interfaces
         #endregion
 
         #region feature/ha branch
-        List<Class> getAllClasses(long teacherId);
-        Class GetClassById(long classId);
+        Task<List<Class>> GetAllClassesAsync(int teacherId);
+        Class GetClassById(int classId);
         void UpdateClassesStatus(List<Class> updatedClasses);
         #endregion
     }
