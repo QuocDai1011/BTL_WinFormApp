@@ -9,11 +9,10 @@ namespace BaiTapLonWinForm.Services.Interfaces
 {
     public interface IAssignmentService
     {
-        void SubmitAssignment(
-            string newsfeedId,
-            int studentId,
-            string link);
-        string GetNewsfeedIdByClassId(int classId);
-        string GetStatus(string newsfeedId);
+        List<Newsfeed> GetAssignmentByNewsfeedIdAndClassId(int classId);
+
+        string GetStatusAssignmentByAssignmentId(string assignmentId);
+
+        void SubmitAssignment(string newsfeedId, int studentId, string link);
     }
 }

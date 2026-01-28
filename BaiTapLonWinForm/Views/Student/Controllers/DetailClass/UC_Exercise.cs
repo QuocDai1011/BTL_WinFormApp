@@ -1,43 +1,50 @@
-﻿using BaiTapLonWinForm.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using BaiTapLonWinForm.MongooModels;
+using BaiTapLonWinForm.Services.Interfaces;
 
 namespace BaiTapLonWinForm.Views.Student.Controllers.DetailClass
 {
     public partial class UC_Exercise : UserControl
     {
-        private readonly INewsfeedService _newsfeedSerivce;
-        private readonly IAssignmentService _assignmentService;
+        private readonly IAssignmentService _assignmentCollection;
+        private int _classId;
         private int _studentId;
-        public UC_Exercise(INewsfeedService newsfeedSerivce, IAssignmentService assignmentService, string newsfeedId, int studentId)
+        private string _newsfeedId;
+        public UC_Exercise(IAssignmentService assignmentCollection, int studentId)
         {
             InitializeComponent();
-            _newsfeedSerivce = newsfeedSerivce;
-            _assignmentService = assignmentService;
+            _assignmentCollection = assignmentCollection;
             _studentId = studentId;
-            LoadAssignmentByNewsfeedId(newsfeedId);
         }
 
-        private void LoadAssignmentByNewsfeedId(string newsfeedId)
+        public void BindData(int classId)
         {
-            var assignment = _newsfeedSerivce.LoadAssignmentByNewsfeedId(newsfeedId);
+            _classId = classId;
+            LoadCardAssignment();
+        }
 
-            if (assignment == null || !assignment.Any()) 
-                return;
+        private void LoadCardAssignment()
+        {
+            var assignment = _assignmentCollection
+                .GetAssignmentByNewsfeedIdAndClassId(_classId);
 
-            foreach(var item in assignment)
+            if (assignment.Count == 0)
             {
-                var control = new UC_CardFeed(item, _assignmentService, item.type.Trim(), item.Id, _studentId);
+                MessageBox.Show("Không có bài tập nào được giao", "Thông báo");
+                return;
+            }
+
+            foreach (var item in assignment)
+            {
+                var control = new UC_CardAssignment(item);
+                control.OnSubmitClicked += HandleSubmitAssignment;
                 control.Dock = DockStyle.Top;
                 this.Controls.Add(control);
             }
+        }
+
+        private void HandleSubmitAssignment(string newsfeedId, string link)
+        {
+            _assignmentCollection.SubmitAssignment(newsfeedId, _studentId, link);
         }
     }
 }

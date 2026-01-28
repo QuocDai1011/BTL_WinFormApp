@@ -14,17 +14,5 @@ namespace BaiTapLonWinForm.Views.Student.Controllers.DetailClass
             _assignmentService = assignmentService;
             _newsfeedId = newsfeedId;
         }
-
-        private void btnSubmit_Click(object sender, EventArgs e)
-        {
-            string _newsfeedId = _assignmentService.GetNewsfeedIdByClassId(_studentId);
-            string _link = gunaLink.Text.Trim();
-
-            _assignmentService.SubmitAssignment(_newsfeedId, _studentId, _link);
-
-            OnSubmitted?.Invoke();
-        }
-
-
     }
 }

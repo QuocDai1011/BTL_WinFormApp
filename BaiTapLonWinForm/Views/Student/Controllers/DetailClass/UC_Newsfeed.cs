@@ -13,7 +13,7 @@ namespace BaiTapLonWinForm.Views.Student.Controllers.DetailClass
         private int _classId;
         private int _studentId;
         private string _newsfeedId;
-        public UC_Newsfeed(INewsfeedService newsfeedService, IAssignmentService assignmentService, EnglistCenterContext context, int classId, int studentId, string newsfeedId)
+        public UC_Newsfeed(INewsfeedService newsfeedService, IAssignmentService assignmentService, EnglistCenterContext context, int classId, int studentId)
         {
             InitializeComponent();
             _newsfeedService = newsfeedService;
@@ -21,7 +21,6 @@ namespace BaiTapLonWinForm.Views.Student.Controllers.DetailClass
             _context = context;
             _classId = classId;
             _studentId = studentId;
-            _newsfeedId = newsfeedId;
         }
 
         private void LoadControl(UserControl control)

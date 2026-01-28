@@ -7,7 +7,6 @@ namespace BaiTapLonWinForm.Views.Student.Controllers
 {
     public partial class UC_DetailClass : UserControl
     {
-        private string _newsfeedId;
         private int _classId;
         private int _studentId;
         private readonly INewsfeedService _newsfeedService;
@@ -37,13 +36,14 @@ namespace BaiTapLonWinForm.Views.Student.Controllers
 
         private void btnNewsFeed_Click_1(object sender, EventArgs e)
         {
-            var control = new UC_Newsfeed(_newsfeedService, _assignmentService, _context, _classId, _studentId, _newsfeedId);
+            var control = new UC_Newsfeed(_newsfeedService, _assignmentService, _context, _classId, _studentId);
             LoadControl(control);
         }
 
         private void btnAssignment_Click(object sender, EventArgs e)
         {
-            var control = new UC_Exercise(_newsfeedService, _assignmentService, _newsfeedId, _studentId);
+            var control = new UC_Exercise(_assignmentService, _studentId);
+            control.BindData(_classId);
             LoadControl(control);
         }
     }

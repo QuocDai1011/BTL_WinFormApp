@@ -1,62 +1,53 @@
 ﻿using BaiTapLonWinForm.MongooModels;
 using BaiTapLonWinForm.Services.Interfaces;
 using MongoDB.Driver;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace BaiTapLonWinForm.Services.Implementations
 {
     public class AssignmentService : IAssignmentService
     {
+        private readonly IMongoCollection<Newsfeed> _newsfeedCollection;
         private readonly IMongoCollection<Assignment> _assignmentCollection;
         public AssignmentService()
         {
-            var context = new MongoDbContext();
-            _assignmentCollection = context.Assignment;
+            var contextNewsfeed = new MongoDbContext();
+            var contextAssignment = new MongoDbContext();
+            _newsfeedCollection = contextNewsfeed.Newsfeeds;
+            _assignmentCollection = contextAssignment.Assignment;
         }
-        public string GetNewsfeedIdByClassId(int classId)
+        public List<Newsfeed> GetAssignmentByNewsfeedIdAndClassId(int classId)
         {
-            var assignment = _assignmentCollection
-                .Find(a => a.ClassId == classId)
-                .FirstOrDefault();
-
-            return assignment?.NewsfeedId;
+            return _newsfeedCollection.Find(a => a.ClassId == classId && a.Type == "assignment").ToList();
         }
 
-        public string GetStatus(string newsfeedId)
+        public string GetStatusAssignmentByAssignmentId(string assignmentId)
         {
-            var assignment = _assignmentCollection
-                .Find(a => a.NewsfeedId == newsfeedId)
-                .FirstOrDefault();
+            var assignment = _assignmentCollection.Find(a => a.Id == assignmentId).FirstOrDefault();
 
-            return assignment?.Status;
+            if (assignment == null) throw new MongoClientException("Không tìm thấy bài tập phù hợp");
+
+            return assignment.Status;
         }
 
-        public void SubmitAssignment(
-            string newsfeedId,
-            int studentId,
-            string link)
+        public void SubmitAssignment(string newsfeedId, int studentId, string link)
         {
             var filter = Builders<Assignment>.Filter.And(
-                Builders<Assignment>.Filter.Eq(x => x.NewsfeedId, newsfeedId),
-                Builders<Assignment>.Filter.Eq(x => x.StudentId, studentId)
-            );
+                    Builders<Assignment>.Filter.Eq(x => x.NewsfeedId, newsfeedId),
+                    Builders<Assignment>.Filter.Eq(x => x.StudentId, studentId));
 
-            var assignment = _assignmentCollection.Find(filter).FirstOrDefault();
-            if (assignment == null) return;
-
-            var now = DateTime.UtcNow;
-            bool isLate = assignment.DueTime < now;
-            string status = isLate ? "Nộp muộn" : "Đã nộp";
-
+            var content = _assignmentCollection.Find(x => x.NewsfeedId == newsfeedId && x.StudentId == studentId).FirstOrDefault();
             var update = Builders<Assignment>.Update
                 .Set(x => x.Link, link)
-                .Set(x => x.Status, status)
+                .Set(x => x.SubmittedAt, DateTime.UtcNow)
+                .Set(x => x.Status, "Đã nộp")
                 .Set(x => x.IsCompleted, true)
-                .Set(x => x.IsLate, isLate)
-                .Set(x => x.SubmittedAt, now)
-                .Set(x => x.UpdatedAt, now);
+                .Set(x => x.IsLate, DateTime.UtcNow > content.DueTime);
 
             _assignmentCollection.UpdateOne(filter, update);
         }
-
     }
 }

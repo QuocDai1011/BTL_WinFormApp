@@ -6,7 +6,7 @@ namespace BaiTapLonWinForm.MongooModels
     public class Newsfeed
     {
         [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)] 
+        [BsonElement("_id")]
         public string Id { get; set; }
         [BsonElement("author")]
         public string Author { get; set; }
@@ -29,7 +29,7 @@ namespace BaiTapLonWinForm.MongooModels
         [BsonElement("title")] 
         public string Title { get; set; }
         [BsonElement("type")] 
-        public string type { get; set; }
+        public string Type { get; set; }
         [BsonElement("is_published")] 
         public bool IsPublished { get; set; }
     }

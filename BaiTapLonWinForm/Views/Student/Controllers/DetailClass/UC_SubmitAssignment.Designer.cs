@@ -91,7 +91,6 @@
             btnSubmit.Size = new Size(95, 46);
             btnSubmit.TabIndex = 29;
             btnSubmit.Text = "Nộp bài";
-            btnSubmit.Click += btnSubmit_Click;
             // 
             // panel1
             // 
