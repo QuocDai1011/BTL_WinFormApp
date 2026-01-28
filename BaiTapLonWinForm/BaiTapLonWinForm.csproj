@@ -44,13 +44,16 @@
 	<ItemGroup>
 		<PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
 		<PackageReference Include="CloudinaryDotNet" Version="1.27.8" />
+		<PackageReference Include="Emgu.CV" Version="4.8.1.5350" />
+		<PackageReference Include="Emgu.CV.Bitmap" Version="4.8.1.5350" />
+		<PackageReference Include="Emgu.CV.runtime.windows" Version="4.8.1.5350" />
 		<PackageReference Include="EPPlus" Version="8.3.0" />
 		<PackageReference Include="FontAwesome.Sharp" Version="6.6.0" />
 		<PackageReference Include="Guna.UI2.WinForms" Version="2.0.4.7" />
 		<PackageReference Include="Hourglass" Version="1.0.2" />
-		<PackageReference Include="Jenga.NET" Version="4.0.0" />
 		<PackageReference Include="itext.bouncy-castle-adapter" Version="8.0.5" />
 		<PackageReference Include="itext7" Version="8.0.5" />
+		<PackageReference Include="Jenga.NET" Version="4.0.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.21" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.21" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.21">
@@ -71,7 +74,7 @@
 		<PackageReference Include="QRCoder" Version="1.7.0" />
 		<PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
 		<PackageReference Include="SixLabors.ImageSharp.Drawing" Version="2.1.7" />
-		<PackageReference Include="System.Drawing.Common" Version="8.0.23" />
+		<PackageReference Include="System.Drawing.Common" Version="10.0.2" />
 		<PackageReference Include="System.Text.Encoding.CodePages" Version="8.0.0" />
 	</ItemGroup>
 	<ItemGroup>
