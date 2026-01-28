@@ -62,6 +62,9 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
         private void InitializeComponent()
         {
             sidebarPanel = new Panel();
+            pnlReceiptManagement = new Panel();
+            pbReceipt = new PictureBox();
+            lblReceipt = new Label();
             pnlSchedule = new Panel();
             pbSchedule = new PictureBox();
             lblSchedule = new Label();
@@ -98,10 +101,9 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             lblTitle = new Label();
             logoBox = new PictureBox();
             contentPanel = new Panel();
-            panel1 = new Panel();
-            pictureBox1 = new PictureBox();
-            label1 = new Label();
             sidebarPanel.SuspendLayout();
+            pnlReceiptManagement.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pbReceipt).BeginInit();
             pnlSchedule.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbSchedule).BeginInit();
             pnAttendance.SuspendLayout();
@@ -125,14 +127,12 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             pnlHeaderRight.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picUserAvatar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)logoBox).BeginInit();
-            panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // sidebarPanel
             // 
             sidebarPanel.BackColor = Color.FromArgb(41, 128, 185);
-            sidebarPanel.Controls.Add(panel1);
+            sidebarPanel.Controls.Add(pnlReceiptManagement);
             sidebarPanel.Controls.Add(pnlSchedule);
             sidebarPanel.Controls.Add(pnAttendance);
             sidebarPanel.Controls.Add(pnlSidebarFooter);
@@ -149,6 +149,44 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             sidebarPanel.Name = "sidebarPanel";
             sidebarPanel.Size = new Size(420, 1217);
             sidebarPanel.TabIndex = 0;
+            // 
+            // pnlReceiptManagement
+            // 
+            pnlReceiptManagement.BackColor = Color.Transparent;
+            pnlReceiptManagement.Controls.Add(pbReceipt);
+            pnlReceiptManagement.Controls.Add(lblReceipt);
+            pnlReceiptManagement.Cursor = Cursors.Hand;
+            pnlReceiptManagement.Location = new Point(23, 862);
+            pnlReceiptManagement.Margin = new Padding(5);
+            pnlReceiptManagement.Name = "pnlReceiptManagement";
+            pnlReceiptManagement.Size = new Size(375, 83);
+            pnlReceiptManagement.TabIndex = 11;
+            pnlReceiptManagement.Click += ReceiptManagement_Click;
+            // 
+            // pbReceipt
+            // 
+            pbReceipt.Image = BaiTapLonWinForm.Properties.Resources.logo2019_png_1;
+            pbReceipt.Location = new Point(30, 18);
+            pbReceipt.Margin = new Padding(5);
+            pbReceipt.Name = "pbReceipt";
+            pbReceipt.Size = new Size(48, 48);
+            pbReceipt.SizeMode = PictureBoxSizeMode.Zoom;
+            pbReceipt.TabIndex = 0;
+            pbReceipt.TabStop = false;
+            pbReceipt.Click += ReceiptManagement_Click;
+            // 
+            // lblReceipt
+            // 
+            lblReceipt.AutoSize = true;
+            lblReceipt.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
+            lblReceipt.ForeColor = Color.White;
+            lblReceipt.Location = new Point(97, 25);
+            lblReceipt.Margin = new Padding(5, 0, 5, 0);
+            lblReceipt.Name = "lblReceipt";
+            lblReceipt.Size = new Size(86, 30);
+            lblReceipt.TabIndex = 1;
+            lblReceipt.Text = "Biên lai";
+            lblReceipt.Click += ReceiptManagement_Click;
             // 
             // pnlSchedule
             // 
@@ -630,41 +668,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             contentPanel.Padding = new Padding(45);
             contentPanel.Size = new Size(1356, 1217);
             contentPanel.TabIndex = 2;
-            // 
-            // panel1
-            // 
-            panel1.BackColor = Color.Transparent;
-            panel1.Controls.Add(pictureBox1);
-            panel1.Controls.Add(label1);
-            panel1.Cursor = Cursors.Hand;
-            panel1.Location = new Point(23, 890);
-            panel1.Margin = new Padding(5);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(375, 83);
-            panel1.TabIndex = 11;
-            // 
-            // pictureBox1
-            // 
-            pictureBox1.Image = BaiTapLonWinForm.Properties.Resources.logo2019_png_1;
-            pictureBox1.Location = new Point(30, 18);
-            pictureBox1.Margin = new Padding(5);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(48, 48);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 0;
-            pictureBox1.TabStop = false;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
-            label1.ForeColor = Color.White;
-            label1.Location = new Point(97, 25);
-            label1.Margin = new Padding(5, 0, 5, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(162, 30);
-            label1.TabIndex = 1;
-            label1.Text = "Thời khóa biểu";
+            contentPanel.Click += ReceiptManagement_Click;
             // 
             // HomePage
             // 
@@ -680,6 +684,9 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             Text = "Trung Tâm Anh Ngữ Tre Xanh - Quản Lý";
             WindowState = FormWindowState.Maximized;
             sidebarPanel.ResumeLayout(false);
+            pnlReceiptManagement.ResumeLayout(false);
+            pnlReceiptManagement.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pbReceipt).EndInit();
             pnlSchedule.ResumeLayout(false);
             pnlSchedule.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pbSchedule).EndInit();
@@ -714,9 +721,6 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             pnlHeaderRight.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)picUserAvatar).EndInit();
             ((System.ComponentModel.ISupportInitialize)logoBox).EndInit();
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
         private Panel contentPanel;
@@ -726,8 +730,8 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
         private Panel pnlSchedule;
         private PictureBox pbSchedule;
         private Label lblSchedule;
-        private Panel panel1;
-        private PictureBox pictureBox1;
-        private Label label1;
+        private Panel pnlReceiptManagement;
+        private PictureBox pbReceipt;
+        private Label lblReceipt;
     }
 }

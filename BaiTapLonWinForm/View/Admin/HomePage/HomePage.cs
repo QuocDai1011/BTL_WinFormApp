@@ -5,6 +5,7 @@ using BaiTapLonWinForm.Utils;
 using BaiTapLonWinForm.View.Admin.Class;
 using BaiTapLonWinForm.View.Admin.Course;
 using BaiTapLonWinForm.View.Admin.Helper;
+using BaiTapLonWinForm.View.Admin.Receipt;
 using BaiTapLonWinForm.View.Admin.Schedule;
 using BaiTapLonWinForm.View.Admin.Students;
 using BaiTapLonWinForm.View.Admin.Teacher;
@@ -72,6 +73,10 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
 
             // Logout
             SetupMenuItem(pnlSchedule, pbSchedule, lblSchedule);
+
+            // Receipt Management
+            SetupMenuItem(pnlReceiptManagement, pbReceipt, lblReceipt);
+
 
         }
 
@@ -208,8 +213,11 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             SetActiveMenuItem(pnlSchedule);
             LoadUserControl(new WeeklySchedule(_serviceHub));
         }
-
-
+        private void ReceiptManagement_Click(object sender, EventArgs e)
+        {
+            SetActiveMenuItem(pnlReceiptManagement);
+            LoadUserControl(new ReceiptManagement(_serviceHub));
+        }
 
         #endregion
 
@@ -267,6 +275,19 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
         private void pnlSettings_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+            contentPanel.Controls.Clear();
+            var userControl = new ReceiptManagement(_serviceHub);
+            userControl.Dock = DockStyle.Fill;
+            contentPanel.Controls.Add(userControl);
         }
     }
 
