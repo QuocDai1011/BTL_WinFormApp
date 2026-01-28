@@ -17,40 +17,32 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
     {
         private readonly long _classId;
         public event Action<long>? OnOpenDetail;
-        
-        // Cache current data để tránh set lại không cần thiết
+
         private string _cachedCourseName;
         private string _cachedClassName;
         private string _cachedNote;
         private string _cachedShiftText;
         private string _cachedSchoolDay;
         private string _cachedTeacherName;
-        
+
         public ClassItem(long classId)
         {
             InitializeComponent();
             _classId = classId;
-            
-            // Enable double buffering để giảm flicker
-            this.SetStyle(ControlStyles.OptimizedDoubleBuffer | 
-                         ControlStyles.AllPaintingInWmPaint | 
+            this.SetStyle(ControlStyles.OptimizedDoubleBuffer |
+                         ControlStyles.AllPaintingInWmPaint |
                          ControlStyles.UserPaint, true);
             this.UpdateStyles();
-            
-            // Disable redraw khi resize
             this.SetStyle(ControlStyles.ResizeRedraw, false);
         }
-        
-        //Nhận dữ liệu lớp học từ prop - WITH DIRTY CHECKING
         public void SetData(Class classData, Course courseData, User currentUser, List<string> daysOfWeek)
         {
-            // Tạo các giá trị mới
             string newCourseName = courseData.CourseCode;
             string newClassName = classData.ClassName;
             string newNote = classData.Note;
             string newSchoolDay = string.Join(" - ", daysOfWeek);
             string newTeacherName = currentUser.FirstName + " " + currentUser.LastName;
-            
+
             string newShiftText;
             switch (classData.Shift)
             {
@@ -62,89 +54,80 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
                 case 6: newShiftText = "19:30 - 21:00"; break;
                 default: newShiftText = "Không tìm thấy ca học"; break;
             }
-            
-            // CHỈ UPDATE NẾU CÓ THAY ĐỔI
             bool hasChanges = false;
-            
+
             if (_cachedCourseName != newCourseName)
             {
                 _cachedCourseName = newCourseName;
                 lblCourseName.Text = newCourseName;
                 hasChanges = true;
             }
-            
+
             if (_cachedClassName != newClassName)
             {
                 _cachedClassName = newClassName;
                 lblClassName.Text = newClassName;
                 hasChanges = true;
             }
-            
+
             if (_cachedNote != newNote)
             {
                 _cachedNote = newNote;
                 lblNote.Text = newNote;
                 hasChanges = true;
             }
-            
+
             if (_cachedShiftText != newShiftText)
             {
                 _cachedShiftText = newShiftText;
                 lblShift.Text = newShiftText;
                 hasChanges = true;
             }
-            
+
             if (_cachedSchoolDay != newSchoolDay)
             {
                 _cachedSchoolDay = newSchoolDay;
                 lblSchoolDay.Text = newSchoolDay;
                 hasChanges = true;
             }
-            
+
             if (_cachedTeacherName != newTeacherName)
             {
                 _cachedTeacherName = newTeacherName;
                 lblTeacherName.Text = newTeacherName;
                 hasChanges = true;
             }
-
-            // Chỉ refresh layout nếu có thay đổi
             if (hasChanges)
             {
-                this.Invalidate(); // nhẹ hơn Refresh
+                this.Invalidate();
             }
 
         }
-
-        // Phương thức để thay đổi theme màu sắc
         public void ApplyTheme(bool isDarkMode)
         {
             if (isDarkMode)
             {
-                // Dark mode colors
-                lblClassName.ForeColor = Color.White;
-                lblNote.ForeColor = Color.FromArgb(200, 200, 200);
-                label4.ForeColor = Color.FromArgb(200, 200, 200);
-                lblTeacherName.ForeColor = Color.White;
+                lblClassName.ForeColor = Color.Black;
+                lblNote.ForeColor = Color.Black;
+                label4.ForeColor = Color.Black;
+                lblTeacherName.ForeColor = Color.Black;
                 lblSchoolDay.ForeColor = Color.FromArgb(72, 181, 183);
                 lblShift.ForeColor = Color.FromArgb(72, 181, 183);
-                
-                // Keep course label and button colors as is (they look good in both modes)
+
                 btnClassDetail.ForeColor = Color.FromArgb(72, 181, 183);
                 btnClassDetail.BorderColor = Color.FromArgb(72, 181, 183);
-                btnClassDetail.HoverState.FillColor = Color.FromArgb(72, 181, 183);
-                btnClassDetail.HoverState.FillColor2 = Color.FromArgb(72, 181, 183);
+                btnClassDetail.HoverState.FillColor = Color.Teal;
+                btnClassDetail.HoverState.FillColor2 = Color.Teal;
             }
             else
             {
-                // Light mode colors (original colors)
                 lblClassName.ForeColor = Color.Black;
                 lblNote.ForeColor = Color.Black;
                 label4.ForeColor = Color.Black;
                 lblTeacherName.ForeColor = Color.Black;
                 lblSchoolDay.ForeColor = Color.SeaGreen;
                 lblShift.ForeColor = Color.SeaGreen;
-                
+
                 btnClassDetail.ForeColor = Color.Teal;
                 btnClassDetail.BorderColor = Color.Teal;
                 btnClassDetail.HoverState.FillColor = Color.Teal;
@@ -154,8 +137,12 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
 
         private void btnClassDetail_Click(object sender, EventArgs e)
         {
-            //Chuyển đến trang chi tiết lớp học
             OnOpenDetail?.Invoke(_classId);
+        }
+
+        private void ClassItem_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

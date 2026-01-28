@@ -1,6 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-
 namespace BaiTapLonWinForm.Models;
 
 public partial class Attendance
@@ -16,4 +13,8 @@ public partial class Attendance
     public DateTime? CheckInTime { get; set; }
 
     public string? Note { get; set; }
+
+    public virtual ClassSession Session { get; set; } = null!;
+
+    public virtual Student Student { get; set; } = null!;
 }
