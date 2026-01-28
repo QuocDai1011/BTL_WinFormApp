@@ -263,6 +263,11 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
         {
 
         }
+
+        private void pnlSettings_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 
 }

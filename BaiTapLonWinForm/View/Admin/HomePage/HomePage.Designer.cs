@@ -98,6 +98,9 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             lblTitle = new Label();
             logoBox = new PictureBox();
             contentPanel = new Panel();
+            panel1 = new Panel();
+            pictureBox1 = new PictureBox();
+            label1 = new Label();
             sidebarPanel.SuspendLayout();
             pnlSchedule.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbSchedule).BeginInit();
@@ -122,11 +125,14 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             pnlHeaderRight.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)picUserAvatar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)logoBox).BeginInit();
+            panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // sidebarPanel
             // 
             sidebarPanel.BackColor = Color.FromArgb(41, 128, 185);
+            sidebarPanel.Controls.Add(panel1);
             sidebarPanel.Controls.Add(pnlSchedule);
             sidebarPanel.Controls.Add(pnAttendance);
             sidebarPanel.Controls.Add(pnlSidebarFooter);
@@ -141,7 +147,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             sidebarPanel.Location = new Point(0, 119);
             sidebarPanel.Margin = new Padding(5);
             sidebarPanel.Name = "sidebarPanel";
-            sidebarPanel.Size = new Size(420, 752);
+            sidebarPanel.Size = new Size(420, 1217);
             sidebarPanel.TabIndex = 0;
             // 
             // pnlSchedule
@@ -225,7 +231,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             pnlSidebarFooter.BackColor = Color.FromArgb(52, 73, 94);
             pnlSidebarFooter.Controls.Add(lblVersion);
             pnlSidebarFooter.Dock = DockStyle.Bottom;
-            pnlSidebarFooter.Location = new Point(0, 677);
+            pnlSidebarFooter.Location = new Point(0, 1142);
             pnlSidebarFooter.Margin = new Padding(5);
             pnlSidebarFooter.Name = "pnlSidebarFooter";
             pnlSidebarFooter.Size = new Size(420, 75);
@@ -250,12 +256,13 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             pnlSettings.Controls.Add(picSettings);
             pnlSettings.Controls.Add(lblSettings);
             pnlSettings.Cursor = Cursors.Hand;
-            pnlSettings.Location = new Point(23, 921);
+            pnlSettings.Location = new Point(23, 1020);
             pnlSettings.Margin = new Padding(5);
             pnlSettings.Name = "pnlSettings";
             pnlSettings.Size = new Size(375, 83);
             pnlSettings.TabIndex = 6;
             pnlSettings.Click += Settings_Click;
+            pnlSettings.Paint += pnlSettings_Paint;
             pnlSettings.MouseEnter += MenuItem_MouseEnter;
             pnlSettings.MouseLeave += MenuItem_MouseLeave;
             // 
@@ -551,7 +558,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             headerPanel.Location = new Point(0, 0);
             headerPanel.Margin = new Padding(5);
             headerPanel.Name = "headerPanel";
-            headerPanel.Size = new Size(1625, 119);
+            headerPanel.Size = new Size(1776, 119);
             headerPanel.TabIndex = 1;
             // 
             // pnlHeaderRight
@@ -560,7 +567,7 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             pnlHeaderRight.Controls.Add(lblUserName);
             pnlHeaderRight.Cursor = Cursors.Hand;
             pnlHeaderRight.Dock = DockStyle.Right;
-            pnlHeaderRight.Location = new Point(1251, 0);
+            pnlHeaderRight.Location = new Point(1402, 0);
             pnlHeaderRight.Margin = new Padding(5);
             pnlHeaderRight.Name = "pnlHeaderRight";
             pnlHeaderRight.Size = new Size(372, 117);
@@ -621,14 +628,49 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             contentPanel.Margin = new Padding(5);
             contentPanel.Name = "contentPanel";
             contentPanel.Padding = new Padding(45);
-            contentPanel.Size = new Size(1205, 752);
+            contentPanel.Size = new Size(1356, 1217);
             contentPanel.TabIndex = 2;
+            // 
+            // panel1
+            // 
+            panel1.BackColor = Color.Transparent;
+            panel1.Controls.Add(pictureBox1);
+            panel1.Controls.Add(label1);
+            panel1.Cursor = Cursors.Hand;
+            panel1.Location = new Point(23, 890);
+            panel1.Margin = new Padding(5);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(375, 83);
+            panel1.TabIndex = 11;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = BaiTapLonWinForm.Properties.Resources.logo2019_png_1;
+            pictureBox1.Location = new Point(30, 18);
+            pictureBox1.Margin = new Padding(5);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(48, 48);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 0;
+            pictureBox1.TabStop = false;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold);
+            label1.ForeColor = Color.White;
+            label1.Location = new Point(97, 25);
+            label1.Margin = new Padding(5, 0, 5, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(162, 30);
+            label1.TabIndex = 1;
+            label1.Text = "Thời khóa biểu";
             // 
             // HomePage
             // 
             AutoScaleDimensions = new SizeF(144F, 144F);
             AutoScaleMode = AutoScaleMode.Dpi;
-            ClientSize = new Size(1625, 871);
+            ClientSize = new Size(1776, 1336);
             Controls.Add(contentPanel);
             Controls.Add(sidebarPanel);
             Controls.Add(headerPanel);
@@ -672,6 +714,9 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
             pnlHeaderRight.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)picUserAvatar).EndInit();
             ((System.ComponentModel.ISupportInitialize)logoBox).EndInit();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
         private Panel contentPanel;
@@ -681,5 +726,8 @@ namespace BaiTapLon_WinFormApp.Views.Admin.HomePage
         private Panel pnlSchedule;
         private PictureBox pbSchedule;
         private Label lblSchedule;
+        private Panel panel1;
+        private PictureBox pictureBox1;
+        private Label label1;
     }
 }

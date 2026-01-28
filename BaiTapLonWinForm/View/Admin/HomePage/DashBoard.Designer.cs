@@ -345,6 +345,7 @@
             // 
             // pnChart
             // 
+            pnChart.BorderStyle = BorderStyle.Fixed3D;
             pnChart.Location = new Point(120, 3);
             pnChart.Margin = new Padding(120, 3, 3, 3);
             pnChart.Name = "pnChart";
@@ -353,6 +354,7 @@
             // 
             // pnChartHV
             // 
+            pnChartHV.BorderStyle = BorderStyle.Fixed3D;
             pnChartHV.Location = new Point(1034, 3);
             pnChartHV.Margin = new Padding(120, 3, 3, 3);
             pnChartHV.Name = "pnChartHV";
@@ -371,6 +373,7 @@
             // 
             // pnPieChart
             // 
+            pnPieChart.BorderStyle = BorderStyle.Fixed3D;
             pnPieChart.Location = new Point(120, 3);
             pnPieChart.Margin = new Padding(120, 3, 3, 3);
             pnPieChart.Name = "pnPieChart";
