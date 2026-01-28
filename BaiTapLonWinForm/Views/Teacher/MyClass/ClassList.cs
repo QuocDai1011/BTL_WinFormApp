@@ -1,6 +1,7 @@
 ﻿using BaiTapLonWinForm.Models;
 using BaiTapLonWinForm.Services;
 using Guna.UI2.WinForms;
+using Nest;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -17,7 +18,7 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
         private readonly ServiceHub _serviceHub;
         private readonly int _teacherId;
 
-        public event Action<long>? OnOpenClassDetail;
+        public event Action<int>? OnOpenClassDetail;
 
         private readonly Dictionary<long, (ClassItem item, Guna2CustomGradientPanel card)>
             _cachedClassItems = new();
@@ -36,6 +37,10 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
         private HashSet<long> _lastLoadedClassIds = new HashSet<long>();
         private readonly WinFormsTimer _searchTimer;
         private string _currentSearchKeyword = string.Empty;
+
+        // Layout constants
+        private const float CARD_HEIGHT = 267F;
+        private const float VERTICAL_GAP = 20F;
 
         public ClassList(int teacherId, ServiceHub serviceHub)
         {
@@ -66,7 +71,7 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
             _searchTimer.Tick += SearchTimer_Tick;
             flowMain.AutoScroll = true;
             flowMain.Scroll += FlowMain_Scroll;
-            guna2TextBox1.TextChanged += SearchTextBox_TextChanged;
+            txbSearchClass.TextChanged += SearchTextBox_TextChanged;
 
             tfpClassList.AutoSize = true;
             tfpClassList.AutoSizeMode = AutoSizeMode.GrowAndShrink;
@@ -74,8 +79,51 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
             this.DoubleBuffered = true;
             typeof(TableLayoutPanel).GetProperty("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance)
                 ?.SetValue(tfpClassList, true, null);
+            LoadFilteredClasses();
         }
-
+        public void LoadFilteredClasses()
+        {
+            LoadCbxCourseName();
+            LoadCbxActive();
+            LoadCbxDayOfWeek();
+            LoadDtpkFilter();
+        }
+        private async void LoadCbxCourseName()
+        {
+            var courses = await _serviceHub.CourseService.GetAllCoursesAsync();
+            cbxCourseName.Items.Clear();
+            cbxCourseName.Items.Add("Tất cả khóa học");
+            foreach (var course in courses.Data)
+            {
+                cbxCourseName.Items.Add(course.CourseName);
+            }
+            cbxCourseName.SelectedIndex = 0;
+        }
+        private void LoadCbxActive()
+        {
+            //cbxActive.Items.Clear();
+            //cbxActive.Items.Add("All");
+            //cbxActive.Items.Add("Active");
+            //cbxActive.Items.Add("Expired");
+            //cbxActive.SelectedIndex = 0;
+        }
+        private void LoadCbxDayOfWeek()
+        {
+            //cbxDayOfWeek.Items.Clear();
+            //cbxDayOfWeek.Items.Add("All");
+            //cbxDayOfWeek.Items.Add("Monday");
+            //cbxDayOfWeek.Items.Add("Tuesday");
+            //cbxDayOfWeek.Items.Add("Wednesday");
+            //cbxDayOfWeek.Items.Add("Thursday");
+            //cbxDayOfWeek.Items.Add("Friday");
+            //cbxDayOfWeek.Items.Add("Saturday");
+            //cbxDayOfWeek.Items.Add("Sunday");
+            //cbxDayOfWeek.SelectedIndex = 0;
+        }
+        private void LoadDtpkFilter()
+        {
+            dtpkFilter.Value = DateTime.Now;
+        }
         #region Double Buffer Helper
         private void EnableDoubleBuffering(Control control)
         {
@@ -99,10 +147,14 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
         private void SearchTimer_Tick(object? sender, EventArgs e)
         {
             _searchTimer.Stop();
-            _currentSearchKeyword = guna2TextBox1.Text.Trim().ToLower();
-            _currentPage = 0;
-            _isLoadingMore = false;
-            _ = LoadClassesAsync();
+            string newKeyword = txbSearchClass.Text.Trim().ToLower();
+            if (_currentSearchKeyword != newKeyword)
+            {
+                _currentSearchKeyword = newKeyword;
+                _currentPage = 0;
+                _isLoadingMore = false;
+                _ = LoadClassesAsync(false);
+            }
         }
 
         private List<Class> FilterClasses(List<Class> classes)
@@ -120,65 +172,48 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
         #region Public API
         public void LoadClasses()
         {
-            _ = LoadClassesAsync();
+            _ = LoadClassesAsync(false);
         }
-
-        public async Task LoadClassesAsync()
+        public async Task LoadClassesAsync(bool showExpired)
         {
-            // Ẩn UI ngay lập tức để tránh thấy quá trình render
-            this.Visible = false;
-            
+            tfpClassList.Visible = false;
             tfpClassList.SuspendLayout();
-            flowMain.SuspendLayout();
+
             try
             {
-                var classes = await Task.Run(() =>
-                {
-                    var c = _serviceHub.ClassService.GetAllClass(_teacherId);
-                    return _serviceHub.ClassService.UpdateClassesStatusList(c);
-                });
-                var newClassIds = new HashSet<long>(classes.Select(c => (long)c.ClassId));
+                var today = DateOnly.FromDateTime(DateTime.Now);
 
-                if (_lastLoadedClassIds.SetEquals(newClassIds) && tfpClassList.Controls.Count > 0 && _dataPreloaded)
-                {
-                    await UpdateExistingItemsAsync(classes);
-                    this.Visible = true;
-                    return;
-                }
-                _lastLoadedClassIds = newClassIds;
-                _allClasses = classes;
+                // ❌ BỎ Task.Run - gọi trực tiếp
+                var classes = await _serviceHub.ClassService.GetAllClassAsync(_teacherId);
+                classes = _serviceHub.ClassService.UpdateClassesStatusList(classes);
+
+                _allClasses = showExpired
+                    ? classes.Where(x => x.EndDate < today).ToList()
+                    : classes.Where(x => x.EndDate >= today).ToList();
+
                 _currentPage = 0;
+                _isLoadingMore = false;
 
-                if (!_dataPreloaded || _allCourses.Count == 0)
-                {
-                    guna2TextBox1.PlaceholderText = $"Đang tải {classes.Count} lớp học...";
-                    await PreloadAllDataAsync(classes);
-                }
+                await PreloadAllDataAsync(_allClasses);
 
                 tfpClassList.Controls.Clear();
-                tfpClassList.RowCount = 0;
-                tfpClassList.RowStyles.Clear();
-                var filtered = FilterClasses(_allClasses);
-                
-                // Render tất cả một lúc - không hiển thị trong quá trình render
-                RenderAllAtOnce(filtered);
-                
-                guna2TextBox1.PlaceholderText = $"Tải xong...";
+                _cachedClassItems.Clear();
+
+                RenderAllAtOnce(_allClasses);
             }
             finally
             {
                 tfpClassList.ResumeLayout(true);
-                flowMain.ResumeLayout(true);
-                tfpClassList.PerformLayout();
-                
-                // Hiển thị UI sau khi đã render xong tất cả
-                this.Visible = true;
+                tfpClassList.Visible = true;
             }
         }
 
-        // Phương thức để apply theme cho tất cả ClassItem đã cache
+
+
         public void ApplyThemeToAllItems(bool isDarkMode)
         {
+            if(isDarkMode == true)  this.BackColor = Color.Black;
+            else this.BackColor = Color.White;
             foreach (var cached in _cachedClassItems.Values)
             {
                 cached.item.ApplyTheme(isDarkMode);
@@ -187,31 +222,55 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
 
         private async Task PreloadAllDataAsync(List<Class> classes)
         {
-            await Task.Run(() =>
+            //await Task.Run(() =>
+            //{
+            //    _currentTeacher = _serviceHub.UserService.GetUserByTeacherId(_teacherId);
+
+            //    _allCourses.Clear();
+            //    _allSchoolDays.Clear();
+
+            //    foreach (var cls in classes)
+            //    {
+            //        if (!_allCourses.ContainsKey(cls.ClassId))
+            //        {
+            //            var course = _serviceHub.CourseService.GetCourseByClassId(cls.ClassId);
+            //            if (course != null)
+            //                _allCourses[cls.ClassId] = course;
+            //        }
+
+            //        if (!_allSchoolDays.ContainsKey(cls.ClassId))
+            //        {
+            //            var days = _serviceHub.SchoolDayService.GetListSchoolDaysByClassId(cls.ClassId);
+            //            _allSchoolDays[cls.ClassId] = days ?? new List<string>();
+            //        }
+            //    }
+
+            //    _dataPreloaded = true;
+            //});
+            _currentTeacher = _serviceHub.UserService.GetUserByTeacherId(_teacherId);
+
+            _allCourses.Clear();
+            _allSchoolDays.Clear();
+
+            // ❌ BỎ Task.Run() - đây là nguyên nhân threading issue
+            foreach (var cls in classes)
             {
-                _currentTeacher = _serviceHub.UserService.GetUserByTeacherId(_teacherId);
-
-                _allCourses.Clear();
-                _allSchoolDays.Clear();
-
-                foreach (var cls in classes)
+                if (!_allCourses.ContainsKey(cls.ClassId))
                 {
-                    if (!_allCourses.ContainsKey(cls.ClassId))
-                    {
-                        var course = _serviceHub.CourseService.GetCourseByClassId(cls.ClassId);
-                        if (course != null)
-                            _allCourses[cls.ClassId] = course;
-                    }
-
-                    if (!_allSchoolDays.ContainsKey(cls.ClassId))
-                    {
-                        var days = _serviceHub.SchoolDayService.GetListSchoolDaysByClassId(cls.ClassId);
-                        _allSchoolDays[cls.ClassId] = days ?? new List<string>();
-                    }
+                    var course = _serviceHub.CourseService.GetCourseByClassId(cls.ClassId);
+                    if (course != null)
+                        _allCourses[cls.ClassId] = course;
                 }
 
-                _dataPreloaded = true;
-            });
+                if (!_allSchoolDays.ContainsKey(cls.ClassId))
+                {
+                    var days = _serviceHub.SchoolDayService.GetListSchoolDaysByClassId(cls.ClassId);
+                    _allSchoolDays[cls.ClassId] = days ?? new List<string>();
+                }
+            }
+
+            _dataPreloaded = true;
+            await Task.CompletedTask; // Giữ method signature là async
         }
 
         public void ClearCache()
@@ -253,10 +312,8 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
         private async Task LoadNextPageAsync()
         {
             if (_isLoadingMore) return;
-
-            // Apply search filter
             var filteredClasses = FilterClasses(_allClasses);
-            
+
             int startIdx = _currentPage * BATCH_SIZE * 3; 
             if (startIdx >= filteredClasses.Count) return; 
 
@@ -289,14 +346,14 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
 
             tfpClassList.RowCount = rowsNeeded;
 
-            // Pre-create all row styles
+            float rowHeight = CARD_HEIGHT + VERTICAL_GAP;
+
             for (int row = 0; row < rowsNeeded; row++)
             {
                 if (tfpClassList.RowStyles.Count <= row)
-                    tfpClassList.RowStyles.Add(new RowStyle(SizeType.Absolute, 287F));
+                    tfpClassList.RowStyles.Add(new RowStyle(SizeType.Absolute, rowHeight));
             }
 
-            // Add all controls at once without making them visible individually
             for (int i = 0; i < totalItems; i++)
             {
                 var cls = classes[i];
@@ -307,14 +364,14 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
                     _allSchoolDays.TryGetValue(cls.ClassId, out var days))
                 {
                     var (_, card) = GetOrCreateClassItem(cls, course, _currentTeacher, days);
-                    
-                    // Set invisible để không trigger paint events
+
+                    card.Margin = new Padding(card.Margin.Left, card.Margin.Top, card.Margin.Right, (int)VERTICAL_GAP);
+
                     card.Visible = false;
                     tfpClassList.Controls.Add(card, col, row);
                 }
             }
-            
-            // Make all visible at once after adding
+
             foreach (Control ctrl in tfpClassList.Controls)
             {
                 ctrl.Visible = true;
@@ -323,8 +380,10 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
         private async Task RenderBatchesAsync(List<Class> classes)
         {
             int batchCount = (int)Math.Ceiling(classes.Count / (double)BATCH_SIZE);
-            
+
             int startRow = tfpClassList.RowCount;
+
+            float rowHeight = CARD_HEIGHT + VERTICAL_GAP;
 
             for (int batchIdx = 0; batchIdx < batchCount; batchIdx++)
             {
@@ -340,11 +399,11 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
                 }
 
                 int currentRow = startRow + batchIdx;
-                
+
                 if (tfpClassList.RowCount <= currentRow)
                 {
                     tfpClassList.RowCount = currentRow + 1;
-                    tfpClassList.RowStyles.Add(new RowStyle(SizeType.Absolute, 287F));
+                    tfpClassList.RowStyles.Add(new RowStyle(SizeType.Absolute, rowHeight));
                 }
 
                 for (int i = 0; i < batch.Count; i++)
@@ -357,17 +416,17 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
                     if (!_allSchoolDays.TryGetValue(cls.ClassId, out var days)) continue;
 
                     var (_, card) = GetOrCreateClassItem(cls, course, _currentTeacher, days);
-                    card.Margin = new Padding(0, 0, 20, 20);
+                    card.Margin = new Padding(0, 0, 20, (int)VERTICAL_GAP);
                     card.Visible = false;
                     tfpClassList.Controls.Add(card, col, currentRow);
-                    
+
                     card.Visible = true;
                 }
 
                 if (needSuspend)
                 {
                     tfpClassList.ResumeLayout(false);
-                    
+
                     if (batchIdx == batchCount - 1 && !_isScrolling)
                     {
                         tfpClassList.PerformLayout();
@@ -377,6 +436,23 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
             }
         }
         #endregion
+
+        private async Task loadCombobox()
+        {
+            var courses = await _serviceHub.CourseService.GetAllCoursesAsync();
+            
+            var result = courses.Data.Select(c => c.CourseName).ToList();
+
+            cbxCourseName.SelectedItem = result;
+        }
+
+        private List<Class> filter()
+        {
+            string courseNames = cbxCourseName.SelectedItem.ToString() ?? "";
+            var result = _allClasses.Where( c => c.Equals(courseNames)).ToList();  
+            return result;
+
+        }
 
         #region Create UI
         private ClassItem CreateClassItem(
@@ -389,7 +465,7 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
             uc.Dock = DockStyle.Fill;
 
             uc.SetData(classData, courseData, currentUser, daysOfWeek);
-            uc.OnOpenDetail += id => OnOpenClassDetail?.Invoke(id);
+            uc.OnOpenDetail += id => OnOpenClassDetail?.Invoke((int)id);
 
             return uc;
         }
@@ -399,9 +475,9 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
             var card = new Guna2CustomGradientPanel
             {
                 Width = 338,
-                Height = 267,
+                Height = (int)CARD_HEIGHT,
                 Padding = new Padding(1),
-                Margin = new Padding(0, 0, 20, 20),
+                Margin = new Padding(1, 1, 20, (int)VERTICAL_GAP),
 
                 BorderRadius = 8,
                 BorderThickness = 1,
@@ -497,6 +573,10 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
             }
         }
         #endregion
+        private void txbSearchClass_TextChanged(object? sender, EventArgs e)
+        {
+            SearchTextBox_TextChanged(sender, e);
+        }
 
         protected override void Dispose(bool disposing)
         {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BaiTapLonWinForm.Repositories.interfaces
+namespace BaiTapLonWinForm.Repositories.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {

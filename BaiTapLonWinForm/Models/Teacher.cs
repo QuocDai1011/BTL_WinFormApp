@@ -1,6 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-
 namespace BaiTapLonWinForm.Models;
 
 public partial class Teacher
@@ -21,3 +18,4 @@ public partial class Teacher
 
     public virtual User User { get; set; } = null!;
 }
+

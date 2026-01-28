@@ -1,7 +1,7 @@
 ﻿using BaiTapLonWinForm.Models;
-using BaiTapLonWinForm.Repositories.interfaces;
-using BaiTapLonWinForm.Services.interfaces;
+using BaiTapLonWinForm.Repositories.Interfaces;
 using BaiTapLonWinForm.Services.Interfaces;
+
 using BaiTapLonWinForm.Validate;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -14,20 +14,23 @@ namespace BaiTapLonWinForm.Services.Implementations
 {
     public class ClassService : IClassService
     {
-        private readonly IClassRepository _classRepository;
+
         private readonly IClassSessionService _classSessionService;
+        private readonly IClassRepository _classRepository;
+
         public ClassService(IClassRepository classRepository, IClassSessionService classSessionService)
         {
             _classRepository = classRepository;
             _classSessionService = classSessionService;
         }
+        #region feature/ha branch
 
-        public List<Class> GetAllClass(long teacherId)
+
+        public async Task<List<Class>> GetAllClassAsync(int teacherId)
         {
-            return _classRepository.getAllClasses(teacherId);
+            return await _classRepository.GetAllClassesAsync(teacherId);
         }
-
-        public Class GetClassById(long classId)
+        public Class GetClassById(int classId)
         {
             return _classRepository.GetClassById(classId);
         }
@@ -45,7 +48,9 @@ namespace BaiTapLonWinForm.Services.Implementations
             _classRepository.UpdateClassesStatus(classes);
             return classes;
         }
+        #endregion
 
+        #region feature/trung branch 
         public async Task<(bool Success, string Message, IEnumerable<Class>? Data)> GetAllClassesAsync()
         {
             try
@@ -480,5 +485,7 @@ namespace BaiTapLonWinForm.Services.Implementations
                 default: return 0;
             }
         }
+
+        #endregion
     }
 }

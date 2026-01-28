@@ -1,6 +1,6 @@
 ﻿using BaiTapLonWinForm.Data;
 using BaiTapLonWinForm.Models;
-using BaiTapLonWinForm.Repositories.interfaces;
+using BaiTapLonWinForm.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;

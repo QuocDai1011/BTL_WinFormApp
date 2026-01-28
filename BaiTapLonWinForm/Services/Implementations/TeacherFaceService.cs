@@ -1,6 +1,6 @@
 ﻿using BaiTapLonWinForm.Models;
-using BaiTapLonWinForm.Repositories.interfaces;
-using BaiTapLonWinForm.Services.interfaces;
+using BaiTapLonWinForm.Repositories.Interfaces;
+using BaiTapLonWinForm.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

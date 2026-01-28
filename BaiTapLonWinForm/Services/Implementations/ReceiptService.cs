@@ -6,6 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+﻿using BaiTapLonWinForm.DTOs;
+using BaiTapLonWinForm.Repositories.Interfaces;
+using BaiTapLonWinForm.Services.Interfaces;
 
 namespace BaiTapLonWinForm.Services.Implementations
 {
@@ -25,6 +28,15 @@ namespace BaiTapLonWinForm.Services.Implementations
         public async Task<List<ReceiptDTO>> GetAllReceiptsAsync()
         {
             return await _receiptRepository.GetAllReceiptsAsync();
+        }
+
+        public List<ReceiptDto> GetAllReceiptByStudentId(int studentId)
+        {
+            var data = _receiptRepository.GetAllReceiptByStudentId(studentId);
+
+            if (data == null) return [];
+
+            return data;
         }
     }
 }

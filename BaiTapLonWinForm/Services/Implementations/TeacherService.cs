@@ -1,17 +1,19 @@
 ﻿using BaiTapLonWinForm.Models;
-using BaiTapLonWinForm.Repositories.Implementations;
-using BaiTapLonWinForm.Repositories.interfaces;
-using BaiTapLonWinForm.Repositories.interfaces;
-using BaiTapLonWinForm.Services.interfaces;
+using BaiTapLonWinForm.Repositories.Interfaces;
 using BaiTapLonWinForm.Services.Interfaces;
-using BaiTapLonWinForm.Validate;
+using BaiTapLonWinForm.Utils;
+using BaiTapLonWinForm.Vadilate;
 using Microsoft.EntityFrameworkCore;
+using BaiTapLonWinForm.Repositories.Implementations;
+
+using BaiTapLonWinForm.Validate;
 using Microsoft.VisualBasic.ApplicationServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TeacherValidator = BaiTapLonWinForm.Vadilate.TeacherValidator;
 
 namespace BaiTapLonWinForm.Services.Implementations
 {
@@ -35,11 +37,10 @@ namespace BaiTapLonWinForm.Services.Implementations
             _faceService = faceService;
         }
 
-        public Teacher getAllTeacherByClassId(long classId)
+        public Teacher getAllTeacherByClassId(int classId)
         {
             return _teacherRepository.GetAllTeacherByClassId(classId);
         }
-
         public async Task<(bool Success, string Message, IEnumerable<Teacher> Data)> GetAllTeachersAsync()
         {
             try
@@ -58,7 +59,7 @@ namespace BaiTapLonWinForm.Services.Implementations
             return _teacherRepository.GetTeacherByUserId(userId);
         }
 
-        // public async Task<(bool Success, string Message, Teacher Data)> UpdateTeacherAsync(Teacher teacher)
+
 
         public async Task<(bool Success, string Message, Teacher Data)> GetTeacherByIdAsync(int id)
         {
@@ -106,30 +107,30 @@ namespace BaiTapLonWinForm.Services.Implementations
 
             try
             {
-                //if (faceImages != null && faceImages.Count > 0)
-                //{
-                //    int checkLimit = Math.Min(faceImages.Count, 5);
+                if (faceImages != null && faceImages.Count > 0)
+                {
+                    int checkLimit = Math.Min(faceImages.Count, 5);
 
-                //    for (int i = 0; i < checkLimit; i++)
-                //    {
-                //        var recognizeResult = await _compreFaceApiService.RecognizeFaceAsync(faceImages[i]);
+                    for (int i = 0; i < checkLimit; i++)
+                    {
+                        var recognizeResult = await _compreFaceApiService.RecognizeFaceAsync(faceImages[i]);
 
-                //        if (recognizeResult.success)
-                //        {
-                //            var existingStudent = await _teacherRepository.GetByIdAsync(int.Parse(recognizeResult.subject));
-                //            string existingName = "Không xác định";
+                        if (recognizeResult.success)
+                        {
+                            var existingStudent = await _teacherRepository.GetByIdAsync(int.Parse(recognizeResult.subject));
+                            string existingName = "Không xác định";
 
-                //            if (existingStudent != null && existingStudent.User != null)
-                //            {
-                //                existingName = $"{existingStudent.User.LastName} {existingStudent.User.FirstName}";
-                //            }
+                            if (existingStudent != null && existingStudent.User != null)
+                            {
+                                existingName = $"{existingStudent.User.LastName} {existingStudent.User.FirstName}";
+                            }
 
-                //            return (false, $"Khuôn mặt này đã tồn tại trong hệ thống!\n" +
-                //                           $"Trùng khớp với giảng viên: {existingName}\n" +
-                //                           $"Độ chính xác: {recognizeResult.confidence:P1}");
-                //        }
-                //    }
-                //}
+                            return (false, $"Khuôn mặt này đã tồn tại trong hệ thống!\n" +
+                                           $"Trùng khớp với giảng viên: {existingName}\n" +
+                                           $"Độ chính xác: {recognizeResult.confidence:P1}");
+                        }
+                    }
+                }
 
                 _unitOfWork.BeginTransaction();
 
@@ -213,7 +214,7 @@ namespace BaiTapLonWinForm.Services.Implementations
             }
         }
 
-        public async Task<(bool Success, string Message, Teacher Data)> UpdateTeacherAsync(Teacher teacher)
+        public async Task<(bool Success, string Message, Teacher? Data)> UpdateTeacherAsync(Teacher teacher)
         {
             try
             {
@@ -224,17 +225,30 @@ namespace BaiTapLonWinForm.Services.Implementations
 
                 // Check exists
                 if (!await _teacherRepository.ExistsAsync(teacher.TeacherId))
-                    return (false, "Không tìm thấy giáo viên", null);
+                    return (false, "Không tìm thấy giảng viên", null);
 
-                // Check user exists (exclude current teacher)
-                if (await _teacherRepository.UserIdExistsAsync(teacher.UserId, teacher.TeacherId))
-                    return (false, "User ID này đã được gán cho giáo viên khác", null);
+                if (teacher.User != null)
+                {
+                    var currentDbTeacher = await _teacherRepository.GetByIdAsync(teacher.TeacherId);
+                    if (currentDbTeacher == null) return (false, "Không tìm thấy giảng viên", null);
+
+                    long userIdToCheck = currentDbTeacher.UserId;
+
+
+                    var checkResult = await ValidateTeacherUserRelationshipAsync(teacher.TeacherId, userIdToCheck);
+
+                    if (!checkResult.IsValid)
+                    {
+                        return (false, checkResult.Message, null);
+                    }
+                }
+
                 var updatedTeacher = await _teacherRepository.UpdateAsync(teacher);
 
                 if (updatedTeacher == null)
-                    return (false, "Không thể cập nhật giáo viên", null);
+                    return (false, "Không thể cập nhật giảng viên", null);
 
-                return (true, "Cập nhật giáo viên thành công", updatedTeacher);
+                return (true, "Cập nhật giảng viên thành công", updatedTeacher);
             }
             catch (DbUpdateException ex)
             {

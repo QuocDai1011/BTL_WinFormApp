@@ -1,6 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-
 namespace BaiTapLonWinForm.Models;
 
 public partial class Receipt
@@ -20,6 +17,8 @@ public partial class Receipt
     public DateTime? CreateAt { get; set; }
 
     public DateTime? UpdateAt { get; set; }
+
+    public string TxnRef { get; set; } = null!;
 
     public virtual Class Class { get; set; } = null!;
 

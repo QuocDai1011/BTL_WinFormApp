@@ -123,6 +123,16 @@ namespace BaiTapLonWinForm.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icon_ellipsis_black {
+            get {
+                object obj = ResourceManager.GetObject("icon-ellipsis-black", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_vietnam_48 {
             get {
                 object obj = ResourceManager.GetObject("icons8-vietnam-48", resourceCulture);

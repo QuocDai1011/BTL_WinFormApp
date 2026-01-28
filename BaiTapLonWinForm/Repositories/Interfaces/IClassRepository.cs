@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BaiTapLonWinForm.Repositories.interfaces
+namespace BaiTapLonWinForm.Repositories.Interfaces
 {
     public interface IClassRepository
     {
-        List<Class> getAllClasses(long teacherId);
-        Class GetClassById(long classId);
+        #region feature/trung branch
+        Class GetClassById(int classId);
         void UpdateClassesStatus(List<Class> updatedClasses);
         Task<IEnumerable<Class>> GetAllAsync();
         Task<Class?> GetByIdAsync(int id);
@@ -34,5 +34,12 @@ namespace BaiTapLonWinForm.Repositories.interfaces
             DateOnly endDate, List<byte> dayIds, int? ignoreClassId = null);
 
         Task<List<Class>> GetClassesActiveInRangeAsync(DateOnly startDate, DateOnly endDate);
+
+        #endregion
+
+        #region feature/ha branch 
+        Task<List<Class>> GetAllClassesAsync(int teacherId);
+
+        #endregion
     }
 }

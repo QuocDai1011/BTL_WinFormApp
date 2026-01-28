@@ -14,9 +14,9 @@ namespace BaiTapLonWinForm.Test // Hoặc namespace Test tùy bạn chọn
     public class TestDataSeeder
     {
         private readonly ServiceHub _serviceHub;
-        private readonly AppDbContext _context;
+        private readonly EnglishCenterDbContext _context;
 
-        public TestDataSeeder(ServiceHub serviceHub, AppDbContext context)
+        public TestDataSeeder(ServiceHub serviceHub, EnglishCenterDbContext context)
         {
             _serviceHub = serviceHub;
             _context = context;

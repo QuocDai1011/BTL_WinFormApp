@@ -45,21 +45,15 @@
             guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
             flowLayoutPanel1 = new FlowLayoutPanel();
             expiredExam1 = new BaiTapLonWinForm.Views.Teacher.MyClass.MyNews.ExpiredExam();
-            expiredExam2 = new BaiTapLonWinForm.Views.Teacher.MyClass.MyNews.ExpiredExam();
             guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             pnNewMain = new Guna.UI2.WinForms.Guna2Panel();
             fpnNewContainer = new FlowLayoutPanel();
-            newItem1 = new NewItem();
-            newItem2 = new NewItem();
-            newItem3 = new NewItem();
-            newItem4 = new NewItem();
             guna2Panel2 = new Guna.UI2.WinForms.Guna2Panel();
             btnAddNew = new Guna.UI2.WinForms.Guna2GradientButton();
             guna2Panel1.SuspendLayout();
             guna2Panel3.SuspendLayout();
             flowLayoutPanel1.SuspendLayout();
             pnNewMain.SuspendLayout();
-            fpnNewContainer.SuspendLayout();
             guna2Panel2.SuspendLayout();
             SuspendLayout();
             // 
@@ -115,7 +109,6 @@
             // 
             flowLayoutPanel1.BackColor = Color.Transparent;
             flowLayoutPanel1.Controls.Add(expiredExam1);
-            flowLayoutPanel1.Controls.Add(expiredExam2);
             flowLayoutPanel1.Location = new Point(3, 60);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
             flowLayoutPanel1.Size = new Size(303, 137);
@@ -129,15 +122,6 @@
             expiredExam1.Name = "expiredExam1";
             expiredExam1.Size = new Size(300, 67);
             expiredExam1.TabIndex = 0;
-            // 
-            // expiredExam2
-            // 
-            expiredExam2.BackColor = Color.Transparent;
-            expiredExam2.Location = new Point(0, 67);
-            expiredExam2.Margin = new Padding(0);
-            expiredExam2.Name = "expiredExam2";
-            expiredExam2.Size = new Size(300, 67);
-            expiredExam2.TabIndex = 1;
             // 
             // guna2HtmlLabel1
             // 
@@ -166,53 +150,13 @@
             // fpnNewContainer
             // 
             fpnNewContainer.AutoScroll = true;
-            fpnNewContainer.Controls.Add(newItem1);
-            fpnNewContainer.Controls.Add(newItem2);
-            fpnNewContainer.Controls.Add(newItem3);
-            fpnNewContainer.Controls.Add(newItem4);
+            fpnNewContainer.BackColor = Color.White;
             fpnNewContainer.Dock = DockStyle.Fill;
-            fpnNewContainer.FlowDirection = FlowDirection.TopDown;
             fpnNewContainer.Location = new Point(0, 92);
             fpnNewContainer.Name = "fpnNewContainer";
             fpnNewContainer.Size = new Size(1090, 656);
             fpnNewContainer.TabIndex = 1;
             fpnNewContainer.WrapContents = false;
-            // 
-            // newItem1
-            // 
-            newItem1.BackColor = Color.Transparent;
-            newItem1.Location = new Point(0, 0);
-            newItem1.Margin = new Padding(0, 0, 0, 20);
-            newItem1.Name = "newItem1";
-            newItem1.Size = new Size(1065, 250);
-            newItem1.TabIndex = 0;
-            // 
-            // newItem2
-            // 
-            newItem2.BackColor = Color.Transparent;
-            newItem2.Location = new Point(0, 270);
-            newItem2.Margin = new Padding(0, 0, 0, 20);
-            newItem2.Name = "newItem2";
-            newItem2.Size = new Size(1065, 250);
-            newItem2.TabIndex = 1;
-            // 
-            // newItem3
-            // 
-            newItem3.BackColor = Color.Transparent;
-            newItem3.Location = new Point(0, 540);
-            newItem3.Margin = new Padding(0, 0, 0, 20);
-            newItem3.Name = "newItem3";
-            newItem3.Size = new Size(1065, 250);
-            newItem3.TabIndex = 2;
-            // 
-            // newItem4
-            // 
-            newItem4.BackColor = Color.Transparent;
-            newItem4.Location = new Point(0, 810);
-            newItem4.Margin = new Padding(0, 0, 0, 20);
-            newItem4.Name = "newItem4";
-            newItem4.Size = new Size(1065, 250);
-            newItem4.TabIndex = 3;
             // 
             // guna2Panel2
             // 
@@ -266,12 +210,12 @@
             Margin = new Padding(0);
             Name = "NewDetail";
             Size = new Size(1430, 748);
+            Load += NewDetail_Load;
             guna2Panel1.ResumeLayout(false);
             guna2Panel3.ResumeLayout(false);
             guna2Panel3.PerformLayout();
             flowLayoutPanel1.ResumeLayout(false);
             pnNewMain.ResumeLayout(false);
-            fpnNewContainer.ResumeLayout(false);
             guna2Panel2.ResumeLayout(false);
             ResumeLayout(false);
         }
@@ -279,11 +223,6 @@
         #endregion
         private Guna.UI2.WinForms.Guna2Panel guna2Panel1;
         private Guna.UI2.WinForms.Guna2Panel pnNewMain;
-        private FlowLayoutPanel fpnNewContainer;
-        private NewItem newItem1;
-        private NewItem newItem2;
-        private NewItem newItem3;
-        private NewItem newItem4;
         private Guna.UI2.WinForms.Guna2Panel guna2Panel2;
         private Guna.UI2.WinForms.Guna2GradientButton btnAddNew;
         private Guna.UI2.WinForms.Guna2Panel guna2Panel3;
@@ -297,6 +236,7 @@
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel8;
         private Guna.UI2.WinForms.Guna2Button guna2Button1;
         private MyNews.ExpiredExam expiredExam1;
-        private MyNews.ExpiredExam expiredExam2;
+        private Guna.UI2.WinForms.Guna2GradientButton guna2GradientButton1;
+        private FlowLayoutPanel fpnNewContainer;
     }
 }

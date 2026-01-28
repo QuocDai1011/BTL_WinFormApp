@@ -20,6 +20,7 @@ namespace BaiTapLonWinForm.Repositories.Implementations
         public List<string> GetListSchoolDaysByClassId(int classId)
         {
             var days = _context.Classes
+                .AsNoTracking()
                 .Include(c => c.SchoolDays)
                 .Where(c => c.ClassId == classId)
                 .SelectMany(c => c.SchoolDays)

@@ -1,4 +1,5 @@
-﻿using BaiTapLonWinForm.Models;
+﻿using BaiTapLonWinForm.DTOs;
+using BaiTapLonWinForm.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace BaiTapLonWinForm.Services.Interfaces
 {
     public interface ICourseService
     {
-        Course? GetCourseByClassId(long classId);
+        #region feature/trung branch
         Task<(bool Success, string Message, IEnumerable<Course> Data)> GetAllCoursesAsync();
         Task<(bool Success, string Message, Course Data)> GetCourseByIdAsync(int id);
         Task<(bool Success, string Message, Course Data)> GetCourseByCourseCodeAsync(string courseCode);
@@ -21,9 +22,26 @@ namespace BaiTapLonWinForm.Services.Interfaces
         Task<(bool Success, string Message, IEnumerable<Course> Data)> SearchCoursesByNameAsync(string keyword);
         Task<(bool Success, string Message, int Data)> GetClassCountAsync(int courseId);
         Task<(bool Success, string Message, IEnumerable<Course> Data)> GetCoursesByTuitionRangeAsync(decimal minTuition, decimal maxTuition);
-        Task<(bool Success, string Message, int Data)> GetTotalStudentByClassCodeAsync(string classCode);
-        Task<(bool Success, string Message, int Data)> GetTotalStudentByOtherClassCodeAsync();
+        #endregion
 
-        //D:\Coding\CSharp\BTLWinForm\Clone\BTL_WinFormApp\BaiTapLonWinForm\Properties\Resources.Designer.cs
+        #region feature/ha branch 
+        Course? GetCourseByClassId(long classId);
+        #endregion
+
+        #region feature/nhan branch
+        decimal GetAmount(int courseId);
+        List<CourseDto>? GetAllCourse();
+
+        List<CourseClassDto>? GetAllClassByCourseId(int courseId);
+
+        void CreateReceipt(int studentId, int classId, decimal amount);
+
+        bool ExistReceipt(int studentId, int classId);
+        #endregion
+
+        #region feature/dai branch
+        Task<(bool Success, string Message, int Data)> GetTotalStudentByOtherClassCodeAsync();
+        Task<(bool Success, string Message, int Data)> GetTotalStudentByClassCodeAsync(string classCode);
+        #endregion
     }
 }

@@ -1,5 +1,5 @@
 ﻿using BaiTapLonWinForm.Models.CompreFace;
-using BaiTapLonWinForm.Services.interfaces;
+using BaiTapLonWinForm.Services.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;

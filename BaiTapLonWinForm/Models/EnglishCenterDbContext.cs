@@ -49,11 +49,15 @@ public partial class EnglishCenterDbContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
+//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+//        => optionsBuilder.UseSqlServer("Server=localhost,1444;Database=tre_xanh_english_center_dev;User Id=sa;Password=Qdai1011@;TrustServerCertificate=True;");
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Admin>(entity =>
         {
-            entity.HasKey(e => e.AdminId).HasName("PK__admin__43AA4141593C90B4");
+            entity.HasKey(e => e.AdminId).HasName("PK__admin__43AA4141ADE0A888");
 
             entity.ToTable("admin");
 
@@ -66,16 +70,14 @@ public partial class EnglishCenterDbContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.Admins)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__admin__user_id__4316F928");
+                .HasConstraintName("FK__admin__user_id__534D60F1");
         });
 
         modelBuilder.Entity<Attendance>(entity =>
         {
-            entity.HasKey(e => e.AttendanceId).HasName("PK__attendan__20D6A96801455719");
+            entity.HasKey(e => e.AttendanceId).HasName("PK__attendan__20D6A9683E886721");
 
             entity.ToTable("attendance");
-
-            entity.HasIndex(e => new { e.SessionId, e.IsPresent }, "idx_attendance");
 
             entity.HasIndex(e => new { e.StudentId, e.SessionId }, "uq_student_session").IsUnique();
 
@@ -92,20 +94,11 @@ public partial class EnglishCenterDbContext : DbContext
                 .HasColumnName("note");
             entity.Property(e => e.SessionId).HasColumnName("session_id");
             entity.Property(e => e.StudentId).HasColumnName("student_id");
-
-            entity.HasOne(d => d.Session).WithMany(p => p.Attendances)
-                .HasForeignKey(d => d.SessionId)
-                .HasConstraintName("FK__attendanc__sessi__114A936A");
-
-            entity.HasOne(d => d.Student).WithMany(p => p.Attendances)
-                .HasForeignKey(d => d.StudentId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__attendanc__stude__10566F31");
         });
 
         modelBuilder.Entity<Class>(entity =>
         {
-            entity.HasKey(e => e.ClassId).HasName("PK__class__FDF4798638113F7F");
+            entity.HasKey(e => e.ClassId).HasName("PK__class__FDF47986909786CA");
 
             entity.ToTable("class");
 
@@ -147,7 +140,7 @@ public partial class EnglishCenterDbContext : DbContext
             entity.HasOne(d => d.Teacher).WithMany(p => p.Classes)
                 .HasForeignKey(d => d.TeacherId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__class__teacher_i__5DCAEF64");
+                .HasConstraintName("FK__class__teacher_i__6D0D32F4");
 
             entity.HasMany(d => d.SchoolDays).WithMany(p => p.Classes)
                 .UsingEntity<Dictionary<string, object>>(
@@ -155,14 +148,14 @@ public partial class EnglishCenterDbContext : DbContext
                     r => r.HasOne<SchoolDay>().WithMany()
                         .HasForeignKey("SchoolDayId")
                         .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK__class_day__schoo__6A30C649"),
+                        .HasConstraintName("FK__class_day__schoo__797309D9"),
                     l => l.HasOne<Class>().WithMany()
                         .HasForeignKey("ClassId")
                         .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK__class_day__class__693CA210"),
+                        .HasConstraintName("FK__class_day__class__787EE5A0"),
                     j =>
                     {
-                        j.HasKey("ClassId", "SchoolDayId").HasName("PK__class_da__4B5092A9F952764E");
+                        j.HasKey("ClassId", "SchoolDayId").HasName("PK__class_da__4B5092A924FFBCF0");
                         j.ToTable("class_day");
                         j.IndexerProperty<int>("ClassId").HasColumnName("class_id");
                         j.IndexerProperty<byte>("SchoolDayId").HasColumnName("school_day_id");
@@ -171,11 +164,9 @@ public partial class EnglishCenterDbContext : DbContext
 
         modelBuilder.Entity<ClassSession>(entity =>
         {
-            entity.HasKey(e => e.SessionId).HasName("PK__class_se__69B13FDCE01C159F");
+            entity.HasKey(e => e.SessionId).HasName("PK__class_se__69B13FDCD322F049");
 
             entity.ToTable("class_session");
-
-            entity.HasIndex(e => new { e.ClassId, e.SessionDate }, "idx_session_date");
 
             entity.HasIndex(e => new { e.ClassId, e.SessionNumber }, "uq_class_session").IsUnique();
 
@@ -190,16 +181,16 @@ public partial class EnglishCenterDbContext : DbContext
 
             entity.HasOne(d => d.Class).WithMany(p => p.ClassSessions)
                 .HasForeignKey(d => d.ClassId)
-                .HasConstraintName("FK__class_ses__class__0A9D95DB");
+                .HasConstraintName("FK__class_ses__class__6D9742D9");
         });
 
         modelBuilder.Entity<Course>(entity =>
         {
-            entity.HasKey(e => e.CourseId).HasName("PK__course__8F1EF7AE6FA18845");
+            entity.HasKey(e => e.CourseId).HasName("PK__course__8F1EF7AE126C74A4");
 
             entity.ToTable("course");
 
-            entity.HasIndex(e => e.CourseCode, "UQ__course__AB6B45F12F0466D5").IsUnique();
+            entity.HasIndex(e => e.CourseCode, "UQ__course__AB6B45F18EAD114A").IsUnique();
 
             entity.Property(e => e.CourseId).HasColumnName("course_id");
             entity.Property(e => e.CourseCode)
@@ -228,7 +219,7 @@ public partial class EnglishCenterDbContext : DbContext
 
         modelBuilder.Entity<Promotion>(entity =>
         {
-            entity.HasKey(e => e.PromotionId).HasName("PK__promotio__2CB9556B72F35C43");
+            entity.HasKey(e => e.PromotionId).HasName("PK__promotio__2CB9556BB729CAA0");
 
             entity.ToTable("promotion");
 
@@ -256,9 +247,11 @@ public partial class EnglishCenterDbContext : DbContext
 
         modelBuilder.Entity<Receipt>(entity =>
         {
-            entity.HasKey(e => new { e.StudentId, e.ClassId, e.PromotionId }).HasName("PK__receipt__3FC0F8575E4C67C4");
+            entity.HasKey(e => new { e.StudentId, e.ClassId, e.PromotionId }).HasName("PK__receipt__3FC0F857F9057C0B");
 
             entity.ToTable("receipt");
+
+            entity.HasIndex(e => e.TxnRef, "idx_txn_ref").IsUnique();
 
             entity.Property(e => e.StudentId).HasColumnName("student_id");
             entity.Property(e => e.ClassId).HasColumnName("class_id");
@@ -277,6 +270,9 @@ public partial class EnglishCenterDbContext : DbContext
             entity.Property(e => e.TotalAmount)
                 .HasColumnType("decimal(12, 3)")
                 .HasColumnName("total_amount");
+            entity.Property(e => e.TxnRef)
+                .HasMaxLength(50)
+                .HasColumnName("txn_ref");
             entity.Property(e => e.UpdateAt)
                 .HasColumnType("datetime")
                 .HasColumnName("update_at");
@@ -284,22 +280,22 @@ public partial class EnglishCenterDbContext : DbContext
             entity.HasOne(d => d.Class).WithMany(p => p.Receipts)
                 .HasForeignKey(d => d.ClassId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__receipt__class_i__531856C7");
+                .HasConstraintName("FK__receipt__class_i__39237A9A");
 
             entity.HasOne(d => d.Promotion).WithMany(p => p.Receipts)
                 .HasForeignKey(d => d.PromotionId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__receipt__promoti__540C7B00");
+                .HasConstraintName("FK__receipt__promoti__3A179ED3");
 
             entity.HasOne(d => d.Student).WithMany(p => p.Receipts)
                 .HasForeignKey(d => d.StudentId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__receipt__update___5224328E");
+                .HasConstraintName("FK__receipt__update___382F5661");
         });
 
         modelBuilder.Entity<ReceiptPayment>(entity =>
         {
-            entity.HasKey(e => e.PaymentId).HasName("PK__receipt___ED1FC9EA4E2AD91E");
+            entity.HasKey(e => e.PaymentId).HasName("PK__receipt___ED1FC9EA60C99D49");
 
             entity.ToTable("receipt_payment");
 
@@ -327,7 +323,7 @@ public partial class EnglishCenterDbContext : DbContext
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.RoleId).HasName("PK__role__760965CC0569F847");
+            entity.HasKey(e => e.RoleId).HasName("PK__role__760965CC4151F088");
 
             entity.ToTable("role");
 
@@ -342,7 +338,7 @@ public partial class EnglishCenterDbContext : DbContext
 
         modelBuilder.Entity<SchoolDay>(entity =>
         {
-            entity.HasKey(e => e.SchoolDayId).HasName("PK__school_d__6A4EB2FADF42BF53");
+            entity.HasKey(e => e.SchoolDayId).HasName("PK__school_d__6A4EB2FAB68BB5B7");
 
             entity.ToTable("school_day");
 
@@ -354,7 +350,7 @@ public partial class EnglishCenterDbContext : DbContext
 
         modelBuilder.Entity<Student>(entity =>
         {
-            entity.HasKey(e => e.StudentId).HasName("PK__student__2A33069A9416D23D");
+            entity.HasKey(e => e.StudentId).HasName("PK__student__2A33069A1CE8CF89");
 
             entity.ToTable("student");
 
@@ -368,12 +364,12 @@ public partial class EnglishCenterDbContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.Students)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__student__user_id__4CA06362");
+                .HasConstraintName("FK__student__user_id__5BE2A6F2");
         });
 
         modelBuilder.Entity<StudentClass>(entity =>
         {
-            entity.HasKey(e => new { e.StudentId, e.ClassId }).HasName("PK__student___55EC4102AD52496F");
+            entity.HasKey(e => new { e.StudentId, e.ClassId }).HasName("PK__student___55EC4102460B7725");
 
             entity.ToTable("student_class", tb => tb.HasTrigger("trg_check_insert_student_class"));
 
@@ -390,21 +386,19 @@ public partial class EnglishCenterDbContext : DbContext
             entity.HasOne(d => d.Class).WithMany(p => p.StudentClasses)
                 .HasForeignKey(d => d.ClassId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__student_c__class__6E01572D");
+                .HasConstraintName("FK__student_c__class__7D439ABD");
 
             entity.HasOne(d => d.Student).WithMany(p => p.StudentClasses)
                 .HasForeignKey(d => d.StudentId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__student_c__stude__6D0D32F4");
+                .HasConstraintName("FK__student_c__stude__7C4F7684");
         });
 
         modelBuilder.Entity<StudentFaceImage>(entity =>
         {
-            entity.HasKey(e => e.ImageId).HasName("PK__student___DC9AC9551FF4352D");
+            entity.HasKey(e => e.ImageId).HasName("PK__student___DC9AC9557FD32ECB");
 
             entity.ToTable("student_face_image");
-
-            entity.HasIndex(e => e.StudentId, "idx_student_face");
 
             entity.Property(e => e.ImageId).HasColumnName("image_id");
             entity.Property(e => e.ImagePath)
@@ -416,15 +410,11 @@ public partial class EnglishCenterDbContext : DbContext
                 .HasDefaultValueSql("(sysdatetime())")
                 .HasColumnType("datetime")
                 .HasColumnName("uploaded_date");
-
-            entity.HasOne(d => d.Student).WithMany(p => p.StudentFaceImages)
-                .HasForeignKey(d => d.StudentId)
-                .HasConstraintName("FK__student_f__stude__04E4BC85");
         });
 
         modelBuilder.Entity<Teacher>(entity =>
         {
-            entity.HasKey(e => e.TeacherId).HasName("PK__teacher__03AE777EEE8C9FF3");
+            entity.HasKey(e => e.TeacherId).HasName("PK__teacher__03AE777E026203DD");
 
             entity.ToTable("teacher");
 
@@ -436,16 +426,14 @@ public partial class EnglishCenterDbContext : DbContext
             entity.HasOne(d => d.User).WithMany(p => p.Teachers)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__teacher__user_id__48CFD27E");
+                .HasConstraintName("FK__teacher__user_id__5812160E");
         });
 
         modelBuilder.Entity<TeacherAttendance>(entity =>
         {
-            entity.HasKey(e => e.AttendanceId).HasName("PK__teacher___20D6A9684A673D56");
+            entity.HasKey(e => e.AttendanceId).HasName("PK__teacher___20D6A968893E59E3");
 
             entity.ToTable("teacher_attendance");
-
-            entity.HasIndex(e => new { e.TeacherId, e.SessionId }, "idx_teacher_attendance");
 
             entity.HasIndex(e => new { e.TeacherId, e.SessionId }, "uq_teacher_session").IsUnique();
 
@@ -465,21 +453,19 @@ public partial class EnglishCenterDbContext : DbContext
 
             entity.HasOne(d => d.Session).WithMany(p => p.TeacherAttendances)
                 .HasForeignKey(d => d.SessionId)
-                .HasConstraintName("FK__teacher_a__sessi__690797E6");
+                .HasConstraintName("FK__teacher_a__sessi__73501C2F");
 
             entity.HasOne(d => d.Teacher).WithMany(p => p.TeacherAttendances)
                 .HasForeignKey(d => d.TeacherId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__teacher_a__teach__681373AD");
+                .HasConstraintName("FK__teacher_a__teach__74444068");
         });
 
         modelBuilder.Entity<TeacherFaceImage>(entity =>
         {
-            entity.HasKey(e => e.ImageId).HasName("PK__teacher___DC9AC95524517FA5");
+            entity.HasKey(e => e.ImageId).HasName("PK__teacher___DC9AC955F9BCAAB2");
 
             entity.ToTable("teacher_face_image");
-
-            entity.HasIndex(e => e.TeacherId, "idx_teacher_face");
 
             entity.Property(e => e.ImageId).HasColumnName("image_id");
             entity.Property(e => e.ImagePath)
@@ -494,16 +480,16 @@ public partial class EnglishCenterDbContext : DbContext
 
             entity.HasOne(d => d.Teacher).WithMany(p => p.TeacherFaceImages)
                 .HasForeignKey(d => d.TeacherId)
-                .HasConstraintName("FK__teacher_f__teach__634EBE90");
+                .HasConstraintName("FK__teacher_f__teach__68D28DBC");
         });
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__user__B9BE370FA890A853");
+            entity.HasKey(e => e.UserId).HasName("PK__user__B9BE370F7C5CD9FD");
 
             entity.ToTable("user");
 
-            entity.HasIndex(e => e.Email, "UQ__user__AB6E6164816B992A").IsUnique();
+            entity.HasIndex(e => e.Email, "UQ__user__AB6E61644DEA00C9").IsUnique();
 
             entity.Property(e => e.UserId).HasColumnName("user_id");
             entity.Property(e => e.Address)
@@ -545,7 +531,7 @@ public partial class EnglishCenterDbContext : DbContext
             entity.HasOne(d => d.Role).WithMany(p => p.Users)
                 .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__user__role_id__3F466844");
+                .HasConstraintName("FK__user__role_id__4F7CD00D");
         });
 
         OnModelCreatingPartial(modelBuilder);
@@ -553,3 +539,4 @@ public partial class EnglishCenterDbContext : DbContext
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }
+

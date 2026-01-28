@@ -1,13 +1,14 @@
-﻿using BaiTapLonWinForm.Data;
+using BaiTapLonWinForm.Data;
+using BaiTapLonWinForm.DTOs;
 using BaiTapLonWinForm.Models;
-using BaiTapLonWinForm.Repositories.interfaces;
+using BaiTapLonWinForm.Repositories.Interfaces;
+
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace BaiTapLonWinForm.Repositories.Implementations
 {
@@ -23,6 +24,7 @@ namespace BaiTapLonWinForm.Repositories.Implementations
         public Course? GetCourseByClassId(long classId)
         {
             Course? course = _context.Classes
+                .AsNoTracking()
                 .Include(c => c.Course)
                 .Where(c => c.ClassId == classId)
                 .Select(c => c.Course)
@@ -30,11 +32,74 @@ namespace BaiTapLonWinForm.Repositories.Implementations
             return course;
         }
 
+        public List<CourseDto> GetAllCourse()
+        {
+            return _context.Courses
+                .AsNoTracking()
+                .Select(c => new CourseDto
+                {
+                    CourseId = c.CourseId,
+                    CourseCode = c.CourseCode,
+                    CourseName = c.CourseName,
+                    NumberSessions = c.NumberSessions,
+                    Level = c.Level,
+                    Tuition = c.Tuition,
+                    EndDate = c.Classes
+                        .Max(cl => (DateOnly?)cl.EndDate)
+                }).ToList();
+        }
+
+        public decimal Getamount(int courseId)
+        {
+            return _context.Courses
+                .AsNoTracking()
+                .Where(c => c.CourseId == courseId)
+                .Select(c => c.Tuition)
+                .FirstOrDefault();
+        }
+
+        public List<Class>? GetClassByCourseId(int courseId)
+        {
+            return _context.Classes
+                .AsNoTracking()
+                .Include(c => c.Course)
+                .Include(c => c.SchoolDays)
+                .Include(c => c.Teacher)
+                    .ThenInclude(c => c.User)
+                .Where(c => c.CourseId == courseId)
+                .ToList();
+        }
+
+        public void Add(Receipt receipt)
+        {
+            receipt.CreateAt = DateTime.Now;
+
+            _context.Receipts.Add(receipt);
+            _context.SaveChanges();
+        }
+
+        public Receipt GetByTransferContent(string content)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateStatus(int receiptId, string status)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ExistReceipt(int studentId, int classId)
+        {
+            return _context.Receipts
+                .Any(r => r.StudentId == studentId && r.ClassId == classId);
+        }
+
         public async Task<IEnumerable<Course>> GetAllAsync()
         {
             try
             {
                 return await _context.Courses
+                    .AsNoTracking()
                     .OrderByDescending(c => c.CreateAt)
                     .ToListAsync();
             }
@@ -43,6 +108,7 @@ namespace BaiTapLonWinForm.Repositories.Implementations
                 throw;
             }
         }
+
 
         public async Task<Course?> GetByIdAsync(int id)
         {

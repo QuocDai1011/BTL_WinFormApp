@@ -1,15 +1,16 @@
-﻿using BaiTapLonWinForm.Models;
+﻿using BaiTapLonWinForm.DTOs;
+using BaiTapLonWinForm.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BaiTapLonWinForm.Repositories.interfaces
+namespace BaiTapLonWinForm.Repositories.Interfaces
 {
     public interface IStudentRepository
     {
-        List<Student> getAllStudentByClassId(long classId);
+        #region feature/trung branch 
         Task<IEnumerable<Student>> GetAllAsync();
         Task<Student?> GetByIdAsync(int id);
         Task<Student?> GetByUserIdAsync(long userId);
@@ -23,8 +24,20 @@ namespace BaiTapLonWinForm.Repositories.interfaces
         Task<IEnumerable<Student>> SearchByNameAsync(string keyword);
         Task<int> GetClassCountAsync(int studentId);
         Task<IEnumerable<Student>> GetStudentsWithoutClassAsync();
-
         Task<bool> IsStudentInClassAsync(int studentId, int classId);
+        #endregion
 
+        #region feature/ha branch
+        List<Student> getAllStudentByClassId(long classId);
+
+        #endregion
+
+        #region feature/nhan branch
+        Student? GetStudentByStudentId(int studentId);
+
+        bool UpdateStudentByStudentId(int studentId, UpdateStudentDto data);
+
+        List<ClassDto> GetClassesByStudenId(int studentId);
+        #endregion
     }
 }

@@ -1,13 +1,13 @@
+﻿using BaiTapLonWinForm.Models;
+using BaiTapLonWinForm.Repositories.Interfaces;
 
-﻿using BaiTapLonWinForm.Data;
-using BaiTapLonWinForm.Models;
-using BaiTapLonWinForm.Repositories.interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace BaiTapLonWinForm.Repositories.Implementations
@@ -135,8 +135,6 @@ namespace BaiTapLonWinForm.Repositories.Implementations
         public async Task<User> CreateAsync(User user)
         {
             user.CreateAt = DateTime.Now;
-            user.UpdateAt = DateTime.Now;
-            user.Email = user.Email.ToLower();
             user.IsActive = user.IsActive ?? true;
 
             await _context.Users.AddAsync(user);
@@ -147,10 +145,17 @@ namespace BaiTapLonWinForm.Repositories.Implementations
 
         public async Task<User> UpdateAsync(User user)
         {
-            var existingUser = await _context.Users.FindAsync(user.UserId);
+            var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.UserId == user.UserId);
             if (existingUser == null)
                 return null;
-
+            existingUser.Address = user.Address;
+            existingUser.DateOfBirth = user.DateOfBirth;
+            existingUser.FirstName = user.FirstName;
+            existingUser.LastName = user.LastName;
+            existingUser.Gender = user.Gender;
+            existingUser.Email = user.Email;
+            existingUser.UpdateAt = DateTime.Now;
+            
             user.UpdateAt = DateTime.Now;
             user.CreateAt = existingUser.CreateAt;
             // user.Email = user.Email.ToLower();
@@ -183,6 +188,7 @@ namespace BaiTapLonWinForm.Repositories.Implementations
             await _context.SaveChangesAsync();
             return true;
         }
+
         public async Task<bool> ExistsAsync(long userId)
         {
             return await _context.Users.AnyAsync(u => u.UserId == userId);
@@ -197,6 +203,7 @@ namespace BaiTapLonWinForm.Repositories.Implementations
 
             return await query.AnyAsync();
         }
+
         public User GetUserByTeacherId(long teacherId)
         {
             return _context.Teachers
@@ -204,5 +211,18 @@ namespace BaiTapLonWinForm.Repositories.Implementations
                 .Select(t => t.User)
                 .FirstOrDefault();
         }
+
+        public async Task<bool> ChangePassword(long userId, string newPasswordHash)
+        {
+            var existingUser = await _context.Users.FirstOrDefaultAsync(u => u.UserId == userId);
+            if(existingUser == null)
+                return false;
+            
+            existingUser.PasswordHashing = newPasswordHash;
+            existingUser.UpdateAt = DateTime.Now;
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
     }
 }

@@ -9,8 +9,8 @@ namespace BaiTapLonWinForm.Services.Interfaces
 {
     public interface IClassService
     {
-        List<Class> GetAllClass(long teacherId);
-        Class GetClassById(long classId);
+        #region feature/trung branch
+        Class GetClassById(int classId);
         List<Class> UpdateClassesStatusList(List<Class> updatedClasses);
         Task<(bool Success, string Message, IEnumerable<Class>? Data)> GetAllClassesAsync();
         Task<(bool Success, string Message, Class? Data)> GetClassByIdAsync(int id);
@@ -33,5 +33,12 @@ namespace BaiTapLonWinForm.Services.Interfaces
 
         // hàm dùng để lấy lịch giảng dạy của giảng viên theo khoảng thời gian
         Task<List<ClassSession>> GetScheduleForWeekFromClassAsync(DateOnly weekStart, DateOnly weekEnd);
+
+        #endregion
+
+        #region feature/ha branch 
+        Task<List<Class>> GetAllClassAsync(int teacherId);
+
+        #endregion
     }
 }

@@ -42,6 +42,8 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges17 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges18 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges15 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges16 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             flowLayoutPanel1 = new FlowLayoutPanel();
@@ -55,7 +57,7 @@
             pnMeet = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
             icMeet = new BaiTapLonWinForm.Views.Teacher.Controls.IconCustom();
             guna2CustomGradientPanel2 = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
-            pnMainClass = new FlowLayoutPanel();
+            pnMainClass = new Guna.UI2.WinForms.Guna2Panel();
             flowLayoutPanel1.SuspendLayout();
             guna2CustomGradientPanel1.SuspendLayout();
             pnDrive.SuspendLayout();
@@ -144,6 +146,7 @@
             btnMainAction2.Size = new Size(191, 48);
             btnMainAction2.TabIndex = 4;
             btnMainAction2.Text = "Bài tập trên lớp";
+            btnMainAction2.Click += btnMainAction2_Click;
             // 
             // btnMainAction3
             // 
@@ -289,22 +292,22 @@
             // guna2CustomGradientPanel2
             // 
             guna2CustomGradientPanel2.Controls.Add(pnMainClass);
-            guna2CustomGradientPanel2.CustomizableEdges = customizableEdges15;
+            guna2CustomGradientPanel2.CustomizableEdges = customizableEdges17;
             guna2CustomGradientPanel2.Dock = DockStyle.Fill;
             guna2CustomGradientPanel2.Location = new Point(0, 74);
             guna2CustomGradientPanel2.Name = "guna2CustomGradientPanel2";
-            guna2CustomGradientPanel2.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            guna2CustomGradientPanel2.ShadowDecoration.CustomizableEdges = customizableEdges18;
             guna2CustomGradientPanel2.Size = new Size(1459, 775);
             guna2CustomGradientPanel2.TabIndex = 4;
             // 
             // pnMainClass
             // 
-            pnMainClass.AutoScroll = true;
+            pnMainClass.CustomizableEdges = customizableEdges15;
             pnMainClass.Dock = DockStyle.Fill;
-            pnMainClass.Location = new Point(10, 13);
-            pnMainClass.Margin = new Padding(0);
+            pnMainClass.Location = new Point(0, 0);
             pnMainClass.Name = "pnMainClass";
-            pnMainClass.Size = new Size(1459, 747);
+            pnMainClass.ShadowDecoration.CustomizableEdges = customizableEdges16;
+            pnMainClass.Size = new Size(1459, 775);
             pnMainClass.TabIndex = 0;
             // 
             // ClassDetail
@@ -316,6 +319,7 @@
             Controls.Add(guna2CustomGradientPanel1);
             Name = "ClassDetail";
             Size = new Size(1459, 849);
+            Load += ClassDetail_Load;
             flowLayoutPanel1.ResumeLayout(false);
             guna2CustomGradientPanel1.ResumeLayout(false);
             pnDrive.ResumeLayout(false);
@@ -332,12 +336,12 @@
         private Guna.UI2.WinForms.Guna2GradientButton btnMainAction2;
         private Guna.UI2.WinForms.Guna2GradientCircleButton guna2GradientCircleButton1;
         private Guna.UI2.WinForms.Guna2CustomGradientPanel guna2CustomGradientPanel2;
-        private FlowLayoutPanel pnMainClass;
         private Guna.UI2.WinForms.Guna2CustomGradientPanel pnMeet;
         private Guna.UI2.WinForms.Guna2CustomGradientPanel pnDrive;
         private Controls.IconCustom icDrive;
         private Controls.IconCustom icMeet;
         private ClassMember classMember1;
         private Guna.UI2.WinForms.Guna2GradientButton guna2GradientButton1;
+        private Guna.UI2.WinForms.Guna2Panel pnMainClass;
     }
 }
