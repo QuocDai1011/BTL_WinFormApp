@@ -73,7 +73,7 @@ namespace BaiTapLonWinForm.Views.Teacher.MyClass
                 // Load data off UI thread
                 var (students, teacher) = await Task.Run(() =>
                 {
-                    var studentMembers = _serviceHub.StudentService.getAllStudentByClassId(_classId);
+                    var studentMembers = _serviceHub.StudentService.GetAllStudentByClassId(_classId);
                     var teacherMember = _serviceHub.TeacherService.getAllTeacherByClassId(_classId);
 
                     var studentUsers = new List<User>();

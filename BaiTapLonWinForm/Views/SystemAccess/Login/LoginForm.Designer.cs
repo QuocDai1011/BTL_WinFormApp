@@ -107,7 +107,7 @@
             label3 = new Label();
             label2 = new Label();
             label1 = new Label();
-            guna2PictureBox2 = new Guna.UI2.WinForms.Guna2PictureBox();
+            logoLogin = new Guna.UI2.WinForms.Guna2PictureBox();
             pnBackgroundRegister = new Guna.UI2.WinForms.Guna2CustomGradientPanel();
             guna2HtmlLabel1 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2HtmlLabel5 = new Guna.UI2.WinForms.Guna2HtmlLabel();
@@ -115,7 +115,7 @@
             guna2Panel6 = new Guna.UI2.WinForms.Guna2Panel();
             guna2Panel4 = new Guna.UI2.WinForms.Guna2Panel();
             guna2PictureBox5 = new Guna.UI2.WinForms.Guna2PictureBox();
-            guna2PictureBox3 = new Guna.UI2.WinForms.Guna2PictureBox();
+            guna2PictureBox3Error = new Guna.UI2.WinForms.Guna2PictureBox();
             guna2Panel5 = new Guna.UI2.WinForms.Guna2Panel();
             txbConfirmPass = new Guna.UI2.WinForms.Guna2TextBox();
             label11 = new Label();
@@ -161,12 +161,12 @@
             guna2Panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)guna2PictureBox1).BeginInit();
             guna2Panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)guna2PictureBox2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)logoLogin).BeginInit();
             pnBackgroundRegister.SuspendLayout();
             guna2Panel6.SuspendLayout();
             guna2Panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)guna2PictureBox5).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)guna2PictureBox3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)guna2PictureBox3Error).BeginInit();
             guna2Panel5.SuspendLayout();
             SuspendLayout();
             // 
@@ -178,10 +178,10 @@
             pnBackgroundLogin.CustomizableEdges = customizableEdges17;
             pnBackgroundLogin.FillColor = Color.FromArgb(192, 255, 192);
             pnBackgroundLogin.FillColor3 = Color.FromArgb(192, 255, 192);
-            pnBackgroundLogin.Location = new Point(3, 2);
+            pnBackgroundLogin.Location = new Point(1, 1);
             pnBackgroundLogin.Name = "pnBackgroundLogin";
             pnBackgroundLogin.ShadowDecoration.CustomizableEdges = customizableEdges18;
-            pnBackgroundLogin.Size = new Size(1881, 1006);
+            pnBackgroundLogin.Size = new Size(1537, 840);
             pnBackgroundLogin.TabIndex = 1;
             // 
             // guna2Panel3
@@ -254,7 +254,7 @@
             guna2Panel2.Controls.Add(label3);
             guna2Panel2.Controls.Add(label2);
             guna2Panel2.Controls.Add(label1);
-            guna2Panel2.Controls.Add(guna2PictureBox2);
+            guna2Panel2.Controls.Add(logoLogin);
             guna2Panel2.CustomizableEdges = customizableEdges11;
             guna2Panel2.Location = new Point(0, 3);
             guna2Panel2.Name = "guna2Panel2";
@@ -277,7 +277,7 @@
             // 
             lblNavigationRegister.BackColor = Color.Transparent;
             lblNavigationRegister.Font = new Font("Segoe UI", 9.75F, FontStyle.Underline, GraphicsUnit.Point, 0);
-            lblNavigationRegister.Location = new Point(205, 411);
+            lblNavigationRegister.Location = new Point(211, 411);
             lblNavigationRegister.Name = "lblNavigationRegister";
             lblNavigationRegister.Size = new Size(50, 19);
             lblNavigationRegister.TabIndex = 22;
@@ -396,21 +396,21 @@
             label1.TabIndex = 14;
             label1.Text = "Chào mừng quay lại";
             // 
-            // guna2PictureBox2
+            // logoLogin
             // 
-            guna2PictureBox2.BackColor = Color.White;
-            guna2PictureBox2.BackgroundImageLayout = ImageLayout.Stretch;
-            guna2PictureBox2.CustomizableEdges = customizableEdges9;
-            guna2PictureBox2.FillColor = Color.Transparent;
-            guna2PictureBox2.Image = Properties.Resources.logo_login;
-            guna2PictureBox2.ImageRotate = 0F;
-            guna2PictureBox2.Location = new Point(123, 18);
-            guna2PictureBox2.Name = "guna2PictureBox2";
-            guna2PictureBox2.ShadowDecoration.CustomizableEdges = customizableEdges10;
-            guna2PictureBox2.Size = new Size(148, 145);
-            guna2PictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
-            guna2PictureBox2.TabIndex = 13;
-            guna2PictureBox2.TabStop = false;
+            logoLogin.BackColor = Color.White;
+            logoLogin.BackgroundImageLayout = ImageLayout.Stretch;
+            logoLogin.CustomizableEdges = customizableEdges9;
+            logoLogin.FillColor = Color.Transparent;
+            logoLogin.Image = Properties.Resources.logo_login;
+            logoLogin.ImageRotate = 0F;
+            logoLogin.Location = new Point(123, 18);
+            logoLogin.Name = "logoLogin";
+            logoLogin.ShadowDecoration.CustomizableEdges = customizableEdges10;
+            logoLogin.Size = new Size(148, 145);
+            logoLogin.SizeMode = PictureBoxSizeMode.Zoom;
+            logoLogin.TabIndex = 13;
+            logoLogin.TabStop = false;
             // 
             // pnBackgroundRegister
             // 
@@ -423,12 +423,11 @@
             pnBackgroundRegister.CustomizableEdges = customizableEdges63;
             pnBackgroundRegister.FillColor = Color.FromArgb(192, 255, 192);
             pnBackgroundRegister.FillColor3 = Color.FromArgb(192, 255, 192);
-            pnBackgroundRegister.Location = new Point(3, 2);
+            pnBackgroundRegister.Location = new Point(7, 4);
             pnBackgroundRegister.Name = "pnBackgroundRegister";
             pnBackgroundRegister.ShadowDecoration.CustomizableEdges = customizableEdges64;
-            pnBackgroundRegister.Size = new Size(1879, 1010);
+            pnBackgroundRegister.Size = new Size(1526, 834);
             pnBackgroundRegister.TabIndex = 4;
-            pnBackgroundRegister.Visible = false;
             // 
             // guna2HtmlLabel1
             // 
@@ -468,13 +467,13 @@
             guna2Panel6.BackColor = Color.White;
             guna2Panel6.Controls.Add(guna2Panel4);
             guna2Panel6.CustomizableEdges = customizableEdges61;
-            guna2Panel6.Location = new Point(113, 96);
+            guna2Panel6.Location = new Point(99, 96);
             guna2Panel6.Name = "guna2Panel6";
             guna2Panel6.ShadowDecoration.CustomizableEdges = customizableEdges62;
             guna2Panel6.ShadowDecoration.Depth = 3;
             guna2Panel6.ShadowDecoration.Enabled = true;
             guna2Panel6.ShadowDecoration.Shadow = new Padding(8, 3, 8, 16);
-            guna2Panel6.Size = new Size(750, 627);
+            guna2Panel6.Size = new Size(764, 627);
             guna2Panel6.TabIndex = 16;
             // 
             // guna2Panel4
@@ -484,7 +483,7 @@
             guna2Panel4.BorderRadius = 200;
             guna2Panel4.BorderThickness = 1;
             guna2Panel4.Controls.Add(guna2PictureBox5);
-            guna2Panel4.Controls.Add(guna2PictureBox3);
+            guna2Panel4.Controls.Add(guna2PictureBox3Error);
             guna2Panel4.Controls.Add(guna2Panel5);
             customizableEdges59.BottomLeft = false;
             customizableEdges59.BottomRight = false;
@@ -522,24 +521,25 @@
             guna2PictureBox5.TabStop = false;
             guna2PictureBox5.UseTransparentBackground = true;
             // 
-            // guna2PictureBox3
+            // guna2PictureBox3Error
             // 
-            guna2PictureBox3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
-            guna2PictureBox3.BackColor = Color.Red;
-            guna2PictureBox3.BorderRadius = 20;
+            guna2PictureBox3Error.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            guna2PictureBox3Error.BackColor = Color.Red;
+            guna2PictureBox3Error.BorderRadius = 20;
             customizableEdges21.BottomLeft = false;
             customizableEdges21.BottomRight = false;
             customizableEdges21.TopLeft = false;
             customizableEdges21.TopRight = false;
-            guna2PictureBox3.CustomizableEdges = customizableEdges21;
-            guna2PictureBox3.FillColor = Color.LightSeaGreen;
-            guna2PictureBox3.ImageRotate = 0F;
-            guna2PictureBox3.Location = new Point(1706, 0);
-            guna2PictureBox3.Name = "guna2PictureBox3";
-            guna2PictureBox3.ShadowDecoration.CustomizableEdges = customizableEdges22;
-            guna2PictureBox3.Size = new Size(475, 1794);
-            guna2PictureBox3.TabIndex = 0;
-            guna2PictureBox3.TabStop = false;
+            guna2PictureBox3Error.CustomizableEdges = customizableEdges21;
+            guna2PictureBox3Error.FillColor = Color.LightSeaGreen;
+            guna2PictureBox3Error.ImageRotate = 0F;
+            guna2PictureBox3Error.Location = new Point(1706, 0);
+            guna2PictureBox3Error.Name = "guna2PictureBox3Error";
+            guna2PictureBox3Error.ShadowDecoration.CustomizableEdges = customizableEdges22;
+            guna2PictureBox3Error.Size = new Size(475, 1794);
+            guna2PictureBox3Error.TabIndex = 0;
+            guna2PictureBox3Error.TabStop = false;
+            guna2PictureBox3Error.Visible = false;
             // 
             // guna2Panel5
             // 
@@ -1169,7 +1169,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1884, 1011);
+            ClientSize = new Size(1540, 845);
             Controls.Add(pnBackgroundLogin);
             Controls.Add(pnBackgroundRegister);
             Name = "LoginForm";
@@ -1181,13 +1181,13 @@
             ((System.ComponentModel.ISupportInitialize)guna2PictureBox1).EndInit();
             guna2Panel2.ResumeLayout(false);
             guna2Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)guna2PictureBox2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)logoLogin).EndInit();
             pnBackgroundRegister.ResumeLayout(false);
             pnBackgroundRegister.PerformLayout();
             guna2Panel6.ResumeLayout(false);
             guna2Panel4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)guna2PictureBox5).EndInit();
-            ((System.ComponentModel.ISupportInitialize)guna2PictureBox3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)guna2PictureBox3Error).EndInit();
             guna2Panel5.ResumeLayout(false);
             guna2Panel5.PerformLayout();
             ResumeLayout(false);
@@ -1207,7 +1207,7 @@
         private Label label3;
         private Label label2;
         private Label label1;
-        private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox2;
+        private Guna.UI2.WinForms.Guna2PictureBox logoLogin;
         private Guna.UI2.WinForms.Guna2Button btnLogin;
         private Guna.UI2.WinForms.Guna2TextBox txbPassLogin;
         private Guna.UI2.WinForms.Guna2TextBox txbEmailLogin;
@@ -1216,7 +1216,7 @@
         private Guna.UI2.WinForms.Guna2HtmlLabel guna2HtmlLabel5;
         private Label label14;
         private Guna.UI2.WinForms.Guna2Panel guna2Panel4;
-        private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox3;
+        private Guna.UI2.WinForms.Guna2PictureBox guna2PictureBox3Error;
         private Guna.UI2.WinForms.Guna2Panel guna2Panel5;
         private Guna.UI2.WinForms.Guna2TextBox txbConfirmPass;
         private Label label11;

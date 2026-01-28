@@ -1,67 +1,147 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>net8.0-windows</TargetFramework>
 		<Nullable>enable</Nullable>
 		<UseWindowsForms>true</UseWindowsForms>
+		<EnableWindowsTargeting>true</EnableWindowsTargeting>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<ApplicationHighDpiMode>SystemAware</ApplicationHighDpiMode>
 		<ForceDesignerDpiUnaware>true</ForceDesignerDpiUnaware>
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <None Remove="Views\Teacher\MyClass\MyNews\editor.html" />
+		<None Remove="Views\Teacher\MyClass\MyNews\editor.html" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Include="Views\Teacher\MyClass\MyNews\editor.html">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
+		<Content Include="Views\Teacher\MyClass\MyNews\editor.html">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
 
-  <ItemGroup>
+	<ItemGroup>
+		<None Remove="Fonts\NotoSerif-Regular.ttf" />
+		<None Remove="Fonts\TIMES.TTF" />
+		<None Remove="Fonts\TIMESBD.TTF" />
+		<None Remove="Fonts\TIMESBI.TTF" />
+		<None Remove="Fonts\TIMESI.TTF" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="Fonts\NotoSerif-Regular.ttf">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Fonts\TIMES.TTF">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Fonts\TIMESBD.TTF">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Fonts\TIMESBI.TTF">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Fonts\TIMESI.TTF">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
 		<PackageReference Include="CloudinaryDotNet" Version="1.27.8" />
+		<PackageReference Include="Emgu.CV" Version="4.8.1.5350" />
+		<PackageReference Include="Emgu.CV.Bitmap" Version="4.8.1.5350" />
+		<PackageReference Include="Emgu.CV.runtime.windows" Version="4.8.1.5350" />
 		<PackageReference Include="EPPlus" Version="8.3.0" />
 		<PackageReference Include="FontAwesome.Sharp" Version="6.6.0" />
 		<PackageReference Include="Guna.UI2.WinForms" Version="2.0.4.7" />
 		<PackageReference Include="Hourglass" Version="1.0.2" />
 		<PackageReference Include="Jenga.NET" Version="4.0.0" />
+		<PackageReference Include="itext.bouncy-castle-adapter" Version="8.0.5" />
+		<PackageReference Include="itext7" Version="8.0.5" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.21" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.21" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.21">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-	  <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.1" />
-	  <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.1" />
-	  <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="10.0.1" />
-	  <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.1" />
-	  <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="10.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.1" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.1" />
 		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3650.58" />
 		<PackageReference Include="MongoDB.Driver" Version="3.5.2" />
 		<PackageReference Include="NEST" Version="7.17.5" />
+		<PackageReference Include="QRCoder" Version="1.7.0" />
+		<PackageReference Include="System.Text.Encoding.CodePages" Version="8.0.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+		<PackageReference Include="PDFsharp" Version="6.2.4" />
+		<PackageReference Include="WinForms.DataVisualization" Version="1.10.0" />
 	</ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Teacher\MyClass\MyResult\" />
-  </ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Models\" />
+		<Folder Include="Views\Teacher\MyClass\MyExercise\" />
+		<Folder Include="Views\Teacher\MyClass\MyResult\" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+		<Compile Update="Properties\Settings.Designer.cs">
+			<DesignTimeSharedInput>True</DesignTimeSharedInput>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Settings.settings</DependentUpon>
+		</Compile>
+		<Compile Update="Views\Teacher\TeacherPage.cs">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="appsettings.json">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Properties\Settings.settings">
+			<Generator>SettingsSingleFileGenerator</Generator>
+			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Update="View\Admin\Teacher\AddPhoto.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Properties\Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
+      <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Update="appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <Folder Include="bin\Debug\net8.0-windows\" />
   </ItemGroup>
 </Project>

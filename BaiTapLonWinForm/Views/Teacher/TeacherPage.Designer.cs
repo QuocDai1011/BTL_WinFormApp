@@ -542,6 +542,13 @@
             // 
             // guna2HtmlLabel2
             // 
+            guna2CirclePictureBox1.Image = Properties.Resources.default_user;
+            guna2CirclePictureBox1.ImageRotate = 0F;
+            resources.ApplyResources(guna2CirclePictureBox1, "guna2CirclePictureBox1");
+            guna2CirclePictureBox1.Name = "guna2CirclePictureBox1";
+            guna2CirclePictureBox1.ShadowDecoration.CustomizableEdges = customizableEdges19;
+            guna2CirclePictureBox1.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
+            guna2CirclePictureBox1.TabStop = false;
             guna2HtmlLabel2.BackColor = Color.Transparent;
             resources.ApplyResources(guna2HtmlLabel2, "guna2HtmlLabel2");
             guna2HtmlLabel2.ForeColor = Color.DodgerBlue;

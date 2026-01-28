@@ -1,61 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.EntityFrameworkCore;
-
 namespace BaiTapLonWinForm.Models;
 
-[PrimaryKey("StudentId", "ClassId", "PromotionId")]
-[Table("receipt")]
 public partial class Receipt
 {
-    [Key]
-    [Column("student_id")]
     public int StudentId { get; set; }
 
-    [Key]
-    [Column("class_id")]
     public int ClassId { get; set; }
 
-    [Key]
-    [Column("promotion_id")]
     public int PromotionId { get; set; }
 
-    [Column("amount", TypeName = "decimal(12, 3)")]
-    public decimal Amount { get; set; }
+    public decimal? TotalAmount { get; set; }
 
-    [Column("payment_date")]
-    public DateOnly? PaymentDate { get; set; }
+    public decimal? PaidAmount { get; set; }
 
-    [Column("payment_method")]
-    [StringLength(30)]
-    [Unicode(false)]
-    public string? PaymentMethod { get; set; }
-
-    [Column("status")]
-    [StringLength(50)]
-    [Unicode(false)]
     public string? Status { get; set; }
 
-    [Column("number_of_payments")]
-    public int? NumberOfPayments { get; set; }
-
-    [Column("create_at", TypeName = "datetime")]
     public DateTime? CreateAt { get; set; }
 
-    [Column("update_at", TypeName = "datetime")]
     public DateTime? UpdateAt { get; set; }
 
-    [ForeignKey("ClassId")]
-    [InverseProperty("Receipts")]
+    public string TxnRef { get; set; } = null!;
+
     public virtual Class Class { get; set; } = null!;
 
-    [ForeignKey("PromotionId")]
-    [InverseProperty("Receipts")]
     public virtual Promotion Promotion { get; set; } = null!;
 
-    [ForeignKey("StudentId")]
-    [InverseProperty("Receipts")]
+    public virtual ICollection<ReceiptPayment> ReceiptPayments { get; set; } = new List<ReceiptPayment>();
+
     public virtual Student Student { get; set; } = null!;
 }

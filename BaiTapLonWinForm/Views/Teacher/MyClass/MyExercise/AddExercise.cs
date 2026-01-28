@@ -177,7 +177,7 @@ namespace BaiTapLonWinForm.Views.Teacher.MyClass.MyExercise
             //Lưu assignment thông qua AssignmentService
             await _serviceHub.AssignmentService.CreateAssignmentAsync(assignment);
             //Tạo các submisstion cho tất cả học sinh trong lớp
-            var students = _serviceHub.StudentService.getAllStudentByClassId(_classId);
+            var students = _serviceHub.StudentService.GetAllStudentByClassId(_classId);
             foreach (var student in students)
             {
                 //Lấy user của học sinh thông qua studentId
