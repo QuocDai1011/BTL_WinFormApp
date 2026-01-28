@@ -63,7 +63,7 @@ namespace BaiTapLonWinForm.Views.Student.Controllers.DetailClass
         {
             var meetUrl = GetLinkMeetByClassId(_classId);
 
-            if(meetUrl == null)
+            if (meetUrl == null || !meetUrl.Any())
             {
                 MessageHelper.ShowInfo("Lớp học trực tuyến chưa được mở", "Thông báo");
                 return;
