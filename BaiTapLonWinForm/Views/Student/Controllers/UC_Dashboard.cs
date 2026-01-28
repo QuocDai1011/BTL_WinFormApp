@@ -9,14 +9,18 @@ namespace BaiTapLonWinForm.Views.Student.Controllers
     {
         private readonly IStudentService _studentService;
         private readonly INewsfeedService _newsfeedService;
+        private readonly IAssignmentService _assignmentService;
         private readonly EnglistCenterContext _context;
         private List<ClassDto> _cachedClasses;
-        public UC_Dashboard(IStudentService service, INewsfeedService newsfeedService, EnglistCenterContext context, int studentId)
+        private int _studentId;
+        public UC_Dashboard(IStudentService service, IAssignmentService assignmentService, INewsfeedService newsfeedService, EnglistCenterContext context, int studentId)
         {
             InitializeComponent();
             _studentService = service;
+            _assignmentService = assignmentService;
             _cachedClasses = _studentService.GetClassesByStudentId(studentId);
             _context = context;
+            _studentId = studentId;
             _newsfeedService = newsfeedService;
             LoadClasses(studentId);
         }
@@ -46,12 +50,6 @@ namespace BaiTapLonWinForm.Views.Student.Controllers
                 pnlRender.Controls.Add(flpRender);
             }
         }
-
-
-
-
-
-
         private void HandleClassSelected(int classId)
         {
             LoadClassDetail(classId);
@@ -59,7 +57,7 @@ namespace BaiTapLonWinForm.Views.Student.Controllers
 
         private void LoadClassDetail(int classId)
         {
-            var ucDetail = new UC_DetailClass(_newsfeedService, _context);
+            var ucDetail = new UC_DetailClass(_newsfeedService, _assignmentService, _context, classId, _studentId);
             ucDetail.LoadDetailClass(classId);
 
             pnlRender.Controls.Clear();

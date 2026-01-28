@@ -10,5 +10,7 @@ namespace BaiTapLonWinForm.Services.Interfaces
     public interface INewsfeedService
     {
         List<Newsfeed> GetAllNewsfeedByClassId(int classId);
+
+        List<Newsfeed> LoadAssignmentByNewsfeedId(string newsfeedId);
     }
 }

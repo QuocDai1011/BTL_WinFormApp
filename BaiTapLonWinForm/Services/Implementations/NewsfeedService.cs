@@ -33,6 +33,11 @@ namespace BaiTapLonWinForm.Services.Implementations
 
             return link;
         }
+        public List<Newsfeed> LoadAssignmentByNewsfeedId(string newsfeedId)
+        {
+            return _newsfeeds.Find(a => a.Id == newsfeedId)
+                .ToList();
+        }
 
     }
 }

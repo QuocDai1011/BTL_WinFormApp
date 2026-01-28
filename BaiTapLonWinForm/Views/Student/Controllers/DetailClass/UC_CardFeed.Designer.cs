@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UC_CardFeed));
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UC_CardFeed));
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
@@ -40,8 +40,12 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Feed = new Panel();
             pnAction = new Panel();
+            panel1 = new Panel();
+            btnSubmit = new Guna.UI2.WinForms.Guna2GradientButton();
             btnSend = new Guna.UI2.WinForms.Guna2GradientButton();
             tbinput = new Guna.UI2.WinForms.Guna2TextBox();
             btnAddComment = new Guna.UI2.WinForms.Guna2GradientButton();
@@ -49,6 +53,7 @@
             pnContent = new Panel();
             lbContent = new Guna.UI2.WinForms.Guna2HtmlLabel();
             pnUser = new Panel();
+            lbStatus = new Label();
             pnInfoUser = new Panel();
             lbCreatedAt = new Label();
             lbName = new Label();
@@ -57,6 +62,7 @@
             guna2Panel1 = new Guna.UI2.WinForms.Guna2Panel();
             Feed.SuspendLayout();
             pnAction.SuspendLayout();
+            panel1.SuspendLayout();
             pnContent.SuspendLayout();
             pnUser.SuspendLayout();
             pnInfoUser.SuspendLayout();
@@ -79,6 +85,7 @@
             // pnAction
             // 
             pnAction.BackColor = Color.Gainsboro;
+            pnAction.Controls.Add(panel1);
             pnAction.Controls.Add(btnSend);
             pnAction.Controls.Add(tbinput);
             pnAction.Controls.Add(btnAddComment);
@@ -90,12 +97,51 @@
             pnAction.Size = new Size(465, 54);
             pnAction.TabIndex = 2;
             // 
+            // panel1
+            // 
+            panel1.Controls.Add(btnSubmit);
+            panel1.Dock = DockStyle.Right;
+            panel1.Location = new Point(365, 6);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(95, 43);
+            panel1.TabIndex = 29;
+            // 
+            // btnSubmit
+            // 
+            btnSubmit.BorderColor = Color.Teal;
+            btnSubmit.BorderRadius = 20;
+            btnSubmit.BorderThickness = 1;
+            btnSubmit.CustomizableEdges = customizableEdges1;
+            btnSubmit.DisabledState.BorderColor = Color.DarkGray;
+            btnSubmit.DisabledState.CustomBorderColor = Color.DarkGray;
+            btnSubmit.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
+            btnSubmit.DisabledState.FillColor2 = Color.FromArgb(169, 169, 169);
+            btnSubmit.DisabledState.ForeColor = Color.FromArgb(141, 141, 141);
+            btnSubmit.Dock = DockStyle.Fill;
+            btnSubmit.FillColor = Color.White;
+            btnSubmit.FillColor2 = Color.White;
+            btnSubmit.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnSubmit.ForeColor = Color.Teal;
+            btnSubmit.HoverState.BorderColor = Color.Teal;
+            btnSubmit.HoverState.CustomBorderColor = Color.Teal;
+            btnSubmit.HoverState.FillColor = Color.Teal;
+            btnSubmit.HoverState.FillColor2 = Color.Teal;
+            btnSubmit.HoverState.ForeColor = Color.White;
+            btnSubmit.Location = new Point(0, 0);
+            btnSubmit.Name = "btnSubmit";
+            btnSubmit.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            btnSubmit.Size = new Size(95, 43);
+            btnSubmit.TabIndex = 28;
+            btnSubmit.Text = "Nộp bài";
+            btnSubmit.Visible = false;
+            btnSubmit.Click += btnSubmit_Click;
+            // 
             // btnSend
             // 
             btnSend.BorderColor = Color.DodgerBlue;
             btnSend.BorderRadius = 20;
             btnSend.BorderThickness = 1;
-            btnSend.CustomizableEdges = customizableEdges1;
+            btnSend.CustomizableEdges = customizableEdges3;
             btnSend.DisabledState.BorderColor = Color.DarkGray;
             btnSend.DisabledState.CustomBorderColor = Color.DarkGray;
             btnSend.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -114,7 +160,7 @@
             btnSend.ImageAlign = HorizontalAlignment.Right;
             btnSend.Location = new Point(417, 10);
             btnSend.Name = "btnSend";
-            btnSend.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            btnSend.ShadowDecoration.CustomizableEdges = customizableEdges4;
             btnSend.Size = new Size(40, 40);
             btnSend.TabIndex = 29;
             btnSend.Visible = false;
@@ -123,7 +169,7 @@
             // tbinput
             // 
             tbinput.BorderRadius = 20;
-            tbinput.CustomizableEdges = customizableEdges3;
+            tbinput.CustomizableEdges = customizableEdges5;
             tbinput.DefaultText = "";
             tbinput.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
             tbinput.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
@@ -136,7 +182,7 @@
             tbinput.Name = "tbinput";
             tbinput.PlaceholderText = "";
             tbinput.SelectedText = "";
-            tbinput.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            tbinput.ShadowDecoration.CustomizableEdges = customizableEdges6;
             tbinput.Size = new Size(406, 36);
             tbinput.TabIndex = 28;
             tbinput.Visible = false;
@@ -146,7 +192,7 @@
             btnAddComment.BorderColor = Color.Teal;
             btnAddComment.BorderRadius = 20;
             btnAddComment.BorderThickness = 1;
-            btnAddComment.CustomizableEdges = customizableEdges5;
+            btnAddComment.CustomizableEdges = customizableEdges7;
             btnAddComment.DisabledState.BorderColor = Color.DarkGray;
             btnAddComment.DisabledState.CustomBorderColor = Color.DarkGray;
             btnAddComment.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -163,7 +209,7 @@
             btnAddComment.HoverState.ForeColor = Color.White;
             btnAddComment.Location = new Point(8, 11);
             btnAddComment.Name = "btnAddComment";
-            btnAddComment.ShadowDecoration.CustomizableEdges = customizableEdges6;
+            btnAddComment.ShadowDecoration.CustomizableEdges = customizableEdges8;
             btnAddComment.Size = new Size(151, 38);
             btnAddComment.TabIndex = 27;
             btnAddComment.Text = "Thêm nhận xét";
@@ -172,12 +218,12 @@
             // guna2Panel5
             // 
             guna2Panel5.BorderThickness = 2;
-            guna2Panel5.CustomizableEdges = customizableEdges7;
+            guna2Panel5.CustomizableEdges = customizableEdges9;
             guna2Panel5.Dock = DockStyle.Top;
             guna2Panel5.FillColor = Color.DimGray;
             guna2Panel5.Location = new Point(5, 5);
             guna2Panel5.Name = "guna2Panel5";
-            guna2Panel5.ShadowDecoration.CustomizableEdges = customizableEdges8;
+            guna2Panel5.ShadowDecoration.CustomizableEdges = customizableEdges10;
             guna2Panel5.Size = new Size(455, 1);
             guna2Panel5.TabIndex = 26;
             // 
@@ -204,6 +250,7 @@
             // pnUser
             // 
             pnUser.BackColor = Color.Gainsboro;
+            pnUser.Controls.Add(lbStatus);
             pnUser.Controls.Add(pnInfoUser);
             pnUser.Controls.Add(pnAvatar);
             pnUser.Dock = DockStyle.Top;
@@ -212,6 +259,18 @@
             pnUser.Padding = new Padding(20, 0, 20, 0);
             pnUser.Size = new Size(465, 45);
             pnUser.TabIndex = 0;
+            // 
+            // lbStatus
+            // 
+            lbStatus.AutoSize = true;
+            lbStatus.Dock = DockStyle.Right;
+            lbStatus.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            lbStatus.ForeColor = Color.DimGray;
+            lbStatus.Location = new Point(374, 0);
+            lbStatus.Name = "lbStatus";
+            lbStatus.Size = new Size(71, 19);
+            lbStatus.TabIndex = 2;
+            lbStatus.Text = "Chưa nộp";
             // 
             // pnInfoUser
             // 
@@ -263,7 +322,7 @@
             picAvatar.ImageRotate = 0F;
             picAvatar.Location = new Point(0, 0);
             picAvatar.Name = "picAvatar";
-            picAvatar.ShadowDecoration.CustomizableEdges = customizableEdges9;
+            picAvatar.ShadowDecoration.CustomizableEdges = customizableEdges11;
             picAvatar.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
             picAvatar.Size = new Size(45, 45);
             picAvatar.TabIndex = 0;
@@ -274,13 +333,13 @@
             guna2Panel1.BackColor = Color.WhiteSmoke;
             guna2Panel1.BorderRadius = 10;
             guna2Panel1.Controls.Add(Feed);
-            guna2Panel1.CustomizableEdges = customizableEdges10;
+            guna2Panel1.CustomizableEdges = customizableEdges12;
             guna2Panel1.Dock = DockStyle.Fill;
             guna2Panel1.FillColor = Color.Gainsboro;
             guna2Panel1.Location = new Point(10, 10);
             guna2Panel1.Name = "guna2Panel1";
             guna2Panel1.Padding = new Padding(5, 15, 5, 5);
-            guna2Panel1.ShadowDecoration.CustomizableEdges = customizableEdges11;
+            guna2Panel1.ShadowDecoration.CustomizableEdges = customizableEdges13;
             guna2Panel1.Size = new Size(475, 211);
             guna2Panel1.TabIndex = 2;
             // 
@@ -296,9 +355,11 @@
             Size = new Size(495, 231);
             Feed.ResumeLayout(false);
             pnAction.ResumeLayout(false);
+            panel1.ResumeLayout(false);
             pnContent.ResumeLayout(false);
             pnContent.PerformLayout();
             pnUser.ResumeLayout(false);
+            pnUser.PerformLayout();
             pnInfoUser.ResumeLayout(false);
             pnInfoUser.PerformLayout();
             pnAvatar.ResumeLayout(false);
@@ -324,5 +385,8 @@
         private Guna.UI2.WinForms.Guna2GradientButton btnAddComment;
         private Guna.UI2.WinForms.Guna2TextBox tbinput;
         private Guna.UI2.WinForms.Guna2GradientButton btnSend;
+        private Guna.UI2.WinForms.Guna2GradientButton btnSubmit;
+        private Panel panel1;
+        private Label lbStatus;
     }
 }

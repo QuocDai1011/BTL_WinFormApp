@@ -15,5 +15,7 @@ public class MongoDbContext
     public IMongoCollection<Newsfeed> Newsfeeds =>
         _database.GetCollection<Newsfeed>("newsfeeds");
 
+    public IMongoCollection<Assignment> Assignment =>
+        _database.GetCollection<Assignment>("assignment");
 
 }

@@ -11,15 +11,17 @@ namespace BaiTapLonWinForm.Views.Student
         private readonly ICourseService _courseService;
         private readonly IReceiptService _receiptService;
         private readonly INewsfeedService _newsfeedSerivce;
+        private readonly IAssignmentService _assignmentService;
         private readonly EnglistCenterContext _context;
         private readonly int _studentId = 1;
-        public StudentForm(IStudentService studentService, ICourseService courseService, IReceiptService receiptService, INewsfeedService newsfeedSerivce, EnglistCenterContext context)
+        public StudentForm(IStudentService studentService, IAssignmentService assignmentService, ICourseService courseService, IReceiptService receiptService, INewsfeedService newsfeedSerivce, EnglistCenterContext context)
         {
             InitializeComponent();
             _studentService = studentService;
             _courseService = courseService;
             _receiptService = receiptService;
             _newsfeedSerivce = newsfeedSerivce;
+            _assignmentService = assignmentService;
             _context = context;
             lbTitle.Text = "";
         }
@@ -72,7 +74,7 @@ namespace BaiTapLonWinForm.Views.Student
 
             lbTitle.Text = "Lớp học";
 
-            LoadControllerAsync(new UC_Dashboard(_studentService, _newsfeedSerivce, _context, _studentId));
+            LoadControllerAsync(new UC_Dashboard(_studentService, _assignmentService, _newsfeedSerivce, _context, _studentId));
         }
 
         private void BtnCalender_Click(object sender, EventArgs e)

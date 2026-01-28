@@ -52,7 +52,7 @@
             pnQuitAction.Dock = DockStyle.Left;
             pnQuitAction.Location = new Point(5, 5);
             pnQuitAction.Name = "pnQuitAction";
-            pnQuitAction.Size = new Size(327, 604);
+            pnQuitAction.Size = new Size(262, 604);
             pnQuitAction.TabIndex = 0;
             // 
             // guna2Panel1
@@ -64,7 +64,7 @@
             guna2Panel1.Controls.Add(btnAddComment);
             guna2Panel1.Controls.Add(guna2PictureBox1);
             guna2Panel1.CustomizableEdges = customizableEdges5;
-            guna2Panel1.Location = new Point(60, 19);
+            guna2Panel1.Location = new Point(29, 26);
             guna2Panel1.Name = "guna2Panel1";
             guna2Panel1.ShadowDecoration.CustomizableEdges = customizableEdges6;
             guna2Panel1.Size = new Size(200, 100);
@@ -126,10 +126,10 @@
             // 
             pnFeed.AutoScroll = true;
             pnFeed.Dock = DockStyle.Fill;
-            pnFeed.Location = new Point(332, 5);
+            pnFeed.Location = new Point(267, 5);
             pnFeed.Name = "pnFeed";
             pnFeed.Padding = new Padding(5);
-            pnFeed.Size = new Size(802, 604);
+            pnFeed.Size = new Size(867, 604);
             pnFeed.TabIndex = 1;
             // 
             // UC_Newsfeed

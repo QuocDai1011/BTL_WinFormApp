@@ -8,14 +8,20 @@ namespace BaiTapLonWinForm.Views.Student.Controllers.DetailClass
     public partial class UC_Newsfeed : UserControl
     {
         private readonly INewsfeedService _newsfeedService;
+        private readonly IAssignmentService _assignmentService;
         private readonly EnglistCenterContext _context;
         private int _classId;
-        public UC_Newsfeed(INewsfeedService newsfeedService, EnglistCenterContext context, int classId)
+        private int _studentId;
+        private string _newsfeedId;
+        public UC_Newsfeed(INewsfeedService newsfeedService, IAssignmentService assignmentService, EnglistCenterContext context, int classId, int studentId, string newsfeedId)
         {
             InitializeComponent();
             _newsfeedService = newsfeedService;
+            _assignmentService = assignmentService;
             _context = context;
             _classId = classId;
+            _studentId = studentId;
+            _newsfeedId = newsfeedId;
         }
 
         private void LoadControl(UserControl control)
@@ -39,7 +45,7 @@ namespace BaiTapLonWinForm.Views.Student.Controllers.DetailClass
 
             foreach (var item in data)
             {
-                var control = new UC_CardFeed(item);
+                var control = new UC_CardFeed(item, _assignmentService, "", _newsfeedId, _studentId);
                 LoadControl(control);
             }
         }

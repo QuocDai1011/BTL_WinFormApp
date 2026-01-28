@@ -47,6 +47,7 @@ namespace BaiTapLonWinForm
             services.AddScoped<IReceiptService, ReceiptService>();
             services.AddScoped<ICourseService, CourseSesrvice>();
             services.AddScoped<INewsfeedService, NewsfeedService>();
+            services.AddScoped<IAssignmentService, AssignmentService>();
 
             // Register Form
             services.AddTransient<StudentForm>();
