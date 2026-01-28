@@ -38,7 +38,7 @@ namespace BaiTapLonWinForm.Services.Implementations
             return assignment.Status;
         }
 
-        public void SubmitAssignment(string newsfeedId, int studentId, string link)
+        public void SubmitAssignment(string newsfeedId, int studentId)
         {
             var filter = Builders<Assignment>.Filter.And(
                     Builders<Assignment>.Filter.Eq(x => x.NewsfeedId, newsfeedId),
@@ -46,11 +46,9 @@ namespace BaiTapLonWinForm.Services.Implementations
 
             var content = _assignmentCollection.Find(x => x.NewsfeedId == newsfeedId && x.StudentId == studentId).FirstOrDefault();
             var update = Builders<Assignment>.Update
-                .Set(x => x.Link, link)
                 .Set(x => x.SubmittedAt, DateTime.UtcNow)
                 .Set(x => x.Status, "Đã nộp")
-                .Set(x => x.IsCompleted, true)
-                .Set(x => x.IsLate, DateTime.UtcNow > content.DueTime);
+                .Set(x => x.IsCompleted, true);
 
             _assignmentCollection.UpdateOne(filter, update);
         }

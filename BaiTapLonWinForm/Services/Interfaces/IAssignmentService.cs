@@ -15,6 +15,6 @@ namespace BaiTapLonWinForm.Services.Interfaces
 
         Assignment GetByNewsfeedAndStudent(string newsfeedId, int studentId);
 
-        void SubmitAssignment(string newsfeedId, int studentId, string link);
+        void SubmitAssignment(string newsfeedId, int studentId);
     }
 }

@@ -43,9 +43,9 @@ namespace BaiTapLonWinForm.Views.Student.Controllers.DetailClass
             }
         }
 
-        private void HandleSubmitAssignment(string newsfeedId, string link)
+        private void HandleSubmitAssignment(string newsfeedId)
         {
-            _assignmentCollection.SubmitAssignment(newsfeedId, _studentId, link);
+            _assignmentCollection.SubmitAssignment(newsfeedId, _studentId);
         }
     }
 }
