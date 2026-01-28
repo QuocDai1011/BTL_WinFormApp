@@ -1,5 +1,4 @@
-﻿using BaiTapLonWinForm.MongooModels;
-using BaiTapLonWinForm.Services.Interfaces;
+﻿using BaiTapLonWinForm.Services.Interfaces;
 
 namespace BaiTapLonWinForm.Views.Student.Controllers.DetailClass
 {
@@ -35,7 +34,9 @@ namespace BaiTapLonWinForm.Views.Student.Controllers.DetailClass
 
             foreach (var item in assignment)
             {
-                var control = new UC_CardAssignment(item);
+                var submission = _assignmentCollection
+                    .GetByNewsfeedAndStudent(item.Id, _studentId);
+                var control = new UC_CardAssignment(item, submission);
                 control.OnSubmitClicked += HandleSubmitAssignment;
                 control.Dock = DockStyle.Top;
                 this.Controls.Add(control);

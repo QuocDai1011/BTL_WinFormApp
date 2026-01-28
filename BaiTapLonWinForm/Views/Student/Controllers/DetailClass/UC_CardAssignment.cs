@@ -15,19 +15,37 @@ namespace BaiTapLonWinForm.Views.Student.Controllers.DetailClass
     {
         private string _newsfeedId;
         public event Action<string, string>? OnSubmitClicked;
-        public UC_CardAssignment(Newsfeed data)
+        public UC_CardAssignment(Newsfeed data, Assignment assignment)
         {
             InitializeComponent();
             _newsfeedId = data.Id;
 
-            LoadCardAssignment(data);
+            LoadCardAssignment(data, assignment);
         }
 
-        private void LoadCardAssignment(Newsfeed data)
+        private void LoadCardAssignment(Newsfeed data, Assignment submission)
         {
             lbName.Text = data.Author ?? "Ẩn danh";
-            lbCreatedAt.Text = data.PostingAt.ToString("dd/MM/yyyy HH:mm") ?? "Không rõ";
-            lbContent.Text = data.ContentHtml ?? "Không có nội dung trong đoạn thông báo này";
+            lbCreatedAt.Text = data.PostingAt.ToString("dd/MM/yyyy HH:mm");
+            lbContent.Text = data.ContentHtml ?? "Không có nội dung";
+
+            if (submission == null)
+            {
+                lbStatus.Text = "Chưa nộp";
+                lbStatus.ForeColor = Color.Gray;
+                return;
+            }
+
+            if (submission.IsLate)
+            {
+                lbStatus.Text = "Nộp muộn";
+                lbStatus.ForeColor = Color.Red;
+            }
+            else
+            {
+                lbStatus.Text = "Đã nộp";
+                lbStatus.ForeColor = Color.Green;
+            }
         }
 
         private void btnSubmit_Click(object sender, EventArgs e)

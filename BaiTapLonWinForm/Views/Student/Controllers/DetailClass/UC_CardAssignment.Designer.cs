@@ -56,6 +56,7 @@
             lbName = new Label();
             pnAvatar = new Panel();
             picAvatar = new Guna.UI2.WinForms.Guna2CirclePictureBox();
+            lbStatus = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2Panel1.SuspendLayout();
             Feed.SuspendLayout();
             pnAction.SuspendLayout();
@@ -244,6 +245,7 @@
             // pnUser
             // 
             pnUser.BackColor = Color.Gainsboro;
+            pnUser.Controls.Add(lbStatus);
             pnUser.Controls.Add(pnInfoUser);
             pnUser.Controls.Add(pnAvatar);
             pnUser.Dock = DockStyle.Top;
@@ -309,6 +311,18 @@
             picAvatar.TabIndex = 0;
             picAvatar.TabStop = false;
             // 
+            // lbStatus
+            // 
+            lbStatus.BackColor = Color.Transparent;
+            lbStatus.Dock = DockStyle.Right;
+            lbStatus.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            lbStatus.ForeColor = Color.DimGray;
+            lbStatus.Location = new Point(1044, 0);
+            lbStatus.Name = "lbStatus";
+            lbStatus.Size = new Size(34, 21);
+            lbStatus.TabIndex = 2;
+            lbStatus.Text = "label";
+            // 
             // UC_CardAssignment
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -325,6 +339,7 @@
             pnContent.ResumeLayout(false);
             pnContent.PerformLayout();
             pnUser.ResumeLayout(false);
+            pnUser.PerformLayout();
             pnInfoUser.ResumeLayout(false);
             pnInfoUser.PerformLayout();
             pnAvatar.ResumeLayout(false);
@@ -351,5 +366,6 @@
         private Guna.UI2.WinForms.Guna2TextBox tbLink;
         private Panel panel2;
         private Guna.UI2.WinForms.Guna2GradientButton guna2GradientButton1;
+        private Guna.UI2.WinForms.Guna2HtmlLabel lbStatus;
     }
 }

@@ -24,6 +24,11 @@ namespace BaiTapLonWinForm.Services.Implementations
             return _newsfeedCollection.Find(a => a.ClassId == classId && a.Type == "assignment").ToList();
         }
 
+        public Assignment GetByNewsfeedAndStudent(string newsfeedId, int studentId)
+        {
+            return _assignmentCollection.Find(s => s.NewsfeedId == newsfeedId && s.StudentId == studentId).FirstOrDefault();
+        }
+
         public string GetStatusAssignmentByAssignmentId(string assignmentId)
         {
             var assignment = _assignmentCollection.Find(a => a.Id == assignmentId).FirstOrDefault();

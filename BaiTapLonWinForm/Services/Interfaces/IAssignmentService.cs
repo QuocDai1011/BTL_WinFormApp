@@ -13,6 +13,8 @@ namespace BaiTapLonWinForm.Services.Interfaces
 
         string GetStatusAssignmentByAssignmentId(string assignmentId);
 
+        Assignment GetByNewsfeedAndStudent(string newsfeedId, int studentId);
+
         void SubmitAssignment(string newsfeedId, int studentId, string link);
     }
 }
