@@ -23,5 +23,7 @@ namespace BaiTapLonWinForm.Services.Interfaces
         Task<(bool Success, string Message, IEnumerable<Course> Data)> GetCoursesByTuitionRangeAsync(decimal minTuition, decimal maxTuition);
         Task<(bool Success, string Message, int Data)> GetTotalStudentByClassCodeAsync(string classCode);
         Task<(bool Success, string Message, int Data)> GetTotalStudentByOtherClassCodeAsync();
+
+        //D:\Coding\CSharp\BTLWinForm\Clone\BTL_WinFormApp\BaiTapLonWinForm\Properties\Resources.Designer.cs
     }
 }
