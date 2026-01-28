@@ -49,37 +49,29 @@
 		<PackageReference Include="Guna.UI2.WinForms" Version="2.0.4.7" />
 		<PackageReference Include="Hourglass" Version="1.0.2" />
 		<PackageReference Include="Jenga.NET" Version="4.0.0" />
-
 		<PackageReference Include="itext.bouncy-castle-adapter" Version="8.0.5" />
 		<PackageReference Include="itext7" Version="8.0.5" />
-
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.21" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.21" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.21">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-
 		<PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="10.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
 		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3650.58" />
 		<PackageReference Include="NEST" Version="7.17.5" />
-
-		
 		<PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="10.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="10.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.1" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.1" />
 		<PackageReference Include="MongoDB.Driver" Version="3.5.2" />
-
 		<PackageReference Include="QRCoder" Version="1.7.0" />
-
 		<PackageReference Include="System.Drawing.Common" Version="8.0.23" />
 		<PackageReference Include="System.Text.Encoding.CodePages" Version="8.0.0" />
 	</ItemGroup>
-
 	<ItemGroup>
 		<Folder Include="Models\" />
 		<Folder Include="Views\Teacher\MyClass\MyExercise\" />
