@@ -38,6 +38,10 @@ namespace BaiTapLonWinForm.Services.Implementations
             return result;
         }
 
+        public Task<List<Assignment>> GetAllAssignmentsByNewsfeedList(List<Newsfeed> newsfeedList)
+        {
+            return _repo.GetAllAssignmentsByNewsfeedList(newsfeedList);
+        }
 
         public async Task<Assignment> GetAssignmentById(string _assignmentId)
         {

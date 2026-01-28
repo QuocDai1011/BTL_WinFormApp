@@ -14,5 +14,6 @@ namespace BaiTapLonWinForm.Repositories.Interfaces
         Task<Assignment> GetAssignmentById(string _assignmentId);
         Task<bool> CreateAssignmentAsync(Assignment assignment);
         Task<bool> UpdateAssignmentAsync(Assignment assignment);
+        Task<List<Assignment>> GetAllAssignmentsByNewsfeedList(List<Newsfeed> newsfeedList);
     }
 }

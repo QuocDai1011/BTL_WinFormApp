@@ -17,16 +17,16 @@ namespace BaiTapLonWinForm.Repositories.Implementations
         {
             _context = context;
         }
+
         public List<string> GetListSchoolDaysByClassId(int classId)
         {
-            var days = _context.Classes
+            return _context.Classes
                 .AsNoTracking()
                 .Include(c => c.SchoolDays)
                 .Where(c => c.ClassId == classId)
                 .SelectMany(c => c.SchoolDays)
                 .Select(sd => sd.DayOfWeek)
                 .ToList();
-            return days;
         }
     }
 }

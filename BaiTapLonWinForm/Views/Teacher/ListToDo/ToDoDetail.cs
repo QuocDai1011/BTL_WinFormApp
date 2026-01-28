@@ -15,10 +15,12 @@ namespace BaiTapLonWinForm.Views.Teacher.ListToDo
 {
     public partial class ToDoDetail : UserControl
     {
+        private List<Assignment> _allAssignments = new();
         public event Action<string> OnOpenScoreDetail;
         public event Action<Assignment> OnEditExercise;
-        private readonly ServiceHub _serviceHub;
-        private readonly long _userId;
+        private ServiceHub _serviceHub;
+        private long _userId;
+        private int _teacherId;
         public ToDoDetail(ServiceHub serviceHub, long userId)
         {
             InitializeComponent();
@@ -28,15 +30,6 @@ namespace BaiTapLonWinForm.Views.Teacher.ListToDo
         }
         private async void LoadExerciseItems()
         {
-            //var item = new ExerciseItem();
-
-            //item.OnOpenScoreDetail += () =>
-            //{
-            //    OnOpenScoreDetail?.Invoke();
-            //};
-
-            //flpnExerciseList.Controls.Add(item);
-
             //Hiển thị các Assignment tất cả các lớp học vào flpnExerciseList
             //Tìm các Newsfeed của user hiện tại
             var newsfeedList = await _serviceHub.NewsfeedService.GetAllNewsfeedsByUserId(_userId);
@@ -55,15 +48,29 @@ namespace BaiTapLonWinForm.Views.Teacher.ListToDo
                 };
                 flpnExerciseList.Controls.Add(exerciseItem);
             });
-
-            //Lấy tất cả các Assignment từ các Newsfeed đó
-            //var assignmentList = await _serviceHub.AssignmentService.GetAllAssignmentsByUserId(_userId);
-
         }
-
-        private void btnMainAction1_Click(object sender, EventArgs e)
+        public async Task LoadCbxCourseNameFromCache()
         {
+            cbxClassList.BeginUpdate();
+            cbxClassList.Items.Clear();
+            cbxClassList.Items.Add("Tất cả lớp học");
 
+            _teacherId = _serviceHub.TeacherService.GetTeacherByUserId(_userId);
+
+            var teacher =
+                await _serviceHub.TeacherService.GetTeacherByIdAsync(_teacherId);
+
+            var classes =
+                await _serviceHub.ClassService
+                    .GetAllClassAsync(teacher.Data.TeacherId);
+
+            foreach (var cl in classes.OrderBy(c => c.ClassName))
+            {
+                cbxClassList.Items.Add(cl.ClassName);
+            }
+
+            cbxClassList.SelectedIndex = 0;
+            cbxClassList.EndUpdate();
         }
     }
 }

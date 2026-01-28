@@ -352,6 +352,7 @@
             Controls.Add(guna2GradientPanel1);
             Name = "ScoreDetail";
             Size = new Size(1430, 849);
+            Load += ScoreDetail_Load;
             guna2GradientPanel1.ResumeLayout(false);
             flowLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);

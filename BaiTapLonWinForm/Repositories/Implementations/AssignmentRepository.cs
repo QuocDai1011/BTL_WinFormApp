@@ -39,6 +39,11 @@ namespace BaiTapLonWinForm.Repositories.Implementations
                 .FirstOrDefaultAsync();
         }
 
+        public Task<List<Assignment>> GetAllAssignmentsByNewsfeedList(List<Newsfeed> newsfeedList)
+        {
+            return _collection.Find(a => newsfeedList.Any(nf => nf.Id == a.NewsfeedId)).ToListAsync();
+        }
+
         public async Task<Assignment> GetAssignmentById(string _assignmentId)
         {
             return await _collection.Find(a => a.Id == _assignmentId).FirstOrDefaultAsync();

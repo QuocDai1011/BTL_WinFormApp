@@ -22,6 +22,7 @@ namespace BaiTapLonWinForm.Views.Teacher.MyClass.MyExercise
             _serviceHub = serviceHub;
             _assignmentId = assignmentId;
         }
+
         private void btnBack_Click(object sender, EventArgs e)
         {
             OnBack?.Invoke();
@@ -45,6 +46,11 @@ namespace BaiTapLonWinForm.Views.Teacher.MyClass.MyExercise
                 Dock = DockStyle.Fill
             };
             pnContainer.Controls.Add(scoreStudent);
+        }
+
+        private void ScoreDetail_Load(object sender, EventArgs e)
+        {
+            btnAction1_Click(sender, e);
         }
     }
 }

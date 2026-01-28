@@ -214,6 +214,7 @@
             guna2GradientButton1.Size = new Size(141, 48);
             guna2GradientButton1.TabIndex = 5;
             guna2GradientButton1.Text = "Điểm";
+            guna2GradientButton1.Visible = false;
             // 
             // guna2CustomGradientPanel1
             // 

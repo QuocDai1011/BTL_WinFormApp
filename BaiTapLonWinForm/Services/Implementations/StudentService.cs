@@ -26,5 +26,24 @@ namespace BaiTapLonWinForm.Services.Implementations
             }
             return null;
         }
+        public async Task<(bool Success, string Message, Student Data)> GetStudentByUserIdAsync(long userId)
+        {
+            try
+            {
+                if (userId <= 0)
+                    return (false, "User ID không hợp lệ", null);
+
+                var student = await _studentRepository.GetByUserIdAsync(userId);
+
+                if (student == null)
+                    return (false, "Không tìm thấy học sinh với User ID này", null);
+
+                return (true, "Lấy thông tin học sinh thành công", student);
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Lỗi: {ex.Message}", null);
+            }
+        }
     }
 }

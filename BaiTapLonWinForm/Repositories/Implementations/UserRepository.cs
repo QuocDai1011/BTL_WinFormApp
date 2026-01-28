@@ -2,11 +2,8 @@
 using BaiTapLonWinForm.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace BaiTapLonWinForm.Repositories.Implementations
 {
@@ -18,25 +15,29 @@ namespace BaiTapLonWinForm.Repositories.Implementations
         {
             _context = context;
         }
+        
         public User GetUserByEmail(string email)
         {
-            var existUser = _context.Users.FirstOrDefault(u => u.Email == email);
-            if (existUser != null)
-            {
-                return existUser;
-            }
-            return null;
+            return _context.Users
+                .AsNoTracking()
+                .FirstOrDefault(u => u.Email == email);
         }
 
         public string GetRoleNameByRoleId(long roleId)
         {
-            var role = _context.Roles.FirstOrDefault(r => r.RoleId == roleId);
-            return role != null ? role.RoleName : null;
+            var role = _context.Roles
+                .AsNoTracking()
+                .FirstOrDefault(r => r.RoleId == roleId);
+            return role?.RoleName;
         }
+        
         public bool EmailExists(string email)
         {
-            return _context.Users.Any(u => u.Email == email);
+            return _context.Users
+                .AsNoTracking()
+                .Any(u => u.Email == email);
         }
+        
         public bool AddNewUser(string firstName, string lastName, string email, string password,
                                 string address, DateTime dob, bool gender, string phone, string parentPhone)
         {
@@ -55,9 +56,9 @@ namespace BaiTapLonWinForm.Repositories.Implementations
             };
             _context.Users.Add(newUser);
             int rows = _context.SaveChanges();
-            if(rows != 0) return true;
-            return false;
+            return rows != 0;
         }
+        
         public bool AddNewStudent(long userId, string parentPhone)
         {
             Student newStudent = new Student
@@ -67,8 +68,7 @@ namespace BaiTapLonWinForm.Repositories.Implementations
             };
             _context.Students.Add(newStudent);
             int rows = _context.SaveChanges();
-            if (rows != 0) return true;
-            return false;
+            return rows != 0;
         }
 
         public async Task UpdateExistUserAsync(User existUser)
@@ -79,13 +79,11 @@ namespace BaiTapLonWinForm.Repositories.Implementations
 
         public User GetUserByUserId(long userId)
         {
-            var existUser = _context.Users.FirstOrDefault(u => u.UserId == userId);
-            if (existUser != null)
-            {
-                return existUser;
-            }
-            return null;
+            return _context.Users
+                .AsNoTracking()
+                .FirstOrDefault(u => u.UserId == userId);
         }
+        
         public async Task<User> UpdateAsync(User user)
         {
             var existingUser = await _context.Users.FindAsync(user.UserId);
@@ -101,14 +99,19 @@ namespace BaiTapLonWinForm.Repositories.Implementations
 
             return user;
         }
+        
         public async Task<bool> ExistsAsync(long userId)
         {
-            return await _context.Users.AnyAsync(u => u.UserId == userId);
+            return await _context.Users
+                .AsNoTracking()
+                .AnyAsync(u => u.UserId == userId);
         }
 
         public async Task<bool> EmailExistsAsync(string email, long? excludeUserId = null)
         {
-            var query = _context.Users.Where(u => u.Email == email.ToLower());
+            var query = _context.Users
+                .AsNoTracking()
+                .Where(u => u.Email == email.ToLower());
 
             if (excludeUserId.HasValue)
                 query = query.Where(u => u.UserId != excludeUserId.Value);
@@ -119,6 +122,7 @@ namespace BaiTapLonWinForm.Repositories.Implementations
         public User GetUserByTeacherId(long teacherId)
         {
             return _context.Teachers
+                .AsNoTracking()
                 .Where(t => t.TeacherId == teacherId)
                 .Select(t => t.User)
                 .FirstOrDefault();

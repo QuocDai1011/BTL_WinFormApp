@@ -20,18 +20,16 @@ namespace BaiTapLonWinForm.Repositories.Implementations
         public async Task<List<Class>> GetAllClassesAsync(int teacherId)
         {
             return await _context.Classes
+                .AsNoTracking()
                 .Where(c => c.TeacherId == teacherId)
                 .ToListAsync();
         }
 
         public Class GetClassById(int classId)
         {
-            var existClass = _context.Classes.FirstOrDefault(u => u.ClassId == classId);
-            if (existClass != null)
-            {
-                return existClass;
-            }
-            return null;
+            return _context.Classes
+                .AsNoTracking()
+                .FirstOrDefault(u => u.ClassId == classId);
         }
 
         public void UpdateClassesStatus(List<Class> updatedClasses)
@@ -42,7 +40,6 @@ namespace BaiTapLonWinForm.Repositories.Implementations
                 if (existing == null) continue;
 
                 existing.Status = cls.Status;
-                //existing.UpdatedAt = DateTime.Now;
             }
 
             _context.SaveChanges();

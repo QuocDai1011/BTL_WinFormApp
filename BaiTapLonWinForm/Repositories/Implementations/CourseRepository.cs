@@ -18,15 +18,15 @@ namespace BaiTapLonWinForm.Repositories.Implementations
         {
             _context = context;
         }
+
         public Course? GetCourseByClassId(long classId)
         {
-            Course? course = _context.Classes
+            return _context.Classes
                 .AsNoTracking()
                 .Include(c => c.Course)
                 .Where(c => c.ClassId == classId)
                 .Select(c => c.Course)
                 .FirstOrDefault();
-            return course;
         }
 
         public async Task<IEnumerable<Course>> GetAllAsync()

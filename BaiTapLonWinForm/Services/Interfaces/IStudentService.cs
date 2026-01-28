@@ -10,5 +10,6 @@ namespace BaiTapLonWinForm.Services.Interfaces
     public interface IStudentService
     {
         List<Student> getAllStudentByClassId(long classId);
+        Task<(bool Success, string Message, Student Data)> GetStudentByUserIdAsync(long userId);
     }
 }

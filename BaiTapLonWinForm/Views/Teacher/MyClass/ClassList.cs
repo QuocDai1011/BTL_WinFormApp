@@ -37,11 +37,11 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
         private HashSet<long> _lastLoadedClassIds = new HashSet<long>();
         private readonly WinFormsTimer _searchTimer;
         private string _currentSearchKeyword = string.Empty;
-
+        private List<Class> _originalClasses = new();
         // Layout constants
         private const float CARD_HEIGHT = 267F;
         private const float VERTICAL_GAP = 20F;
-
+        private bool _filterEnabled = true;
         public ClassList(int teacherId, ServiceHub serviceHub)
         {
             InitializeComponent();
@@ -79,47 +79,123 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
             this.DoubleBuffered = true;
             typeof(TableLayoutPanel).GetProperty("DoubleBuffered", BindingFlags.NonPublic | BindingFlags.Instance)
                 ?.SetValue(tfpClassList, true, null);
-            LoadFilteredClasses();
         }
-        public void LoadFilteredClasses()
+        public void VisableFilterControls(bool isVisible)
         {
-            LoadCbxCourseName();
-            LoadCbxActive();
-            LoadCbxDayOfWeek();
+            _filterEnabled = isVisible;
+            pnFilter.Visible = isVisible;
+        }
+        public async void LoadFilteredClasses()
+        {
+            if (!_filterEnabled) return;
+            if (_originalClasses.Count == 0)
+            {
+                var classes = await _serviceHub.ClassService.GetAllClassAsync(_teacherId);
+                _originalClasses = _serviceHub.ClassService.UpdateClassesStatusList(classes);
+
+                await PreloadAllDataAsync(_originalClasses);
+            }
+
+            LoadCbxCourseNameFromCache();
             LoadDtpkFilter();
+            await ApplyAllFiltersAndReload();
         }
-        private async void LoadCbxCourseName()
+        private void LoadCbxCourseNameFromCache()
         {
-            var courses = await _serviceHub.CourseService.GetAllCoursesAsync();
             cbxCourseName.Items.Clear();
             cbxCourseName.Items.Add("Tất cả khóa học");
-            foreach (var course in courses.Data)
+
+            // Lấy unique courses từ cache
+            var uniqueCourses = _allCourses.Values
+                .GroupBy(c => c.CourseId)
+                .Select(g => g.First())
+                .OrderBy(c => c.CourseName)
+                .ToList();
+
+            foreach (var course in uniqueCourses)
             {
                 cbxCourseName.Items.Add(course.CourseName);
             }
+
             cbxCourseName.SelectedIndex = 0;
         }
-        private void LoadCbxActive()
+        private async Task ApplyAllFiltersAndReload()
         {
-            //cbxActive.Items.Clear();
-            //cbxActive.Items.Add("All");
-            //cbxActive.Items.Add("Active");
-            //cbxActive.Items.Add("Expired");
-            //cbxActive.SelectedIndex = 0;
+            tfpClassList.Visible = false;
+            tfpClassList.SuspendLayout();
+
+            try
+            {
+                var today = DateOnly.FromDateTime(DateTime.Now);
+
+                IEnumerable<Class> query = _originalClasses;
+
+                // 1️⃣ ACTIVE / EXPIRED
+                string active = cbxActive.SelectedItem?.ToString() ?? "";
+                if (active == "Chưa Bắt Đầu")
+                    query = query.Where(c => c.StartDate > today);
+                else
+                    query = query.Where(c => c.EndDate >= today);
+
+                // 2️⃣ DATE FILTER
+                var selectedDate = DateOnly.FromDateTime(dtpkFilter.Value);
+                query = query.Where(c =>
+                    c.StartDate <= selectedDate &&
+                    c.EndDate >= selectedDate
+                );
+
+                // 3️⃣ SEARCH
+                query = FilterClasses(query.ToList());
+
+                var filteredClasses = query.ToList();
+
+                // 4️⃣ COURSE FILTER (sử dụng data đã cache)
+                string courseName = cbxCourseName.SelectedItem?.ToString() ?? "Tất cả khóa học";
+                if (courseName != "Tất cả khóa học")
+                {
+                    filteredClasses = filteredClasses.Where(c =>
+                        _allCourses.TryGetValue(c.ClassId, out var course) &&
+                        course.CourseName == courseName
+                    ).ToList();
+                }
+
+                // 5️⃣ RENDER (không cần preload nữa vì đã có cache)
+                _allClasses = filteredClasses;
+                _currentPage = 0;
+                _isLoadingMore = false;
+
+                tfpClassList.Controls.Clear();
+                _cachedClassItems.Clear();
+
+                RenderAllAtOnce(filteredClasses);
+
+                await Task.CompletedTask;
+            }
+            finally
+            {
+                tfpClassList.ResumeLayout(true);
+                tfpClassList.Visible = true;
+            }
         }
-        private void LoadCbxDayOfWeek()
+
+        private async void cbxCourseName_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //cbxDayOfWeek.Items.Clear();
-            //cbxDayOfWeek.Items.Add("All");
-            //cbxDayOfWeek.Items.Add("Monday");
-            //cbxDayOfWeek.Items.Add("Tuesday");
-            //cbxDayOfWeek.Items.Add("Wednesday");
-            //cbxDayOfWeek.Items.Add("Thursday");
-            //cbxDayOfWeek.Items.Add("Friday");
-            //cbxDayOfWeek.Items.Add("Saturday");
-            //cbxDayOfWeek.Items.Add("Sunday");
-            //cbxDayOfWeek.SelectedIndex = 0;
+            if (!_filterEnabled) return;
+            await ApplyAllFiltersAndReload();
         }
+
+        private async void cbxActive_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (!_filterEnabled) return;
+            await ApplyAllFiltersAndReload();
+        }
+
+        private async void dtpkFilter_ValueChanged(object sender, EventArgs e)
+        {
+            if (!_filterEnabled) return;
+            await ApplyAllFiltersAndReload();
+        }
+
         private void LoadDtpkFilter()
         {
             dtpkFilter.Value = DateTime.Now;
@@ -146,6 +222,7 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
 
         private void SearchTimer_Tick(object? sender, EventArgs e)
         {
+            if (!_filterEnabled) return; 
             _searchTimer.Stop();
             string newKeyword = txbSearchClass.Text.Trim().ToLower();
             if (_currentSearchKeyword != newKeyword)
@@ -162,7 +239,7 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
             if (string.IsNullOrWhiteSpace(_currentSearchKeyword))
                 return classes;
 
-            return classes.Where(c => 
+            return classes.Where(c =>
                 c.ClassName.ToLower().Contains(_currentSearchKeyword) ||
                 c.Note?.ToLower().Contains(_currentSearchKeyword) == true
             ).ToList();
@@ -176,43 +253,36 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
         }
         public async Task LoadClassesAsync(bool showExpired)
         {
-            tfpClassList.Visible = false;
-            tfpClassList.SuspendLayout();
-
-            try
+            if (_originalClasses.Count == 0)
             {
-                var today = DateOnly.FromDateTime(DateTime.Now);
-
-                // ❌ BỎ Task.Run - gọi trực tiếp
                 var classes = await _serviceHub.ClassService.GetAllClassAsync(_teacherId);
-                classes = _serviceHub.ClassService.UpdateClassesStatusList(classes);
+                _originalClasses = _serviceHub.ClassService.UpdateClassesStatusList(classes);
 
-                _allClasses = showExpired
-                    ? classes.Where(x => x.EndDate < today).ToList()
-                    : classes.Where(x => x.EndDate >= today).ToList();
-
-                _currentPage = 0;
-                _isLoadingMore = false;
-
-                await PreloadAllDataAsync(_allClasses);
-
-                tfpClassList.Controls.Clear();
-                _cachedClassItems.Clear();
-
-                RenderAllAtOnce(_allClasses);
+                await PreloadAllDataAsync(_originalClasses);
             }
-            finally
-            {
-                tfpClassList.ResumeLayout(true);
-                tfpClassList.Visible = true;
-            }
+
+            var today = DateOnly.FromDateTime(DateTime.Now);
+
+            var filtered = showExpired
+                ? _originalClasses.Where(x => x.EndDate < today).ToList()
+                : _originalClasses.Where(x => x.EndDate >= today).ToList();
+
+            _allClasses = filtered;
+            _currentPage = 0;
+
+            tfpClassList.SuspendLayout();
+            tfpClassList.Controls.Clear();
+
+            RenderAllAtOnce(filtered);
+
+            tfpClassList.ResumeLayout(true);
+
+            await Task.CompletedTask;
         }
-
-
 
         public void ApplyThemeToAllItems(bool isDarkMode)
         {
-            if(isDarkMode == true)  this.BackColor = Color.Black;
+            if (isDarkMode == true) this.BackColor = Color.Black;
             else this.BackColor = Color.White;
             foreach (var cached in _cachedClassItems.Values)
             {
@@ -222,37 +292,11 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
 
         private async Task PreloadAllDataAsync(List<Class> classes)
         {
-            //await Task.Run(() =>
-            //{
-            //    _currentTeacher = _serviceHub.UserService.GetUserByTeacherId(_teacherId);
+            if (_currentTeacher == null)
+            {
+                _currentTeacher = _serviceHub.UserService.GetUserByTeacherId(_teacherId);
+            }
 
-            //    _allCourses.Clear();
-            //    _allSchoolDays.Clear();
-
-            //    foreach (var cls in classes)
-            //    {
-            //        if (!_allCourses.ContainsKey(cls.ClassId))
-            //        {
-            //            var course = _serviceHub.CourseService.GetCourseByClassId(cls.ClassId);
-            //            if (course != null)
-            //                _allCourses[cls.ClassId] = course;
-            //        }
-
-            //        if (!_allSchoolDays.ContainsKey(cls.ClassId))
-            //        {
-            //            var days = _serviceHub.SchoolDayService.GetListSchoolDaysByClassId(cls.ClassId);
-            //            _allSchoolDays[cls.ClassId] = days ?? new List<string>();
-            //        }
-            //    }
-
-            //    _dataPreloaded = true;
-            //});
-            _currentTeacher = _serviceHub.UserService.GetUserByTeacherId(_teacherId);
-
-            _allCourses.Clear();
-            _allSchoolDays.Clear();
-
-            // ❌ BỎ Task.Run() - đây là nguyên nhân threading issue
             foreach (var cls in classes)
             {
                 if (!_allCourses.ContainsKey(cls.ClassId))
@@ -270,7 +314,7 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
             }
 
             _dataPreloaded = true;
-            await Task.CompletedTask; // Giữ method signature là async
+            await Task.CompletedTask;
         }
 
         public void ClearCache()
@@ -288,45 +332,24 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
             _dataPreloaded = false;
         }
 
-        private async Task UpdateExistingItemsAsync(List<Class> classes)
-        {
-            await Task.Run(() =>
-            {
-                foreach (var cls in classes)
-                {
-                    if (_cachedClassItems.TryGetValue(cls.ClassId, out var cached))
-                    {
-                        if (_allCourses.TryGetValue(cls.ClassId, out var course) &&
-                            _allSchoolDays.TryGetValue(cls.ClassId, out var days))
-                        {
-                            this.InvokeIfRequired(() =>
-                            {
-                                cached.item.SetData(cls, course, _currentTeacher, days);
-                            });
-                        }
-                    }
-                }
-            });
-        }
-
         private async Task LoadNextPageAsync()
         {
             if (_isLoadingMore) return;
             var filteredClasses = FilterClasses(_allClasses);
 
-            int startIdx = _currentPage * BATCH_SIZE * 3; 
-            if (startIdx >= filteredClasses.Count) return; 
+            int startIdx = _currentPage * BATCH_SIZE * 3;
+            if (startIdx >= filteredClasses.Count) return;
 
             _isLoadingMore = true;
 
             var pageClasses = filteredClasses
                 .Skip(startIdx)
-                .Take(BATCH_SIZE * 3) 
+                .Take(BATCH_SIZE * 3)
                 .ToList();
             var existingClassIds = _cachedClassItems.Keys.ToHashSet();
-            var newClasses = pageClasses.Where(c => 
+            var newClasses = pageClasses.Where(c =>
                 !tfpClassList.Controls.Cast<Control>()
-                    .Any(ctrl => ctrl is Guna2CustomGradientPanel card && 
+                    .Any(ctrl => ctrl is Guna2CustomGradientPanel card &&
                          _cachedClassItems.Any(kvp => kvp.Value.card == card && kvp.Key == c.ClassId))
             ).ToList();
 
@@ -436,23 +459,6 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
             }
         }
         #endregion
-
-        private async Task loadCombobox()
-        {
-            var courses = await _serviceHub.CourseService.GetAllCoursesAsync();
-            
-            var result = courses.Data.Select(c => c.CourseName).ToList();
-
-            cbxCourseName.SelectedItem = result;
-        }
-
-        private List<Class> filter()
-        {
-            string courseNames = cbxCourseName.SelectedItem.ToString() ?? "";
-            var result = _allClasses.Where( c => c.Equals(courseNames)).ToList();  
-            return result;
-
-        }
 
         #region Create UI
         private ClassItem CreateClassItem(
@@ -588,6 +594,11 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
                 components?.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private void u(object sender, EventArgs e)
+        {
+
         }
     }
 

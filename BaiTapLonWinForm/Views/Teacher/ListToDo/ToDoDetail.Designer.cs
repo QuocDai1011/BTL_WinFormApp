@@ -39,7 +39,7 @@
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             guna2GradientPanel1 = new Guna.UI2.WinForms.Guna2GradientPanel();
-            guna2ComboBox1 = new Guna.UI2.WinForms.Guna2ComboBox();
+            cbxClassList = new Guna.UI2.WinForms.Guna2ComboBox();
             flowLayoutPanel1 = new FlowLayoutPanel();
             btnMainAction1 = new Guna.UI2.WinForms.Guna2GradientButton();
             btnMainAction2 = new Guna.UI2.WinForms.Guna2GradientButton();
@@ -52,7 +52,7 @@
             // 
             // guna2GradientPanel1
             // 
-            guna2GradientPanel1.Controls.Add(guna2ComboBox1);
+            guna2GradientPanel1.Controls.Add(cbxClassList);
             guna2GradientPanel1.Controls.Add(flowLayoutPanel1);
             guna2GradientPanel1.CustomizableEdges = customizableEdges7;
             guna2GradientPanel1.Dock = DockStyle.Top;
@@ -62,24 +62,24 @@
             guna2GradientPanel1.Size = new Size(1430, 72);
             guna2GradientPanel1.TabIndex = 1;
             // 
-            // guna2ComboBox1
+            // cbxClassList
             // 
-            guna2ComboBox1.BackColor = Color.Transparent;
-            guna2ComboBox1.CustomizableEdges = customizableEdges1;
-            guna2ComboBox1.DrawMode = DrawMode.OwnerDrawFixed;
-            guna2ComboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
-            guna2ComboBox1.FocusedColor = Color.FromArgb(94, 148, 255);
-            guna2ComboBox1.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
-            guna2ComboBox1.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            guna2ComboBox1.ForeColor = Color.FromArgb(68, 88, 112);
-            guna2ComboBox1.ItemHeight = 30;
-            guna2ComboBox1.Items.AddRange(new object[] { "Tất cả lớp học", "Lớp 1", "Lớp 2" });
-            guna2ComboBox1.Location = new Point(1114, 7);
-            guna2ComboBox1.Name = "guna2ComboBox1";
-            guna2ComboBox1.ShadowDecoration.CustomizableEdges = customizableEdges2;
-            guna2ComboBox1.Size = new Size(313, 36);
-            guna2ComboBox1.StartIndex = 0;
-            guna2ComboBox1.TabIndex = 0;
+            cbxClassList.BackColor = Color.Transparent;
+            cbxClassList.CustomizableEdges = customizableEdges1;
+            cbxClassList.DrawMode = DrawMode.OwnerDrawFixed;
+            cbxClassList.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbxClassList.FocusedColor = Color.FromArgb(94, 148, 255);
+            cbxClassList.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            cbxClassList.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cbxClassList.ForeColor = Color.FromArgb(68, 88, 112);
+            cbxClassList.ItemHeight = 30;
+            cbxClassList.Items.AddRange(new object[] { "Tất cả lớp học", "Lớp 1", "Lớp 2" });
+            cbxClassList.Location = new Point(1114, 7);
+            cbxClassList.Name = "cbxClassList";
+            cbxClassList.ShadowDecoration.CustomizableEdges = customizableEdges2;
+            cbxClassList.Size = new Size(313, 36);
+            cbxClassList.StartIndex = 0;
+            cbxClassList.TabIndex = 0;
             // 
             // flowLayoutPanel1
             // 
@@ -126,7 +126,6 @@
             btnMainAction1.Size = new Size(177, 48);
             btnMainAction1.TabIndex = 4;
             btnMainAction1.Text = "Cần đánh giá";
-            btnMainAction1.Click += btnMainAction1_Click;
             // 
             // btnMainAction2
             // 
@@ -207,7 +206,7 @@
         private Guna.UI2.WinForms.Guna2GradientButton btnMainAction1;
         private Guna.UI2.WinForms.Guna2GradientButton btnMainAction2;
         private Guna.UI2.WinForms.Guna2GradientPanel pnToDoContainer;
-        private Guna.UI2.WinForms.Guna2ComboBox guna2ComboBox1;
+        private Guna.UI2.WinForms.Guna2ComboBox cbxClassList;
         private FlowLayoutPanel flpnExerciseList;
     }
 }

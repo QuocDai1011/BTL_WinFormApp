@@ -65,12 +65,20 @@ namespace BaiTapLonWinForm.Views.SystemAcess.Login
                     case "teacher":
                         {
                             int teacherId = _serviceHub.TeacherService.GetTeacherByUserId(existUser.UserId);
-                            new TeacherPage(_serviceHub, teacherId).ShowDialog();
-                            this.Dispose();
+
+                            this.Hide();
+                            using (var teacherPage = new TeacherPage(_serviceHub, teacherId))
+                            {
+                                teacherPage.ShowDialog();
+                            }
+                            this.Show(); // 👈 Hiện lại login sau logout
                             break;
                         }
                     case "student":
                         {
+                            var result =  _serviceHub.StudentService.GetStudentByUserIdAsync(existUser.UserId);
+                            int userId = result.Result.Data.StudentId;
+                            //new StudentForm(_serviceHub, userId).ShowDialog();
                             this.Dispose();
                             break;
                         }

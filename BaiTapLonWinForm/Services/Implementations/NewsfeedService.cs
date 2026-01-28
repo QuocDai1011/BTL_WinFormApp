@@ -31,9 +31,9 @@ namespace BaiTapLonWinForm.Services.Implementations
             return _repo.DeleteNewsfeedByIdAsync(_newsfeedId);
         }
 
-        public Task<List<Newsfeed>> GetAllNewsfeedsByUserId(long _userId)
+        public async Task<List<Newsfeed>> GetAllNewsfeedsByUserId(long _userId)
         {
-            var result = _repo.GetAllByUserIdAsync(_userId);
+            var result = await _repo.GetAllByUserIdAsync(_userId);
             return result;
         }
 
@@ -53,11 +53,6 @@ namespace BaiTapLonWinForm.Services.Implementations
             }
             return result;
         }
-
-        //public Task<List<Newsfeed>> GetNewsfeedsAsync()
-        //{
-        //    return _repo.GetAllAsync();
-        //}
 
         public async Task<List<Newsfeed>> GetNewsfeedsByClassIdAsync(int classId)
         {

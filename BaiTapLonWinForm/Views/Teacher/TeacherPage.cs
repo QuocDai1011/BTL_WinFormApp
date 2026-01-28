@@ -20,7 +20,6 @@ namespace BaiTapLonWinForm.Views.Teacher
         private readonly int _teacherId;
         private readonly ServiceHub _serviceHub;
         private UserControl _currentPage;
-        //private UserControl _previousPage;
         private ClassList _classList;
         private Calenda _calenda;
         private MyProfile _profile;
@@ -51,7 +50,7 @@ namespace BaiTapLonWinForm.Views.Teacher
         }
         private void LoadPage(UserControl page)
         {
-            pnMain.Controls.Clear();   // 🔥 dọn sạch
+            pnMain.Controls.Clear();
             _currentPage = page;
 
             page.Dock = DockStyle.Fill;
@@ -133,7 +132,7 @@ namespace BaiTapLonWinForm.Views.Teacher
 
             addExercise.OnBack += () =>
             {
-                LoadPage(lastPage); // quay lại danh sách
+                LoadPage(lastPage);
             };
 
             LoadPage(addExercise);
@@ -141,7 +140,7 @@ namespace BaiTapLonWinForm.Views.Teacher
 
         private void OpenAddExercise(int classId)
         {
-            var lastPage = _currentPage; // để quay lại
+            var lastPage = _currentPage;
 
             var addExercise = new AddExercise(_serviceHub, classId, _teacherId);
             addExercise.OnBack += () =>
@@ -155,7 +154,7 @@ namespace BaiTapLonWinForm.Views.Teacher
         #endregion
         private void OpenScoreDetail(string assignmentId)
         {
-            var lastPage = _currentPage; // 👈 chụp lại
+            var lastPage = _currentPage;
 
             var scoreDetail = new ScoreDetail(_serviceHub, assignmentId);
             scoreDetail.OnBack += () =>
@@ -300,6 +299,10 @@ namespace BaiTapLonWinForm.Views.Teacher
                     _classList.ApplyThemeToAllItems(true);
                 }
             }
+
+            _classList.VisableFilterControls(true);
+            _classList.LoadFilteredClasses();
+
             if (pnMain.Controls.Count > 0 && pnMain.Controls[0] == _classList)
             {
                 await _classList.LoadClassesAsync(false);
@@ -319,14 +322,58 @@ namespace BaiTapLonWinForm.Views.Teacher
             }
             pnMain.Controls.Clear();
             _currentPage = null;
-            //_previousPage = null;
 
             pnMain.Controls.Add(_classList);
             pnMain.ResumeLayout(false);
-
             pnMain.Visible = true;
 
             await _classList.LoadClassesAsync(false);
+        }
+
+        private async void btnStoredClass_Click(object sender, EventArgs e)
+        {
+            UpdateMainTitleAndClearMenuLabels("Lớp học lưu trữ");
+
+            if (_classList == null)
+            {
+                _classList = new ClassList(_teacherId, _serviceHub)
+                {
+                    Dock = DockStyle.Fill
+                };
+                _classList.OnOpenClassDetail += OpenClassDetail;
+
+                if (isDarkMode)
+                {
+                    _classList.ApplyThemeToAllItems(true);
+                }
+            }
+
+            _classList.VisableFilterControls(false);
+
+            if (pnMain.Controls.Count > 0 && pnMain.Controls[0] == _classList)
+            {
+                await _classList.LoadClassesAsync(true);
+                return;
+            }
+
+            pnMain.Visible = false;
+            pnMain.SuspendLayout();
+
+            for (int i = pnMain.Controls.Count - 1; i >= 0; i--)
+            {
+                var ctrl = pnMain.Controls[i];
+                if (ctrl == _classList || ctrl == _calenda || ctrl == _profile)
+                    pnMain.Controls.Remove(ctrl);
+                else
+                    ctrl.Dispose();
+            }
+            pnMain.Controls.Clear();
+
+            pnMain.Controls.Add(_classList);
+            pnMain.ResumeLayout(false);
+            pnMain.Visible = true;
+
+            await _classList.LoadClassesAsync(true);
         }
 
         private void MenuCalenda_Click(object sender, EventArgs e)
@@ -356,7 +403,6 @@ namespace BaiTapLonWinForm.Views.Teacher
             }
             pnMain.Controls.Clear();
             _currentPage = null;
-            //_previousPage = null;
 
             pnMain.Controls.Add(_calenda);
             pnMain.ResumeLayout(false);
@@ -370,8 +416,6 @@ namespace BaiTapLonWinForm.Views.Teacher
             if (_profile == null)
             {
                 _profile = new MyProfile(_teacherId, _serviceHub) { Dock = DockStyle.Fill };
-                // Chưa tạo darkmode cho profile, nào có thì mở
-                // if (isDarkMode) _profile.ApplyTheme(true);
             }
             if (pnMain.Controls.Count > 0 && pnMain.Controls[0] == _profile)
                 return;
@@ -388,7 +432,6 @@ namespace BaiTapLonWinForm.Views.Teacher
             }
             pnMain.Controls.Clear();
             _currentPage = null;
-            //_previousPage = null;
 
             pnMain.AutoScroll = true;
             pnMain.Controls.Add(_profile);
@@ -472,11 +515,33 @@ namespace BaiTapLonWinForm.Views.Teacher
             }
         }
 
-        private async void btnStoredClass_Click(object sender, EventArgs e)
+        private async void BtnStoredClass_Click(object sender, EventArgs e)
         {
             UpdateMainTitleAndClearMenuLabels("Lớp học lưu trữ");
+
+            if (_classList == null)
+            {
+                _classList = new ClassList(_teacherId, _serviceHub)
+                {
+                    Dock = DockStyle.Fill
+                };
+                _classList.VisableFilterControls(false);
+                _classList.OnOpenClassDetail += OpenClassDetail;
+
+                if (isDarkMode)
+                {
+                    _classList.ApplyThemeToAllItems(true);
+                }
+            }
+            if (pnMain.Controls.Count > 0 && pnMain.Controls[0] == _classList)
+            {
+                await _classList.LoadClassesAsync(true);
+                return;
+            }
+
             pnMain.Visible = false;
             pnMain.SuspendLayout();
+
             for (int i = pnMain.Controls.Count - 1; i >= 0; i--)
             {
                 var ctrl = pnMain.Controls[i];
@@ -487,18 +552,10 @@ namespace BaiTapLonWinForm.Views.Teacher
             }
             pnMain.Controls.Clear();
 
-            _classList = new ClassList(_teacherId, _serviceHub)
-            {
-                Dock = DockStyle.Fill
-            };
-            _classList.OnOpenClassDetail += OpenClassDetail;
-            if (isDarkMode)
-            {
-                _classList.ApplyThemeToAllItems(true);
-            }
             pnMain.Controls.Add(_classList);
             pnMain.ResumeLayout(false);
             pnMain.Visible = true;
+
             await _classList.LoadClassesAsync(true);
         }
         private async void btnMyScore_Click(object sender, EventArgs e)
@@ -517,14 +574,33 @@ namespace BaiTapLonWinForm.Views.Teacher
             };
             toDoView.OnEditExercise += (assignment) =>
             {
-                OpenEditExercise(assignment); // dùng lại logic có sẵn
+                OpenEditExercise(assignment);
             };
+            await toDoView.LoadCbxCourseNameFromCache();
             LoadPage(toDoView);
         }
 
         private void btnMyProfile_Click(object sender, EventArgs e)
         {
             pnProfileTeacher_Click(sender, e);
+        }
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show(
+                "Bạn có chắc chắn muốn đăng xuất?",
+                "Xác nhận đăng xuất",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            if (result != DialogResult.Yes) return;
+            pnMain.Controls.Clear();
+            _classList = null;
+            _calenda = null;
+            _profile = null;
+            _currentPage = null;
+            this.Close();
         }
     }
 }

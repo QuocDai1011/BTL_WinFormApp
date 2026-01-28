@@ -10,5 +10,6 @@ namespace BaiTapLonWinForm.Repositories.Interfaces
     public interface IStudentRepository
     {
         List<Student> getAllStudentByClassId(long classId);
+        Task<Student?> GetByUserIdAsync(long userId);
     }
 }

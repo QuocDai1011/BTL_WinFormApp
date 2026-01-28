@@ -10,11 +10,11 @@ namespace BaiTapLonWinForm.Services.Interfaces
 {
     public interface IAssignmentService
     {
-        //Task<List<Assignment>> GetAllAssignmentsByUserId(long _userId);
         Task<Assignment> GetAllAssignmentsByNewsfeedId(string NewsfeedId);
         Task<List<Assignment>> GetAssignmentsByClassId(int _classId);
         Task<Assignment> GetAssignmentById(string _assignmentId);
         Task CreateAssignmentAsync(Assignment assignment);
         Task UpdateAssignmentAsync(Assignment assignment);
+        Task<List<Assignment>> GetAllAssignmentsByNewsfeedList(List<Newsfeed> newsfeedList);
     }
 }

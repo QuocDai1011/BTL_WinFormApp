@@ -30,15 +30,17 @@
         {
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges1 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges2 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
-            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges8 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges9 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges5 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges6 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges7 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges10 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges11 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges12 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges13 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges3 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
+            Guna.UI2.WinForms.Suite.CustomizableEdges customizableEdges4 = new Guna.UI2.WinForms.Suite.CustomizableEdges();
             pnNew = new Guna.UI2.WinForms.Guna2GradientPanel();
             guna2HtmlLabel5 = new Guna.UI2.WinForms.Guna2HtmlLabel();
             guna2HtmlLabel4 = new Guna.UI2.WinForms.Guna2HtmlLabel();
@@ -66,6 +68,7 @@
             mscItem2 = new ToolStripMenuItem();
             xemChiTiếtToolStripMenuItem = new ToolStripMenuItem();
             iconPictureBox1 = new FontAwesome.Sharp.IconPictureBox();
+            guna2TextBox1 = new Guna.UI2.WinForms.Guna2TextBox();
             guna2GradientPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)webView22).BeginInit();
             ((System.ComponentModel.ISupportInitialize)iconPictureBox2).BeginInit();
@@ -156,16 +159,17 @@
             // 
             // guna2GradientPanel4
             // 
+            guna2GradientPanel4.Controls.Add(guna2TextBox1);
             guna2GradientPanel4.Controls.Add(guna2GradientButton1);
             guna2GradientPanel4.Controls.Add(webView22);
             guna2GradientPanel4.Controls.Add(iconPictureBox2);
             guna2GradientPanel4.Controls.Add(guna2HtmlLabel6);
             guna2GradientPanel4.Controls.Add(guna2CirclePictureBox1);
-            guna2GradientPanel4.CustomizableEdges = customizableEdges6;
+            guna2GradientPanel4.CustomizableEdges = customizableEdges8;
             guna2GradientPanel4.Dock = DockStyle.Bottom;
             guna2GradientPanel4.Location = new Point(0, 386);
             guna2GradientPanel4.Name = "guna2GradientPanel4";
-            guna2GradientPanel4.ShadowDecoration.CustomizableEdges = customizableEdges7;
+            guna2GradientPanel4.ShadowDecoration.CustomizableEdges = customizableEdges9;
             guna2GradientPanel4.Size = new Size(1400, 364);
             guna2GradientPanel4.TabIndex = 19;
             // 
@@ -180,7 +184,7 @@
             guna2GradientButton1.CheckedState.FillColor2 = Color.Teal;
             guna2GradientButton1.CheckedState.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
             guna2GradientButton1.CheckedState.ForeColor = Color.White;
-            guna2GradientButton1.CustomizableEdges = customizableEdges3;
+            guna2GradientButton1.CustomizableEdges = customizableEdges5;
             guna2GradientButton1.DisabledState.BorderColor = Color.DarkGray;
             guna2GradientButton1.DisabledState.CustomBorderColor = Color.DarkGray;
             guna2GradientButton1.DisabledState.FillColor = Color.FromArgb(169, 169, 169);
@@ -199,7 +203,7 @@
             guna2GradientButton1.Margin = new Padding(0, 0, 8, 0);
             guna2GradientButton1.Name = "guna2GradientButton1";
             guna2GradientButton1.PressedColor = Color.FromArgb(61, 104, 201);
-            guna2GradientButton1.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            guna2GradientButton1.ShadowDecoration.CustomizableEdges = customizableEdges6;
             guna2GradientButton1.Size = new Size(106, 48);
             guna2GradientButton1.TabIndex = 17;
             guna2GradientButton1.Text = "Gửi";
@@ -210,9 +214,9 @@
             webView22.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             webView22.CreationProperties = null;
             webView22.DefaultBackgroundColor = Color.White;
-            webView22.Location = new Point(72, 67);
+            webView22.Location = new Point(72, 174);
             webView22.Name = "webView22";
-            webView22.Size = new Size(1311, 210);
+            webView22.Size = new Size(1311, 103);
             webView22.TabIndex = 16;
             webView22.ZoomFactor = 1D;
             // 
@@ -246,7 +250,7 @@
             guna2CirclePictureBox1.ImageRotate = 0F;
             guna2CirclePictureBox1.Location = new Point(16, 67);
             guna2CirclePictureBox1.Name = "guna2CirclePictureBox1";
-            guna2CirclePictureBox1.ShadowDecoration.CustomizableEdges = customizableEdges5;
+            guna2CirclePictureBox1.ShadowDecoration.CustomizableEdges = customizableEdges7;
             guna2CirclePictureBox1.ShadowDecoration.Mode = Guna.UI2.WinForms.Enums.ShadowMode.Circle;
             guna2CirclePictureBox1.Size = new Size(40, 40);
             guna2CirclePictureBox1.TabIndex = 4;
@@ -258,14 +262,14 @@
             guna2GradientPanel3.Controls.Add(wvContent);
             guna2GradientPanel3.CustomBorderColor = Color.Gray;
             guna2GradientPanel3.CustomBorderThickness = new Padding(0, 0, 0, 1);
-            guna2GradientPanel3.CustomizableEdges = customizableEdges8;
+            guna2GradientPanel3.CustomizableEdges = customizableEdges10;
             guna2GradientPanel3.Dock = DockStyle.Top;
             guna2GradientPanel3.Location = new Point(0, 118);
             guna2GradientPanel3.Margin = new Padding(0);
             guna2GradientPanel3.MinimumSize = new Size(1400, 224);
             guna2GradientPanel3.Name = "guna2GradientPanel3";
             guna2GradientPanel3.Padding = new Padding(16);
-            guna2GradientPanel3.ShadowDecoration.CustomizableEdges = customizableEdges9;
+            guna2GradientPanel3.ShadowDecoration.CustomizableEdges = customizableEdges11;
             guna2GradientPanel3.Size = new Size(1400, 265);
             guna2GradientPanel3.TabIndex = 18;
             // 
@@ -294,11 +298,11 @@
             guna2Panel1.Controls.Add(iconPictureBox1);
             guna2Panel1.CustomBorderColor = Color.Gray;
             guna2Panel1.CustomBorderThickness = new Padding(0, 0, 0, 1);
-            guna2Panel1.CustomizableEdges = customizableEdges10;
+            guna2Panel1.CustomizableEdges = customizableEdges12;
             guna2Panel1.Dock = DockStyle.Top;
             guna2Panel1.Location = new Point(0, 0);
             guna2Panel1.Name = "guna2Panel1";
-            guna2Panel1.ShadowDecoration.CustomizableEdges = customizableEdges11;
+            guna2Panel1.ShadowDecoration.CustomizableEdges = customizableEdges13;
             guna2Panel1.Size = new Size(1400, 118);
             guna2Panel1.TabIndex = 17;
             // 
@@ -368,9 +372,9 @@
             menuStrip2.ImageScalingSize = new Size(33, 33);
             menuStrip2.Items.AddRange(new ToolStripItem[] { toolStripMenuItem1 });
             menuStrip2.LayoutStyle = ToolStripLayoutStyle.Table;
-            menuStrip2.Location = new Point(1309, 16);
+            menuStrip2.Location = new Point(1362, 16);
             menuStrip2.Name = "menuStrip2";
-            menuStrip2.Size = new Size(59, 41);
+            menuStrip2.Size = new Size(6, 4);
             menuStrip2.TabIndex = 13;
             menuStrip2.Text = "menuStrip2";
             menuStrip2.TextDirection = ToolStripTextDirection.Vertical90;
@@ -388,6 +392,7 @@
             toolStripMenuItem1.Padding = new Padding(8, 0, 8, 0);
             toolStripMenuItem1.RightToLeft = RightToLeft.Yes;
             toolStripMenuItem1.Size = new Size(53, 37);
+            toolStripMenuItem1.Visible = false;
             // 
             // mscItem1
             // 
@@ -397,7 +402,7 @@
             mscItem1.Name = "mscItem1";
             mscItem1.Padding = new Padding(0, 8, 0, 8);
             mscItem1.RightToLeft = RightToLeft.No;
-            mscItem1.Size = new Size(157, 38);
+            mscItem1.Size = new Size(180, 38);
             mscItem1.Text = "Chỉnh sửa";
             mscItem1.TextDirection = ToolStripTextDirection.Horizontal;
             // 
@@ -409,14 +414,14 @@
             mscItem2.Name = "mscItem2";
             mscItem2.Padding = new Padding(0, 8, 0, 8);
             mscItem2.RightToLeft = RightToLeft.No;
-            mscItem2.Size = new Size(157, 38);
+            mscItem2.Size = new Size(180, 38);
             mscItem2.Text = "Xóa";
             // 
             // xemChiTiếtToolStripMenuItem
             // 
             xemChiTiếtToolStripMenuItem.Name = "xemChiTiếtToolStripMenuItem";
             xemChiTiếtToolStripMenuItem.RightToLeft = RightToLeft.No;
-            xemChiTiếtToolStripMenuItem.Size = new Size(157, 24);
+            xemChiTiếtToolStripMenuItem.Size = new Size(180, 24);
             xemChiTiếtToolStripMenuItem.Text = "Xem chi tiết";
             // 
             // iconPictureBox1
@@ -432,6 +437,28 @@
             iconPictureBox1.Size = new Size(71, 65);
             iconPictureBox1.TabIndex = 11;
             iconPictureBox1.TabStop = false;
+            // 
+            // guna2TextBox1
+            // 
+            guna2TextBox1.AutoRoundedCorners = true;
+            guna2TextBox1.CustomizableEdges = customizableEdges3;
+            guna2TextBox1.DefaultText = "";
+            guna2TextBox1.DisabledState.BorderColor = Color.FromArgb(208, 208, 208);
+            guna2TextBox1.DisabledState.FillColor = Color.FromArgb(226, 226, 226);
+            guna2TextBox1.DisabledState.ForeColor = Color.FromArgb(138, 138, 138);
+            guna2TextBox1.DisabledState.PlaceholderForeColor = Color.FromArgb(138, 138, 138);
+            guna2TextBox1.FocusedState.BorderColor = Color.FromArgb(94, 148, 255);
+            guna2TextBox1.Font = new Font("Segoe UI", 11.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            guna2TextBox1.ForeColor = Color.Black;
+            guna2TextBox1.HoverState.BorderColor = Color.FromArgb(94, 148, 255);
+            guna2TextBox1.Location = new Point(72, 67);
+            guna2TextBox1.Margin = new Padding(3, 4, 3, 4);
+            guna2TextBox1.Name = "guna2TextBox1";
+            guna2TextBox1.PlaceholderText = "Viết nhận xét của bạn";
+            guna2TextBox1.SelectedText = "";
+            guna2TextBox1.ShadowDecoration.CustomizableEdges = customizableEdges4;
+            guna2TextBox1.Size = new Size(1497, 40);
+            guna2TextBox1.TabIndex = 18;
             // 
             // ScoreNew
             // 
@@ -490,5 +517,6 @@
         private ToolStripMenuItem mscItem2;
         private ToolStripMenuItem xemChiTiếtToolStripMenuItem;
         private FontAwesome.Sharp.IconPictureBox iconPictureBox1;
+        private Guna.UI2.WinForms.Guna2TextBox guna2TextBox1;
     }
 }

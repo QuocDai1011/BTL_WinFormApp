@@ -100,6 +100,7 @@
             guna2ComboBox1.Size = new Size(210, 36);
             guna2ComboBox1.StartIndex = 0;
             guna2ComboBox1.TabIndex = 10;
+            guna2ComboBox1.Visible = false;
             // 
             // guna2GradientPanel1
             // 
@@ -135,6 +136,7 @@
             guna2DateTimePicker1.Size = new Size(146, 36);
             guna2DateTimePicker1.TabIndex = 12;
             guna2DateTimePicker1.Value = new DateTime(2026, 1, 22, 17, 47, 3, 946);
+            guna2DateTimePicker1.Visible = false;
             // 
             // guna2ComboBox2
             // 
@@ -160,6 +162,7 @@
             guna2ComboBox2.Size = new Size(210, 36);
             guna2ComboBox2.StartIndex = 0;
             guna2ComboBox2.TabIndex = 11;
+            guna2ComboBox2.Visible = false;
             // 
             // flpnExerciseList
             // 

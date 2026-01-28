@@ -637,44 +637,11 @@
   <data name="&gt;&gt;guna2GradientButton5.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
-  <data name="guna2GradientButton6.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 12pt</value>
-  </data>
-  <data name="guna2GradientButton6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 351</value>
-  </data>
-  <data name="guna2GradientButton6.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>0, 0, 0, 0</value>
-  </data>
-  <data name="guna2GradientButton6.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>56, 0, 0, 0</value>
-  </data>
-  <data name="guna2GradientButton6.Size" type="System.Drawing.Size, System.Drawing">
-    <value>293, 51</value>
-  </data>
-  <data name="guna2GradientButton6.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="guna2GradientButton6.Text" xml:space="preserve">
-    <value>Cấu Hình Chung</value>
-  </data>
-  <data name="&gt;&gt;guna2GradientButton6.Name" xml:space="preserve">
-    <value>guna2GradientButton6</value>
-  </data>
-  <data name="&gt;&gt;guna2GradientButton6.Type" xml:space="preserve">
-    <value>Guna.UI2.WinForms.Guna2GradientButton, Guna.UI2, Culture=neutral, PublicKeyToken=8b9d14aa5142e261</value>
-  </data>
-  <data name="&gt;&gt;guna2GradientButton6.Parent" xml:space="preserve">
-    <value>fpnBtnMenu</value>
-  </data>
-  <data name="&gt;&gt;guna2GradientButton6.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
   <data name="guna2HtmlLabel6.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI Semibold, 11.25pt, style=Bold</value>
   </data>
   <data name="guna2HtmlLabel6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>20, 422</value>
+    <value>20, 371</value>
   </data>
   <data name="guna2HtmlLabel6.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>12, 20, 3, 3</value>
@@ -698,40 +665,40 @@
     <value>fpnBtnMenu</value>
   </data>
   <data name="&gt;&gt;guna2HtmlLabel6.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>7</value>
   </data>
-  <data name="guna2GradientButton2.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="btnLogout.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 12pt</value>
   </data>
-  <data name="guna2GradientButton2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 447</value>
+  <data name="btnLogout.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 396</value>
   </data>
-  <data name="guna2GradientButton2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="btnLogout.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>0, 0, 0, 0</value>
   </data>
-  <data name="guna2GradientButton2.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+  <data name="btnLogout.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>56, 0, 0, 0</value>
   </data>
-  <data name="guna2GradientButton2.Size" type="System.Drawing.Size, System.Drawing">
+  <data name="btnLogout.Size" type="System.Drawing.Size, System.Drawing">
     <value>293, 51</value>
   </data>
-  <data name="guna2GradientButton2.TabIndex" type="System.Int32, mscorlib">
+  <data name="btnLogout.TabIndex" type="System.Int32, mscorlib">
     <value>8</value>
   </data>
-  <data name="guna2GradientButton2.Text" xml:space="preserve">
+  <data name="btnLogout.Text" xml:space="preserve">
     <value>Đăng Xuất</value>
   </data>
-  <data name="&gt;&gt;guna2GradientButton2.Name" xml:space="preserve">
-    <value>guna2GradientButton2</value>
+  <data name="&gt;&gt;btnLogout.Name" xml:space="preserve">
+    <value>btnLogout</value>
   </data>
-  <data name="&gt;&gt;guna2GradientButton2.Type" xml:space="preserve">
+  <data name="&gt;&gt;btnLogout.Type" xml:space="preserve">
     <value>Guna.UI2.WinForms.Guna2GradientButton, Guna.UI2, Culture=neutral, PublicKeyToken=8b9d14aa5142e261</value>
   </data>
-  <data name="&gt;&gt;guna2GradientButton2.Parent" xml:space="preserve">
+  <data name="&gt;&gt;btnLogout.Parent" xml:space="preserve">
     <value>fpnBtnMenu</value>
   </data>
-  <data name="&gt;&gt;guna2GradientButton2.ZOrder" xml:space="preserve">
-    <value>9</value>
+  <data name="&gt;&gt;btnLogout.ZOrder" xml:space="preserve">
+    <value>8</value>
   </data>
   <data name="fpnBtnMenu.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 28</value>
