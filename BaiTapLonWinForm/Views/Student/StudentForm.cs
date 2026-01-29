@@ -1,28 +1,22 @@
 ﻿using BaiTapLonWinForm.Models;
-using BaiTapLonWinForm.Services.Interfaces;
-using BaiTapLonWinForm.Views.Student.Controllers;
+using BaiTapLonWinForm.Services;
 using System.Diagnostics;
+using BaiTapLonWinForm.Views.Student.Controllers;
 
 namespace BaiTapLonWinForm.Views.Student
 {
     public partial class StudentForm : Form
     {
-        private readonly IStudentService _studentService;
-        private readonly ICourseService _courseService;
-        private readonly IReceiptService _receiptService;
-        private readonly INewsfeedService _newsfeedSerivce;
-        private readonly IAssignmentService _assignmentService;
-        private readonly EnglistCenterContext _context;
-        private readonly int _studentId = 1;
-        public StudentForm(IStudentService studentService, IAssignmentService assignmentService, ICourseService courseService, IReceiptService receiptService, INewsfeedService newsfeedSerivce, EnglistCenterContext context)
+
+        private readonly ServiceHub _serviceHub;
+        private int _studentId;
+        private readonly EnglishCenterDbContext _context;
+        public StudentForm(ServiceHub serviceHub, int studentId)
         {
+            _serviceHub = serviceHub;
+            _studentId = studentId;
             InitializeComponent();
-            _studentService = studentService;
-            _courseService = courseService;
-            _receiptService = receiptService;
-            _newsfeedSerivce = newsfeedSerivce;
-            _assignmentService = assignmentService;
-            _context = context;
+            _context = new EnglishCenterDbContext();
             lbTitle.Text = "";
         }
 
@@ -59,7 +53,7 @@ namespace BaiTapLonWinForm.Views.Student
 
             lbTitle.Text = "Thông tin cá nhân";
 
-            var uc = new UC_DetailStudent(_studentService);
+            var uc = new UC_DetailStudent(_serviceHub.StudentService);
             uc.LoadDetailStudent(_studentId);
 
             await LoadControllerAsync(uc);
@@ -74,7 +68,8 @@ namespace BaiTapLonWinForm.Views.Student
 
             lbTitle.Text = "Lớp học";
 
-            LoadControllerAsync(new UC_Dashboard(_studentService, _assignmentService, _newsfeedSerivce, _context, _studentId));
+
+            LoadControllerAsync(new UC_Dashboard(_serviceHub.StudentService, _serviceHub.AssignmentService, _serviceHub.NewsfeedService, _context, _studentId));
         }
 
         private void BtnCalender_Click(object sender, EventArgs e)
@@ -86,7 +81,7 @@ namespace BaiTapLonWinForm.Views.Student
 
             lbTitle.Text = "Lịch học";
 
-            LoadControllerAsync(new UC_Calendar(_studentService, _studentId));
+            LoadControllerAsync(new UC_Calendar(_serviceHub.StudentService, _studentId));
         }
 
         private void BtnBuy_Click(object sender, EventArgs e)
@@ -98,7 +93,7 @@ namespace BaiTapLonWinForm.Views.Student
 
             lbTitle.Text = "Mua khóa học";
 
-            LoadControllerAsync(new UC_BuyCourse(_courseService, _studentId));
+            LoadControllerAsync(new UC_BuyCourse(_serviceHub.CourseService, _studentId));
         }
 
         private void BtnSetting_Click(object sender, EventArgs e)
@@ -110,7 +105,7 @@ namespace BaiTapLonWinForm.Views.Student
 
             lbTitle.Text = "Hóa đơn";
 
-            LoadControllerAsync(new UC_Receipt(_receiptService, _studentId));
+            LoadControllerAsync(new UC_Receipt(_serviceHub.ReceiptService, _studentId));
         }
 
         private void BtnLogOut_Click(object sender, EventArgs e)

@@ -10,10 +10,10 @@ namespace BaiTapLonWinForm.Views.Student.Controllers
         private readonly IStudentService _studentService;
         private readonly INewsfeedService _newsfeedService;
         private readonly IAssignmentService _assignmentService;
-        private readonly EnglistCenterContext _context;
+        private readonly EnglishCenterDbContext _context;
         private List<ClassDto> _cachedClasses;
         private int _studentId;
-        public UC_Dashboard(IStudentService service, IAssignmentService assignmentService, INewsfeedService newsfeedService, EnglistCenterContext context, int studentId)
+        public UC_Dashboard(IStudentService service, IAssignmentService assignmentService, INewsfeedService newsfeedService, EnglishCenterDbContext context, int studentId)
         {
             InitializeComponent();
             _studentService = service;

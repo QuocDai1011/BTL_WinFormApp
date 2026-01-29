@@ -1,6 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-
 namespace BaiTapLonWinForm.Models;
 
 public partial class Teacher
@@ -15,5 +12,10 @@ public partial class Teacher
 
     public virtual ICollection<Class> Classes { get; set; } = new List<Class>();
 
+    public virtual ICollection<TeacherAttendance> TeacherAttendances { get; set; } = new List<TeacherAttendance>();
+
+    public virtual ICollection<TeacherFaceImage> TeacherFaceImages { get; set; } = new List<TeacherFaceImage>();
+
     public virtual User User { get; set; } = null!;
 }
+

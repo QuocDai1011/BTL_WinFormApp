@@ -7,9 +7,9 @@ namespace BaiTapLonWinForm.Repositories.Implementations
 {
     public class ReceiptRepository : IReceiptRepository
     {
-        private readonly EnglistCenterContext _context;
+        private readonly EnglishCenterDbContext _context;
 
-        public ReceiptRepository(EnglistCenterContext context)
+        public ReceiptRepository(EnglishCenterDbContext context)
         {
             _context = context;
         }

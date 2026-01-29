@@ -1,16 +1,21 @@
-﻿using BaiTapLonWinForm.MongooModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+﻿using BaiTapLonWinForm.Models;
 
 namespace BaiTapLonWinForm.Services.Interfaces
 {
     public interface INewsfeedService
     {
-        List<Newsfeed> GetAllNewsfeedByClassId(int classId);
+        //Task<List<Newsfeed>> GetNewsfeedsAsync();
+        Task<List<Newsfeed>> GetNewsfeedsByClassIdAsync(int classId);
+        Task<bool> CreateNewsfeedAsync(Newsfeed news);
+        Task<bool> UpdateNewsfeedAsync(Newsfeed news);
+        Task<Newsfeed> GetNewsfeedByIdAsync(string _newsfeedId);
+        Task<bool> DeleteNewsfeedByIdAsync(string _newsfeedId);
+        Task<List<Newsfeed>> GetAllNewsfeedsByUserId(long _userId);
+        Task<Newsfeed> GetLatestNewsfeedByClassIdAsync(int _classId);
 
+        List<Newsfeed> GetAllNewsfeedByClassId(int classId);
         List<Newsfeed> LoadAssignmentByNewsfeedId(string newsfeedId);
     }
 }
+

@@ -1,30 +1,30 @@
+
 ﻿using BaiTapLonWinForm.Models;
-using BaiTapLonWinForm.MongooModels;
+using BaiTapLonWinForm.Repositories.Interfaces;
 using BaiTapLonWinForm.Services.Interfaces;
+using BaiTapLonWinForm.Utils;
 using MongoDB.Driver;
-using System.Drawing.Text;
 
 namespace BaiTapLonWinForm.Services.Implementations
 {
     public class NewsfeedService : INewsfeedService
     {
-        private readonly IMongoCollection<Newsfeed> _newsfeeds;
-        public NewsfeedService()
+        private readonly INewsfeedRepository _repo;
+
+        public NewsfeedService(INewsfeedRepository repo)
         {
-            var context = new MongoDbContext();
-            _newsfeeds = context.Newsfeeds;
+            _repo = repo;
         }
+
+
         public List<Newsfeed> GetAllNewsfeedByClassId(int classId)
         {
-            return _newsfeeds
-                .Find(n => n.ClassId == classId && n.IsPublished)
-                .SortBy(n => n.PostingAt)
-                .ToList();
+            return _repo.GetAllNewsfeedByClassId(classId);
         }
 
         public string? GetLinkGoogleMeetByClassId(int classId)
         {
-            using var context = new EnglistCenterContext();
+            using var context = new EnglishCenterDbContext();
 
             string? link = context.Classes
                 .Where(c => c.ClassId == classId)
@@ -35,9 +35,63 @@ namespace BaiTapLonWinForm.Services.Implementations
         }
         public List<Newsfeed> LoadAssignmentByNewsfeedId(string newsfeedId)
         {
-            return _newsfeeds.Find(a => a.Id == newsfeedId)
-                .ToList();
+            return _repo.LoadAssignmentByNewsfeedId(newsfeedId);
         }
 
+        public async Task<bool> CreateNewsfeedAsync(Newsfeed news)
+        {
+            //Kiểm tra điều kiện ở đây nếu cần
+            bool result = await _repo.CreateNewsFeedAsync(news);
+            return result;
+        }
+
+        public Task<bool> DeleteNewsfeedByIdAsync(string _newsfeedId)
+        {
+            return _repo.DeleteNewsfeedByIdAsync(_newsfeedId);
+        }
+
+        public Task<List<Newsfeed>> GetAllNewsfeedsByUserId(long _userId)
+        {
+            var result = _repo.GetAllByUserIdAsync(_userId);
+            return result;
+        }
+
+        public Task<Newsfeed> GetLatestNewsfeedByClassIdAsync(int _classId)
+        {
+            return _repo.GetLatestNewsfeedByClassIdAsync(_classId);
+        }
+
+        public Task<Newsfeed> GetNewsfeedByIdAsync(string _newsfeedId)
+        {
+            //Check đủ thông tin
+            var result = _repo.GetNewsfeedByIdAsync(_newsfeedId);
+            if (result == null)
+            {
+                MessageHelper.ShowError("Không tìm thấy bài đăng theo id.");
+                return null;
+            }
+            return result;
+        }
+
+        //public Task<List<Newsfeed>> GetNewsfeedsAsync()
+        //{
+        //    return _repo.GetAllAsync();
+        //}
+
+        public async Task<List<Newsfeed>> GetNewsfeedsByClassIdAsync(int classId)
+        {
+            var allNewsfeeds = await _repo.GetAllAsync();
+            var result = allNewsfeeds
+                        .Where(nf => nf.ClassId == classId)
+                        .ToList();
+            return result;
+        }
+
+        public async Task<bool> UpdateNewsfeedAsync(Newsfeed news)
+        {
+            bool result = await _repo.UpdateNewsfeedAsync(news);
+            return result;
+        }
     }
 }
+

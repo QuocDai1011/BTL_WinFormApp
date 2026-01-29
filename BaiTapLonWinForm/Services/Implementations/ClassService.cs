@@ -1,0 +1,491 @@
+﻿using BaiTapLonWinForm.Models;
+using BaiTapLonWinForm.Repositories.Interfaces;
+using BaiTapLonWinForm.Services.Interfaces;
+
+using BaiTapLonWinForm.Validate;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace BaiTapLonWinForm.Services.Implementations
+{
+    public class ClassService : IClassService
+    {
+
+        private readonly IClassSessionService _classSessionService;
+        private readonly IClassRepository _classRepository;
+
+        public ClassService(IClassRepository classRepository, IClassSessionService classSessionService)
+        {
+            _classRepository = classRepository;
+            _classSessionService = classSessionService;
+        }
+        #region feature/ha branch
+
+
+        public async Task<List<Class>> GetAllClassAsync(int teacherId)
+        {
+            return await _classRepository.GetAllClassesAsync(teacherId);
+        }
+        public Class GetClassById(int classId)
+        {
+            return _classRepository.GetClassById(classId);
+        }
+
+        public List<Class> UpdateClassesStatusList(List<Class> classes)
+        {
+            DateOnly today = DateOnly.FromDateTime(DateTime.Now);
+            foreach (var cls in classes)
+            {
+                cls.Status =
+                    today < cls.StartDate ? -1 :
+                    today > cls.EndDate ? 1 : 0;
+            }
+
+            _classRepository.UpdateClassesStatus(classes);
+            return classes;
+        }
+        #endregion
+
+        #region feature/trung branch 
+        public async Task<(bool Success, string Message, IEnumerable<Class>? Data)> GetAllClassesAsync()
+        {
+            try
+            {
+                var classes = await _classRepository.GetAllAsync();
+                return (true, $"Lấy danh sách {classes.Count()} lớp học thành công", classes);
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Lỗi: {ex.Message}", null);
+            }
+        }
+
+        public async Task<(bool Success, string Message, Class? Data)> GetClassByIdAsync(int id)
+        {
+            try
+            {
+                if (id <= 0)
+                    return (false, "ID lớp học không hợp lệ", null);
+
+                var classEntity = await _classRepository.GetByIdAsync(id);
+
+                if (classEntity == null)
+                    return (false, "Không tìm thấy lớp học", null);
+
+                return (true, "Lấy thông tin lớp học thành công", classEntity);
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Lỗi: {ex.Message}", null);
+            }
+        }
+
+        public async Task<(bool Success, string Message, Class? Data)> CreateClassAsync(Class classEntity)
+        {
+            try
+            {
+                // Validation
+                var (isValid, message) = ClassValidator.ValidateForCreate(classEntity);
+                if (!isValid)
+                    return (false, message, null);
+
+                var dayIds = classEntity.SchoolDays.Select(d => d.SchoolDayId).ToList();
+
+                bool isConflict = await _classRepository.CheckTeacherScheduleConflictAsync(
+                        classEntity.TeacherId,
+                        classEntity.Shift,
+                        classEntity.StartDate,
+                        classEntity.EndDate,
+                        dayIds,
+                        null // Add mới nên không cần loại trừ ai cả
+                    );
+
+                if (isConflict) return (false, "Trùng lịch giáo viên!", null);
+
+                var createdClass = await _classRepository.CreateAsync(classEntity);
+
+                var createdSession = await _classSessionService.CreateSessionsAsync(createdClass.ClassId);
+
+                return (true, "Tạo lớp học thành công", createdClass);
+            }
+            catch (DbUpdateException ex)
+            {
+                return (false, $"Lỗi cơ sở dữ liệu: {ex.InnerException?.Message ?? ex.Message}", null);
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Lỗi: {ex.Message}", null);
+            }
+        }
+
+        public async Task<(bool Success, string Message, Class? Data)> UpdateClassAsync(Class classEntity)
+        {
+            try
+            {
+                // Validation
+                var (isValid, message) = ClassValidator.ValidateForUpdate(classEntity);
+                if (!isValid)
+                    return (false, message, null);
+
+                // Check exists
+                if (!await _classRepository.ExistsAsync(classEntity.ClassId))
+                    return (false, "Không tìm thấy lớp học", null);
+
+                var dayIds = classEntity.SchoolDays.Select(d => d.SchoolDayId).ToList();
+
+                // 2. Gọi Repository kiểm tra
+                bool isConflict = await _classRepository.CheckTeacherScheduleConflictAsync(
+                    classEntity.TeacherId,
+                    classEntity.Shift,
+                    classEntity.StartDate,
+                    classEntity.EndDate,
+                    dayIds,
+                    classEntity.ClassId // Truyền ID để loại trừ chính nó (vì đang Update)
+                );
+
+                if (isConflict)
+                {
+                    return (false, "Giáo viên này đã có lịch dạy trùng với Ca, Thứ và Khoảng thời gian bạn chọn!", null);
+                }
+
+                var updatedClass = await _classRepository.UpdateAsync(classEntity);
+
+                if (updatedClass == null)
+                    return (false, "Không thể cập nhật lớp học", null);
+
+                var createdSession = await _classSessionService.CreateSessionsAsync(updatedClass.ClassId);
+
+
+                return (true, $"Cập nhật lớp học thành công", updatedClass);
+            }
+            catch (DbUpdateException ex)
+            {
+                return (false, $"Lỗi cơ sở dữ liệu: {ex.InnerException?.Message ?? ex.Message}", null);
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Lỗi: {ex.Message}", null);
+            }
+        }
+
+        public async Task<(bool Success, string Message)> DeleteClassAsync(int id)
+        {
+            try
+            {
+                if (id <= 0)
+                    return (false, "ID lớp học không hợp lệ");
+
+                var classEntity = await _classRepository.GetByIdAsync(id);
+                if (classEntity == null)
+                    return (false, "Không tìm thấy lớp học");
+
+                // Validate can delete
+                var (canDelete, message) = ClassValidator.CanDeleteClass(classEntity);
+                if (!canDelete)
+                    return (false, message);
+
+                var result = await _classRepository.DeleteAsync(id);
+
+                if (!result)
+                    return (false, "Không thể xóa lớp học");
+
+                return (true, "Xóa lớp học thành công");
+            }
+            catch (DbUpdateException ex)
+            {
+                if (ex.InnerException?.Message.Contains("REFERENCE constraint") == true)
+                    return (false, "Không thể xóa lớp học vì có dữ liệu liên quan (học sinh, khóa học, ngày học)");
+
+                return (false, $"Lỗi cơ sở dữ liệu: {ex.InnerException?.Message ?? ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Lỗi: {ex.Message}");
+            }
+        }
+
+        public async Task<(bool Success, string Message, IEnumerable<Class>? Data)> GetClassesByTeacherAsync(int teacherId)
+        {
+            try
+            {
+                if (teacherId <= 0)
+                    return (false, "Teacher ID không hợp lệ", null);
+
+                var classes = await _classRepository.GetByTeacherIdAsync(teacherId);
+                return (true, $"Lấy danh sách {classes.Count()} lớp học của giáo viên thành công", classes);
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Lỗi: {ex.Message}", null);
+            }
+        }
+
+        public async Task<(bool Success, string Message, IEnumerable<Class> Data)> GetClassesByStatusAsync(int status)
+        {
+            try
+            {
+                var classes = await _classRepository.GetByStatusAsync(status);
+                return (true, $"Lấy danh sách {classes.Count()} lớp học theo trạng thái thành công", classes);
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Lỗi: {ex.Message}", null);
+            }
+        }
+
+        public async Task<(bool Success, string Message, IEnumerable<Class>? Data)> GetActiveClassesAsync()
+        {
+            try
+            {
+                var classes = await _classRepository.GetActiveClassesAsync();
+                return (true, $"Lấy danh sách {classes.Count()} lớp học đang hoạt động thành công", classes);
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Lỗi: {ex.Message}", null);
+            }
+        }
+
+        public async Task<(bool Success, string Message)> CanAddStudentAsync(int classId)
+        {
+            try
+            {
+                if (classId <= 0)
+                    return (false, "ID lớp học không hợp lệ");
+
+                var classEntity = await _classRepository.GetByIdAsync(classId);
+                if (classEntity == null)
+                    return (false, "Không tìm thấy lớp học");
+
+                var (canAdd, errorMessage) = ClassValidator.CanAddStudent(classEntity);
+
+                if (!canAdd)
+                    return (false, errorMessage);
+
+                return (true, "Có thể thêm học sinh vào lớp");
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Lỗi: {ex.Message}");
+            }
+        }      
+
+        public async Task<(bool Success, string Message)> AddStudentsToClassAsync(int classId, List<int> studentIds)
+        {
+            try
+            {
+                // Kiểm tra lớp tồn tại
+                var classEntity = await _classRepository.GetByIdAsync(classId);
+                if (classEntity == null) return (false, "Lớp học không tồn tại.");
+
+                // Kiểm tra sĩ số tối đa
+                int currentCount = classEntity.CurrentStudent ?? 0;
+                int maxCount = classEntity.MaxStudent ?? 0;
+
+                if (maxCount > 0 && (currentCount + studentIds.Count) > maxCount)
+                {
+                    return (false, $"Lớp đã đầy hoặc không đủ chỗ. Còn trống {maxCount - currentCount} chỗ.");
+                }
+
+
+                // kiểm tra xem lớp đã diễn ra hay chưa
+                // nếu diễn ra chưa quá 1 tuần thì có thể thêm học viên 
+                DateOnly today = DateOnly.FromDateTime(DateTime.Now);
+
+                // Kiểm tra nếu lớp đã bắt đầu
+                if (today > classEntity.StartDate)
+                {
+                    int daysPassed = today.DayNumber - classEntity.StartDate.DayNumber;
+
+                    if (daysPassed > 7)
+                    {
+                        return (false, $"Không thể thêm học viên vì lớp học đã diễn ra được" +
+                            $" {daysPassed} ngày (Quá hạn 7 ngày cho phép).");
+                    }
+                }
+                foreach (var studentId in studentIds)
+                {
+                    var studentClass = new StudentClass
+                    {
+                        ClassId = classId,
+                        StudentId = studentId,
+                        CreateAt = DateTime.Now,
+                    };
+
+                    bool result = await _classRepository.AddStudentToClass(studentClass);
+                }
+
+
+                return (true, "Thêm học viên thành công.");
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Lỗi: {ex.Message}");
+            }
+        }
+
+        public async Task<(bool Success, string Message)> RemoveStudentFromClassAsync(int classId, int studentId)
+        {
+            try
+            {
+                if(classId <= 0 || studentId <= 0)
+                    return (false, "ID lớp học hoặc học viên không hợp lệ");
+
+
+                return
+                    await _classRepository.RemoveStudentFromClassAsync(classId, studentId)
+                    ? (true, "Xóa học viên khỏi lớp thành công.")
+                    : (false, "Xóa học viên khỏi lớp thất bại.");
+            }
+            catch(Exception ex)
+            {
+                return (false, $"Lỗi: {ex.Message}");
+            }
+        }
+
+        public (bool Success, string Message, IEnumerable<Class>? Data) getClassesByStudentId(int studentId)
+        {
+            try
+            {
+                if (studentId <= 0)
+                {
+                    return (false, "Student ID không hợp lệ", null);
+                }
+
+                var classes = _classRepository.GetClassByStudentId(studentId);
+
+                if (classes == null)
+                {
+                    return (false, "Hiện tại học viên này chưa đăng ký lớp học nào", null);
+                }
+                return (true, $"Lấy danh sách {classes.Count()} lớp học của học viên thành công", classes.ToList());
+            }
+            catch (Exception ex)
+            {
+                return (false, $"Lỗi: {ex.Message}", null);
+            }
+        }
+
+        public async Task<int> UpdateClassStatusesAutoAsync()
+        {
+            Console.WriteLine("Đang cập nhật trạng thái cho lớp học...");
+            try
+            {
+                var today = DateOnly.FromDateTime(DateTime.Now);
+
+                var allClasses = await _classRepository.GetAllAsync();
+
+                int updatedCount = 0;
+
+                foreach (var classEntity in allClasses)
+                {
+                    int newStatus = classEntity.Status ?? -1;
+                    bool isChanged = false;
+
+
+                    // Trường hợp 1: Đã quá ngày kết thúc -> Set thành Đã kết thúc
+                    if (today > classEntity.EndDate)
+                    {
+                        if (newStatus != 1)
+                        {
+                            newStatus = 1;
+                            isChanged = true;
+                        }
+                    }
+                    // Trường hợp 2: Trong khoảng thời gian học -> Set thành Đang diễn ra
+                    else if (today >= classEntity.StartDate && today <= classEntity.EndDate)
+                    {
+                        if (newStatus != 0)
+                        {
+                            newStatus = 0;
+                            isChanged = true;
+                        }
+                    }
+                    // Trường hợp 3: Chưa đến ngày bắt đầu -> Set thành Sắp diễn ra
+                    else if (today < classEntity.StartDate)
+                    {
+                        if (newStatus != -1)
+                        {
+                            newStatus = -1;
+                            isChanged = true;
+                        }
+                    }
+
+                    if (isChanged)
+                    {
+                        classEntity.Status = newStatus;
+                        classEntity.UpdateAt = DateTime.Now; 
+                        await _classRepository.UpdateStatusAsync(classEntity);
+                        updatedCount++;
+                    }
+                }
+
+                return updatedCount; 
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Lỗi cập nhật trạng thái tự động: {ex.Message}");
+                return 0;
+            }
+        }
+
+        public async Task<List<ClassSession>> GetScheduleForWeekFromClassAsync(DateOnly weekStart, DateOnly weekEnd)
+        {
+            var activeClasses = await _classRepository.GetClassesActiveInRangeAsync(weekStart, weekEnd);
+
+            List<ClassSession> virtualSessions = new List<ClassSession>();
+
+            DateTime currentDt = weekStart.ToDateTime(TimeOnly.MinValue);
+            DateTime endDt = weekEnd.ToDateTime(TimeOnly.MinValue);
+
+            while (currentDt <= endDt)
+            {
+                DateOnly currentDate = DateOnly.FromDateTime(currentDt);
+
+                byte dayId = MapDayOfWeekToSchoolDayId(currentDt.DayOfWeek);
+
+                foreach (var cls in activeClasses)
+                {
+                    if (currentDate >= cls.StartDate &&
+                        currentDate <= cls.EndDate &&
+                        cls.SchoolDays.Any(sd => sd.SchoolDayId == dayId))
+                    {
+                        var vSession = new ClassSession
+                        {
+                            SessionDate = currentDate,
+                            ClassId = cls.ClassId,
+                            Class = cls, 
+                                        
+                        };
+                        virtualSessions.Add(vSession);
+                    }
+                }
+
+                currentDt = currentDt.AddDays(1);
+            }
+
+            return virtualSessions.OrderBy(s => s.SessionDate).ThenBy(s => s.Class.Shift).ToList();
+        }
+
+        private byte MapDayOfWeekToSchoolDayId(DayOfWeek day)
+        {
+            switch (day)
+            {
+                case DayOfWeek.Monday: return 2;
+                case DayOfWeek.Tuesday: return 3;
+                case DayOfWeek.Wednesday: return 4;
+                case DayOfWeek.Thursday: return 5;
+                case DayOfWeek.Friday: return 6;
+                case DayOfWeek.Saturday: return 7;
+                case DayOfWeek.Sunday: return 8;
+                default: return 0;
+            }
+        }
+
+        #endregion
+    }
+}

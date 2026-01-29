@@ -1,6 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-
 namespace BaiTapLonWinForm.Models;
 
 public partial class ReceiptPayment
@@ -21,3 +18,4 @@ public partial class ReceiptPayment
 
     public virtual Receipt Receipt { get; set; } = null!;
 }
+

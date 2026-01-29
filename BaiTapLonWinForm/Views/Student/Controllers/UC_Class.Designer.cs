@@ -246,9 +246,9 @@
             lbSchoolDay.ForeColor = Color.SeaGreen;
             lbSchoolDay.Location = new Point(0, 0);
             lbSchoolDay.Name = "lbSchoolDay";
-            lbSchoolDay.Size = new Size(134, 23);
+            lbSchoolDay.Size = new Size(154, 23);
             lbSchoolDay.TabIndex = 12;
-            lbSchoolDay.Text = "Thứ 2 Thứ 3 Thứ 4";
+            lbSchoolDay.Text = "Thứ 2 - Thứ 4 - Thứ 6";
             // 
             // lbShift
             // 

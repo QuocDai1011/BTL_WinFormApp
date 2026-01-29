@@ -1,6 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-
 namespace BaiTapLonWinForm.Models;
 
 public partial class Class
@@ -32,6 +29,8 @@ public partial class Class
     public DateTime? UpdateAt { get; set; }
 
     public int? CourseId { get; set; }
+
+    public virtual ICollection<ClassSession> ClassSessions { get; set; } = new List<ClassSession>();
 
     public virtual Course? Course { get; set; }
 

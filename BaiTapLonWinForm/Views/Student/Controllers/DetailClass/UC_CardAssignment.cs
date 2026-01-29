@@ -1,4 +1,4 @@
-﻿using BaiTapLonWinForm.MongooModels;
+﻿using BaiTapLonWinForm.Models;
 
 namespace BaiTapLonWinForm.Views.Student.Controllers.DetailClass
 {

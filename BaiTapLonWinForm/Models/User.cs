@@ -1,6 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-
 namespace BaiTapLonWinForm.Models;
 
 public partial class User
@@ -20,6 +17,7 @@ public partial class User
     public string? Address { get; set; }
 
     public DateOnly? DateOfBirth { get; set; }
+
 
     public string? PhoneNumber { get; set; }
 

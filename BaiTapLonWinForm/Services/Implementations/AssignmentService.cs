@@ -1,56 +1,81 @@
-﻿using BaiTapLonWinForm.MongooModels;
+
+﻿using BaiTapLonWinForm.Models;
+using BaiTapLonWinForm.Mongo;
+using BaiTapLonWinForm.Repositories.Interfaces;
 using BaiTapLonWinForm.Services.Interfaces;
+using BaiTapLonWinForm.Utils;
 using MongoDB.Driver;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+
 
 namespace BaiTapLonWinForm.Services.Implementations
 {
     public class AssignmentService : IAssignmentService
     {
-        private readonly IMongoCollection<Newsfeed> _newsfeedCollection;
-        private readonly IMongoCollection<Assignment> _assignmentCollection;
-        public AssignmentService()
+        private readonly IAssignmentRepository _repo;
+        
+        public AssignmentService(IAssignmentRepository repo)
         {
-            var contextNewsfeed = new MongoDbContext();
-            var contextAssignment = new MongoDbContext();
-            _newsfeedCollection = contextNewsfeed.Newsfeeds;
-            _assignmentCollection = contextAssignment.Assignment;
+            _repo = repo;
         }
+       
+
+        public async Task CreateAssignmentAsync(Assignment assignment)
+        {
+            bool result = await _repo.CreateAssignmentAsync(assignment);
+            if (!result)
+            {
+                MessageHelper.ShowError("Không thể tạo bài tập mới.");
+            }
+            MessageHelper.ShowSuccess("Tạo bài tập mới thành công.");
+        }
+
+        public async Task<Assignment> GetAllAssignmentsByNewsfeedId(string NewsfeedId)
+        {
+            var result = await _repo.GetAllAssignmentsByNewsfeedId(NewsfeedId);
+            if(result == null)
+            {
+                return new Assignment();
+            }
+            return result;
+        }
+
+
+        public async Task<Assignment> GetAssignmentById(string _assignmentId)
+        {
+            return await _repo.GetAssignmentById(_assignmentId);
+        }
+
         public List<Newsfeed> GetAssignmentByNewsfeedIdAndClassId(int classId)
         {
-            return _newsfeedCollection.Find(a => a.ClassId == classId && a.Type == "assignment").ToList();
+            return _repo.GetAssignmentByNewsfeedIdAndClassId(classId);
+        }
+
+        public async Task<List<Assignment>> GetAssignmentsByClassId(int _classId)
+        {
+            return await _repo.GetAssignmentsByClassId(_classId);
         }
 
         public Assignment GetByNewsfeedAndStudent(string newsfeedId, int studentId)
         {
-            return _assignmentCollection.Find(s => s.NewsfeedId == newsfeedId && s.StudentId == studentId).FirstOrDefault();
+            return _repo.GetByNewsfeedAndStudent(newsfeedId);
         }
 
         public string GetStatusAssignmentByAssignmentId(string assignmentId)
         {
-            var assignment = _assignmentCollection.Find(a => a.Id == assignmentId).FirstOrDefault();
-
-            if (assignment == null) throw new MongoClientException("Không tìm thấy bài tập phù hợp");
-
-            return assignment.Status;
+            return _repo.GetStatusAssignmentByAssignmentId(assignmentId);
         }
 
         public void SubmitAssignment(string newsfeedId, int studentId)
         {
-            var filter = Builders<Assignment>.Filter.And(
-                    Builders<Assignment>.Filter.Eq(x => x.NewsfeedId, newsfeedId),
-                    Builders<Assignment>.Filter.Eq(x => x.StudentId, studentId));
+            _repo.SubmitAssignment(newsfeedId, studentId);
+        }
 
-            var content = _assignmentCollection.Find(x => x.NewsfeedId == newsfeedId && x.StudentId == studentId).FirstOrDefault();
-            var update = Builders<Assignment>.Update
-                .Set(x => x.SubmittedAt, DateTime.UtcNow)
-                .Set(x => x.Status, "Đã nộp")
-                .Set(x => x.IsCompleted, true);
-
-            _assignmentCollection.UpdateOne(filter, update);
+        public async Task UpdateAssignmentAsync(Assignment assignment)
+        {
+            bool result = await _repo.UpdateAssignmentAsync(assignment);
+            if (result == false) MessageHelper.ShowError("Không thể cập nhật bài đăng.");
+            MessageHelper.ShowSuccess("Cập nhật thành công bài đăng.");
+            return;
         }
     }
 }

@@ -11,8 +11,8 @@ namespace BaiTapLonWinForm.Views.Student.Controllers
         private int _studentId;
         private readonly INewsfeedService _newsfeedService;
         private readonly IAssignmentService _assignmentService;
-        private readonly EnglistCenterContext _context;
-        public UC_DetailClass(INewsfeedService newsfeedService, IAssignmentService assignmentService, EnglistCenterContext context, int classId, int studentId)
+        private readonly EnglishCenterDbContext _context;
+        public UC_DetailClass(INewsfeedService newsfeedService, IAssignmentService assignmentService, EnglishCenterDbContext context, int classId, int studentId)
         {
             InitializeComponent();
             _newsfeedService = newsfeedService;

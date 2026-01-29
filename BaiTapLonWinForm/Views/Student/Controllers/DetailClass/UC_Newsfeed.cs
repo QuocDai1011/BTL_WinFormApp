@@ -9,11 +9,11 @@ namespace BaiTapLonWinForm.Views.Student.Controllers.DetailClass
     {
         private readonly INewsfeedService _newsfeedService;
         private readonly IAssignmentService _assignmentService;
-        private readonly EnglistCenterContext _context;
+        private readonly EnglishCenterDbContext _context;
         private int _classId;
         private int _studentId;
         private string _newsfeedId;
-        public UC_Newsfeed(INewsfeedService newsfeedService, IAssignmentService assignmentService, EnglistCenterContext context, int classId, int studentId)
+        public UC_Newsfeed(INewsfeedService newsfeedService, IAssignmentService assignmentService, EnglishCenterDbContext context, int classId, int studentId)
         {
             InitializeComponent();
             _newsfeedService = newsfeedService;
