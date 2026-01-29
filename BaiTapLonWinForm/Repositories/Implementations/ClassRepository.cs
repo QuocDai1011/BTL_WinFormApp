@@ -21,10 +21,15 @@ namespace BaiTapLonWinForm.Repositories.Implementations
 
         public async Task<List<Class>> GetAllClassesAsync(int teacherId)
         {
-            return await _context.Classes
+            var classes = await _context.Classes
                 .AsNoTracking()
                 .Where(c => c.TeacherId == teacherId)
                 .ToListAsync();
+
+            if(classes == null) 
+                return new List<Class>();
+
+            return classes;
         }
 
         public Class GetClassById(int classId)

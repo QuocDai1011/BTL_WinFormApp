@@ -53,12 +53,12 @@ namespace BaiTapLonWinForm.Test // Hoặc namespace Test tùy bạn chọn
                     var userRes = await _serviceHub.UserService.CreateAsync(newUser);
 
                     // Tạo Student mới (Dùng Repo hoặc Service)
-                    var newStudent = new Student { UserId = userRes.Data.UserId, PhoneNumberOfParents = "0912345678" };
+                    //var newStudent = new Student { UserId = userRes.Data.UserId, PhoneNumberOfParents = "0912345678" };
                     // Dùng SQL Raw hoặc Repo để tạo nhanh Student, tránh logic phức tạp
-                    _context.Students.Add(newStudent);
-                    await _context.SaveChangesAsync();
+                    //_context.Students.Add(newStudent);
+                    //await _context.SaveChangesAsync();
 
-                    studentId = newStudent.StudentId;
+                    //studentId = newStudent.StudentId;
                 }
                 else
                 {

@@ -51,7 +51,7 @@ namespace BaiTapLonWinForm.Views.SystemAcess.Login
                 return true;
             }
         }
-        public void NavigatePage(string username)
+        public async void NavigatePage(string username)
         {
             var existUser = _serviceHub.UserService.GetUserByEmail(username);
             string role = _serviceHub.UserService.GetRoleNameByRoleId(existUser.RoleId);
@@ -79,8 +79,8 @@ namespace BaiTapLonWinForm.Views.SystemAcess.Login
                         }
                     case "student":
                         {
-                            var result =  _serviceHub.StudentService.GetStudentByUserIdAsync(existUser.UserId);
-                            int userId = result.Result.Data.StudentId;
+                            var result = await  _serviceHub.StudentService.GetStudentByUserIdAsync(existUser.UserId);
+                            int userId = result.Data.StudentId;
                             //new StudentForm(_serviceHub, userId).ShowDialog();
                             new StudentForm(_serviceHub).ShowDialog();
                             this.Dispose();

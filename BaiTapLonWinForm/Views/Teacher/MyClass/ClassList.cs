@@ -219,18 +219,18 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
             _searchTimer.Stop();
             _searchTimer.Start();
         }
-
         private void SearchTimer_Tick(object? sender, EventArgs e)
         {
-            if (!_filterEnabled) return; 
             _searchTimer.Stop();
             string newKeyword = txbSearchClass.Text.Trim().ToLower();
+
             if (_currentSearchKeyword != newKeyword)
             {
                 _currentSearchKeyword = newKeyword;
                 _currentPage = 0;
                 _isLoadingMore = false;
-                _ = LoadClassesAsync(false);
+
+                _ = ApplyAllFiltersAndReload();
             }
         }
 
@@ -335,8 +335,8 @@ namespace BaiTapLonWinForm.Views.Teacher.Controls
         private async Task LoadNextPageAsync()
         {
             if (_isLoadingMore) return;
-            var filteredClasses = FilterClasses(_allClasses);
-
+            //var filteredClasses = FilterClasses(_allClasses);
+            var filteredClasses = _allClasses;
             int startIdx = _currentPage * BATCH_SIZE * 3;
             if (startIdx >= filteredClasses.Count) return;
 
